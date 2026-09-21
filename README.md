@@ -206,6 +206,81 @@ crontab -l
 でください。異常検知時は原因を人間が確認してから再実行する設計です。翌日以降の実行結果は
 `data/logs/cron_stdout.log` と上記③のファイル群で確認できます。
 
+## GitHub Actions ではなく、お使いのWindows PCで実行してください
+
+「GitHubで実行できないか」という質問について: **GitHub Actionsでの実行は推奨しません。**
+
+- 初回ログイン(2段階認証・CAPTCHAを人が突破する手順)は実際のブラウザ画面が必要ですが、
+  GitHub Actionsの標準実行環境には画面がなく、この手順ができません。
+- GitHub Actionsの実行環境は毎回使い捨て(実行が終わると消える)のため、`browser_profile/`
+  のセッション情報を保持できません。保持しようとするとGitHub側にセッション情報をアップロード
+  することになり、「認証情報をコード・設定・ログに残さない」という要件と相性が悪く、万一
+  ログ等から漏れた場合の影響も大きくなります。
+
+そのため、**お使いのWindows PCなど、ご自身で管理している端末上で実行**し、Windowsの
+「タスクスケジューラ」を cron の代わりに使う構成を想定しています。以下がWindowsでの手順です。
+
+### Windowsでのセットアップ
+
+1. Python をインストールします。[python.org](https://www.python.org/downloads/) から
+   Windows用インストーラをダウンロードし、インストール画面で **「Add python.exe to PATH」に
+   必ずチェックを入れて**実行してください。
+2. このリポジトリのフォルダを開き、その中で「PowerShell」を起動します
+   (エクスプローラーでフォルダを開き、アドレスバーに `powershell` と入力してEnter、が簡単です)。
+3. 以下をそのままコピペして実行します。
+
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+playwright install chromium
+Copy-Item .env.example .env
+```
+
+- ✅ 目印: プロンプトの先頭に `(.venv)` が付く。
+- ❌ `login.ps1 は実行できません...` や `このシステムではスクリプトの実行が無効になっている
+  ため...` と出た場合(実行ポリシーの制限): 次のコマンドを一度だけ実行してから、上のコマンドを
+  やり直してください。
+  ```powershell
+  Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+  ```
+
+### Windowsでの初回ログイン・実行
+
+Linux/macOS向けの `scripts/login.sh` / `scripts/run.sh` に対応する PowerShell 版
+(`scripts/login.ps1` / `scripts/run.ps1`)を用意しています。使い方は同じで、画面に出る
+案内文や成功時の目印も上の「初回ログイン」「実行」の各セクションと同じです。
+
+```powershell
+# 初回ログイン(1回のみ)
+.\scripts\login.ps1
+
+# 手動実行
+.\scripts\run.ps1
+```
+
+### Windowsでの定期実行(タスクスケジューラ)
+
+cronの代わりに「タスクスケジューラ」を使います。
+
+1. スタートメニューで「タスクスケジューラ」を検索して開く。
+2. 右側の「基本タスクの作成」をクリック。
+3. 名前を入力(例: `A8自動巡回`)して「次へ」。
+4. トリガーで「毎日」を選び、実行したい時刻(例: 朝7:00)を指定して「次へ」。
+5. 操作で「プログラムの開始」を選び「次へ」。
+6. 「プログラム/スクリプト」に `powershell.exe` と入力。
+7. 「引数の追加」に以下を入力(`C:\path\to\Claude` は実際の設置場所に置き換え):
+   ```
+   -ExecutionPolicy Bypass -File "C:\path\to\Claude\scripts\run.ps1"
+   ```
+8. 「完了」をクリックして登録。
+
+- ✅ 目印: タスクスケジューラの一覧に作成したタスクが表示される。右クリックして「実行」を
+  選べばすぐに1回テスト実行でき、`data/logs/` にログファイルが増えていれば成功です。
+
+失敗時の自動リトライ設定(タスクのプロパティで再試行間隔を細かく設定する等)は行わないでください。
+異常検知時は人が `data/state/alert.json` を確認してから再実行する設計です。
+
 ## ディレクトリ構成
 
 ```
@@ -224,9 +299,9 @@ config/
   targets.json            巡回対象ページ設定(★要検証)
   csv_column_map.json    CSVカラムマッピング(★要検証)
 scripts/
-  login.sh                初回手動ログイン
-  run.sh                   無人実行エントリポイント
-  crontab.example          cron設定例
+  login.sh / login.ps1     初回手動ログイン(bash / PowerShell)
+  run.sh / run.ps1         無人実行エントリポイント(bash / PowerShell)
+  crontab.example          cron設定例(Linux/macOS用。Windowsはタスクスケジューラを使用)
 data/                    実行時生成物(gitignore対象。ディレクトリのみ保持)
   snapshots/latest.json  最新スナップショット(取得成功時のみ更新)
   diffs/                  実行ごとの差分結果
