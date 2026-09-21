@@ -1,0 +1,17 @@
+[
+  {
+    "name": "program_search",
+    "type": "browse",
+    "url": "https://pub.a8.net/a8v2/asx/search",
+    "expected_path_pattern": "^/a8v2/asx/search",
+    "note": "要検証: 実際のプログラム検索/一覧ページのURLに置き換えてください"
+  },
+  {
+    "name": "reward_csv_export",
+    "type": "csv",
+    "url": "https://pub.a8.net/a8v2/asx/search",
+    "download_trigger_selector": "text=CSVダウンロード",
+    "expected_path_pattern": "^/a8v2/asx/",
+    "note": "要検証: CSVダウンロードのトリガー(URLまたはクリック要素)を実際の画面に合わせて調整してください"
+  }
+]

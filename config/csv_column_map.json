@@ -1,0 +1,14 @@
+{
+  "_comment": "★要検証: 実際にダウンロードしたCSVのヘッダー名に合わせて調整してください。id_columnはプログラムを一意に識別する列名です。",
+  "id_column": "prog_id",
+  "encoding": "utf-8-sig",
+  "columns": {
+    "name": "prog_name",
+    "reward": "reward",
+    "reward_condition": "reward_condition",
+    "sns_condition": "sns_condition",
+    "approval_condition": "approval_condition",
+    "rejection_condition": "rejection_condition",
+    "prohibited_items": "prohibited_items"
+  }
+}

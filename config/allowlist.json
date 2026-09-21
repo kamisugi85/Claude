@@ -1,0 +1,40 @@
+{
+  "_comment": "★要検証: 実際のA8管理画面(pub.a8.net)のURL構造を必ず確認のうえ調整してください。ここに書かれているパスは一般的な推測であり、実サイトでの正確な動作を保証しません。",
+
+  "allowed_hosts": ["pub.a8.net"],
+
+  "allowed_methods": ["GET", "HEAD"],
+
+  "allowed_path_patterns": [
+    "^/a8v2/asx/search",
+    "^/a8v2/asx/detail",
+    "^/a8v2/mypage/?$"
+  ],
+
+  "csv_download_path_patterns": [
+    "csv",
+    "download"
+  ],
+
+  "blocked_path_patterns": [
+    "apply",
+    "entry",
+    "cancel",
+    "kaijo",
+    "setting",
+    "profile/edit",
+    "mail",
+    "withdraw",
+    "regist",
+    "delete",
+    "/update"
+  ],
+
+  "blocked_tracking_hosts": [
+    "^px\\.a8\\.net$",
+    "^www[0-9]+\\.a8\\.net$",
+    "^b[0-9]*\\.a8\\.net$",
+    "^track.*\\.a8\\.net$",
+    "^survey\\.a8\\.net$"
+  ]
+}

@@ -1,0 +1,6 @@
+# 例: 毎日7:00(サーバーのローカルタイム)に1回だけ実行する。
+# 失敗しても自動リトライは行わない設計です。異常検知時は data/state/alert.json と
+# Slack通知(SLACK_WEBHOOK_URLを設定した場合)で気づけます。
+#
+# 導入方法: crontab -e で以下のような行を追加する(パスは実際の配置場所に置き換える)。
+0 7 * * * cd /path/to/Claude && ./scripts/run.sh >> data/logs/cron_stdout.log 2>&1

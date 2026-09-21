@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Secrets
+.env
+
+# Persistent browser session (cookies / session state -- never commit)
+browser_profile/
+
+# Runtime data (logs, snapshots, diffs, downloads, alert.json)
+data/**
+!data/**/
+!data/**/.gitkeep
