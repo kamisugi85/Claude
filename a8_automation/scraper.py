@@ -35,6 +35,28 @@ def select_detail_candidates(records: Dict[str, dict], previous_snapshot: Dict[s
     return new_ids + backfill_ids
 
 
+def select_catalog_backfill_candidates(
+    previous_snapshot: Dict[str, dict], exclude_ids: set, limit: int
+) -> List[str]:
+    """Extra backfill candidates pulled from the whole known catalog (not just
+    this run's crawled pages), so detail-fetch capacity isn't wasted just
+    because this run's page slice happened to contain few undetailed
+    programs. Order follows dict iteration (insertion order), which is
+    good enough -- there's no meaningful priority among them beyond "not
+    detailed yet".
+    """
+    if limit <= 0:
+        return []
+    candidates = []
+    for pid, record in previous_snapshot.items():
+        if pid in exclude_ids or has_detail_fields(record):
+            continue
+        candidates.append(pid)
+        if len(candidates) >= limit:
+            break
+    return candidates
+
+
 def load_targets(path: str) -> List[dict]:
     with open(path, "r", encoding="utf-8") as f:
         raw = json.load(f)

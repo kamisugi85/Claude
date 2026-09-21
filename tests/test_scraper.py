@@ -1,4 +1,10 @@
-from a8_automation.scraper import _RESERVED_FIELD_NAMES, dedupe_case_insensitive, has_detail_fields, select_detail_candidates
+from a8_automation.scraper import (
+    _RESERVED_FIELD_NAMES,
+    dedupe_case_insensitive,
+    has_detail_fields,
+    select_catalog_backfill_candidates,
+    select_detail_candidates,
+)
 
 LIST_ONLY_RECORD = {
     "program_id": "x",
@@ -53,3 +59,25 @@ def test_select_detail_candidates_backfills_when_nothing_new():
     previous_snapshot = {"a": LIST_ONLY_RECORD, "b": DETAILED_RECORD}
     result = select_detail_candidates(records, previous_snapshot)
     assert result == ["a"]
+
+
+def test_catalog_backfill_pulls_from_whole_snapshot_not_just_this_runs_pages():
+    previous_snapshot = {
+        "a": LIST_ONLY_RECORD,
+        "b": DETAILED_RECORD,  # already detailed -- skip
+        "c": LIST_ONLY_RECORD,
+        "d": LIST_ONLY_RECORD,
+    }
+    result = select_catalog_backfill_candidates(previous_snapshot, exclude_ids=set(), limit=2)
+    assert result == ["a", "c"]
+
+
+def test_catalog_backfill_excludes_ids_already_selected_this_run():
+    previous_snapshot = {"a": LIST_ONLY_RECORD, "c": LIST_ONLY_RECORD}
+    result = select_catalog_backfill_candidates(previous_snapshot, exclude_ids={"a"}, limit=5)
+    assert result == ["c"]
+
+
+def test_catalog_backfill_respects_zero_limit():
+    previous_snapshot = {"a": LIST_ONLY_RECORD}
+    assert select_catalog_backfill_candidates(previous_snapshot, exclude_ids=set(), limit=0) == []

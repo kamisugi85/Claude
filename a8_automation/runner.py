@@ -24,6 +24,7 @@ from .scraper import (
     load_csv_column_map,
     load_targets,
     parse_csv,
+    select_catalog_backfill_candidates,
     select_detail_candidates,
 )
 from .settings import Settings
@@ -61,8 +62,10 @@ def _wait_for_render(page, settings) -> None:
 def run_search_crawl(page, target, settings, http_guard, logger, previous_snapshot) -> dict:
     """Crawls a bounded slice of the search-results pages each run (resuming
     from where the last run left off, wrapping back to page 1 once the whole
-    catalog has been swept), then fetches full detail pages only for programs
-    that are new this run -- keeps daily load small regardless of catalog size.
+    catalog has been swept), then fetches detail pages for new programs
+    first and backfills already-known-but-undetailed ones with any leftover
+    budget -- keeps daily load bounded by detail_fetch_limit regardless of
+    catalog size or how many list pages this run happened to touch.
     """
     state = load_crawl_state(settings.crawl_state_path)
     pages_per_run = target.get("pages_per_run", 20)
@@ -101,9 +104,22 @@ def run_search_crawl(page, target, settings, http_guard, logger, previous_snapsh
     # New programs first, then backfill already-known ones this run's pages
     # happened to touch that still only have list-level fields (see
     # select_detail_candidates' docstring for why the backfill half matters).
+    detail_limit = target.get("detail_fetch_limit", 20)
     detail_candidates = select_detail_candidates(records, previous_snapshot)
     new_count = sum(1 for pid in detail_candidates if pid not in previous_snapshot)
-    detail_limit = target.get("detail_fetch_limit", 20)
+
+    # If this run's page slice didn't contain enough undetailed programs to
+    # fill the budget, pull the rest from the whole known catalog instead of
+    # leaving that capacity unused -- otherwise backfill progress is capped
+    # by how many list pages happen to get (re)crawled each run.
+    if len(detail_candidates) < detail_limit:
+        extra = select_catalog_backfill_candidates(
+            previous_snapshot, exclude_ids=set(records.keys()), limit=detail_limit - len(detail_candidates)
+        )
+        for pid in extra:
+            records[pid] = previous_snapshot[pid]
+        detail_candidates += extra
+
     detail_pattern = target.get("detail_expected_path_pattern")
 
     for pid in detail_candidates[:detail_limit]:
