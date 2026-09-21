@@ -315,6 +315,16 @@ browser_profile/
   storage_state.json     ログインセッション(Cookie等)のスナップショット(gitignore対象。認証情報そのものではない)
 ```
 
+## 他のAIエージェント(Codex等)・外部ツールとの連携
+
+出力データはすべてプレーンなJSONで、Claude専用の形式ではない。ファイル一覧とスキーマは
+[docs/data-schema.md](docs/data-schema.md) を参照。AIによるスクリーニングを行う場合は
+カタログ全体(`data/snapshots/latest.json`)ではなく、その回の新規/変更分だけをまとめた
+`data/state/needs_review.json` を入力にすることを想定している。
+
+収集済みデータを手早く確認したい場合は `python -m a8_automation.cli inspect`
+(`scripts/inspect.sh` / `scripts/inspect.ps1`)でサマリとサンプルレコードを表示できる。
+
 ## テスト
 
 `allowlist.py` の判定ロジックと `diff_store.py` の差分ロジックはPlaywright不要の純粋関数のため、

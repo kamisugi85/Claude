@@ -4,10 +4,10 @@
     "type": "search_crawl",
     "url_template": "https://media-console.a8.net/program/search/keyword?pageNo={page}&pageSize=20&sortKey=NORMAL",
     "page_size": 20,
-    "pages_per_run": 20,
+    "pages_per_run": 224,
     "detail_fetch_limit": 20,
     "expected_path_pattern": "^/program/search/keyword",
     "detail_expected_path_pattern": "^/program/detail",
-    "note": "ジャンル絞り込みなしの全件巡回。pageNoの続きはdata/state/crawl_progress.jsonで管理し前回の続きから再開する。初回のFull Scanだけ一時的にpages_per_runを大きく(例: 224)して全ページを一気に一覧レベルで取得し、その後は少数ずつのDelta Scanに戻す運用を想定。抽出ロジック(scraper.py)は要検証"
+    "note": "Full Scan中: pages_per_run=224で全ページを一気に一覧レベルで取得する(detail_fetch_limitは20のままなので詳細ページ取得ペースは変わらない)。完了後はDelta Scan運用に戻すためpages_per_runを20程度に下げること"
   }
 ]
