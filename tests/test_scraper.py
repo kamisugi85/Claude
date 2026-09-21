@@ -15,6 +15,7 @@ LIST_ONLY_RECORD = {
     "conversion_rate": "c",
     "category": "cat",
     "start_date": "d",
+    "checked_at": "2026-01-01T00:00:00+09:00",
 }
 DETAILED_RECORD = {**LIST_ONLY_RECORD, "成果条件": "..."}
 

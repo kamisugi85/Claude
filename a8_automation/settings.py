@@ -40,6 +40,7 @@ class Settings:
     review_queue_path: str
     ai_candidates_path: str
     excluded_by_rules_path: str
+    candidates_export_path: str
 
 
 def load_settings() -> Settings:
@@ -75,5 +76,10 @@ def load_settings() -> Settings:
         ),
         excluded_by_rules_path=os.environ.get(
             "A8_EXCLUDED_BY_RULES_PATH", os.path.join(data_dir, "state", "excluded_by_rules.json")
+        ),
+        # 既定はローカル出力のみ。Google Drive for Desktop等の同期フォルダへの
+        # 配置は、このファイルを配布先にコピーする形で行う(Drive API等は使わない)。
+        candidates_export_path=os.environ.get(
+            "A8_CANDIDATES_EXPORT_PATH", os.path.join(data_dir, "state", "a8_candidates_latest.json")
         ),
     )

@@ -8,6 +8,7 @@ import sys
 from playwright.sync_api import sync_playwright
 
 from .diff_store import load_snapshot
+from .export_candidates import run_export
 from .runner import run
 from .scraper import has_detail_fields
 from .screen import run_screen
@@ -106,6 +107,23 @@ def cmd_screen(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_export(args: argparse.Namespace) -> int:
+    """ChatGPT/Claude共通で読む候補データ(data/state/ai_candidates.jsonの中身)
+    だけを、最小限の項目に絞って書き出す。カタログ全体(4,475件)は出力しない。
+    ネットワーク・ブラウザ操作は行わない。
+    """
+    settings = load_settings()
+    ai_candidates = read_json(settings.ai_candidates_path, default={"items": []})
+    if not ai_candidates.get("items"):
+        print("ai_candidates.jsonが空です。先に `screen` を実行してください。")
+        return 1
+
+    payload = run_export(settings)
+    print(f"候補 {payload['count']}件 を書き出しました。")
+    print(f"保存先: {settings.candidates_export_path}")
+    return 0
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog="a8_automation")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -121,6 +139,9 @@ def main(argv=None) -> int:
 
     screen_parser = sub.add_parser("screen", help="AI不使用、Pythonルールのみでカタログ/shortlistを一次選別する")
     screen_parser.set_defaults(func=cmd_screen)
+
+    export_parser = sub.add_parser("export", help="AI候補データのみを共通フォーマットで書き出す(カタログ全体は出力しない)")
+    export_parser.set_defaults(func=cmd_export)
 
     args = parser.parse_args(argv)
     return args.func(args)

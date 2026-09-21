@@ -6,15 +6,16 @@ import os
 import re
 from typing import Dict, List
 
-from .utils import ensure_dir
+from .utils import ensure_dir, iso_now
 
 
 _PATH_PATTERN_KEYS = ["expected_path_pattern", "detail_expected_path_pattern"]
 
-# extract_search_results() always produces exactly these 8 keys per record.
-# A record with more than this many keys has had detail-page fields merged
-# in; one with exactly this many is still list-level-only.
-LIST_LEVEL_FIELD_COUNT = 8
+# extract_search_results() always produces exactly these 9 keys per record
+# (including checked_at). A record with more than this many keys has had
+# detail-page fields merged in; one with exactly this many is still
+# list-level-only.
+LIST_LEVEL_FIELD_COUNT = 9
 
 
 def has_detail_fields(record: dict) -> bool:
@@ -150,7 +151,8 @@ def extract_search_results(page):
     Returns: (records: Dict[str, dict], total_count: Optional[int])
     """
     result = page.evaluate(_SEARCH_RESULTS_JS)
-    records: Dict[str, dict] = {r["program_id"]: r for r in result["records"]}
+    checked_at = iso_now()
+    records: Dict[str, dict] = {r["program_id"]: {**r, "checked_at": checked_at} for r in result["records"]}
     return records, result.get("totalCount")
 
 
@@ -228,7 +230,7 @@ def extract_program_detail(page, program_id: str, url: str) -> dict:
     """
     sections = page.evaluate(_DETAIL_SECTIONS_JS)
     deduped = dedupe_case_insensitive(sections, _RESERVED_FIELD_NAMES)
-    return {"program_id": program_id, "url": url, **deduped}
+    return {"program_id": program_id, "url": url, "checked_at": iso_now(), **deduped}
 
 
 def download_csv(page, target: dict, download_dir: str, run_id: str) -> str:
