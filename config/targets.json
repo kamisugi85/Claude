@@ -4,10 +4,10 @@
     "type": "search_crawl",
     "url_template": "https://media-console.a8.net/program/search/keyword?pageNo={page}&pageSize=20&sortKey=NORMAL",
     "page_size": 20,
-    "pages_per_run": 224,
+    "pages_per_run": 20,
     "detail_fetch_limit": 20,
     "expected_path_pattern": "^/program/search/keyword",
     "detail_expected_path_pattern": "^/program/detail",
-    "note": "Full Scan中: pages_per_run=224で全ページを一気に一覧レベルで取得する(detail_fetch_limitは20のままなので詳細ページ取得ペースは変わらない)。完了後はDelta Scan運用に戻すためpages_per_runを20程度に下げること"
+    "note": "Delta Scan運用中。Full Scan(全224ページ一括)は完了済み(catalog_total=4475)。以後は少しずつ巡回し、新規・変更のあった案件だけneeds_review.jsonに積む"
   }
 ]
