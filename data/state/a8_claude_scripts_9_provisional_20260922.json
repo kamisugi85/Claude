@@ -1,0 +1,607 @@
+{
+  "generated_at": "2026-09-22",
+  "source": "claude",
+  "spec_file": "a8_tiktok_script_competition_spec_20260922.json",
+  "independence_note": "ChatGPTが作成した台本・評価・ランキング・コメントは一切参照していない。仕様書のフックテンプレートも直接コピーせず、Claude独自にフック・構成を設計した。",
+  "status": "PROVISIONAL_DRAFT_PENDING_A8_APPROVAL_AND_FINAL_TERMS",
+  "count": 9,
+  "items": [
+    {
+      "creative_id": "s00000001248025-A",
+      "program_id": "s00000001248025",
+      "program_name": "保育士人材バンク",
+      "target": "保育士資格を持ち、日本国内在住。現職または保育士としての働き方に悩みや迷いがある人。",
+      "appeal_hypothesis": "『保育士あるある』的な悩みへの共感から入ることでスクロールを止め、『自分だけじゃない』という安心感からプロフィールへの興味を引き出す(悩み共感)。",
+      "hook": "テロップ『保育士の“言いづらい本音”、3つ』を1〜3秒で全画面提示。断定調ではなく問いかけ調にして共感を誘う。",
+      "estimated_duration_seconds": 20,
+      "scene_by_scene_structure": [
+        {
+          "scene": 1,
+          "time_range": "0-3s",
+          "description": "フックテロップを全画面表示。吹き出しアイコンの簡易アニメーション。"
+        },
+        {
+          "scene": 2,
+          "time_range": "3-13s",
+          "description": "『あるある』を3つ、テンポよくテロップ+簡易イラストで提示(行事準備・持ち帰り仕事・人との距離感)。一般的に語られがちな傾向として提示し、統計や個別事実としては述べない。"
+        },
+        {
+          "scene": 3,
+          "time_range": "13-17s",
+          "description": "『今の職場が全部じゃない』という気づきのメッセージ。チェックリスト風UI。"
+        },
+        {
+          "scene": 4,
+          "time_range": "17-20s",
+          "description": "サービス名テロップとCTA表示。"
+        }
+      ],
+      "narration": "ナレーションは必須ではない(テロップ+BGM主体)。追加する場合はAI音声・中立トーンとし、断定的表現は避ける。",
+      "on_screen_captions": [
+        "保育士の“言いづらい本音”、3つ",
+        "①行事準備が終わらない",
+        "②持ち帰り仕事が当たり前になってない?",
+        "③人との距離が近すぎてしんどい時もある",
+        "今の職場だけがすべてじゃない",
+        "保育士専門の無料相談窓口はプロフィールへ"
+      ],
+      "visual_instructions": "実写人物は一切使用しない。イラスト/アイコン/テキストアニメーション/チェックリストUI/簡易比較グラフィック中心。AI生成映像または商用利用可能な素材(モーショングラフィックス、ストック映像・テンプレート)で制作可能な構成とし、複雑な実写合成・高度な編集は必要としない。 吹き出し・チェックマーク・カレンダー等の抽象アイコンで悩みを表現。落ち着いたトーンの配色。",
+      "CTA": "『今の職場のことも、他の選択肢のことも、まずは知っておきたい人はプロフィールへ』(転職を断定的に促さず、情報収集・選択肢確認のトーンに統一)。",
+      "post_caption": "保育士のお仕事、あるあるな悩みってありますよね。今の場所が全部じゃない、と知っておくだけでも違うかもしれません。#PR",
+      "hashtags": [
+        "#保育士",
+        "#保育士あるある",
+        "#保育士の悩み",
+        "#PR"
+      ],
+      "required_PR_disclosure": "動画冒頭テロップおよび投稿キャプション冒頭に「PR」「広告」を明示する(日本のステマ規制/景品表示法対応)。TikTokのブランドコンテンツ表示機能の利用可否・設定要否はA8提携承認後に別途確認する(未確認)。",
+      "compliance_self_check": {
+        "status": "PROVISIONAL_DRAFT_PENDING_A8_APPROVAL_AND_FINAL_TERMS",
+        "matches_a8_conversion_target_audience": true,
+        "avoids_prohibited_appeals": "『保育士以外での就業促進』『派遣・短期・単発雇用の促進』のいずれも含まない。",
+        "no_fabricated_testimonial_or_impersonated_experience": true,
+        "no_guaranteed_outcome_claims": true,
+        "no_unverified_ranking_numbers_or_job_counts": true,
+        "no_exaggerated_or_superlative_claims": true,
+        "does_not_reference_or_copy_other_ai_or_other_creator_scripts": true,
+        "program_specific_notes": [
+          "広告主規約により商品リンク先での人物画像使用はNG。本動画は実写人物を使用しない構成のため抵触しない。",
+          "リスティングNGワード(『保育士人材バンク』『保育人材バンク』等の類似ワード)は検索連動広告に関する規定であり、動画・キャプションでの社名表記可否とは別論点。サービス名は正確な表記のみ使用し、社名を検索誘導文脈で使わない。"
+        ],
+        "unconfirmed_items": [
+          "イラスト/アイコン表現であっても『人物画像』とみなされるかは未確認(要広告主最終確認)。",
+          "TikTok動画のキャプション・プロフィールでの社名表記に関する広告主の最新可否は未確認。"
+        ]
+      }
+    },
+    {
+      "creative_id": "s00000001248025-B",
+      "program_id": "s00000001248025",
+      "program_name": "保育士人材バンク",
+      "target": "保育士資格を持ち、日本国内在住。現職または保育士としての働き方に悩みや迷いがある人。",
+      "appeal_hypothesis": "『転職する気がなくても知っておきたい』という情報収集ニーズに訴求し、心理的ハードルの低いプロフィール遷移を狙う(情報収集)。",
+      "hook": "テロップ『転職する気がなくても、保育士なら知っておきたい3つ』。",
+      "estimated_duration_seconds": 20,
+      "scene_by_scene_structure": [
+        {
+          "scene": 1,
+          "time_range": "0-3s",
+          "description": "フックテロップ全画面表示。"
+        },
+        {
+          "scene": 2,
+          "time_range": "3-14s",
+          "description": "『知っておきたいこと』3つをチェックリストUIで提示(給与水準の比較機会/他園の働き方/相談できる窓口の有無)。一般論としての提示。"
+        },
+        {
+          "scene": 3,
+          "time_range": "14-17s",
+          "description": "『情報を持っておくだけで安心材料になる』というメッセージ。"
+        },
+        {
+          "scene": 4,
+          "time_range": "17-20s",
+          "description": "サービス名テロップとCTA表示。"
+        }
+      ],
+      "narration": "中立トーンの簡潔なナレーション(任意)。",
+      "on_screen_captions": [
+        "転職する気がなくても、保育士なら知っておきたい3つ",
+        "①今の給与や条件、実は比べにくい",
+        "②他の保育園の働き方を知る機会は少ない",
+        "③困った時に相談できる窓口があると安心",
+        "情報を持っておくだけで、選択肢が増える",
+        "無料相談はプロフィールから"
+      ],
+      "visual_instructions": "実写人物は一切使用しない。イラスト/アイコン/テキストアニメーション/チェックリストUI/簡易比較グラフィック中心。AI生成映像または商用利用可能な素材(モーショングラフィックス、ストック映像・テンプレート)で制作可能な構成とし、複雑な実写合成・高度な編集は必要としない。 チェックリストUI中心のシンプルなアイコン構成。",
+      "CTA": "『今すぐ転職しなくても、情報だけ知っておきたい人はプロフィールへ』。",
+      "post_caption": "転職する気がなくても、保育士の働き方や条件について知っておくのは損じゃないはず。#PR",
+      "hashtags": [
+        "#保育士",
+        "#保育士転職",
+        "#保育士の働き方",
+        "#PR"
+      ],
+      "required_PR_disclosure": "動画冒頭テロップおよび投稿キャプション冒頭に「PR」「広告」を明示する(日本のステマ規制/景品表示法対応)。TikTokのブランドコンテンツ表示機能の利用可否・設定要否はA8提携承認後に別途確認する(未確認)。",
+      "compliance_self_check": {
+        "status": "PROVISIONAL_DRAFT_PENDING_A8_APPROVAL_AND_FINAL_TERMS",
+        "matches_a8_conversion_target_audience": true,
+        "avoids_prohibited_appeals": "『保育士以外での就業促進』『派遣・短期・単発雇用の促進』のいずれも含まない。",
+        "no_fabricated_testimonial_or_impersonated_experience": true,
+        "no_guaranteed_outcome_claims": true,
+        "no_unverified_ranking_numbers_or_job_counts": true,
+        "no_exaggerated_or_superlative_claims": true,
+        "does_not_reference_or_copy_other_ai_or_other_creator_scripts": true,
+        "program_specific_notes": [
+          "人物画像は使用しないため、商品リンク先の人物画像NG規約に抵触しない。"
+        ],
+        "unconfirmed_items": [
+          "動画・キャプションでの社名表記に関する広告主の最新可否は未確認。"
+        ]
+      }
+    },
+    {
+      "creative_id": "s00000001248025-C",
+      "program_id": "s00000001248025",
+      "program_name": "保育士人材バンク",
+      "target": "保育士資格を持ち、日本国内在住。現職または保育士としての働き方に悩みや迷いがある人。",
+      "appeal_hypothesis": "『知らないまま働き続けることの機会損失』を軽いトーンで提示し、選択肢を持たないことへの気づきから行動を促す(損失回避、煽り・誇張は避ける)。",
+      "hook": "テロップ『“知らなかった”で損してる保育士、多いかも』。断定を避け『かも』で留める。",
+      "estimated_duration_seconds": 20,
+      "scene_by_scene_structure": [
+        {
+          "scene": 1,
+          "time_range": "0-3s",
+          "description": "フックテロップ全画面表示。"
+        },
+        {
+          "scene": 2,
+          "time_range": "3-14s",
+          "description": "『知らないまま』のケースを一般論として3つ提示(他園と比較したことがない/資格を活かせる働き方を知らない/相談先を持たず一人で抱えている)。断定しない表現で統一。"
+        },
+        {
+          "scene": 3,
+          "time_range": "14-17s",
+          "description": "『知っておくだけでも選択肢が変わるかもしれない』というメッセージ。"
+        },
+        {
+          "scene": 4,
+          "time_range": "17-20s",
+          "description": "サービス名テロップとCTA表示。"
+        }
+      ],
+      "narration": "任意。使用する場合も断定表現は避ける。",
+      "on_screen_captions": [
+        "“知らなかった”で損してる保育士、多いかも",
+        "①他の園と比べたことがない",
+        "②資格を活かせる働き方、実はいろいろある",
+        "③一人で抱えずに相談先を持つという選択",
+        "知っておくだけで、選べる幅が変わるかもしれません",
+        "まずは情報収集からプロフィールへ"
+      ],
+      "visual_instructions": "実写人物は一切使用しない。イラスト/アイコン/テキストアニメーション/チェックリストUI/簡易比較グラフィック中心。AI生成映像または商用利用可能な素材(モーショングラフィックス、ストック映像・テンプレート)で制作可能な構成とし、複雑な実写合成・高度な編集は必要としない。 比較を示す簡易グラフィック(具体的数値は使わず『A園/B園』等の抽象アイコンで比較を表現)。",
+      "CTA": "『後悔する前に、まずは選択肢を知っておきたい人はプロフィールへ』。",
+      "post_caption": "知らないままより、知っておく方が後悔は少ないかもしれません。#PR",
+      "hashtags": [
+        "#保育士",
+        "#保育士のキャリア",
+        "#保育士転職",
+        "#PR"
+      ],
+      "required_PR_disclosure": "動画冒頭テロップおよび投稿キャプション冒頭に「PR」「広告」を明示する(日本のステマ規制/景品表示法対応)。TikTokのブランドコンテンツ表示機能の利用可否・設定要否はA8提携承認後に別途確認する(未確認)。",
+      "compliance_self_check": {
+        "status": "PROVISIONAL_DRAFT_PENDING_A8_APPROVAL_AND_FINAL_TERMS",
+        "matches_a8_conversion_target_audience": true,
+        "avoids_prohibited_appeals": "『保育士以外での就業促進』『派遣・短期・単発雇用の促進』のいずれも含まない。損失回避の煽りにならないよう断定的な損失表現を避け『かもしれない』トーンで統一。",
+        "no_fabricated_testimonial_or_impersonated_experience": true,
+        "no_guaranteed_outcome_claims": true,
+        "no_unverified_ranking_numbers_or_job_counts": true,
+        "no_exaggerated_or_superlative_claims": true,
+        "does_not_reference_or_copy_other_ai_or_other_creator_scripts": true,
+        "program_specific_notes": [
+          "比較グラフィックに実数値は使用しない(未取得データを捏造しないため)。"
+        ],
+        "unconfirmed_items": [
+          "動画・キャプションでの社名表記に関する広告主の最新可否は未確認。"
+        ]
+      }
+    },
+    {
+      "creative_id": "s00000001248024-A",
+      "program_id": "s00000001248024",
+      "program_name": "ナース人材バンク",
+      "target": "看護師または准看護師の資格保有者、日本国内在住。現職や働き方に悩み・迷いがある人。看護学生は対象外(成果対象外)。",
+      "appeal_hypothesis": "『看護師あるある』的な悩みへの共感から入り、他の選択肢の存在に自然に気づかせる(悩み共感)。",
+      "hook": "テロップ『看護師の“きつい”、言葉にしてみた』。",
+      "estimated_duration_seconds": 20,
+      "scene_by_scene_structure": [
+        {
+          "scene": 1,
+          "time_range": "0-3s",
+          "description": "フックテロップ全画面表示。"
+        },
+        {
+          "scene": 2,
+          "time_range": "3-13s",
+          "description": "『きつい』と感じやすいポイントを一般論として3つ提示(夜勤明けの体力/記録業務の多さ/人間関係の距離感)。統計・断定は使わない。"
+        },
+        {
+          "scene": 3,
+          "time_range": "13-17s",
+          "description": "『今の職場が全部じゃない』という気づきのメッセージ。"
+        },
+        {
+          "scene": 4,
+          "time_range": "17-20s",
+          "description": "サービス名テロップとCTA表示。"
+        }
+      ],
+      "narration": "ナレーションは任意、使用する場合は中立トーン。",
+      "on_screen_captions": [
+        "看護師の“きつい”、言葉にしてみた",
+        "①夜勤明けの体力勝負",
+        "②記録業務、意外と終わらない",
+        "③人間関係の距離、近いからこそ難しいことも",
+        "今の職場が全部じゃない",
+        "看護師専門の無料相談はプロフィールへ"
+      ],
+      "visual_instructions": "実写人物は一切使用しない。イラスト/アイコン/テキストアニメーション/チェックリストUI/簡易比較グラフィック中心。AI生成映像または商用利用可能な素材(モーショングラフィックス、ストック映像・テンプレート)で制作可能な構成とし、複雑な実写合成・高度な編集は必要としない。 夜勤・記録業務・人間関係を表す抽象アイコン(月アイコン、書類アイコン、吹き出し等)を使用。",
+      "CTA": "『今の職場のことも、他の選択肢のことも、まずは知っておきたい人はプロフィールへ』。",
+      "post_caption": "看護師のお仕事、きついと感じる瞬間ってありますよね。今の場所が全部じゃない、と知っておくだけでも違うかもしれません。#PR",
+      "hashtags": [
+        "#看護師",
+        "#看護師あるある",
+        "#看護師の悩み",
+        "#PR"
+      ],
+      "required_PR_disclosure": "動画冒頭テロップおよび投稿キャプション冒頭に「PR」「広告」を明示する(日本のステマ規制/景品表示法対応)。TikTokのブランドコンテンツ表示機能の利用可否・設定要否はA8提携承認後に別途確認する(未確認)。",
+      "compliance_self_check": {
+        "status": "PROVISIONAL_DRAFT_PENDING_A8_APPROVAL_AND_FINAL_TERMS",
+        "matches_a8_conversion_target_audience": true,
+        "avoids_prohibited_appeals": "美容外科・派遣・短期・企業/学校/幼稚園/保育園・旅行添乗員(ツアーナース)・リゾート地の就業促進、看護師以外の資格での就業促進、派遣/短期/単発/パート/アルバイト/非常勤の雇用形態促進のいずれも含まない。一般病棟等の正社員転職を前提とした情報収集トーンに統一。",
+        "no_fabricated_testimonial_or_impersonated_experience": true,
+        "no_guaranteed_outcome_claims": true,
+        "no_unverified_ranking_numbers_or_job_counts": true,
+        "no_exaggerated_or_superlative_claims": true,
+        "does_not_reference_or_copy_other_ai_or_other_creator_scripts": true,
+        "program_specific_notes": [
+          "看護学生は成果対象外のため、ターゲットは『資格保有者』であることを明示している。"
+        ],
+        "unconfirmed_items": [
+          "このプログラムには保育士人材バンクのような『人物画像NG』の明記が確認できていないが、本台本では安全側に立ち実写人物を使用しない構成としている。",
+          "動画・キャプションでの社名表記(『ナース人材バンク』『ナース専科』等の類似ワードを含む)に関する広告主の最新可否は未確認。"
+        ]
+      }
+    },
+    {
+      "creative_id": "s00000001248024-B",
+      "program_id": "s00000001248024",
+      "program_name": "ナース人材バンク",
+      "target": "看護師または准看護師の資格保有者、日本国内在住。現職や働き方に悩み・迷いがある人。看護学生は対象外(成果対象外)。",
+      "appeal_hypothesis": "『転職する気がなくても知っておきたい』情報収集ニーズに訴求し、心理的ハードルの低いプロフィール遷移を狙う(情報収集)。",
+      "hook": "テロップ『転職する気がなくても、看護師なら知っておきたい3つ』。",
+      "estimated_duration_seconds": 20,
+      "scene_by_scene_structure": [
+        {
+          "scene": 1,
+          "time_range": "0-3s",
+          "description": "フックテロップ全画面表示。"
+        },
+        {
+          "scene": 2,
+          "time_range": "3-14s",
+          "description": "チェックリストUIで3項目提示(給与水準の比較機会/他院の働き方/相談できる窓口の有無)。一般論として提示。"
+        },
+        {
+          "scene": 3,
+          "time_range": "14-17s",
+          "description": "『情報を持っておくだけで安心材料になる』というメッセージ。"
+        },
+        {
+          "scene": 4,
+          "time_range": "17-20s",
+          "description": "サービス名テロップとCTA表示。"
+        }
+      ],
+      "narration": "任意、中立トーン。",
+      "on_screen_captions": [
+        "転職する気がなくても、看護師なら知っておきたい3つ",
+        "①今の給与や条件、実は比べにくい",
+        "②他の病院の働き方を知る機会は少ない",
+        "③困った時に相談できる窓口があると安心",
+        "情報を持っておくだけで、選択肢が増える",
+        "無料相談はプロフィールから"
+      ],
+      "visual_instructions": "実写人物は一切使用しない。イラスト/アイコン/テキストアニメーション/チェックリストUI/簡易比較グラフィック中心。AI生成映像または商用利用可能な素材(モーショングラフィックス、ストック映像・テンプレート)で制作可能な構成とし、複雑な実写合成・高度な編集は必要としない。 チェックリストUI中心。",
+      "CTA": "『今すぐ転職しなくても、情報だけ知っておきたい人はプロフィールへ』。",
+      "post_caption": "転職する気がなくても、看護師の働き方や条件について知っておくのは損じゃないはず。#PR",
+      "hashtags": [
+        "#看護師",
+        "#看護師転職",
+        "#看護師の働き方",
+        "#PR"
+      ],
+      "required_PR_disclosure": "動画冒頭テロップおよび投稿キャプション冒頭に「PR」「広告」を明示する(日本のステマ規制/景品表示法対応)。TikTokのブランドコンテンツ表示機能の利用可否・設定要否はA8提携承認後に別途確認する(未確認)。",
+      "compliance_self_check": {
+        "status": "PROVISIONAL_DRAFT_PENDING_A8_APPROVAL_AND_FINAL_TERMS",
+        "matches_a8_conversion_target_audience": true,
+        "avoids_prohibited_appeals": "NG訴求(美容外科・派遣・短期等の業態、派遣/短期/単発/パート/バイト/非常勤の雇用形態)を促進する表現を含まない。",
+        "no_fabricated_testimonial_or_impersonated_experience": true,
+        "no_guaranteed_outcome_claims": true,
+        "no_unverified_ranking_numbers_or_job_counts": true,
+        "no_exaggerated_or_superlative_claims": true,
+        "does_not_reference_or_copy_other_ai_or_other_creator_scripts": true,
+        "program_specific_notes": [],
+        "unconfirmed_items": [
+          "動画・キャプションでの社名表記に関する広告主の最新可否は未確認。"
+        ]
+      }
+    },
+    {
+      "creative_id": "s00000001248024-C",
+      "program_id": "s00000001248024",
+      "program_name": "ナース人材バンク",
+      "target": "看護師または准看護師の資格保有者、日本国内在住。現職や働き方に悩み・迷いがある人。看護学生は対象外(成果対象外)。",
+      "appeal_hypothesis": "『知らないまま働き続けることの機会損失』を軽いトーンで提示する(損失回避、煽り・誇張は避ける)。",
+      "hook": "テロップ『“知らなかった”で損してる看護師、多いかも』。",
+      "estimated_duration_seconds": 20,
+      "scene_by_scene_structure": [
+        {
+          "scene": 1,
+          "time_range": "0-3s",
+          "description": "フックテロップ全画面表示。"
+        },
+        {
+          "scene": 2,
+          "time_range": "3-14s",
+          "description": "一般論として3つ提示(他院と比較したことがない/資格を活かせる働き方を知らない/相談先を持たず一人で抱えている)。断定しない。"
+        },
+        {
+          "scene": 3,
+          "time_range": "14-17s",
+          "description": "『知っておくだけでも選択肢が変わるかもしれない』というメッセージ。"
+        },
+        {
+          "scene": 4,
+          "time_range": "17-20s",
+          "description": "サービス名テロップとCTA表示。"
+        }
+      ],
+      "narration": "任意、断定表現は避ける。",
+      "on_screen_captions": [
+        "“知らなかった”で損してる看護師、多いかも",
+        "①他の病院と比べたことがない",
+        "②資格を活かせる働き方、実はいろいろある",
+        "③一人で抱えずに相談先を持つという選択",
+        "知っておくだけで、選べる幅が変わるかもしれません",
+        "まずは情報収集からプロフィールへ"
+      ],
+      "visual_instructions": "実写人物は一切使用しない。イラスト/アイコン/テキストアニメーション/チェックリストUI/簡易比較グラフィック中心。AI生成映像または商用利用可能な素材(モーショングラフィックス、ストック映像・テンプレート)で制作可能な構成とし、複雑な実写合成・高度な編集は必要としない。 比較を示す簡易グラフィック(実数値は使わず抽象比較アイコンのみ)。",
+      "CTA": "『後悔する前に、まずは選択肢を知っておきたい人はプロフィールへ』。",
+      "post_caption": "知らないままより、知っておく方が後悔は少ないかもしれません。#PR",
+      "hashtags": [
+        "#看護師",
+        "#看護師のキャリア",
+        "#看護師転職",
+        "#PR"
+      ],
+      "required_PR_disclosure": "動画冒頭テロップおよび投稿キャプション冒頭に「PR」「広告」を明示する(日本のステマ規制/景品表示法対応)。TikTokのブランドコンテンツ表示機能の利用可否・設定要否はA8提携承認後に別途確認する(未確認)。",
+      "compliance_self_check": {
+        "status": "PROVISIONAL_DRAFT_PENDING_A8_APPROVAL_AND_FINAL_TERMS",
+        "matches_a8_conversion_target_audience": true,
+        "avoids_prohibited_appeals": "NG訴求(美容外科・派遣等の業態、派遣/短期/単発/パート/バイト/非常勤の雇用形態)を促進する表現を含まない。損失表現は『かもしれない』トーンに統一。",
+        "no_fabricated_testimonial_or_impersonated_experience": true,
+        "no_guaranteed_outcome_claims": true,
+        "no_unverified_ranking_numbers_or_job_counts": true,
+        "no_exaggerated_or_superlative_claims": true,
+        "does_not_reference_or_copy_other_ai_or_other_creator_scripts": true,
+        "program_specific_notes": [
+          "比較グラフィックに実数値は使用しない。"
+        ],
+        "unconfirmed_items": [
+          "動画・キャプションでの社名表記に関する広告主の最新可否は未確認。"
+        ]
+      }
+    },
+    {
+      "creative_id": "s00000026823003-A",
+      "program_id": "s00000026823003",
+      "program_name": "介護職特化の転職エージェント(パーソル系)※",
+      "target": "介護職として働いている、または介護職としての働き方に関心がある18〜54歳。希望勤務地が東京都・神奈川県・埼玉県・千葉県のいずれか。",
+      "appeal_hypothesis": "介護職特有の悩み(人手不足・身体的負担・待遇面等)への共感から入り、会員登録のみで成立する軽い一歩を提示する(悩み共感)。",
+      "hook": "テロップ『介護のお仕事、“きつい”と感じる瞬間』。",
+      "estimated_duration_seconds": 20,
+      "scene_by_scene_structure": [
+        {
+          "scene": 1,
+          "time_range": "0-3s",
+          "description": "フックテロップ全画面表示。"
+        },
+        {
+          "scene": 2,
+          "time_range": "3-13s",
+          "description": "『きつい』と感じやすいポイントを一般論として3つ提示(人手不足での忙しさ/身体的な負担/待遇面の悩み)。統計・断定は使わない。"
+        },
+        {
+          "scene": 3,
+          "time_range": "13-17s",
+          "description": "『今の職場が全部じゃない』という気づきのメッセージ。"
+        },
+        {
+          "scene": 4,
+          "time_range": "17-20s",
+          "description": "サービス名テロップとCTA表示。"
+        }
+      ],
+      "narration": "任意、中立トーン。",
+      "on_screen_captions": [
+        "介護のお仕事、“きつい”と感じる瞬間",
+        "①人手不足で忙しさが続く",
+        "②身体的な負担が大きい日もある",
+        "③待遇面、これでいいのか迷うことも",
+        "今の職場が全部じゃない",
+        "まずは登録だけでも、プロフィールへ"
+      ],
+      "visual_instructions": "実写人物は一切使用しない。イラスト/アイコン/テキストアニメーション/チェックリストUI/簡易比較グラフィック中心。AI生成映像または商用利用可能な素材(モーショングラフィックス、ストック映像・テンプレート)で制作可能な構成とし、複雑な実写合成・高度な編集は必要としない。 人手不足・身体的負担・待遇を表す抽象アイコン(時計、チェックリスト、吹き出し等)を使用。",
+      "CTA": "『まずは会員登録だけで情報を確認したい人はプロフィールへ』(成果条件が会員登録完了のみであることを踏まえ、負荷感の軽さを正直に伝える)。",
+      "post_caption": "介護のお仕事、きついと感じる瞬間ってありますよね。今の場所が全部じゃない、と知っておくだけでも違うかもしれません。#PR",
+      "hashtags": [
+        "#介護士",
+        "#介護職",
+        "#介護士の悩み",
+        "#PR"
+      ],
+      "required_PR_disclosure": "動画冒頭テロップおよび投稿キャプション冒頭に「PR」「広告」を明示する(日本のステマ規制/景品表示法対応)。TikTokのブランドコンテンツ表示機能の利用可否・設定要否はA8提携承認後に別途確認する(未確認)。",
+      "compliance_self_check": {
+        "status": "PROVISIONAL_DRAFT_PENDING_A8_APPROVAL_AND_FINAL_TERMS",
+        "matches_a8_conversion_target_audience": true,
+        "avoids_prohibited_appeals": "広告主の備考欄に具体的な訴求禁止リストの記載はないため、A8共通の禁止事項(誇大表現・虚偽表現・保証表現・誤認させるサイト構成等)のみに準拠。",
+        "no_fabricated_testimonial_or_impersonated_experience": true,
+        "no_guaranteed_outcome_claims": true,
+        "no_unverified_ranking_numbers_or_job_counts": true,
+        "no_exaggerated_or_superlative_claims": true,
+        "does_not_reference_or_copy_other_ai_or_other_creator_scripts": true,
+        "program_specific_notes": [
+          "成果条件自体(年齢18〜54歳・勤務地1都3県)には職種要件の明記はなく、『介護職特化』という識別はこれまでの広告主PR文情報に基づく(このプログラムのPR文原文は今回未再確認)。動画内の職種訴求が広告主の実際の想定と一致するかはA8承認後に再確認が必要。",
+          "否認条件に『ログインがない場合』が含まれるため、CTAでは『登録』だけでなく必要な場合はログイン手続きの完了まで案内する旨を、承認後の最終稿で追記予定。"
+        ],
+        "unconfirmed_items": [
+          "広告主固有の訴求禁止事項・素材条件の最終確認は未実施(備考欄に記載なし)。",
+          "対象職種が『介護職』に限定される正式な条件文言は未確認。"
+        ]
+      }
+    },
+    {
+      "creative_id": "s00000026823003-B",
+      "program_id": "s00000026823003",
+      "program_name": "介護職特化の転職エージェント(パーソル系)※",
+      "target": "介護職として働いている、または介護職としての働き方に関心がある18〜54歳。希望勤務地が東京都・神奈川県・埼玉県・千葉県のいずれか。",
+      "appeal_hypothesis": "『転職する気がなくても知っておきたい』情報収集ニーズに訴求し、心理的ハードルの低い会員登録・プロフィール遷移を狙う(情報収集)。",
+      "hook": "テロップ『転職する気がなくても、介護のお仕事してるなら知っておきたい3つ』。",
+      "estimated_duration_seconds": 20,
+      "scene_by_scene_structure": [
+        {
+          "scene": 1,
+          "time_range": "0-3s",
+          "description": "フックテロップ全画面表示。"
+        },
+        {
+          "scene": 2,
+          "time_range": "3-14s",
+          "description": "チェックリストUIで3項目提示(給与水準の比較機会/他施設の働き方/相談できる窓口の有無)。一般論として提示。"
+        },
+        {
+          "scene": 3,
+          "time_range": "14-17s",
+          "description": "『情報を持っておくだけで安心材料になる』というメッセージ。"
+        },
+        {
+          "scene": 4,
+          "time_range": "17-20s",
+          "description": "サービス名テロップとCTA表示。"
+        }
+      ],
+      "narration": "任意、中立トーン。",
+      "on_screen_captions": [
+        "転職する気がなくても、介護のお仕事してるなら知っておきたい3つ",
+        "①今の給与や条件、実は比べにくい",
+        "②他の施設の働き方を知る機会は少ない",
+        "③困った時に相談できる窓口があると安心",
+        "情報を持っておくだけで、選択肢が増える",
+        "無料の会員登録はプロフィールから"
+      ],
+      "visual_instructions": "実写人物は一切使用しない。イラスト/アイコン/テキストアニメーション/チェックリストUI/簡易比較グラフィック中心。AI生成映像または商用利用可能な素材(モーショングラフィックス、ストック映像・テンプレート)で制作可能な構成とし、複雑な実写合成・高度な編集は必要としない。 チェックリストUI中心。",
+      "CTA": "『今すぐ転職しなくても、情報だけ知っておきたい人はプロフィールへ』。",
+      "post_caption": "転職する気がなくても、介護のお仕事の働き方や条件について知っておくのは損じゃないはず。#PR",
+      "hashtags": [
+        "#介護士",
+        "#介護職",
+        "#介護士の働き方",
+        "#PR"
+      ],
+      "required_PR_disclosure": "動画冒頭テロップおよび投稿キャプション冒頭に「PR」「広告」を明示する(日本のステマ規制/景品表示法対応)。TikTokのブランドコンテンツ表示機能の利用可否・設定要否はA8提携承認後に別途確認する(未確認)。",
+      "compliance_self_check": {
+        "status": "PROVISIONAL_DRAFT_PENDING_A8_APPROVAL_AND_FINAL_TERMS",
+        "matches_a8_conversion_target_audience": true,
+        "avoids_prohibited_appeals": "A8共通の禁止事項のみに準拠(広告主固有の追加禁止事項は備考欄に記載なし)。",
+        "no_fabricated_testimonial_or_impersonated_experience": true,
+        "no_guaranteed_outcome_claims": true,
+        "no_unverified_ranking_numbers_or_job_counts": true,
+        "no_exaggerated_or_superlative_claims": true,
+        "does_not_reference_or_copy_other_ai_or_other_creator_scripts": true,
+        "program_specific_notes": [
+          "対象年齢18〜54歳・勤務地1都3県のため、TikTok配信自体は全国だが対象外視聴者への配信が一定数発生しうる。"
+        ],
+        "unconfirmed_items": [
+          "広告主固有の訴求禁止事項・素材条件の最終確認は未実施。"
+        ]
+      }
+    },
+    {
+      "creative_id": "s00000026823003-C",
+      "program_id": "s00000026823003",
+      "program_name": "介護職特化の転職エージェント(パーソル系)※",
+      "target": "介護職として働いている、または介護職としての働き方に関心がある18〜54歳。希望勤務地が東京都・神奈川県・埼玉県・千葉県のいずれか。",
+      "appeal_hypothesis": "『知らないまま働き続けることの機会損失』を軽いトーンで提示する(損失回避、煽り・誇張は避ける)。",
+      "hook": "テロップ『“知らなかった”で損してる介護職の人、多いかも』。",
+      "estimated_duration_seconds": 20,
+      "scene_by_scene_structure": [
+        {
+          "scene": 1,
+          "time_range": "0-3s",
+          "description": "フックテロップ全画面表示。"
+        },
+        {
+          "scene": 2,
+          "time_range": "3-14s",
+          "description": "一般論として3つ提示(他施設と比較したことがない/資格・経験を活かせる働き方を知らない/相談先を持たず一人で抱えている)。断定しない。"
+        },
+        {
+          "scene": 3,
+          "time_range": "14-17s",
+          "description": "『知っておくだけでも選択肢が変わるかもしれない』というメッセージ。"
+        },
+        {
+          "scene": 4,
+          "time_range": "17-20s",
+          "description": "サービス名テロップとCTA表示。"
+        }
+      ],
+      "narration": "任意、断定表現は避ける。",
+      "on_screen_captions": [
+        "“知らなかった”で損してる介護職の人、多いかも",
+        "①他の施設と比べたことがない",
+        "②経験を活かせる働き方、実はいろいろある",
+        "③一人で抱えずに相談先を持つという選択",
+        "知っておくだけで、選べる幅が変わるかもしれません",
+        "まずは会員登録からプロフィールへ"
+      ],
+      "visual_instructions": "実写人物は一切使用しない。イラスト/アイコン/テキストアニメーション/チェックリストUI/簡易比較グラフィック中心。AI生成映像または商用利用可能な素材(モーショングラフィックス、ストック映像・テンプレート)で制作可能な構成とし、複雑な実写合成・高度な編集は必要としない。 比較を示す簡易グラフィック(実数値は使わず抽象比較アイコンのみ)。",
+      "CTA": "『後悔する前に、まずは選択肢を知っておきたい人はプロフィールへ』。",
+      "post_caption": "知らないままより、知っておく方が後悔は少ないかもしれません。#PR",
+      "hashtags": [
+        "#介護士",
+        "#介護職のキャリア",
+        "#介護職転職",
+        "#PR"
+      ],
+      "required_PR_disclosure": "動画冒頭テロップおよび投稿キャプション冒頭に「PR」「広告」を明示する(日本のステマ規制/景品表示法対応)。TikTokのブランドコンテンツ表示機能の利用可否・設定要否はA8提携承認後に別途確認する(未確認)。",
+      "compliance_self_check": {
+        "status": "PROVISIONAL_DRAFT_PENDING_A8_APPROVAL_AND_FINAL_TERMS",
+        "matches_a8_conversion_target_audience": true,
+        "avoids_prohibited_appeals": "A8共通の禁止事項のみに準拠。損失表現は『かもしれない』トーンに統一し、断定的な損失や後悔の保証は行わない。",
+        "no_fabricated_testimonial_or_impersonated_experience": true,
+        "no_guaranteed_outcome_claims": true,
+        "no_unverified_ranking_numbers_or_job_counts": true,
+        "no_exaggerated_or_superlative_claims": true,
+        "does_not_reference_or_copy_other_ai_or_other_creator_scripts": true,
+        "program_specific_notes": [
+          "比較グラフィックに実数値は使用しない。"
+        ],
+        "unconfirmed_items": [
+          "広告主固有の訴求禁止事項・素材条件の最終確認は未実施。"
+        ]
+      }
+    }
+  ]
+}
