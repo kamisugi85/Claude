@@ -12,6 +12,7 @@ from .access_log import AccessLog
 from .allowlist import AllowlistConfig
 from .alert import write_alert
 from .candidate_quality import compute_population_quality, distinct_detail_headings
+from .ai_review_export import run_ai_review_export
 from .ai_review_selection import save_ai_review_selection
 from .candidate_screening import run_candidate_screening
 from .conversion_action_diagnostic import build_diagnostic_report
@@ -345,6 +346,27 @@ def cmd_select_ai_review(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_export_ai_review(args: argparse.Namespace) -> int:
+    """select-ai-reviewが確定した60件について、ChatGPT/Claudeが同一データを
+    使って独立評価するための共有用ファイルを書き出す(ローカル保存のみ、
+    Google Driveへのコピーはこのコマンドでは行わない)。未取得の項目は
+    推測せずnullのまま出力する。AI/LLMは使用しない。
+    """
+    settings = load_settings()
+    payload = run_ai_review_export(settings)
+    if payload is None:
+        print("先に `select-ai-review` を実行してください。")
+        return 1
+
+    print(f"{payload['count']}件を書き出しました。")
+    print(f"保存先: {settings.ai_review_export_path}")
+    print()
+    print("次の手順:")
+    print(f"  1. 上記ファイルを Google Drive for Desktop の「A8_TikTok_PoC」共通フォルダへコピーしてください。")
+    print(f"  2. ファイル名は変更不要です(既に a8_ai_review_selection_60_latest.json という名前で保存されています)。")
+    return 0
+
+
 def cmd_fetch_details(args: argparse.Namespace) -> int:
     """`plan-detail-fetch` が選定した候補(優先順位順)のうち、まだ完了して
     いないものから最大 --limit 件だけ実際に詳細ページを取得する。一覧ページの
@@ -493,6 +515,12 @@ def main(argv=None) -> int:
         help="297件から高性能AI評価に回す60件をPythonのみで抽出する(EPCあり45件+EPCなし15件、AI不使用)",
     )
     select_ai_review_parser.set_defaults(func=cmd_select_ai_review)
+
+    export_ai_review_parser = sub.add_parser(
+        "export-ai-review",
+        help="select-ai-reviewが確定した60件を、ChatGPT/Claude共有用の1ファイルに書き出す(ローカル保存のみ)",
+    )
+    export_ai_review_parser.set_defaults(func=cmd_export_ai_review)
 
     args = parser.parse_args(argv)
     return args.func(args)

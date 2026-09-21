@@ -46,6 +46,7 @@ class Settings:
     candidate_screening_report_path: str
     conversion_action_diagnostic_path: str
     ai_review_selection_path: str
+    ai_review_export_path: str
 
 
 def load_settings() -> Settings:
@@ -102,5 +103,12 @@ def load_settings() -> Settings:
         ),
         ai_review_selection_path=os.environ.get(
             "A8_AI_REVIEW_SELECTION_PATH", os.path.join(data_dir, "state", "ai_review_selection.json")
+        ),
+        # ファイル名はGoogle Drive共通フォルダへコピーする際にそのまま使う名前に
+        # 合わせてある(コピー時にリネーム不要にするため)。Drive API等は使わず、
+        # Google Drive for Desktop等の同期フォルダへの配置は手動コピーで行う。
+        ai_review_export_path=os.environ.get(
+            "A8_AI_REVIEW_EXPORT_PATH",
+            os.path.join(data_dir, "state", "a8_ai_review_selection_60_latest.json"),
         ),
     )
