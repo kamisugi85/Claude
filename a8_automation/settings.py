@@ -42,6 +42,7 @@ class Settings:
     excluded_by_rules_path: str
     candidates_export_path: str
     detail_fetch_plan_path: str
+    detail_fetch_progress_path: str
 
 
 def load_settings() -> Settings:
@@ -85,5 +86,8 @@ def load_settings() -> Settings:
         ),
         detail_fetch_plan_path=os.environ.get(
             "A8_DETAIL_FETCH_PLAN_PATH", os.path.join(data_dir, "state", "detail_fetch_plan.json")
+        ),
+        detail_fetch_progress_path=os.environ.get(
+            "A8_DETAIL_FETCH_PROGRESS_PATH", os.path.join(data_dir, "state", "detail_fetch_progress.json")
         ),
     )

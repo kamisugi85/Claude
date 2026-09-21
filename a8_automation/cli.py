@@ -4,18 +4,25 @@ import argparse
 import json
 import os
 import sys
+from collections import Counter
 
 from playwright.sync_api import sync_playwright
 
+from .access_log import AccessLog
+from .allowlist import AllowlistConfig
+from .alert import write_alert
 from .coverage import compute_field_coverage
 from .detail_candidates import save_detail_fetch_population
 from .diff_store import load_snapshot
 from .export_candidates import run_export
-from .runner import run
-from .scraper import has_detail_fields
+from .http_guard import HttpErrorStreakGuard
+from .logging_setup import setup_logging
+from .runner import install_allowlist_router, run
+from .scraper import has_detail_fields, load_targets
 from .screen import run_screen
 from .settings import load_settings
-from .utils import ensure_dir, read_json
+from .targeted_detail_fetch import load_progress, run_targeted_detail_fetch
+from .utils import ensure_dir, read_json, run_timestamp
 
 
 def cmd_login(args: argparse.Namespace) -> int:
@@ -169,6 +176,96 @@ def cmd_plan_detail_fetch(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_fetch_details(args: argparse.Namespace) -> int:
+    """`plan-detail-fetch` が選定した候補(優先順位順)のうち、まだ完了して
+    いないものから最大 --limit 件だけ実際に詳細ページを取得する。一覧ページの
+    再巡回は行わない。異常検知時は即座に停止し、リトライしない(既存の安全
+    機構と同じ)。AI/LLMは使用しない。
+    """
+    settings = load_settings()
+    if not os.path.exists(settings.storage_state_path):
+        print("セッションがありません。先に `login` を実行してください。")
+        return 1
+
+    plan = read_json(settings.detail_fetch_plan_path, default=None)
+    if not plan or not plan.get("needs_fetch"):
+        print("詳細取得候補がありません。先に `plan-detail-fetch` を実行してください。")
+        return 1
+
+    candidates = plan["needs_fetch"]
+
+    targets = load_targets(settings.targets_config_path)
+    search_crawl_target = next((t for t in targets if t.get("type") == "search_crawl"), None)
+    detail_pattern = search_crawl_target.get("detail_expected_path_pattern") if search_crawl_target else None
+
+    run_id = run_timestamp()
+    logger = setup_logging(f"{settings.log_dir}/run-{run_id}.log")
+    allowlist_cfg = AllowlistConfig.load(settings.allowlist_config_path)
+    access_log = AccessLog()
+    http_guard = HttpErrorStreakGuard(threshold=settings.max_consecutive_http_errors)
+
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=settings.headless)
+        context = browser.new_context(storage_state=settings.storage_state_path)
+        install_allowlist_router(context, allowlist_cfg, access_log, logger)
+        context.on("response", http_guard.on_response)
+        page = context.new_page()
+        try:
+            result = run_targeted_detail_fetch(page, settings, http_guard, logger, candidates, args.limit, detail_pattern)
+        finally:
+            context.close()
+            browser.close()
+
+    anomaly = result["anomaly"]
+    if anomaly is not None:
+        write_alert(
+            settings.alert_json_path,
+            kind=anomaly.kind,
+            message=str(anomaly),
+            context={"run_id": run_id},
+        )
+    elif os.path.exists(settings.alert_json_path):
+        os.remove(settings.alert_json_path)
+
+    catalog = load_snapshot(settings.latest_snapshot_path)
+    succeeded_records = [catalog[pid] for pid in result["succeeded"] if pid in catalog]
+    condition_fields = ["備考", "否認条件", "成果条件", "リスティングNGワード", "禁止事項"]
+    field_counts = {f: sum(1 for r in succeeded_records if r.get(f)) for f in condition_fields}
+    sns_text_count = sum(
+        1 for r in succeeded_records if any(r.get(f) for f in ["備考", "否認条件", "成果条件", "リスティングNGワード"])
+    )
+    skip_reason_counts = Counter(reason for _, reason in result["skipped"])
+    access_summary = access_log.summary()
+
+    n = len(succeeded_records)
+    print(f"① 取得試行件数: {result['attempted']}件")
+    print(f"② 正常取得件数: {n}件")
+    print("③ 失敗/スキップ件数と理由:")
+    if skip_reason_counts:
+        for reason, count in skip_reason_counts.items():
+            print(f"   - {reason}: {count}件")
+    if anomaly is not None:
+        print(f"   - 異常検知により中断: {anomaly.kind} ({anomaly})")
+    if not skip_reason_counts and anomaly is None:
+        print("   (なし)")
+    print(f"④ SNS掲載可否を実データとして取得できた件数: {sns_text_count}件 / {n}件")
+    print(f"⑤ 成果地点(成果条件)を取得できた件数: {field_counts['成果条件']}件 / {n}件")
+    print("⑥ その他の項目取得状況:")
+    print(
+        f"   否認条件: {field_counts['否認条件']}件, 備考: {field_counts['備考']}件, "
+        f"禁止事項: {field_counts['禁止事項']}件, リスティングNGワード: {field_counts['リスティングNGワード']}件"
+    )
+    print(f"⑦ 異常・ブロック・セッション問題: {'あり(' + anomaly.kind + ')' if anomaly else 'なし'}")
+    print(f"   ブロックされたリクエスト数: {access_summary['blocked_total']}件(許可: {access_summary['allowed_total']}件)")
+    completed_total = load_progress(settings.detail_fetch_progress_path)
+    remaining = len(candidates) - len(completed_total)
+    print()
+    print(f"残り未取得(この母集団内、累計): {remaining}件")
+    print("(次のバッチには自動で進んでいません)")
+
+    return 1 if anomaly is not None else 0
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog="a8_automation")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -195,6 +292,14 @@ def main(argv=None) -> int:
         "plan-detail-fetch", help="詳細ページ追加取得の候補母集団を選定する(実際の取得は行わない)"
     )
     plan_parser.set_defaults(func=cmd_plan_detail_fetch)
+
+    fetch_details_parser = sub.add_parser(
+        "fetch-details", help="plan-detail-fetchの候補から指定件数だけ実際に詳細ページを取得する"
+    )
+    fetch_details_parser.add_argument(
+        "--limit", type=int, default=20, help="今回取得する最大件数(既定20、安全のため一時的に変更可能)"
+    )
+    fetch_details_parser.set_defaults(func=cmd_fetch_details)
 
     args = parser.parse_args(argv)
     return args.func(args)
