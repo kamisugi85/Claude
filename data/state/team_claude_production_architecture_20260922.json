@@ -1,0 +1,187 @@
+{
+  "document_date": "2026-09-22",
+  "source": "claude",
+  "purpose": "Team Claudeの動画制作アーキテクチャ設計。ChatGPT側のツール選定・制作方法・評価は参照していない。",
+  "status": "PROVISIONAL_DRAFT_PENDING_A8_APPROVAL_AND_FINAL_TERMS",
+  "input_scripts_file": "a8_claude_scripts_9_provisional_20260922.json",
+  "design_principles": [
+    "最も高性能なAIではなく、目的関数(成果につながる品質/商用利用可否/規約遵守/本人工数最小化/コスト最小化/将来の量産自動化)を最大化するツールを選ぶ。",
+    "台本ごとに制作方法を変えてよい。単一AIに全工程を任せない。",
+    "無料枠でも商用利用不可なら採用しない。透かし・生成本数・API可否・商用利用条件を個別に確認する。",
+    "A8提携承認前のため、有料契約・外部公開・TikTok投稿・広告リンク公開は一切行わない。"
+  ],
+  "adopted_tools": [
+    {
+      "tool": "Python 3 + Pillow",
+      "role": "テロップ・アイコン・チェックリストUI・比較グラフィックのフレーム(静止画)生成",
+      "reason": "9台本が指定する制作前提(実写人物なし、字幕主体、簡単なAI映像・UI/チェックリスト・図解)に完全に合致する。写実的な人物映像が不要なため、高性能な生成AIより、目的関数(コスト・工数・自動化)に対して合理的。",
+      "commercial_use_terms": "MIT-CMU系オープンソースライセンス。商用利用・再配布とも制限なし。自己生成コンテンツのため第三者著作権の懸念もない。",
+      "free_tier_or_pricing": "完全無料(セルフホスト、アカウント登録不要)。",
+      "automation_method": "creative_idを引数に取るPythonスクリプト(render_video.py)で完全自動化済み。台本JSONのon_screen_captionsを読み込みフレームを自動生成する。",
+      "watermark": "なし",
+      "verified_2026_09": true
+    },
+    {
+      "tool": "ffmpeg",
+      "role": "静止画フレームの動画組み立て・タイミング制御・H.264/AACエンコード",
+      "reason": "オープンソースでAPI/アカウント不要、商用利用に一切制限がなく、完全にスクリプトから自動制御できる。TikTok互換のmp4(H.264/AAC、9:16縦型)をそのまま出力できる。",
+      "commercial_use_terms": "LGPL/GPL(ビルド構成による)。バイナリを使って動画をエンコードする分には出力物への制限はなく、商用利用は一般的な実務として問題ない。",
+      "free_tier_or_pricing": "完全無料(セルフホスト)。",
+      "automation_method": "render_video.py内でsubprocess経由により完全自動実行。",
+      "watermark": "なし",
+      "verified_2026_09": true
+    },
+    {
+      "tool": "字幕(オンスクリーンキャプション)",
+      "role": "台本のon_screen_captionsをそのままテロップとして焼き込む",
+      "reason": "別途の音声認識・自動字幕AIは不要。台本作成段階(Team Claude 9台本)で既に文言が確定しているため、テキストをそのまま描画するだけで正確性が保証される。",
+      "commercial_use_terms": "自己作成テキストのため制限なし。",
+      "free_tier_or_pricing": "無料(追加ツール不要)。",
+      "automation_method": "render_video.py内で完全自動。",
+      "watermark": "なし",
+      "verified_2026_09": true
+    },
+    {
+      "tool": "VOICEVOX",
+      "role": "ナレーション音声合成(台本のnarrationフィールドが必要な場合のみ、任意)",
+      "reason": "無料の日本語音声合成エンジンで、クレジット表記さえ行えば商用利用が可能。API(ローカルエンジン)経由で完全自動化できる。",
+      "commercial_use_terms": "ソフトウェア本体は商用・非商用とも利用可能。ただしキャラクターごとに個別規約があり、クレジット表記(例:「VOICEVOX:キャラクター名」)を条件に商用利用無料。クレジット表記なしでの商用利用はキャラクターごとに40万円(税別)のライセンス料が必要。",
+      "free_tier_or_pricing": "無料(クレジット表記条件付き)。",
+      "automation_method": "ローカルエンジンのHTTP API経由でスクリプトから合成可能(設計のみ、本セッションでは未インストール・未検証)。",
+      "watermark": "なし(音声のため非該当)",
+      "verified_2026_09": true,
+      "status_in_this_session": "設計に採用したが、このセッションではエンジンのインストール・実際の音声合成テストは未実施。次工程での検証が必要。"
+    },
+    {
+      "tool": "ロイヤリティフリー音源(YouTube Audio Library / Pixabay Music)",
+      "role": "動画内レビュー用のBGM/効果音のベーストラック(TikTok以外の場所でも再生・共有できるようにするための土台)",
+      "reason": "TikTok Commercial Music LibraryはTikTok上での掲載のみに利用が限定されるため、社内レビュー用ファイルやGoogle Drive共有用のプレビューには別途どこでも使える音源が必要。",
+      "commercial_use_terms": "楽曲ごとにロイヤリティフリー(著作権表示不要/要のいずれか)。採用時は著作権表示不要の楽曲のみを選定する方針。",
+      "free_tier_or_pricing": "無料。",
+      "automation_method": "未実装。選定した楽曲ファイルをffmpegでミックスするだけで自動化可能(設計済み・未実装)。",
+      "watermark": "なし",
+      "verified_2026_09": true,
+      "status_in_this_session": "未実装(このプロトタイプはBGMなし)。"
+    },
+    {
+      "tool": "TikTok Commercial Music Library(CML)",
+      "role": "実際にTikTokへ投稿する段階でのBGM/効果音(公開後の正式な楽曲)",
+      "reason": "無料・追加課金なしでTikTok上での使用がライセンスされている公式ライブラリ。ビジネスアカウントの投稿画面から直接選択する運用のため、事前レンダリングしたファイルには焼き込めない(投稿時にTikTok側で付与する構成が前提)。",
+      "commercial_use_terms": "無料・サブスクリプション不要・トラック単価なし。ただしライセンスはTikTok上での掲載に限定され、動画ファイルを他のプラットフォームへ転用する場合は別途ライセンスが必要。",
+      "free_tier_or_pricing": "無料(TikTokビジネスアカウント経由)。",
+      "automation_method": "TikTok投稿UIでの手動選択が前提(API経由の自動選択は未確認)。",
+      "watermark": "なし",
+      "verified_2026_09": true,
+      "status_in_this_session": "未使用(A8承認前のため投稿自体を行っていない)。"
+    },
+    {
+      "tool": "compliance_check.py(自作、Python)",
+      "role": "台本テキスト(hook/post_caption/on_screen_captions/narration/CTA)に対する禁止表現の機械チェックとPR表記有無の確認",
+      "reason": "LLMを使わずルールベースで一次チェックすることで、コストゼロ・再現性のある検証ができる(本プロジェクト全体の一貫方針)。最終判断は人間が行うが、明らかな禁止表現混入は機械的に防げる。",
+      "commercial_use_terms": "自作コードのため制限なし。",
+      "free_tier_or_pricing": "無料。",
+      "automation_method": "CLIで即時実行、CIや投稿前フックへの組み込みも可能。",
+      "watermark": "該当なし",
+      "verified_2026_09": true
+    },
+    {
+      "tool": "quality_check.py(自作、Python、ffprobeベース)",
+      "role": "レンダリング済み動画の技術要件(解像度1080x1920・尺15〜30秒程度・映像/音声ストリームの有無)を機械チェック",
+      "reason": "TikTok投稿に必要な技術仕様を満たさないファイルを人間のレビュー前に機械的に弾く。",
+      "commercial_use_terms": "自作コードのため制限なし。",
+      "free_tier_or_pricing": "無料。",
+      "automation_method": "CLIで即時実行。",
+      "watermark": "該当なし",
+      "verified_2026_09": true
+    },
+    {
+      "tool": "ローカルファイル管理(data/tiktok_production/<creative_id>/)",
+      "role": "台本・フレーム・動画・チェック結果の保存構造",
+      "reason": "A8 Collectorのdata/ツリー、TikTok Researcher PoCのdata/tiktok_research/と混同しないよう分離。creative_id(program_id+訴求記号)をキーに追跡可能にする。",
+      "commercial_use_terms": "該当なし",
+      "free_tier_or_pricing": "無料(ローカルストレージ)。",
+      "automation_method": "render_video.pyが自動的にディレクトリを作成。",
+      "watermark": "該当なし",
+      "verified_2026_09": true
+    }
+  ],
+  "tools_researched_but_not_adopted": [
+    {
+      "tool": "CapCut(無料プラン)",
+      "reason_not_adopted": "2026年6月時点の調査で、無料プランのToSは商用利用を『個人SNSアカウントでの利用のみ』に制限しており、収益化コンテンツやクライアントワークには有料プラン(Standard $10/月・Pro $20/月)が必要と案内されている。また2025年6月のToS改定でByteDance側にアップロードコンテンツへの広範な権利が付与された点も、商用パイプラインの中核に据えるには懸念が残る。曖昧な条件下で商用制作の主要ツールに採用するのはリスクが高いため不採用。手動での仕上げ確認用途としてのみ将来的な利用を検討可(要再確認)。"
+    },
+    {
+      "tool": "AI動画生成サービス全般(Runway/Pika/Kling/Veo3/Seedanceなど)",
+      "reason_not_adopted": "台本の制作前提が『実写人物なし・字幕主体・簡単なAI映像/UI/チェックリスト・図解』であり、写実的な動画生成は本質的に不要。多くのサービスは無料枠が生成本数制限・透かしあり・商用利用不可のいずれかに該当し(例: Google Veo3は実質Google AI Pro月額$19.99が必要)、目的関数(コスト最小化・工数最小化)に反する。将来的により表現力の高い動画が必要になった場合の選択肢として調査結果を記録するに留める。"
+    },
+    {
+      "tool": "AI画像生成サービス全般",
+      "reason_not_adopted": "アイコン・チェックリスト・比較グラフィックはPillowによる図形描画で十分に表現可能であり、追加コスト・追加の商用利用条件確認が不要なプログラム生成を優先した。"
+    }
+  ],
+  "production_pipeline_for_9_scripts": {
+    "steps": [
+      "1. 入力: a8_claude_scripts_9_provisional_20260922.jsonから対象creative_idのレコードを読み込む。",
+      "2. テロップ抽出: on_screen_captionsを順に取得する。",
+      "3. フレーム生成: Pillowで各テロップを1080x1920のPNGとして描画(上部アクセントバー、PRバッジ、進捗インジケータ、中央テロップ)。",
+      "4. (任意/未実装)ナレーション合成: narrationフィールドをVOICEVOXで音声化し、投稿キャプションにクレジット表記を追加。",
+      "5. (任意/未実装)BGM選定: 内部レビュー用はロイヤリティフリー楽曲を1曲合成。TikTok公開時はCommercial Music Libraryに差し替え。",
+      "6. 動画組み立て: ffmpeg concat demuxerでフレームをestimated_duration_secondsに合わせて結合し、H.264/AAC・30fps・1080x1920でエンコード。",
+      "7. コンプライアンスチェック: compliance_check.pyで禁止表現・PRタグ有無を自動確認。",
+      "8. 品質チェック: quality_check.pyで解像度・尺・ストリーム有無を自動確認。",
+      "9. 人間レビュー: 各台本のcompliance_self_check.unconfirmed_itemsに記載された未確認事項(広告主素材条件・社名表記可否等)をA8承認後に最終確認。",
+      "10. 保存: data/tiktok_production/<creative_id>/にローカル保存。A8承認前は非公開のまま保持。"
+    ],
+    "automation_level": "ステップ1〜3、6〜8は完全自動化済み(人手介入なしでcreative_idを渡すだけで実行可能)。ステップ4〜5は設計済みだが未実装。ステップ9〜10は意図的に人間判断を残している(A8承認前のコンプライアンス最終確認のため)。"
+  },
+  "cost_and_effort_estimates": {
+    "assumptions": "台本(hook/captions/CTA等)は既にTeam Claudeの9台本ステップで確定済みという前提。ここでの見積もりは『台本確定後、動画ファイルを作るまで』の工程のみを対象とする。",
+    "per_video_estimated_cost_jpy": {
+      "current_tier_captions_and_visuals_only": 0,
+      "with_narration_and_bgm_tier": 0,
+      "note": "採用ツールがすべて無料枠(かつ商用利用可能)のため、ツール利用コストは現時点で¥0。コストが発生するとしたら実行環境(サーバー/PCの電気代・クラウド実行費用)程度で、動画1本あたりでは無視できる水準。"
+    },
+    "per_video_estimated_human_minutes": {
+      "current_tier_captions_and_visuals_only": "3〜5分(コンプライアンス/品質チェック結果の確認+動画の目視スポットチェック)。台本自体の作成時間は含まない(別工程)。",
+      "with_narration_and_bgm_tier": "15〜30分(VOICEVOXキャラクター選定・音声確認、BGM選定・ミックス確認を含む、初回セットアップ後の定常運用を想定)。"
+    },
+    "monthly_estimated_cost_at_30_videos_jpy": {
+      "tool_cost": 0,
+      "human_time_hours": "現行ティア(字幕+図解のみ)なら約1.5〜2.5時間/月。ナレーション/BGM込みなら約7.5〜15時間/月。",
+      "note": "30本すべてに有料ツールを使わない前提。有料ツール導入時は月額固定費が別途発生する(下記『有料化が必要になる条件』参照)。"
+    }
+  },
+  "bottlenecks": [
+    "ナレーション(VOICEVOX)は設計のみで、このセッションではエンジンのインストール・実音声合成の検証が未実施。次工程での実装確認が必要。",
+    "BGMは『内部レビュー用ロイヤリティフリー音源』と『TikTok公開用Commercial Music Library』の二段構成が必要で、後者はTikTok投稿UI上での手動選択が前提となり完全自動化できない。",
+    "現行の視覚表現はテキスト・図形中心で、写実的な人物・映像を使う競合コンテンツと比較した際のクリエイティブ訴求力には限界がある可能性がある(あえての選択だが、CTRへの影響は実測が必要)。",
+    "各台本のcompliance_self_check.unconfirmed_itemsに記載された広告主固有条件(社名表記可否、素材条件等)は、A8提携承認・広告主の最終資料確認までは機械チェックでは解決できない。",
+    "このサンドボックス環境自体はffmpeg等の追加インストールでAPTミラーの一時的な404が発生するなど不安定な場合があり、本番運用は永続的な実行環境(ユーザーのPCまたは専用サーバー/CI)へ移す必要がある(A8 Collectorと同じ運用パターン)。"
+  ],
+  "conditions_requiring_paid_tools": [
+    "テキスト・図形中心の表現ではCTRが競合に対して不十分と実測で判明した場合、より作り込まれたイラスト/アイコン素材(有料ストック素材サブスクリプション)またはAI画像生成サービスの有料枠が必要になる。",
+    "写実的な人物なしのAI動画(b-roll等)が必要と判断された場合、無料枠では商用利用条件・透かし・生成本数のいずれかが制約になるため、有料のAI動画生成プラン(例: Google AI Pro、Runway/Kling等の有料ティア)が必要になる。",
+    "VOICEVOXの無料キャラクターボイスでは『成人向け転職サービス』としてのトーン・ブランドイメージに合わないと判断された場合、有料TTS(ElevenLabs等)への切り替えが必要になる。",
+    "CapCut等の商用ツールが提供するテンプレート・AI編集機能を使う場合、無料プランのToS上の商用利用制限を踏まえ、Standard/Proプラン(月額$10〜20)への加入が必要になる。",
+    "月間本数が大幅に増加し、人間レビュー(コンプライアンス最終確認・品質目視確認)自体がボトルネックになった場合、AIツールではなく追加の人的リソースまたはレビュー専用ツールへの投資が必要になる。"
+  ],
+  "prototype": {
+    "attempted": true,
+    "creative_id": "s00000001248025-A",
+    "program_id": "s00000001248025",
+    "program_name": "保育士人材バンク",
+    "status": "PROVISIONAL_DRAFT_PENDING_A8_APPROVAL_AND_FINAL_TERMS -- 未公開・ローカル保存のみ",
+    "output_local_path": "data/tiktok_production/s00000001248025-A/s00000001248025-A.mp4",
+    "technical_properties": {
+      "resolution": "1080x1920",
+      "duration_seconds": 20.03,
+      "video_codec": "h264",
+      "audio_codec": "aac(無音トラック、ナレーション・BGM未実装のため)",
+      "fps": 30
+    },
+    "compliance_check_result": "PASS(禁止表現なし、投稿キャプションにPRタグあり)",
+    "quality_check_result": "PASS(解像度・尺・ストリームすべて要件を満たす)",
+    "not_included_in_this_prototype": ["ナレーション音声(VOICEVOX未実装)", "BGM/効果音(未実装)", "人間による最終目視レビュー(未実施)"],
+    "publication_status": "非公開。TikTokへの投稿・外部公開は行っていない。ローカル(このセッションのリポジトリ)にのみ保存。"
+  }
+}
