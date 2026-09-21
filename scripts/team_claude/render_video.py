@@ -107,6 +107,38 @@ def synthesize_narration(text: str, out_path: str, speaker: int = _VOICEVOX_SPEA
     return True
 
 
+def _ffprobe_duration(path: str) -> float:
+    result = subprocess.run(
+        ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", path],
+        capture_output=True, text=True,
+    )
+    return float(result.stdout.strip())
+
+
+def synthesize_bgm(out_path: str, duration: float) -> None:
+    """BGMを完全に自己生成する(無料の外部音源CDNはこの環境のネットワークポリシー
+    上ブロックされているため -- Pixabay/YouTube Audio Library/Freesound等は接続
+    拒否を確認済み。既存の許可回避は行わず、ffmpegの信号生成のみで、著作権上の
+    懸念が一切ないアンビエントパッドを作る)。Aメジャーの3和音(A3/C#4/E4)を
+    ローパスフィルタと緩やかなトレモロで柔らかくし、頭とお尻をフェードする。
+    """
+    freqs = [220.00, 277.18, 329.63]
+    inputs = []
+    for f in freqs:
+        inputs += ["-f", "lavfi", "-i", f"sine=frequency={f}:duration={duration:.3f}"]
+    filter_complex = (
+        "[0:a][1:a][2:a]amix=inputs=3:weights=1 0.8 0.7:duration=longest,"
+        "tremolo=f=0.15:d=0.25,"
+        "lowpass=f=1200,"
+        f"afade=t=in:d=1.2,afade=t=out:st={max(duration - 1.2, 0):.3f}:d=1.2,"
+        "volume=0.35"
+    )
+    cmd = ["ffmpeg", "-y", *inputs, "-filter_complex", filter_complex, out_path]
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode != 0:
+        raise RuntimeError(f"ffmpeg (synthesize_bgm) failed:\n{result.stderr[-3000:]}")
+
+
 def _lerp_color(c1, c2, t):
     return tuple(int(c1[i] + (c2[i] - c1[i]) * t) for i in range(3))
 
@@ -292,23 +324,27 @@ def render_video(creative_id: str) -> dict:
     frames_dir = os.path.join(out_dir, "frames")
     os.makedirs(frames_dir, exist_ok=True)
 
-    # ナレーション合成(VOICEVOXエンジンが起動していれば)。台本のcaptionsをそのまま
-    # 読み上げ原稿として使う(新たな文言は作らない)。エンジン未起動時は無音にフォールバック。
-    narration_path = os.path.join(out_dir, "narration.wav")
-    narration_text = build_narration_text(item)
-    has_narration = synthesize_narration(narration_text, narration_path)
-    narration_duration = None
-    if has_narration:
-        probe = subprocess.run(
-            ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", narration_path],
-            capture_output=True, text=True,
-        )
-        narration_duration = float(probe.stdout.strip())
+    fps = 30
+    xfade_dur = 0.4
+    hold_pad = 0.35  # ナレーションが終わってからカードが切り替わるまでの余白
 
-    # ナレーションが合成できた場合は実際の音声尺に映像を合わせる(台本のestimated_
-    # duration_secondsはナレーション未確定の時点での見積もりのため優先しない)。
-    duration = (narration_duration + 0.8) if narration_duration else scripted_duration
-    per_caption = duration / len(captions)
+    # ナレーションはキャプション単位で個別に合成する(1本の音声をまとめて作って
+    # 均等割りするのではなく、各カードの表示時間を実際の音声の長さに一致させる
+    # ため)。エンジンが1件でも合成できなければ、全体を無音フォールバックにする。
+    narration_wavs: list = []
+    clip_durations: list = []
+    has_narration = True
+    for i, caption in enumerate(captions):
+        wav_path = os.path.join(out_dir, f"narration_{i:02d}.wav")
+        if not synthesize_narration(caption, wav_path):
+            has_narration = False
+            break
+        narration_wavs.append(wav_path)
+        clip_durations.append(_ffprobe_duration(wav_path) + hold_pad)
+
+    if not has_narration:
+        per_caption = scripted_duration / len(captions)
+        clip_durations = [per_caption] * len(captions)
 
     frame_paths = []
     for i, caption in enumerate(captions):
@@ -316,12 +352,11 @@ def render_video(creative_id: str) -> dict:
         render_caption_frame(caption, i, len(captions), palette, frame_path)
         frame_paths.append(frame_path)
 
-    # 各静止画にゆっくりしたズーム(Ken Burns)を掛けてから、クロスフェードで繋ぐ。
-    fps = 30
-    xfade_dur = 0.5
-    seg_dur = per_caption + xfade_dur  # クロスフェード分だけ各セグメントを長めに用意する
+    # 各静止画にゆっくりしたズーム(Ken Burns)を掛ける。尺はカードごとに異なる
+    # (そのカードのナレーション実測長+余白)。
+    seg_durs = [d + xfade_dur for d in clip_durations]
     clip_paths = []
-    for i, frame_path in enumerate(frame_paths):
+    for i, (frame_path, seg_dur) in enumerate(zip(frame_paths, seg_durs)):
         clip_path = os.path.join(out_dir, f"clip_{i:02d}.mp4")
         zoom_frames = int(seg_dur * fps)
         zoompan = (
@@ -340,7 +375,7 @@ def render_video(creative_id: str) -> dict:
             raise RuntimeError(f"ffmpeg (zoompan) failed on frame {i}:\n{result.stderr[-3000:]}")
         clip_paths.append(clip_path)
 
-    # クロスフェードで結合(filter_complexのxfadeを逐次適用)
+    # クロスフェードで結合(各クリップの尺が異なるため、オフセットを累積計算する)
     merged_path = os.path.join(out_dir, "merged_silent.mp4")
     if len(clip_paths) == 1:
         merged_path = clip_paths[0]
@@ -350,14 +385,14 @@ def render_video(creative_id: str) -> dict:
             inputs += ["-i", p]
         filter_parts = []
         cur_label = "0:v"
-        offset = seg_dur - xfade_dur
+        offset = seg_durs[0] - xfade_dur
         for i in range(1, len(clip_paths)):
             next_label = f"v{i}"
             filter_parts.append(
                 f"[{cur_label}][{i}:v]xfade=transition=fade:duration={xfade_dur}:offset={offset:.3f}[{next_label}]"
             )
             cur_label = next_label
-            offset += seg_dur - xfade_dur
+            offset += seg_durs[i] - xfade_dur
         filter_complex = ";".join(filter_parts)
         cmd = [
             "ffmpeg", "-y", *inputs,
@@ -370,27 +405,49 @@ def render_video(creative_id: str) -> dict:
         if result.returncode != 0:
             raise RuntimeError(f"ffmpeg (xfade merge) failed:\n{result.stderr[-3000:]}")
 
-    # 音声トラックを付加して最終出力(ナレーションが合成できていればそれを使用、
-    # できなければ無音トラックにフォールバック)。
-    video_path = os.path.join(out_dir, f"{creative_id}.mp4")
+    total_video_duration = _ffprobe_duration(merged_path)
+
+    # BGM生成(完全自己生成、著作権懸念なし)。ナレーションがある場合は
+    # sidechaincompressでナレーションの音量に応じて自動的にダッキングする。
+    bgm_path = os.path.join(out_dir, "bgm.wav")
+    synthesize_bgm(bgm_path, total_video_duration)
+
+    audio_path = os.path.join(out_dir, "final_audio.wav")
     if has_narration:
+        narration_concat_list = os.path.join(out_dir, "narration_concat.txt")
+        with open(narration_concat_list, "w", encoding="utf-8") as f:
+            f.write("\n".join(f"file '{p}'" for p in narration_wavs))
+        narration_full_path = os.path.join(out_dir, "narration_full.wav")
+        cmd = ["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", narration_concat_list, "-c", "copy", narration_full_path]
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        if result.returncode != 0:
+            raise RuntimeError(f"ffmpeg (narration concat) failed:\n{result.stderr[-3000:]}")
+
         cmd = [
             "ffmpeg", "-y",
-            "-i", merged_path,
-            "-i", narration_path,
-            "-c:v", "libx264", "-c:a", "aac", "-pix_fmt", "yuv420p",
-            "-shortest",
-            video_path,
+            "-i", narration_full_path, "-i", bgm_path,
+            "-filter_complex",
+            "[1:a][0:a]sidechaincompress=threshold=0.04:ratio=10:attack=5:release=400[bgm_ducked];"
+            "[0:a][bgm_ducked]amix=inputs=2:duration=first:weights=1 1,volume=1.6[aout]",
+            "-map", "[aout]",
+            audio_path,
         ]
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        if result.returncode != 0:
+            raise RuntimeError(f"ffmpeg (narration+bgm mix) failed:\n{result.stderr[-3000:]}")
     else:
-        cmd = [
-            "ffmpeg", "-y",
-            "-i", merged_path,
-            "-f", "lavfi", "-i", "anullsrc=channel_layout=stereo:sample_rate=44100",
-            "-shortest",
-            "-c:v", "libx264", "-c:a", "aac", "-pix_fmt", "yuv420p",
-            video_path,
-        ]
+        audio_path = bgm_path
+
+    # 最終出力(映像+音声を結合)
+    video_path = os.path.join(out_dir, f"{creative_id}.mp4")
+    cmd = [
+        "ffmpeg", "-y",
+        "-i", merged_path,
+        "-i", audio_path,
+        "-c:v", "libx264", "-c:a", "aac", "-pix_fmt", "yuv420p",
+        "-shortest",
+        video_path,
+    ]
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
         raise RuntimeError(f"ffmpeg (final mux) failed:\n{result.stderr[-3000:]}")
@@ -407,8 +464,10 @@ def render_video(creative_id: str) -> dict:
         "video_path": video_path,
         "frames_dir": frames_dir,
         "frame_count": len(captions),
-        "duration_seconds": duration,
+        "duration_seconds": total_video_duration,
         "has_narration": has_narration,
+        "has_bgm": True,
+        "bgm_source": "self-synthesized (ffmpeg sine-wave pad, no external audio -- royalty-free CDNs are blocked by this sandbox's network policy)",
         "narration_voicevox_speaker": _VOICEVOX_SPEAKER_NAME if has_narration else None,
         "narration_credit_required": f"VOICEVOX:{_VOICEVOX_SPEAKER_NAME}" if has_narration else None,
     }
