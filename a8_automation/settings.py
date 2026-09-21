@@ -38,6 +38,8 @@ class Settings:
     crawl_state_path: str
     shortlist_path: str
     review_queue_path: str
+    ai_candidates_path: str
+    excluded_by_rules_path: str
 
 
 def load_settings() -> Settings:
@@ -67,5 +69,11 @@ def load_settings() -> Settings:
         shortlist_path=os.environ.get("A8_SHORTLIST_PATH", os.path.join(data_dir, "state", "shortlist.json")),
         review_queue_path=os.environ.get(
             "A8_REVIEW_QUEUE_PATH", os.path.join(data_dir, "state", "needs_review.json")
+        ),
+        ai_candidates_path=os.environ.get(
+            "A8_AI_CANDIDATES_PATH", os.path.join(data_dir, "state", "ai_candidates.json")
+        ),
+        excluded_by_rules_path=os.environ.get(
+            "A8_EXCLUDED_BY_RULES_PATH", os.path.join(data_dir, "state", "excluded_by_rules.json")
         ),
     )

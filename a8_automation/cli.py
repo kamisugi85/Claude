@@ -9,6 +9,7 @@ from playwright.sync_api import sync_playwright
 
 from .diff_store import load_snapshot
 from .runner import run
+from .screen import run_screen
 from .settings import load_settings
 from .utils import ensure_dir, read_json
 
@@ -66,6 +67,41 @@ def cmd_inspect(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_screen(args: argparse.Namespace) -> int:
+    """AI/LLMを一切使わず、Pythonルールだけでカタログとshortlistを一次選別する。
+    ネットワーク・ブラウザ操作は行わない(既存の収集済みデータのみを対象)。
+    """
+    settings = load_settings()
+    if len(load_snapshot(settings.latest_snapshot_path)) == 0:
+        print("カタログが空です。先に `run` を実行してください。")
+        return 1
+
+    report = run_screen(settings)
+
+    print(f"① Program Master {report['catalog_total']} -> {report['catalog_remaining']}件")
+    print(f"   (Pythonルールで{report['catalog_excluded']}件を除外)")
+    print()
+    print(f"② shortlist {report['shortlist_total']} -> {report['shortlist_remaining']}件")
+    print()
+    print("③ 除外ルール内訳:")
+    reason_counts = report["reason_counts"]
+    if reason_counts:
+        for reason, count in sorted(reason_counts.items(), key=lambda kv: -kv[1]):
+            print(f"   - {reason}: {count}件")
+    else:
+        print("   (該当なし)")
+    print()
+    overall = report["overall_counts"]
+    print("④ TikTok適合性の一次判定内訳(カタログ全体):")
+    print(f"   likely_ok       (ルールで概ねOKと確信): {overall.get('likely_ok', 0)}件")
+    print(f"   likely_excluded (ルールで除外)        : {overall.get('likely_excluded', 0)}件")
+    print(f"   needs_ai_or_human(文言があいまい/言及なし、AI・人間の判断が必要): {overall.get('needs_ai_or_human', 0)}件")
+    print()
+    print(f"保存: {settings.ai_candidates_path} (AIに渡す候補のみ)")
+    print(f"保存: {settings.excluded_by_rules_path} (除外の詳細内訳)")
+    return 0
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog="a8_automation")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -78,6 +114,9 @@ def main(argv=None) -> int:
 
     inspect_parser = sub.add_parser("inspect", help="収集済みデータのサマリとサンプルを表示する")
     inspect_parser.set_defaults(func=cmd_inspect)
+
+    screen_parser = sub.add_parser("screen", help="AI不使用、Pythonルールのみでカタログ/shortlistを一次選別する")
+    screen_parser.set_defaults(func=cmd_screen)
 
     args = parser.parse_args(argv)
     return args.func(args)
