@@ -9,19 +9,16 @@ from typing import Dict, List
 from .utils import ensure_dir
 
 
+_PATH_PATTERN_KEYS = ["expected_path_pattern", "detail_expected_path_pattern"]
+
+
 def load_targets(path: str) -> List[dict]:
     with open(path, "r", encoding="utf-8") as f:
         raw = json.load(f)
     targets = []
     for item in raw:
-        targets.append(
-            {
-                **item,
-                "expected_path_pattern": (
-                    re.compile(item["expected_path_pattern"]) if item.get("expected_path_pattern") else None
-                ),
-            }
-        )
+        compiled = {key: re.compile(item[key]) for key in _PATH_PATTERN_KEYS if item.get(key)}
+        targets.append({**item, **compiled})
     return targets
 
 
