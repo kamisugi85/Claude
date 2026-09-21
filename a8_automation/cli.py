@@ -11,6 +11,7 @@ from playwright.sync_api import sync_playwright
 from .access_log import AccessLog
 from .allowlist import AllowlistConfig
 from .alert import write_alert
+from .candidate_quality import compute_population_quality, distinct_detail_headings
 from .coverage import compute_field_coverage
 from .detail_candidates import save_detail_fetch_population
 from .diff_store import load_snapshot
@@ -176,6 +177,43 @@ def cmd_plan_detail_fetch(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_candidate_quality(args: argparse.Namespace) -> int:
+    """plan-detail-fetchで選定した300件の候補母集団だけを対象に、詳細取得の
+    完了状況と主要項目の取得件数/欠損率を集計する。カタログ全体は対象にしない。
+    LLMは使用しない。見出し名の出現頻度も出し、特定フィールドが0件の場合の
+    切り分けに使う。
+    """
+    settings = load_settings()
+    plan = read_json(settings.detail_fetch_plan_path, default=None)
+    if not plan:
+        print("先に `plan-detail-fetch` を実行してください。")
+        return 1
+
+    catalog = load_snapshot(settings.latest_snapshot_path)
+    population_ids = plan["population"]
+
+    report = compute_population_quality(catalog, population_ids)
+
+    print(f"① 300件中の詳細取得完了件数: {report['detail_fetched_count']}件 / {report['population_total']}件")
+    print()
+    print("② 主要項目の取得件数/欠損率(候補300件のみが対象、カタログ全体ではない):")
+    for name, info in report["fields"].items():
+        print(f"   {name}: {info['count']}件 ({info['rate']:.1%})")
+    print()
+
+    headings = distinct_detail_headings(catalog, population_ids)
+    print("③ 診断: 詳細取得済みレコードに実際に現れた見出し名の出現頻度(一覧レベル項目を除く):")
+    if headings:
+        for name, count in headings.most_common():
+            print(f"   {name}: {count}件")
+    else:
+        print("   (詳細取得済みレコードがありません)")
+    print("   ※ 抽出は見出しタグを機械的に拾う方式(特定の語句と一致させていない)ため、")
+    print("     『禁止事項』『リスティングNGワード』がここに出てこない場合、")
+    print("     抽出漏れではなく該当ページにその見出し自体が無い可能性が高いです。")
+    return 0
+
+
 def cmd_fetch_details(args: argparse.Namespace) -> int:
     """`plan-detail-fetch` が選定した候補(優先順位順)のうち、まだ完了して
     いないものから最大 --limit 件だけ実際に詳細ページを取得する。一覧ページの
@@ -300,6 +338,11 @@ def main(argv=None) -> int:
         "--limit", type=int, default=20, help="今回取得する最大件数(既定20、安全のため一時的に変更可能)"
     )
     fetch_details_parser.set_defaults(func=cmd_fetch_details)
+
+    quality_parser = sub.add_parser(
+        "candidate-quality", help="候補300件だけを対象に主要項目の取得件数/欠損率と見出し出現頻度を集計する"
+    )
+    quality_parser.set_defaults(func=cmd_candidate_quality)
 
     args = parser.parse_args(argv)
     return args.func(args)
