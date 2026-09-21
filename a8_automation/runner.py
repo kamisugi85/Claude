@@ -214,6 +214,13 @@ def run(settings: Settings) -> int:
                 len(shortlist),
             )
 
+            # A previous run's alert would otherwise sit there forever looking
+            # current, even though this run finished cleanly -- clear it so
+            # alert.json's mere presence reliably means "the last run failed".
+            if os.path.exists(settings.alert_json_path):
+                os.remove(settings.alert_json_path)
+                logger.info("cleared stale alert.json from a previous failed run")
+
         except AnomalyDetected as e:
             logger.error("ANOMALY DETECTED (%s): %s -- stopping immediately, no retry.", e.kind, e)
             write_alert(
