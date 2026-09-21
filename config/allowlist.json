@@ -29,7 +29,7 @@
     "profile/edit",
     "mail",
     "withdraw",
-    "regist",
+    "regist(?!er)",
     "delete",
     "/update"
   ],

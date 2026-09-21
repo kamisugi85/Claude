@@ -30,35 +30,114 @@ def load_csv_column_map(path: str) -> dict:
         return json.load(f)
 
 
-def extract_programs(page) -> Dict[str, dict]:
-    """!!! 要検証・要調整 !!!
+_SEARCH_RESULTS_JS = r"""
+() => {
+    const anchors = Array.from(document.querySelectorAll('a[href*="programId="]'));
+    const seen = new Map();
+    for (const a of anchors) {
+        const m = a.href.match(/programId=([A-Za-z0-9]+)/);
+        if (!m) continue;
+        const programId = m[1];
+        if (seen.has(programId)) continue;
 
-    実際のA8管理画面(閲覧ページ)のDOM構造に合わせてセレクタを調整してください。
-    ここでの実装は一般的な `data-program-id` / `data-field` 属性を持つ構造を仮定した
-    プレースホルダです。本番運用前に必ず実サイトのHTMLを確認して書き換えてください。
-    """
-    records: Dict[str, dict] = {}
-    rows = page.query_selector_all("[data-program-id]")
-    for row in rows:
-        program_id = row.get_attribute("data-program-id")
-        if not program_id:
-            continue
-
-        def _text(selector: str) -> str:
-            el = row.query_selector(selector)
-            return el.inner_text().strip() if el else ""
-
-        records[program_id] = {
-            "program_id": program_id,
-            "name": _text("[data-field='name']"),
-            "reward": _text("[data-field='reward']"),
-            "reward_condition": _text("[data-field='reward_condition']"),
-            "sns_condition": _text("[data-field='sns_condition']"),
-            "approval_condition": _text("[data-field='approval_condition']"),
-            "rejection_condition": _text("[data-field='rejection_condition']"),
-            "prohibited_items": _text("[data-field='prohibited_items']"),
+        let card = a;
+        for (let i = 0; i < 8 && card.parentElement; i++) {
+            card = card.parentElement;
+            if (card.innerText && card.innerText.includes('成果報酬')) break;
         }
+        const text = card.innerText || '';
+
+        function afterLabel(label) {
+            const idx = text.indexOf(label);
+            if (idx === -1) return '';
+            const rest = text.slice(idx + label.length).split('\n').map(s => s.trim()).filter(Boolean);
+            return rest.length ? rest[0] : '';
+        }
+
+        seen.set(programId, {
+            program_id: programId,
+            detail_url: a.href,
+            name: (a.innerText || '').trim(),
+            reward: afterLabel('成果報酬'),
+            epc: afterLabel('EPC'),
+            conversion_rate: afterLabel('確定率'),
+            category: afterLabel('カテゴリ'),
+            start_date: afterLabel('プログラム開始日'),
+        });
+    }
+
+    const bodyText = document.body.innerText || '';
+    const countMatch = bodyText.match(/該当件数\s*([\d,]+)\s*件/);
+    const totalCount = countMatch ? parseInt(countMatch[1].replace(/,/g, ''), 10) : null;
+
+    return { records: Array.from(seen.values()), totalCount };
+}
+"""
+
+
+def extract_programs(page) -> Dict[str, dict]:
+    """Generic single-page `browse` target extraction, for one-off pages
+    outside the paginated search crawl. Reuses the same programId-link
+    heuristic as extract_search_results.
+    """
+    records, _ = extract_search_results(page)
     return records
+
+
+def extract_search_results(page):
+    """!!! 要検証 !!!
+
+    プログラム検索結果一覧から各プログラムを抽出する。プログラムID・詳細ページURLは
+    リンクの `programId=` パラメータから取得しており、これはDOM構造に依存しないため
+    比較的信頼できる。一方 成果報酬/EPC/確定率/カテゴリ 等はページのテキストレイアウト
+    に依存したベストエフォートの抽出のため、実際の表示と一致するか確認が必要。
+
+    Returns: (records: Dict[str, dict], total_count: Optional[int])
+    """
+    result = page.evaluate(_SEARCH_RESULTS_JS)
+    records: Dict[str, dict] = {r["program_id"]: r for r in result["records"]}
+    return records, result.get("totalCount")
+
+
+_DETAIL_SECTIONS_JS = r"""
+() => {
+    const headingSelectors = ['h1', 'h2', 'h3', 'h4', 'dt', 'th'];
+    const sections = {};
+    const headings = Array.from(document.querySelectorAll(headingSelectors.join(',')));
+    for (const h of headings) {
+        const label = (h.innerText || '').trim();
+        if (!label || label.length > 40) continue;
+        let body = '';
+        if (h.tagName === 'DT' && h.nextElementSibling && h.nextElementSibling.tagName === 'DD') {
+            body = h.nextElementSibling.innerText || '';
+        } else if (h.tagName === 'TH' && h.nextElementSibling && h.nextElementSibling.tagName === 'TD') {
+            body = h.nextElementSibling.innerText || '';
+        } else {
+            let sib = h.nextElementSibling;
+            let hops = 0;
+            while (sib && hops < 3 && !(sib.innerText && sib.innerText.trim())) {
+                sib = sib.nextElementSibling;
+                hops++;
+            }
+            body = sib ? (sib.innerText || '') : '';
+        }
+        body = body.trim();
+        if (body) sections[label] = body;
+    }
+    return sections;
+}
+"""
+
+
+def extract_program_detail(page, program_id: str, url: str) -> dict:
+    """!!! 要検証 !!!
+
+    プログラム詳細ページの「見出し + 本文」を汎用的に(見出しタグ名を手がかりに)抽出する。
+    A8側が項目を追加・変更しても、決め打ちの6項目に縛られず自動的に追従できるようにする
+    ための設計。実際の見出しタグ・クラス名が不明なため要検証。
+    """
+    sections = page.evaluate(_DETAIL_SECTIONS_JS)
+    return {"program_id": program_id, "url": url, **sections}
 
 
 def download_csv(page, target: dict, download_dir: str, run_id: str) -> str:

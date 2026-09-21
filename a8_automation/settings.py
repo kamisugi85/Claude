@@ -35,6 +35,9 @@ class Settings:
     max_consecutive_http_errors: int
     request_timeout_ms: int
     headless: bool
+    crawl_state_path: str
+    shortlist_path: str
+    review_queue_path: str
 
 
 def load_settings() -> Settings:
@@ -60,4 +63,9 @@ def load_settings() -> Settings:
         max_consecutive_http_errors=int(os.environ.get("A8_MAX_CONSECUTIVE_HTTP_ERRORS", "3")),
         request_timeout_ms=int(os.environ.get("A8_REQUEST_TIMEOUT_MS", "30000")),
         headless=os.environ.get("A8_HEADLESS", "true").strip().lower() != "false",
+        crawl_state_path=os.environ.get("A8_CRAWL_STATE_PATH", os.path.join(data_dir, "state", "crawl_progress.json")),
+        shortlist_path=os.environ.get("A8_SHORTLIST_PATH", os.path.join(data_dir, "state", "shortlist.json")),
+        review_queue_path=os.environ.get(
+            "A8_REVIEW_QUEUE_PATH", os.path.join(data_dir, "state", "needs_review.json")
+        ),
     )

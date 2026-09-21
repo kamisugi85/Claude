@@ -20,11 +20,21 @@ def test_detects_reward_change():
     assert changes["reward"] == {"old": "1000", "new": "1500"}
 
 
-def test_no_diff_when_unrelated_field_changes():
-    previous = {"1": {"program_id": "1", "name": "Program A", "reward": "1000", "note": "x"}}
-    current = {"1": {"program_id": "1", "name": "Program A", "reward": "1000", "note": "y"}}
+def test_no_diff_when_only_identity_fields_change():
+    previous = {"1": {"program_id": "1", "name": "Program A", "url": "https://a", "reward": "1000"}}
+    current = {"1": {"program_id": "1", "name": "Program A (renamed)", "url": "https://b", "reward": "1000"}}
     diff = compute_diff(previous, current)
     assert diff["changed_count"] == 0
+
+
+def test_detects_change_in_a_field_not_seen_before():
+    # A8 can add a heading we've never captured before (e.g. from a detail
+    # page fetch); the diff engine shouldn't need to know its name in advance.
+    previous = {"1": {"program_id": "1", "name": "Program A"}}
+    current = {"1": {"program_id": "1", "name": "Program A", "禁止事項": "アダルト"}}
+    diff = compute_diff(previous, current)
+    assert diff["changed_count"] == 1
+    assert diff["changed_items"][0]["changes"]["禁止事項"] == {"old": None, "new": "アダルト"}
 
 
 def test_detects_multiple_condition_changes():

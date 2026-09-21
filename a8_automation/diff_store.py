@@ -4,14 +4,24 @@ from typing import Dict
 
 from .utils import iso_now, read_json, write_json
 
-DIFF_FIELDS = [
-    "reward",
-    "reward_condition",
-    "sns_condition",
-    "approval_condition",
-    "rejection_condition",
-    "prohibited_items",
-]
+# Fields that identify/describe a record rather than representing a
+# condition of the program itself -- excluded from diffing so that, say,
+# a re-crawl picking up a slightly reworded title doesn't count as a
+# "condition changed" event. Every other key present on either side (list
+# fields like reward/epc, or detail-page section headings such as
+# "成果条件"/"否認条件"/"禁止事項") is diffed automatically, since A8's own
+# field set isn't fixed and detail pages aren't fetched for every program.
+IDENTITY_FIELDS = {
+    "program_id",
+    "name",
+    "url",
+    "detail_url",
+    "checked_at",
+    "score",
+    "excluded",
+    "exclusion_reason",
+    "judged_at",
+}
 
 
 def load_snapshot(path: str) -> Dict[str, dict]:
@@ -28,8 +38,9 @@ def compute_diff(previous: Dict[str, dict], current: Dict[str, dict]) -> dict:
     for pid in sorted(curr_ids & prev_ids):
         old = previous[pid]
         new = current[pid]
+        fields = (set(old.keys()) | set(new.keys())) - IDENTITY_FIELDS
         field_changes = {}
-        for field in DIFF_FIELDS:
+        for field in sorted(fields):
             old_value = old.get(field)
             new_value = new.get(field)
             if old_value != new_value:
