@@ -7,6 +7,7 @@ import sys
 
 from playwright.sync_api import sync_playwright
 
+from .coverage import compute_field_coverage
 from .diff_store import load_snapshot
 from .export_candidates import run_export
 from .runner import run
@@ -124,6 +125,26 @@ def cmd_export(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_coverage(args: argparse.Namespace) -> int:
+    """ランキング式を決める前の診断: カタログ全体で各項目が実際に何件
+    取得できているか(欠損率)を確認する。ランキングは行わない。
+    """
+    settings = load_settings()
+    catalog = load_snapshot(settings.latest_snapshot_path)
+    if not catalog:
+        print("カタログが空です。先に `run` を実行してください。")
+        return 1
+
+    report = compute_field_coverage(catalog)
+    print(f"catalog_total={report['total']}")
+    print()
+    print("項目別の取得件数/カバレッジ率:")
+    for name, info in report["fields"].items():
+        note = f" ({info['note']})" if "note" in info else ""
+        print(f"   {name}: {info['count']}件 ({info['rate']:.1%}){note}")
+    return 0
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog="a8_automation")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -142,6 +163,9 @@ def main(argv=None) -> int:
 
     export_parser = sub.add_parser("export", help="AI候補データのみを共通フォーマットで書き出す(カタログ全体は出力しない)")
     export_parser.set_defaults(func=cmd_export)
+
+    coverage_parser = sub.add_parser("coverage", help="ランキングに使える項目の取得件数/欠損率を確認する")
+    coverage_parser.set_defaults(func=cmd_coverage)
 
     args = parser.parse_args(argv)
     return args.func(args)
