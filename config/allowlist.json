@@ -1,12 +1,13 @@
 {
-  "_comment": "実際のログイン確認で判明: 管理画面のホストは media-console.a8.net。ただしプログラム一覧・報酬詳細ページのパスはまだ未確認のため、allowed_path_patterns は要追加(★要検証)。",
+  "_comment": "実際のログイン確認で判明: 管理画面のホストは media-console.a8.net。a8mc-public.s3...はA8自身が管理画面の描画に使う静的ファイル(css/js/画像)置き場であり、計測用トラッキングドメインではないため、読み取り専用の静的ファイルに限定して許可している(申請/設定変更等のAPIパスはここには含めない)。プログラム一覧・報酬詳細ページのパスはまだ未確認のため、allowed_path_patterns は要追加(★要検証)。",
 
-  "allowed_hosts": ["media-console.a8.net"],
+  "allowed_hosts": ["media-console.a8.net", "a8mc-public.s3.ap-northeast-1.amazonaws.com"],
 
   "allowed_methods": ["GET", "HEAD"],
 
   "allowed_path_patterns": [
-    "^/home/?$"
+    "^/home/?$",
+    "\\.(css|js|png|jpg|jpeg|gif|svg|ico|woff2?|ttf|json)$"
   ],
 
   "csv_download_path_patterns": [
