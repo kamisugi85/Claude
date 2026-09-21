@@ -51,10 +51,23 @@ _SEARCH_RESULTS_JS = r"""
             return rest.length ? rest[0] : '';
         }
 
+        // The programId anchor itself is often an image link with no text
+        // (e.g. the banner). Fall back to the longest anchor text inside the
+        // card, which is usually the program title link.
+        let name = (a.innerText || '').trim();
+        if (!name) {
+            let best = '';
+            for (const cand of card.querySelectorAll('a')) {
+                const t = (cand.innerText || '').trim();
+                if (t.length > best.length && t.length < 200) best = t;
+            }
+            name = best;
+        }
+
         seen.set(programId, {
             program_id: programId,
             detail_url: a.href,
-            name: (a.innerText || '').trim(),
+            name: name,
             reward: afterLabel('成果報酬'),
             epc: afterLabel('EPC'),
             conversion_rate: afterLabel('確定率'),
