@@ -1,4 +1,6 @@
-from a8_automation.ai_review_export import build_ai_review_export, build_ai_review_export_record
+import os
+
+from a8_automation.ai_review_export import build_ai_review_export, build_ai_review_export_record, copy_to_shared_folder
 
 
 def make_selected_record(pid, **extra):
@@ -70,3 +72,32 @@ def test_build_ai_review_export_follows_selection_population_order_and_skips_mis
     selection = {"epc_tier": ["b", "a"], "non_epc_tier": ["c", "missing"]}
     items = build_ai_review_export(catalog, selection)
     assert [item["program_id"] for item in items] == ["b", "a", "c"]
+
+
+def test_copy_to_shared_folder_copies_with_same_filename(tmp_path):
+    export_path = tmp_path / "a8_ai_review_selection_60_latest.json"
+    export_path.write_text("{}", encoding="utf-8")
+    target_dir = tmp_path / "drive_folder"
+    target_dir.mkdir()
+
+    result = copy_to_shared_folder(str(export_path), str(target_dir))
+
+    assert result["copied"] is True
+    assert result["target_path"] == str(target_dir / "a8_ai_review_selection_60_latest.json")
+    assert os.path.exists(result["target_path"])
+
+
+def test_copy_to_shared_folder_reports_missing_target_dir_without_raising(tmp_path):
+    export_path = tmp_path / "a8_ai_review_selection_60_latest.json"
+    export_path.write_text("{}", encoding="utf-8")
+
+    result = copy_to_shared_folder(str(export_path), str(tmp_path / "does_not_exist"))
+
+    assert result["copied"] is False
+    assert result["reason"] == "target_dir_not_found"
+
+
+def test_copy_to_shared_folder_reports_unconfigured_target():
+    result = copy_to_shared_folder("/tmp/whatever.json", None)
+    assert result["copied"] is False
+    assert result["reason"] == "target_dir_not_configured"

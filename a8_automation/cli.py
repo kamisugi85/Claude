@@ -12,7 +12,7 @@ from .access_log import AccessLog
 from .allowlist import AllowlistConfig
 from .alert import write_alert
 from .candidate_quality import compute_population_quality, distinct_detail_headings
-from .ai_review_export import run_ai_review_export
+from .ai_review_export import copy_to_shared_folder, run_ai_review_export
 from .ai_review_selection import save_ai_review_selection
 from .candidate_screening import run_candidate_screening
 from .conversion_action_diagnostic import build_diagnostic_report
@@ -348,9 +348,11 @@ def cmd_select_ai_review(args: argparse.Namespace) -> int:
 
 def cmd_export_ai_review(args: argparse.Namespace) -> int:
     """select-ai-reviewが確定した60件について、ChatGPT/Claudeが同一データを
-    使って独立評価するための共有用ファイルを書き出す(ローカル保存のみ、
-    Google Driveへのコピーはこのコマンドでは行わない)。未取得の項目は
-    推測せずnullのまま出力する。AI/LLMは使用しない。
+    使って独立評価するための共有用ファイルを書き出し、Google Drive for
+    Desktopがローカルに同期している「A8_TikTok_PoC」共通フォルダへそのまま
+    コピーする(Drive APIは使わない -- 同期自体はGoogle Drive for Desktopに
+    任せ、こちらはローカルファイルコピーのみ行う)。未取得の項目は推測せず
+    nullのまま出力する。AI/LLMは使用しない。
     """
     settings = load_settings()
     payload = run_ai_review_export(settings)
@@ -361,10 +363,20 @@ def cmd_export_ai_review(args: argparse.Namespace) -> int:
     print(f"{payload['count']}件を書き出しました。")
     print(f"保存先: {settings.ai_review_export_path}")
     print()
-    print("次の手順:")
-    print(f"  1. 上記ファイルを Google Drive for Desktop の「A8_TikTok_PoC」共通フォルダへコピーしてください。")
-    print(f"  2. ファイル名は変更不要です(既に a8_ai_review_selection_60_latest.json という名前で保存されています)。")
-    return 0
+
+    copy_result = copy_to_shared_folder(settings.ai_review_export_path, settings.google_drive_shared_folder_dir)
+    if copy_result["copied"]:
+        print(f"Google Drive共通フォルダへコピーしました: {copy_result['target_path']}")
+        print("(Google Drive for Desktopが自動的にクラウドへ同期します)")
+        return 0
+
+    if copy_result["reason"] == "target_dir_not_found":
+        print(f"警告: Google Drive共通フォルダが見つかりませんでした: {copy_result['target_path']}")
+        print("Google Drive for Desktopが起動・同期済みか、パスが正しいか確認してください。")
+        print("(ローカルファイルの書き出し自体は完了しています。上記パスへ手動でコピーしてください。)")
+    else:
+        print("警告: Google Drive共通フォルダのパスが設定されていません(A8_GOOGLE_DRIVE_SHARED_FOLDER_DIR)。")
+    return 1
 
 
 def cmd_fetch_details(args: argparse.Namespace) -> int:

@@ -47,6 +47,7 @@ class Settings:
     conversion_action_diagnostic_path: str
     ai_review_selection_path: str
     ai_review_export_path: str
+    google_drive_shared_folder_dir: str
 
 
 def load_settings() -> Settings:
@@ -110,5 +111,11 @@ def load_settings() -> Settings:
         ai_review_export_path=os.environ.get(
             "A8_AI_REVIEW_EXPORT_PATH",
             os.path.join(data_dir, "state", "a8_ai_review_selection_60_latest.json"),
+        ),
+        # Google Drive for Desktopがローカルに同期している「A8_TikTok_PoC」共通
+        # フォルダのパス。Drive APIは使わず、このフォルダへのファイルコピーだけで
+        # 共有する(Google Drive for Desktop自体が同期を担う)。
+        google_drive_shared_folder_dir=os.environ.get(
+            "A8_GOOGLE_DRIVE_SHARED_FOLDER_DIR", r"G:\マイドライブ\A8_TikTok_PoC"
         ),
     )

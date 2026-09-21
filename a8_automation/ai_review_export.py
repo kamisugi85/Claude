@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import os
+import shutil
 from typing import Dict, List, Optional
 
 from .classification import classify_program
@@ -99,3 +101,21 @@ def run_ai_review_export(settings) -> Optional[dict]:
     payload = {"generated_at": iso_now(), "count": len(items), "items": items}
     write_json(settings.ai_review_export_path, payload)
     return payload
+
+
+def copy_to_shared_folder(export_path: str, target_dir: Optional[str]) -> dict:
+    """Google Drive API等は一切使わず、Google Drive for Desktopがローカルに
+    同期しているフォルダへ、書き出し済みのファイルをそのままコピーするだけ。
+    target_dirが未設定、または実際にそのフォルダが存在しない(Google Drive for
+    Desktopが未起動/未同期/パス違い等)場合は、何もせずその旨を返す。ファイル名
+    はexport_pathと同じものをそのまま使う(リネームしない)。
+    """
+    if not target_dir:
+        return {"copied": False, "reason": "target_dir_not_configured", "target_path": None}
+    if not os.path.isdir(target_dir):
+        return {"copied": False, "reason": "target_dir_not_found", "target_path": target_dir}
+
+    filename = os.path.basename(export_path)
+    target_path = os.path.join(target_dir, filename)
+    shutil.copy2(export_path, target_path)
+    return {"copied": True, "reason": None, "target_path": target_path}
