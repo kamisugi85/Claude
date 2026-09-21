@@ -37,6 +37,16 @@ _SNS_ALLOW_PATTERNS = [
     re.compile(r"sns.{0,10}(ok|可能|可)(?!能性)", re.IGNORECASE),
 ]
 
+# 掲載可能なSNSが特定媒体に限定されている旨の文言(例: 「Instagram・Xのみ掲載可」)。
+# TikTokが挙げられていない場合のみ、TikTokは対象外とみなす。実例が少なくパターンは
+# 推測ベースのため要検証(★誤って良い案件を落とすリスクがあるため、除外ではなく
+# 'conditional'扱いに留める)。
+_SNS_WHITELIST_PLATFORM_PATTERN = re.compile(
+    r"(instagram|twitter|x（旧twitter）|youtube|threads|pinterest|note|facebook|line)"
+    r"[^。\n]{0,15}(のみ|に限る|に限定)",
+    re.IGNORECASE,
+)
+
 
 def _combined_text(record: dict) -> str:
     return "\n".join(str(record.get(key, "") or "") for key in _TEXT_FIELDS_FOR_SNS_JUDGMENT)
@@ -45,9 +55,11 @@ def _combined_text(record: dict) -> str:
 def classify_sns_promotion(record: dict) -> dict:
     """SNS/TikTokでの掲載可否をPythonルールのみで一次判定する。
 
-    明示的な文言が見つからない場合は絶対に推測せず 'unclear' を返す
-    (=AI/人間の判断に委ねる)。本PJの共通ルール: SNS掲載OKで、TikTokを名指しで
-    除外していなければ、原則TikTokも掲載OKとみなす。
+    本PJの方針(2026-09時点): A8.net自体がTikTokへのアフィリエイト広告掲載を
+    公式にサポートしていることを前提に、個別プログラムでSNS掲載OKなら原則
+    TikTokも掲載OKとみなす。「TikTok」という語が文中に無いことだけを理由に
+    保留にはしない -- 明確な除外シグナル(TikTok明示禁止/SNSが他媒体限定/
+    高リスクカテゴリ)が無ければ既定で 'allowed' とする。
     """
     text = _combined_text(record)
 
@@ -59,13 +71,23 @@ def classify_sns_promotion(record: dict) -> dict:
     if any(p.search(text) for p in _SNS_PROHIBIT_PATTERNS):
         return {"sns_verdict": "prohibited", "tiktok_verdict": "prohibited", "sns_basis": "sns_explicit_ng"}
 
+    whitelist_match = _SNS_WHITELIST_PLATFORM_PATTERN.search(text)
+    if whitelist_match and "tiktok" not in whitelist_match.group(0).lower():
+        return {
+            "sns_verdict": "conditional",
+            "tiktok_verdict": "conditional",
+            "sns_basis": "sns_limited_to_other_platforms",
+        }
+
     if any(p.search(text) for p in _SNS_CONDITIONAL_PATTERNS):
         return {"sns_verdict": "conditional", "tiktok_verdict": "conditional", "sns_basis": "sns_conditional_wording"}
 
     if any(p.search(text) for p in _SNS_ALLOW_PATTERNS):
         return {"sns_verdict": "allowed", "tiktok_verdict": "allowed", "sns_basis": "sns_ok_implies_tiktok_ok"}
 
-    return {"sns_verdict": "unclear", "tiktok_verdict": "unclear", "sns_basis": "no_sns_mention_found"}
+    # 既定値: 明確な除外シグナルが無ければ許可とみなす(A8がSNS/TikTok向け
+    # アフィリエイトを公式にサポートしているという前提に基づく)。
+    return {"sns_verdict": "allowed", "tiktok_verdict": "allowed", "sns_basis": "no_explicit_restriction_found"}
 
 
 def classify_category_risk(record: dict) -> dict:
@@ -80,8 +102,10 @@ def classify_program(record: dict) -> dict:
     """SNS判定とカテゴリ判定を統合した総合判定。
 
     - likely_excluded: 明示的にNGと分かる、またはカテゴリが高リスク
-    - likely_ok: SNS掲載OKと明示され、カテゴリにも懸念がない
-    - needs_ai_or_human: 上記のどちらとも言い切れない(推測しない)
+    - likely_ok: 明確な除外シグナルが無い(SNS明言の有無を問わない)、かつ
+      カテゴリにも懸念がない
+    - needs_ai_or_human: 条件付き文言(事前相談等、SNSが他媒体限定 等)で
+      額面通りに判定できないもの
     """
     sns = classify_sns_promotion(record)
     category = classify_category_risk(record)

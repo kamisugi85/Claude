@@ -28,11 +28,28 @@ def test_conditional_wording_is_not_forced_into_allowed_or_prohibited():
     assert result["sns_verdict"] == "conditional"
 
 
-def test_no_mention_at_all_is_unclear_never_guessed():
+def test_no_sns_mention_defaults_to_allowed_not_held_on_silence_alone():
+    # Project policy: A8 itself officially supports TikTok affiliate
+    # promotion, so the mere absence of the word "SNS"/"TikTok" must never by
+    # itself force a hold -- only an explicit restriction should.
     record = {"備考": "その他の注意事項はありません。", "成果条件": "WEB申込完了"}
     result = classify_sns_promotion(record)
-    assert result["sns_verdict"] == "unclear"
-    assert result["tiktok_verdict"] == "unclear"
+    assert result["sns_verdict"] == "allowed"
+    assert result["tiktok_verdict"] == "allowed"
+    assert result["sns_basis"] == "no_explicit_restriction_found"
+
+
+def test_sns_limited_to_other_platforms_excludes_tiktok_as_conditional():
+    record = {"備考": "掲載可能SNSはInstagramのみとさせていただきます。"}
+    result = classify_sns_promotion(record)
+    assert result["tiktok_verdict"] == "conditional"
+    assert result["sns_basis"] == "sns_limited_to_other_platforms"
+
+
+def test_whitelist_pattern_does_not_trigger_when_tiktok_is_in_the_list():
+    record = {"備考": "掲載可能SNSはInstagram・TikTokのみとさせていただきます。"}
+    result = classify_sns_promotion(record)
+    assert result["tiktok_verdict"] == "allowed"
 
 
 def test_category_risk_high_for_known_keyword():
@@ -68,7 +85,13 @@ def test_overall_likely_ok_when_explicit_and_safe():
     assert result["tiktok_overall"] == "likely_ok"
 
 
-def test_overall_needs_ai_or_human_when_unclear():
+def test_overall_likely_ok_when_no_explicit_restriction_found():
     record = {"category": "回線", "備考": "特になし"}
+    result = classify_program(record)
+    assert result["tiktok_overall"] == "likely_ok"
+
+
+def test_overall_needs_ai_or_human_on_conditional_wording():
+    record = {"category": "回線", "備考": "SNSアカウントの投稿について、事前にご相談ください。"}
     result = classify_program(record)
     assert result["tiktok_overall"] == "needs_ai_or_human"
