@@ -1,0 +1,86 @@
+{
+  "created_at": "2026-09-21T21:47:44+00:00",
+  "created_by": "claude_code",
+  "instructions_for_work": "各programについて、記載されたsearch_queriesでTikTok内検索を行い、実際に表示された投稿を閲覧して観測できた事実だけをpost_result_schemaの形式で記録してください。取得できない項目はnull(不明)のままにし、推測値や一般論で埋めないでください。TikTokのアクセス制限回避・CAPTCHA回避・規約に反するスクレイピング的操作は行わないでください(通常のログイン済みブラウジング・検索・閲覧の範囲で行ってください)。結果は本ジョブのjob_idを含むJSONファイル(投稿レコードの配列)として保存し、Claude Code側の取り込み処理(ingest_results)が読めるようにしてください。",
+  "job_id": "tiktok-research-2026-09-21T214744_0000",
+  "output_instructions": "調査結果は {\"job_id\": \"<このジョブのjob_id>\", \"posts\": [post_result, ...]} という形式の単一JSONファイルとして保存してください。ファイル名は自由ですが、job_idを含めることを推奨します。",
+  "post_result_schema_fields": [
+    "program_id",
+    "search_query",
+    "video_url",
+    "video_id",
+    "creator_handle",
+    "posted_at",
+    "view_count",
+    "like_count",
+    "comment_count",
+    "share_count",
+    "save_count",
+    "duration_seconds",
+    "hook_first_3s",
+    "structure_summary",
+    "has_face",
+    "has_person",
+    "ai_character_like",
+    "is_ugc_style",
+    "is_broll",
+    "is_conversation_or_skit",
+    "caption_style",
+    "narration_style",
+    "cta_text",
+    "ad_pr_likeness",
+    "top_comment_themes",
+    "observed_at",
+    "notes"
+  ],
+  "programs": [
+    {
+      "occupation_keyword": "保育士",
+      "program_id": "s00000001248025",
+      "program_name": "保育士人材バンク",
+      "search_queries": [
+        "保育士",
+        "保育士 辞めたい",
+        "保育士 給料",
+        "保育士 人間関係",
+        "保育士 夜勤",
+        "保育士 休日",
+        "保育士 勤務時間",
+        "保育士 転職",
+        "保育士 転職しない 情報収集"
+      ]
+    },
+    {
+      "occupation_keyword": "看護師",
+      "program_id": "s00000001248024",
+      "program_name": "ナース人材バンク",
+      "search_queries": [
+        "看護師",
+        "看護師 辞めたい",
+        "看護師 給料",
+        "看護師 人間関係",
+        "看護師 夜勤",
+        "看護師 休日",
+        "看護師 勤務時間",
+        "看護師 転職",
+        "看護師 転職しない 情報収集"
+      ]
+    },
+    {
+      "occupation_keyword": "介護士",
+      "program_id": "s00000026823003",
+      "program_name": "転職エージェント",
+      "search_queries": [
+        "介護士",
+        "介護士 辞めたい",
+        "介護士 給料",
+        "介護士 人間関係",
+        "介護士 夜勤",
+        "介護士 休日",
+        "介護士 勤務時間",
+        "介護士 転職",
+        "介護士 転職しない 情報収集"
+      ]
+    }
+  ]
+}
