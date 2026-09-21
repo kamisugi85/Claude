@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 import shutil
+from datetime import datetime
 from typing import Dict, List, Optional
 
 from .classification import classify_program
@@ -91,6 +92,49 @@ def build_ai_review_export(catalog: Dict[str, dict], selection: dict) -> List[di
     return [build_ai_review_export_record(catalog[pid]) for pid in population if pid in catalog]
 
 
+def _history_path_for(latest_path: str, date_str: str, suffix: str = "") -> str:
+    base, ext = os.path.splitext(latest_path)
+    if base.endswith("_latest"):
+        base = base[: -len("_latest")]
+    return f"{base}_{date_str}{suffix}{ext}"
+
+
+def _payload_content_equal(a: Optional[dict], b: dict) -> bool:
+    # generated_at(実行のたびに変わるタイムスタンプ)を除いた実質的な内容
+    # (count/items)だけを比較する。
+    if a is None:
+        return False
+    return a.get("count") == b.get("count") and a.get("items") == b.get("items")
+
+
+def save_with_history(payload: dict, latest_path: str, date_str: Optional[str] = None) -> dict:
+    """`_latest.json`を参照用に更新しつつ、日付付き履歴ファイルも保存する
+    (データガバナンス方針: 履歴は上書き・削除しない)。
+
+    - 同日・同一内容(count/itemsが一致)の履歴ファイルが既にあれば、無意味な
+      重複は作らずそのまま残す。
+    - 同日でも内容が異なる場合(同日に再実行して結果が変わった等)は、既存の
+      履歴ファイルを上書きせず、連番を付けた別ファイルとして保存する。
+    - 過去の日付の履歴ファイルには一切触れない。
+    """
+    if date_str is None:
+        date_str = datetime.now().astimezone().strftime("%Y%m%d")
+
+    write_json(latest_path, payload)
+
+    suffix = ""
+    n = 1
+    while True:
+        history_path = _history_path_for(latest_path, date_str, suffix)
+        if not os.path.exists(history_path):
+            write_json(history_path, payload)
+            return {"history_path": history_path, "history_written": True}
+        if _payload_content_equal(read_json(history_path, default=None), payload):
+            return {"history_path": history_path, "history_written": False}
+        n += 1
+        suffix = f"_{n}"
+
+
 def run_ai_review_export(settings) -> Optional[dict]:
     catalog = load_snapshot(settings.latest_snapshot_path)
     selection = read_json(settings.ai_review_selection_path, default=None)
@@ -99,8 +143,8 @@ def run_ai_review_export(settings) -> Optional[dict]:
 
     items = build_ai_review_export(catalog, selection)
     payload = {"generated_at": iso_now(), "count": len(items), "items": items}
-    write_json(settings.ai_review_export_path, payload)
-    return payload
+    history = save_with_history(payload, settings.ai_review_export_path)
+    return {**payload, "history_path": history["history_path"], "history_written": history["history_written"]}
 
 
 def copy_to_shared_folder(export_path: str, target_dir: Optional[str]) -> dict:

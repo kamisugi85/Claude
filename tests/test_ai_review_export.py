@@ -1,6 +1,12 @@
+import json
 import os
 
-from a8_automation.ai_review_export import build_ai_review_export, build_ai_review_export_record, copy_to_shared_folder
+from a8_automation.ai_review_export import (
+    build_ai_review_export,
+    build_ai_review_export_record,
+    copy_to_shared_folder,
+    save_with_history,
+)
 
 
 def make_selected_record(pid, **extra):
@@ -101,3 +107,45 @@ def test_copy_to_shared_folder_reports_unconfigured_target():
     result = copy_to_shared_folder("/tmp/whatever.json", None)
     assert result["copied"] is False
     assert result["reason"] == "target_dir_not_configured"
+
+
+def test_save_with_history_writes_latest_and_dated_history(tmp_path):
+    latest_path = str(tmp_path / "a8_ai_review_selection_60_latest.json")
+    payload = {"generated_at": "t1", "count": 1, "items": [{"program_id": "a"}]}
+
+    result = save_with_history(payload, latest_path, date_str="20260922")
+
+    assert result["history_written"] is True
+    assert result["history_path"] == str(tmp_path / "a8_ai_review_selection_60_20260922.json")
+    assert json.load(open(latest_path, encoding="utf-8"))["items"] == [{"program_id": "a"}]
+    assert json.load(open(result["history_path"], encoding="utf-8"))["items"] == [{"program_id": "a"}]
+
+
+def test_save_with_history_does_not_duplicate_same_day_same_content(tmp_path):
+    latest_path = str(tmp_path / "a8_ai_review_selection_60_latest.json")
+    payload_run1 = {"generated_at": "t1", "count": 1, "items": [{"program_id": "a"}]}
+    payload_run2 = {"generated_at": "t2", "count": 1, "items": [{"program_id": "a"}]}  # only timestamp differs
+
+    first = save_with_history(payload_run1, latest_path, date_str="20260922")
+    second = save_with_history(payload_run2, latest_path, date_str="20260922")
+
+    assert first["history_written"] is True
+    assert second["history_written"] is False
+    assert second["history_path"] == first["history_path"]
+    # latest is still updated to the newer payload even when history is skipped
+    assert json.load(open(latest_path, encoding="utf-8"))["generated_at"] == "t2"
+
+
+def test_save_with_history_never_overwrites_differing_same_day_history(tmp_path):
+    latest_path = str(tmp_path / "a8_ai_review_selection_60_latest.json")
+    payload_run1 = {"generated_at": "t1", "count": 1, "items": [{"program_id": "a"}]}
+    payload_run2 = {"generated_at": "t2", "count": 1, "items": [{"program_id": "b"}]}  # real content change
+
+    first = save_with_history(payload_run1, latest_path, date_str="20260922")
+    second = save_with_history(payload_run2, latest_path, date_str="20260922")
+
+    assert second["history_written"] is True
+    assert second["history_path"] != first["history_path"]
+    # the original history file is untouched
+    assert json.load(open(first["history_path"], encoding="utf-8"))["items"] == [{"program_id": "a"}]
+    assert json.load(open(second["history_path"], encoding="utf-8"))["items"] == [{"program_id": "b"}]

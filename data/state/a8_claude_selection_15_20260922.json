@@ -1,0 +1,278 @@
+{
+  "selection_date": "2026-09-22",
+  "source": "claude",
+  "source_pool": "a8_ai_review_selection_60_latest.json",
+  "purpose": "A8 data only independent selection for next-stage TikTok/LP research",
+  "count": 15,
+  "items": [
+    {
+      "program_id": "s00000001248025",
+      "name": "保育士人材バンク",
+      "category": "就職・転職",
+      "reward_yen": 5000.0,
+      "epc": 7505.93,
+      "confirmation_rate_pct": 86.64,
+      "conversion_summary": "登録後30日以内の本人確認+転職意思確認。保育士資格者のみ",
+      "selection_reasons": [
+        "EPC最上位・確定率高",
+        "登録+電話確認型でCV障壁低",
+        "人物画像NGで顔出しなし動画と整合"
+      ],
+      "next_research_points": [
+        "保育士向けTikTok競合",
+        "LP",
+        "電話確認での離脱",
+        "NG訴求(保育士以外・派遣・短期)の範囲でHook複数作れるか"
+      ],
+      "selected_by": "claude"
+    },
+    {
+      "program_id": "s00000001248024",
+      "name": "ナース人材バンク",
+      "category": "就職・転職",
+      "reward_yen": 26000.0,
+      "epc": 4943.19,
+      "confirmation_rate_pct": 98.71,
+      "conversion_summary": "申込後1週間以内に電話で本人確認+転職意志確認。看護師/准看護師",
+      "selection_reasons": [
+        "高報酬と確定率98.7%を両立"
+      ],
+      "next_research_points": [
+        "電話確認までの離脱",
+        "NG訴求範囲(美容外科・派遣・パート等)内で複数訴求が作れるか"
+      ],
+      "selected_by": "claude"
+    },
+    {
+      "program_id": "s00000026823003",
+      "name": "介護職特化の転職エージェント(パーソル系)※",
+      "category": "就職・転職",
+      "reward_yen": 5000.0,
+      "epc": 4090.9,
+      "confirmation_rate_pct": 78.43,
+      "conversion_summary": "会員登録完了時点。18〜54歳・希望勤務地1都3県",
+      "selection_reasons": [
+        "登録完了のみで成立しEPCも高い"
+      ],
+      "next_research_points": [
+        "対象地域外の流入ロス",
+        "「ログインがない場合は否認」条件の影響",
+        "LP"
+      ],
+      "selected_by": "claude"
+    },
+    {
+      "program_id": "s00000027473001",
+      "name": "保育士・幼稚園教諭向け転職※",
+      "category": "就職・転職",
+      "reward_yen": 10000.0,
+      "epc": 3276.59,
+      "confirmation_rate_pct": 100.0,
+      "conversion_summary": "会員登録完了。資格なしは否認",
+      "selection_reasons": [
+        "登録完了のみで成立",
+        "AI価値観診断など訴求の切り口が多い"
+      ],
+      "next_research_points": [
+        "確定率100%が母数の少なさ由来でないか(開始2026/6)",
+        "資格者への到達"
+      ],
+      "selected_by": "claude"
+    },
+    {
+      "program_id": "s00000025725001",
+      "name": "ピーエムジー(ファクタリング)※",
+      "category": "金融",
+      "reward_yen": 11000.0,
+      "epc": 3672.91,
+      "confirmation_rate_pct": 87.15,
+      "conversion_summary": "問い合わせ後30日以内に内容と売掛金の確認完了。個人・売掛金50万円未満等は否認",
+      "selection_reasons": [
+        "EPC・確定率ともに高く成果点が問い合わせで軽い"
+      ],
+      "next_research_points": [
+        "事業者層への到達可能性",
+        "金融広告表現の制約",
+        "TikTokの商材制限"
+      ],
+      "selected_by": "claude"
+    },
+    {
+      "program_id": "s00000024144001",
+      "name": "ラクウル(訳アリ不動産買取)※",
+      "category": "総合(不動産・引越)",
+      "reward_yen": 10000.0,
+      "epc": 2662.58,
+      "confirmation_rate_pct": 90.23,
+      "conversion_summary": "査定申込後30日以内の本人確認+物件ヒアリング。売却目的でない問い合わせは否認",
+      "selection_reasons": [
+        "申込のみで成立・確定率高",
+        "物件イメージ映像で訴求を作り分けやすい"
+      ],
+      "next_research_points": [
+        "対象者(訳アリ物件所有者)の量/1世帯1回制限の影響"
+      ],
+      "selected_by": "claude"
+    },
+    {
+      "program_id": "s00000025272003",
+      "name": "ユニゾンキャリア(IT転職)",
+      "category": "就職・転職",
+      "reward_yen": 18000.0,
+      "epc": 2442.74,
+      "confirmation_rate_pct": 86.66,
+      "conversion_summary": "登録後30日以内のアドバイザー面談完了。20〜39歳・1都3県か大阪・エンジニア経験1年以上",
+      "selection_reasons": [
+        "面談完了まで必要な分、報酬が高く確定率も維持"
+      ],
+      "next_research_points": [
+        "対象条件に合う割合",
+        "面談完了率",
+        "PR表記必須・資料転載禁止"
+      ],
+      "selected_by": "claude"
+    },
+    {
+      "program_id": "s00000025176001",
+      "name": "レバクリ(AGAオンライン診療)※",
+      "category": "クリニック",
+      "reward_yen": 10000.0,
+      "epc": 2416.75,
+      "confirmation_rate_pct": 97.91,
+      "conversion_summary": "診療予約後30日以内のオンライン診療完了。男性のみ",
+      "selection_reasons": [
+        "確定率高・来院不要で摩擦が比較的小さい"
+      ],
+      "next_research_points": [
+        "医療広告ガイドライン",
+        "TikTokの医療系制限",
+        "診療完了までの離脱"
+      ],
+      "selected_by": "claude"
+    },
+    {
+      "program_id": "s00000025923001",
+      "name": "ICL/レーシック適応検査予約※",
+      "category": "医療",
+      "reward_yen": 31500.0,
+      "epc": 2015.68,
+      "confirmation_rate_pct": 87.93,
+      "conversion_summary": "WEBでの適応検査予約完了時点。LINE/問い合わせ経由・一般診療は否認。確定目安60日",
+      "selection_reasons": [
+        "高単価で成果点が予約完了と軽い"
+      ],
+      "next_research_points": [
+        "医療広告規制",
+        "広告主運用のSNS広告(TikTok含む)とのラストクリック重複は成果対象外となる規定"
+      ],
+      "selected_by": "claude"
+    },
+    {
+      "program_id": "s00000027212001",
+      "name": "メディカルダイエット",
+      "category": "医療",
+      "reward_yen": 12295.0,
+      "epc": 1366.11,
+      "confirmation_rate_pct": 100.0,
+      "conversion_summary": "申込後14日以内の診察完了。女性",
+      "selection_reasons": [
+        "確定率100%・オンライン完結で導線が短い"
+      ],
+      "next_research_points": [
+        "ダイエット系医療の広告表現",
+        "クリック時と申込時でデバイス・ブラウザが異なると成果不計上(アプリ内ブラウザ経由で成立するか)"
+      ],
+      "selected_by": "claude"
+    },
+    {
+      "program_id": "s00000024092002",
+      "name": "フェミークリニック(ニキビ治療)",
+      "category": "医療",
+      "reward_yen": 6410.0,
+      "epc": 1368.18,
+      "confirmation_rate_pct": 92.08,
+      "conversion_summary": "WEB予約後30日以内の無料カウンセリング完了。LINE・電話経由は否認",
+      "selection_reasons": [
+        "診察・カウンセリング無料で成果点が軽い"
+      ],
+      "next_research_points": [
+        "来院が必要な点の離脱",
+        "医療広告の制約"
+      ],
+      "selected_by": "claude"
+    },
+    {
+      "program_id": "s00000022047001",
+      "name": "ワーキングホリデー(夢カナ留学)",
+      "category": "総合(学び・資格)",
+      "reward_yen": 7000.0,
+      "epc": 1325.4,
+      "confirmation_rate_pct": 95.48,
+      "conversion_summary": "申込後30日以内のカウンセリング完了。18〜30歳",
+      "selection_reasons": [
+        "金融・医療の規制がなく、海外映像の訴求を顔出しなしで作りやすい",
+        "確定率高"
+      ],
+      "next_research_points": [
+        "「実質0円」等は注釈必須のレギュレーション",
+        "ネガティブワード集客は事前確認必須"
+      ],
+      "selected_by": "claude"
+    },
+    {
+      "program_id": "s00000027408001",
+      "name": "楽器買取(出張査定)※",
+      "category": "音楽",
+      "reward_yen": 3000.0,
+      "epc": 1254.1,
+      "confirmation_rate_pct": 90.71,
+      "conversion_summary": "WEBまたは電話申込後30日以内の査定完了。ピアノ・和楽器等は否認",
+      "selection_reasons": [
+        "査定完了のみで成立、電話成果も対象で摩擦が最小級"
+      ],
+      "next_research_points": [
+        "低単価でも十分なCV数が取れるか(承認報酬ベース)"
+      ],
+      "selected_by": "claude"
+    },
+    {
+      "program_id": "s00000026379001",
+      "name": "HERO'ZZ(SNS大学校)※",
+      "category": "習い事",
+      "reward_yen": 100000.0,
+      "epc": null,
+      "confirmation_rate_pct": 12.5,
+      "conversion_summary": "申込後30日以内の契約完了。未成年・LINE経由・ローン審査落ち・30日以内返金は否認",
+      "selection_reasons": [
+        "単価が突出",
+        "EPC欠損は除外理由にしない",
+        "確定率12.5%でも期待値成立の検証価値あり"
+      ],
+      "next_research_points": [
+        "プロフィール→LP導線とLINE経由否認の衝突",
+        "確定率12.5%の意味",
+        "誇大表現リスク"
+      ],
+      "selected_by": "claude"
+    },
+    {
+      "program_id": "s00000027779001",
+      "name": "M&A転職エージェント※",
+      "category": "就職・転職",
+      "reward_yen": 34616.0,
+      "epc": null,
+      "confirmation_rate_pct": null,
+      "conversion_summary": "申込後30日以内に電話/メールで氏名・年齢・居住地の確認完了。24〜34歳",
+      "selection_reasons": [
+        "確認完了で成立し成果点が軽く高報酬",
+        "新規(2026/8開始)でEPC・確定率欠損は除外理由にしない"
+      ],
+      "next_research_points": [
+        "承認実態が不明",
+        "PR文(25〜40代)と成果条件(24〜34歳)の年齢不一致",
+        "「年収2,000万円超」訴求の誇大リスク"
+      ],
+      "selected_by": "claude"
+    }
+  ]
+}

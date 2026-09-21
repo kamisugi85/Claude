@@ -361,7 +361,11 @@ def cmd_export_ai_review(args: argparse.Namespace) -> int:
         return 1
 
     print(f"{payload['count']}件を書き出しました。")
-    print(f"保存先: {settings.ai_review_export_path}")
+    print(f"保存先(latest): {settings.ai_review_export_path}")
+    if payload["history_written"]:
+        print(f"保存先(履歴): {payload['history_path']}")
+    else:
+        print(f"履歴: 同日・同一内容の履歴ファイルが既に存在するため新規作成をスキップしました ({payload['history_path']})")
     print()
 
     copy_result = copy_to_shared_folder(settings.ai_review_export_path, settings.google_drive_shared_folder_dir)
