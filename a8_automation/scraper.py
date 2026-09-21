@@ -139,6 +139,41 @@ _DETAIL_SECTIONS_JS = r"""
 """
 
 
+# List-crawl field names (case-insensitive). A detail-page heading that
+# collides with one of these -- e.g. a section literally titled "EPC" next
+# to our own lowercase "epc" -- gets skipped, since JSON is case-sensitive
+# but several JSON consumers (PowerShell's ConvertFrom-Json among them)
+# treat keys case-insensitively and error out on the duplicate.
+_RESERVED_FIELD_NAMES = {
+    "program_id",
+    "url",
+    "detail_url",
+    "name",
+    "reward",
+    "epc",
+    "conversion_rate",
+    "category",
+    "start_date",
+    "checked_at",
+    "score",
+    "excluded",
+    "exclusion_reason",
+    "judged_at",
+}
+
+
+def dedupe_case_insensitive(sections: Dict[str, str], reserved: set) -> Dict[str, str]:
+    deduped: Dict[str, str] = {}
+    seen_lower = {name.lower() for name in reserved}
+    for label, body in sections.items():
+        lowered = label.lower()
+        if lowered in seen_lower:
+            continue
+        seen_lower.add(lowered)
+        deduped[label] = body
+    return deduped
+
+
 def extract_program_detail(page, program_id: str, url: str) -> dict:
     """!!! 要検証 !!!
 
@@ -147,7 +182,8 @@ def extract_program_detail(page, program_id: str, url: str) -> dict:
     ための設計。実際の見出しタグ・クラス名が不明なため要検証。
     """
     sections = page.evaluate(_DETAIL_SECTIONS_JS)
-    return {"program_id": program_id, "url": url, **sections}
+    deduped = dedupe_case_insensitive(sections, _RESERVED_FIELD_NAMES)
+    return {"program_id": program_id, "url": url, **deduped}
 
 
 def download_csv(page, target: dict, download_dir: str, run_id: str) -> str:
