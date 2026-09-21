@@ -24,18 +24,22 @@ TIKTOK_POLICY_RISK_CATEGORY_KEYWORDS = [
 # SNS/TikTokでの掲載可否そのものとは別の話のため、これだけを根拠に判定しない。
 _TEXT_FIELDS_FOR_SNS_JUDGMENT = ["備考", "否認条件", "成果条件"]
 
-_TIKTOK_EXPLICIT_PROHIBIT = re.compile(r"tiktok.{0,10}(ng|禁止|不可|対象外)", re.IGNORECASE)
-_TIKTOK_EXPLICIT_ALLOW = re.compile(r"tiktok.{0,10}(ok|可能|可)", re.IGNORECASE)
+# re.DOTALL: A8の実際の記載は「【禁止事項】\n・SNSでの掲載・投稿。」のように、
+# 見出しと本文が改行で分かれていることが多い。デフォルトの`.`は改行にマッチしない
+# ため、DOTALLが無いと「禁止...SNS」のような近接判定が改行を挟むだけで失敗し、
+# 明確な禁止文言を見逃してしまう(実データで確認済みのバグ)。
+_TIKTOK_EXPLICIT_PROHIBIT = re.compile(r"tiktok.{0,10}(ng|禁止|不可|対象外)", re.IGNORECASE | re.DOTALL)
+_TIKTOK_EXPLICIT_ALLOW = re.compile(r"tiktok.{0,10}(ok|可能|可)", re.IGNORECASE | re.DOTALL)
 
 _SNS_PROHIBIT_PATTERNS = [
-    re.compile(r"sns.{0,10}(ng|禁止|不可|対象外)", re.IGNORECASE),
-    re.compile(r"(ng|禁止|不可).{0,10}sns", re.IGNORECASE),
+    re.compile(r"sns.{0,10}(ng|禁止|不可|対象外)", re.IGNORECASE | re.DOTALL),
+    re.compile(r"(ng|禁止|不可).{0,10}sns", re.IGNORECASE | re.DOTALL),
 ]
 _SNS_CONDITIONAL_PATTERNS = [
-    re.compile(r"sns.{0,40}(事前|要相談|確認|承諾|関連の無い投稿|関連しない投稿)", re.IGNORECASE),
+    re.compile(r"sns.{0,40}(事前|要相談|確認|承諾|関連の無い投稿|関連しない投稿)", re.IGNORECASE | re.DOTALL),
 ]
 _SNS_ALLOW_PATTERNS = [
-    re.compile(r"sns.{0,10}(ok|可能|可)(?!能性)", re.IGNORECASE),
+    re.compile(r"sns.{0,10}(ok|可能|可)(?!能性)", re.IGNORECASE | re.DOTALL),
 ]
 
 # 掲載可能なSNSが特定媒体に限定されている旨の文言(例: 「Instagram・Xのみ掲載可」)。

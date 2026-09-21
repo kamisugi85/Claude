@@ -61,6 +61,26 @@ def test_whitelist_pattern_does_not_trigger_when_tiktok_is_in_the_list():
     assert result["tiktok_verdict"] == "allowed"
 
 
+def test_prohibition_heading_on_its_own_line_still_matches_sns_below_it():
+    # 実データで確認した回帰バグ: A8の実際の表記は見出しと本文が改行で分かれて
+    # いることが多く(「【禁止事項】\n・SNSでの掲載・投稿。」)、デフォルトの`.`は
+    # 改行にマッチしないため、この形式だと明確な禁止文言を見逃し allowed に
+    # 誤判定していた(案件: オクトパスエナジー s00000026570001)。
+    record = {
+        "備考": (
+            "【禁止事項】\n"
+            "・SNSでの掲載・投稿。\n"
+            "※投稿形態(テキスト、画像、動画)は問わずになります。\n"
+            "\n"
+            "例：X(旧Twitter)、instagram、Tiktok、Youtube"
+        )
+    }
+    result = classify_sns_promotion(record)
+    assert result["sns_verdict"] == "prohibited"
+    assert result["tiktok_verdict"] == "prohibited"
+    assert result["sns_basis"] == "sns_explicit_ng"
+
+
 def test_category_risk_high_for_known_keyword():
     result = classify_category_risk({"category": "ギャンブル・カジノ"})
     assert result["category_risk"] == "high"
