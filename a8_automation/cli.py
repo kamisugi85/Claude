@@ -12,6 +12,7 @@ from .access_log import AccessLog
 from .allowlist import AllowlistConfig
 from .alert import write_alert
 from .candidate_quality import compute_population_quality, distinct_detail_headings
+from .candidate_screening import run_candidate_screening
 from .coverage import compute_field_coverage
 from .detail_candidates import save_detail_fetch_population
 from .diff_store import load_snapshot
@@ -214,6 +215,46 @@ def cmd_candidate_quality(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_screen_candidates(args: argparse.Namespace) -> int:
+    """候補300件に、単純な文字列・構造ルールだけの3区分判定
+    (excluded_clear / eligible_clear / needs_language_review)を適用する。
+    AI/LLMは使用しない。Program Masterからは何も削除しない。
+    """
+    settings = load_settings()
+    plan = read_json(settings.detail_fetch_plan_path, default=None)
+    if not plan:
+        print("先に `plan-detail-fetch` を実行してください。")
+        return 1
+
+    catalog = load_snapshot(settings.latest_snapshot_path)
+    population_ids = plan["population"]
+
+    report = run_candidate_screening(catalog, population_ids, settings.latest_snapshot_path, settings.candidate_screening_report_path)
+
+    print(f"① excluded_clear: {report['excluded_clear_count']}件")
+    print(f"② eligible_clear: {report['eligible_clear_count']}件")
+    print(f"③ needs_language_review: {report['needs_language_review_count']}件")
+    print()
+    print("④ 除外理由別件数:")
+    if report["exclusion_reason_counts"]:
+        for reason, count in sorted(report["exclusion_reason_counts"].items(), key=lambda kv: -kv[1]):
+            print(f"   - {reason}: {count}件")
+    else:
+        print("   (該当なし)")
+    print()
+    print("⑤ needs_language_reviewの主な理由:")
+    if report["review_reason_counts"]:
+        for reason, count in sorted(report["review_reason_counts"].items(), key=lambda kv: -kv[1]):
+            print(f"   - {reason}: {count}件")
+    else:
+        print("   (該当なし)")
+    print()
+    print(f"保存: {settings.candidate_screening_report_path}")
+    print("Program Masterには screening_status/screening_reason/screened_at を記録しました(削除なし)。")
+    print("(Google Driveへの出力はまだ行っていません)")
+    return 0
+
+
 def cmd_fetch_details(args: argparse.Namespace) -> int:
     """`plan-detail-fetch` が選定した候補(優先順位順)のうち、まだ完了して
     いないものから最大 --limit 件だけ実際に詳細ページを取得する。一覧ページの
@@ -344,6 +385,12 @@ def main(argv=None) -> int:
         "candidate-quality", help="候補300件だけを対象に主要項目の取得件数/欠損率と見出し出現頻度を集計する"
     )
     quality_parser.set_defaults(func=cmd_candidate_quality)
+
+    screen_candidates_parser = sub.add_parser(
+        "screen-candidates",
+        help="候補300件をexcluded_clear/eligible_clear/needs_language_reviewの3区分に一次判定する(AI不使用)",
+    )
+    screen_candidates_parser.set_defaults(func=cmd_screen_candidates)
 
     args = parser.parse_args(argv)
     return args.func(args)

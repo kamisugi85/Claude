@@ -19,10 +19,10 @@ TIKTOK_POLICY_RISK_CATEGORY_KEYWORDS = [
     "風俗",
 ]
 
-# SNS/TikTok掲載可否に関係しそうな自由記述フィールド。A8側の項目名に依存するため
-# 存在しないものは単に空文字として扱われる。
-# 注意: A8側の実際の見出しは全角の「ＮＧ」(U+FF2E/U+FF27)であり、半角の「NG」ではない。
-_TEXT_FIELDS_FOR_SNS_JUDGMENT = ["備考", "否認条件", "成果条件", "リスティングＮＧワード"]
+# SNS/TikTok掲載可否に関係しそうな自由記述フィールド。「リスティングＮＧワード」は
+# 意図的に含めない -- これは主に検索連動広告の入札・表記に関するNGワード一覧であり、
+# SNS/TikTokでの掲載可否そのものとは別の話のため、これだけを根拠に判定しない。
+_TEXT_FIELDS_FOR_SNS_JUDGMENT = ["備考", "否認条件", "成果条件"]
 
 _TIKTOK_EXPLICIT_PROHIBIT = re.compile(r"tiktok.{0,10}(ng|禁止|不可|対象外)", re.IGNORECASE)
 _TIKTOK_EXPLICIT_ALLOW = re.compile(r"tiktok.{0,10}(ok|可能|可)", re.IGNORECASE)
@@ -39,9 +39,7 @@ _SNS_ALLOW_PATTERNS = [
 ]
 
 # 掲載可能なSNSが特定媒体に限定されている旨の文言(例: 「Instagram・Xのみ掲載可」)。
-# TikTokが挙げられていない場合のみ、TikTokは対象外とみなす。実例が少なくパターンは
-# 推測ベースのため要検証(★誤って良い案件を落とすリスクがあるため、除外ではなく
-# 'conditional'扱いに留める)。
+# TikTokが挙げられていない場合、TikTokは対象外と判定する(本PJ方針により除外扱い)。
 _SNS_WHITELIST_PLATFORM_PATTERN = re.compile(
     r"(instagram|twitter|x（旧twitter）|youtube|threads|pinterest|note|facebook|line)"
     r"[^。\n]{0,15}(のみ|に限る|に限定)",
@@ -75,9 +73,9 @@ def classify_sns_promotion(record: dict) -> dict:
     whitelist_match = _SNS_WHITELIST_PLATFORM_PATTERN.search(text)
     if whitelist_match and "tiktok" not in whitelist_match.group(0).lower():
         return {
-            "sns_verdict": "conditional",
-            "tiktok_verdict": "conditional",
-            "sns_basis": "sns_limited_to_other_platforms",
+            "sns_verdict": "prohibited",
+            "tiktok_verdict": "prohibited",
+            "sns_basis": "sns_limited_to_other_platforms_excludes_tiktok",
         }
 
     if any(p.search(text) for p in _SNS_CONDITIONAL_PATTERNS):

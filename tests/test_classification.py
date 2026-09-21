@@ -14,15 +14,13 @@ def test_explicit_tiktok_ng_overrides_general_sns_ok():
     assert result["tiktok_verdict"] == "prohibited"
 
 
-def test_reads_real_a8_field_name_with_fullwidth_ng_not_halfwidth():
-    # Regression: A8's actual heading is "リスティングＮＧワード" with fullwidth
-    # Ｎ/Ｇ (U+FF2E/U+FF27), confirmed against real scraped data. Text living
-    # only in that field must be visible to classification -- with the
-    # halfwidth "NG" spelling this field would never be read, and the
-    # restriction below would go unnoticed (defaulting to "allowed").
-    record = {"リスティングＮＧワード": "SNSでの紹介はNGです。"}
+def test_listing_ng_words_field_never_drives_sns_judgment_alone():
+    # リスティングNGワード(実際は全角ＮＧ)is about search-ad bidding/keyword
+    # restrictions, not SNS/TikTok distribution eligibility -- per project
+    # policy it must never by itself cause an SNS/TikTok verdict either way.
+    record = {"リスティングＮＧワード": "SNSでの紹介はNGです。TikTok NG。"}
     result = classify_sns_promotion(record)
-    assert result["sns_verdict"] == "prohibited"
+    assert result["sns_basis"] == "no_explicit_restriction_found"
 
 
 def test_explicit_sns_ok_implies_tiktok_ok_by_project_rule():
@@ -50,11 +48,11 @@ def test_no_sns_mention_defaults_to_allowed_not_held_on_silence_alone():
     assert result["sns_basis"] == "no_explicit_restriction_found"
 
 
-def test_sns_limited_to_other_platforms_excludes_tiktok_as_conditional():
+def test_sns_limited_to_other_platforms_excludes_tiktok():
     record = {"備考": "掲載可能SNSはInstagramのみとさせていただきます。"}
     result = classify_sns_promotion(record)
-    assert result["tiktok_verdict"] == "conditional"
-    assert result["sns_basis"] == "sns_limited_to_other_platforms"
+    assert result["tiktok_verdict"] == "prohibited"
+    assert result["sns_basis"] == "sns_limited_to_other_platforms_excludes_tiktok"
 
 
 def test_whitelist_pattern_does_not_trigger_when_tiktok_is_in_the_list():

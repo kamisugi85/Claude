@@ -21,6 +21,9 @@ IDENTITY_FIELDS = {
     "excluded",
     "exclusion_reason",
     "judged_at",
+    "screening_status",
+    "screening_reason",
+    "screened_at",
 }
 
 
