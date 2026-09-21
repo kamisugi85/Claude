@@ -44,6 +44,19 @@ def install_allowlist_router(context, cfg: AllowlistConfig, access_log: AccessLo
     context.route("**/*", handler)
 
 
+def _wait_for_render(page, settings) -> None:
+    """media-console.a8.net is a JS-driven SPA that fetches its content after
+    the initial page load fires, so reading the DOM right after goto() can
+    catch it mid-render. Give it a short grace period; a timeout here just
+    means the page was already idle (or is unusually chatty), not a failure,
+    so it's never treated as an anomaly.
+    """
+    try:
+        page.wait_for_load_state("networkidle", timeout=min(settings.request_timeout_ms, 10000))
+    except Exception:
+        pass
+
+
 def run_search_crawl(page, target, settings, http_guard, logger, previous_snapshot) -> dict:
     """Crawls a bounded slice of the search-results pages each run (resuming
     from where the last run left off, wrapping back to page 1 once the whole
@@ -64,6 +77,7 @@ def run_search_crawl(page, target, settings, http_guard, logger, previous_snapsh
         logger.info("step start: %s -> %s", step_name, url)
 
         page.goto(url, timeout=settings.request_timeout_ms)
+        _wait_for_render(page, settings)
         http_guard.check()
         check_page_state(page, target.get("expected_path_pattern"), step_name)
 
@@ -95,6 +109,7 @@ def run_search_crawl(page, target, settings, http_guard, logger, previous_snapsh
         logger.info("step start: %s -> %s", step_name, detail_url)
 
         page.goto(detail_url, timeout=settings.request_timeout_ms)
+        _wait_for_render(page, settings)
         http_guard.check()
         check_page_state(page, detail_pattern, step_name)
 
