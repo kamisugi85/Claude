@@ -22,7 +22,7 @@ def test_maps_known_fields_and_nulls_missing_ones():
     assert result["relevant_conditions"]["否認条件"] == "不正申込の場合"
     # not present in the record at all -- must be null, never guessed
     assert result["relevant_conditions"]["備考"] is None
-    assert result["relevant_conditions"]["リスティングNGワード"] is None
+    assert result["relevant_conditions"]["リスティングＮＧワード"] is None
     assert result["relevant_conditions"]["禁止事項"] is None
 
 

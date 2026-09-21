@@ -209,8 +209,8 @@ def cmd_candidate_quality(args: argparse.Namespace) -> int:
     else:
         print("   (詳細取得済みレコードがありません)")
     print("   ※ 抽出は見出しタグを機械的に拾う方式(特定の語句と一致させていない)ため、")
-    print("     『禁止事項』『リスティングNGワード』がここに出てこない場合、")
-    print("     抽出漏れではなく該当ページにその見出し自体が無い可能性が高いです。")
+    print("     『禁止事項』がここに出てこない場合、抽出漏れではなく該当ページに")
+    print("     その見出し自体が無い可能性が高いです(『リスティングＮＧワード』は全角ＮＧで表示)。")
     return 0
 
 
@@ -267,10 +267,11 @@ def cmd_fetch_details(args: argparse.Namespace) -> int:
 
     catalog = load_snapshot(settings.latest_snapshot_path)
     succeeded_records = [catalog[pid] for pid in result["succeeded"] if pid in catalog]
-    condition_fields = ["備考", "否認条件", "成果条件", "リスティングNGワード", "禁止事項"]
+    # 注意: A8側の実際の見出しは全角の「ＮＧ」(U+FF2E/U+FF27)であり、半角の「NG」ではない。
+    condition_fields = ["備考", "否認条件", "成果条件", "リスティングＮＧワード", "禁止事項"]
     field_counts = {f: sum(1 for r in succeeded_records if r.get(f)) for f in condition_fields}
     sns_text_count = sum(
-        1 for r in succeeded_records if any(r.get(f) for f in ["備考", "否認条件", "成果条件", "リスティングNGワード"])
+        1 for r in succeeded_records if any(r.get(f) for f in ["備考", "否認条件", "成果条件", "リスティングＮＧワード"])
     )
     skip_reason_counts = Counter(reason for _, reason in result["skipped"])
     access_summary = access_log.summary()
@@ -291,7 +292,7 @@ def cmd_fetch_details(args: argparse.Namespace) -> int:
     print("⑥ その他の項目取得状況:")
     print(
         f"   否認条件: {field_counts['否認条件']}件, 備考: {field_counts['備考']}件, "
-        f"禁止事項: {field_counts['禁止事項']}件, リスティングNGワード: {field_counts['リスティングNGワード']}件"
+        f"禁止事項: {field_counts['禁止事項']}件, リスティングＮＧワード: {field_counts['リスティングＮＧワード']}件"
     )
     print(f"⑦ 異常・ブロック・セッション問題: {'あり(' + anomaly.kind + ')' if anomaly else 'なし'}")
     print(f"   ブロックされたリクエスト数: {access_summary['blocked_total']}件(許可: {access_summary['allowed_total']}件)")

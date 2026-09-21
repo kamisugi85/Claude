@@ -14,6 +14,17 @@ def test_explicit_tiktok_ng_overrides_general_sns_ok():
     assert result["tiktok_verdict"] == "prohibited"
 
 
+def test_reads_real_a8_field_name_with_fullwidth_ng_not_halfwidth():
+    # Regression: A8's actual heading is "リスティングＮＧワード" with fullwidth
+    # Ｎ/Ｇ (U+FF2E/U+FF27), confirmed against real scraped data. Text living
+    # only in that field must be visible to classification -- with the
+    # halfwidth "NG" spelling this field would never be read, and the
+    # restriction below would go unnoticed (defaulting to "allowed").
+    record = {"リスティングＮＧワード": "SNSでの紹介はNGです。"}
+    result = classify_sns_promotion(record)
+    assert result["sns_verdict"] == "prohibited"
+
+
 def test_explicit_sns_ok_implies_tiktok_ok_by_project_rule():
     record = {"備考": "SNSでの紹介OKです。"}
     result = classify_sns_promotion(record)

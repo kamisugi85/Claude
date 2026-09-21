@@ -9,8 +9,9 @@ from .scraper import has_detail_fields
 # 集計対象の主要項目。reward/epc/conversion_rateは一覧レベル(全件にキー自体は
 # 存在)なので「数値として解釈できるか」を、それ以外は詳細ページ由来のフィールド
 # なので「値が存在するか」を見る。
-_SNS_JUDGMENT_TEXT_FIELDS = ["備考", "否認条件", "成果条件", "リスティングNGワード"]
-_DETAIL_TEXT_FIELDS = ["成果条件", "否認条件", "備考", "禁止事項", "リスティングNGワード"]
+# 注意: A8側の実際の見出しは全角の「ＮＧ」(U+FF2E/U+FF27)であり、半角の「NG」ではない。
+_SNS_JUDGMENT_TEXT_FIELDS = ["備考", "否認条件", "成果条件", "リスティングＮＧワード"]
+_DETAIL_TEXT_FIELDS = ["成果条件", "否認条件", "備考", "禁止事項", "リスティングＮＧワード"]
 
 # 一覧レベルの固定フィールド(見出しの頻度集計から除外するため)。
 _LIST_LEVEL_KEYS = {
@@ -72,11 +73,10 @@ def compute_population_quality(catalog: Dict[str, dict], population_ids: List[st
 
 def distinct_detail_headings(catalog: Dict[str, dict], population_ids: List[str]) -> Counter:
     """300件の詳細取得済みレコードに実際に現れた見出し名(一覧レベルの固定
-    フィールドを除く)の出現頻度。「禁止事項」「リスティングNGワード」が
-    0件の場合、ページ側にその見出しが無いのか、抽出側の問題かを切り分ける
-    手がかりにする(抽出は見出しタグを機械的に拾う方式で、特定の語句と
-    一致させているわけではないため、ここに出てこない=そのページに存在
-    しなかった可能性が高いことを示す)。
+    フィールドを除く)の出現頻度。特定フィールドが0件の場合、ページ側に
+    その見出しが無いのか、参照している文字列が実際のキーと一致していない
+    だけなのかを切り分ける手がかりにする(抽出自体は見出しタグを機械的に
+    拾う方式で、特定の語句と一致させているわけではない)。
     """
     counter: Counter = Counter()
     for pid in population_ids:

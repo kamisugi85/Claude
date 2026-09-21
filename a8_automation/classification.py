@@ -21,7 +21,8 @@ TIKTOK_POLICY_RISK_CATEGORY_KEYWORDS = [
 
 # SNS/TikTok掲載可否に関係しそうな自由記述フィールド。A8側の項目名に依存するため
 # 存在しないものは単に空文字として扱われる。
-_TEXT_FIELDS_FOR_SNS_JUDGMENT = ["備考", "否認条件", "成果条件", "リスティングNGワード"]
+# 注意: A8側の実際の見出しは全角の「ＮＧ」(U+FF2E/U+FF27)であり、半角の「NG」ではない。
+_TEXT_FIELDS_FOR_SNS_JUDGMENT = ["備考", "否認条件", "成果条件", "リスティングＮＧワード"]
 
 _TIKTOK_EXPLICIT_PROHIBIT = re.compile(r"tiktok.{0,10}(ng|禁止|不可|対象外)", re.IGNORECASE)
 _TIKTOK_EXPLICIT_ALLOW = re.compile(r"tiktok.{0,10}(ok|可能|可)", re.IGNORECASE)

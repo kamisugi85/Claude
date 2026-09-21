@@ -17,7 +17,8 @@ _NUMERIC_FIELD_CHECKS = {
 
 # SNS掲載可否は「判定材料となる本文が実際に存在するか」を見る。本文が無い
 # レコードのsns_statusは既定値(allowed)であり、観測データではないため区別する。
-_SNS_JUDGMENT_TEXT_FIELDS = ["備考", "否認条件", "成果条件", "リスティングNGワード"]
+# 注意: A8側の実際の見出しは全角の「ＮＧ」(U+FF2E/U+FF27)であり、半角の「NG」ではない。
+_SNS_JUDGMENT_TEXT_FIELDS = ["備考", "否認条件", "成果条件", "リスティングＮＧワード"]
 
 
 def compute_field_coverage(catalog: Dict[str, dict]) -> dict:

@@ -9,7 +9,8 @@ from .utils import iso_now, read_json, write_json
 
 # A8側の項目名に依存する自由記述フィールド。存在しないものはNoneのまま保持する
 # (推測しない)。
-_CONDITION_FIELDS = ["否認条件", "備考", "リスティングNGワード", "禁止事項"]
+# 注意: A8側の実際の見出しは全角の「ＮＧ」(U+FF2E/U+FF27)であり、半角の「NG」ではない。
+_CONDITION_FIELDS = ["否認条件", "備考", "リスティングＮＧワード", "禁止事項"]
 
 
 def build_candidate_export(record: dict) -> dict:
