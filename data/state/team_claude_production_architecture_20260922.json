@@ -47,10 +47,10 @@
       "reason": "無料の日本語音声合成エンジンで、クレジット表記さえ行えば商用利用が可能。API(ローカルエンジン)経由で完全自動化できる。",
       "commercial_use_terms": "ソフトウェア本体は商用・非商用とも利用可能。ただしキャラクターごとに個別規約があり、クレジット表記(例:「VOICEVOX:キャラクター名」)を条件に商用利用無料。クレジット表記なしでの商用利用はキャラクターごとに40万円(税別)のライセンス料が必要。",
       "free_tier_or_pricing": "無料(クレジット表記条件付き)。",
-      "automation_method": "ローカルエンジンのHTTP API経由でスクリプトから合成可能(設計のみ、本セッションでは未インストール・未検証)。",
+      "automation_method": "ローカルエンジン(GitHub公式リリース、linux-cpu-x64版)のHTTP API(/audio_query, /synthesis)経由でrender_video.pyから完全自動合成。読み上げ原稿は台本のon_screen_captionsをそのまま連結して使用し、新規の文言は作成していない。",
       "watermark": "なし(音声のため非該当)",
       "verified_2026_09": true,
-      "status_in_this_session": "設計に採用したが、このセッションではエンジンのインストール・実際の音声合成テストは未実施。次工程での検証が必要。"
+      "status_in_this_session": "実装・検証済み。GitHub公式リリース(0.25.2、linux-cpu-x64、約1.8GB)をダウンロード・起動し、話者「青山龍星(ノーマル)」(成人向け転職サービスとして落ち着いたトーンを狙って選定)で実際に音声合成し、プロトタイプ動画に統合した。投稿時は必ず「VOICEVOX:青山龍星」のクレジット表記が必要(narration_credit_requiredとして出力に含む)。"
     },
     {
       "tool": "ロイヤリティフリー音源(YouTube Audio Library / Pixabay Music)",
@@ -123,16 +123,16 @@
     "steps": [
       "1. 入力: a8_claude_scripts_9_provisional_20260922.jsonから対象creative_idのレコードを読み込む。",
       "2. テロップ抽出: on_screen_captionsを順に取得する。",
-      "3. フレーム生成: Pillowで各テロップを1080x1920のPNGとして描画(上部アクセントバー、PRバッジ、進捗インジケータ、中央テロップ)。",
-      "4. (任意/未実装)ナレーション合成: narrationフィールドをVOICEVOXで音声化し、投稿キャプションにクレジット表記を追加。",
+      "3. フレーム生成: Pillowでグラデーション背景・装飾円・数字チップ/キーワード連動アイコン・カード型テロップ(Noto Sans JP Black、影付き)を1080x1920のPNGとして描画(v2で単調な平面デザインから刷新)。",
+      "4. ナレーション合成(実装済み): on_screen_captionsを連結した読み上げ原稿をVOICEVOXで音声化(話者:青山龍星)。エンジン未起動時は自動的に無音トラックへフォールバックする。投稿キャプションには別途クレジット表記を追加する必要がある(次工程)。",
       "5. (任意/未実装)BGM選定: 内部レビュー用はロイヤリティフリー楽曲を1曲合成。TikTok公開時はCommercial Music Libraryに差し替え。",
-      "6. 動画組み立て: ffmpeg concat demuxerでフレームをestimated_duration_secondsに合わせて結合し、H.264/AAC・30fps・1080x1920でエンコード。",
+      "6. 動画組み立て: 各フレームにffmpeg zoompanで緩やかなズームを付与し、クロスフェード遷移で結合。尺はナレーション音声の実測長に同期(ナレーションが無い場合のみestimated_duration_secondsを使用)。H.264/AAC・30fps・1080x1920でエンコード。",
       "7. コンプライアンスチェック: compliance_check.pyで禁止表現・PRタグ有無を自動確認。",
       "8. 品質チェック: quality_check.pyで解像度・尺・ストリーム有無を自動確認。",
       "9. 人間レビュー: 各台本のcompliance_self_check.unconfirmed_itemsに記載された未確認事項(広告主素材条件・社名表記可否等)をA8承認後に最終確認。",
       "10. 保存: data/tiktok_production/<creative_id>/にローカル保存。A8承認前は非公開のまま保持。"
     ],
-    "automation_level": "ステップ1〜3、6〜8は完全自動化済み(人手介入なしでcreative_idを渡すだけで実行可能)。ステップ4〜5は設計済みだが未実装。ステップ9〜10は意図的に人間判断を残している(A8承認前のコンプライアンス最終確認のため)。"
+    "automation_level": "ステップ1〜4、6〜8は完全自動化済み(人手介入なしでcreative_idを渡すだけで実行可能。VOICEVOXエンジンが起動していない場合は無音へ自動フォールバック)。ステップ5(BGM)は設計済みだが未実装。ステップ9〜10は意図的に人間判断を残している(A8承認前のコンプライアンス最終確認のため)。"
   },
   "cost_and_effort_estimates": {
     "assumptions": "台本(hook/captions/CTA等)は既にTeam Claudeの9台本ステップで確定済みという前提。ここでの見積もりは『台本確定後、動画ファイルを作るまで』の工程のみを対象とする。",
@@ -152,9 +152,9 @@
     }
   },
   "bottlenecks": [
-    "ナレーション(VOICEVOX)は設計のみで、このセッションではエンジンのインストール・実音声合成の検証が未実施。次工程での実装確認が必要。",
-    "BGMは『内部レビュー用ロイヤリティフリー音源』と『TikTok公開用Commercial Music Library』の二段構成が必要で、後者はTikTok投稿UI上での手動選択が前提となり完全自動化できない。",
-    "現行の視覚表現はテキスト・図形中心で、写実的な人物・映像を使う競合コンテンツと比較した際のクリエイティブ訴求力には限界がある可能性がある(あえての選択だが、CTRへの影響は実測が必要)。",
+    "BGMは『内部レビュー用ロイヤリティフリー音源』と『TikTok公開用Commercial Music Library』の二段構成が必要で、後者はTikTok投稿UI上での手動選択が前提となり完全自動化できない(未実装)。",
+    "VOICEVOXのクレジット表記(「VOICEVOX:青山龍星」)は投稿キャプションへの反映が現状手動(render_video.pyの戻り値にnarration_credit_requiredとして情報は渡しているが、post_captionへの自動追記は未実装)。",
+    "現行の視覚表現はPillow製の図形・グラデーション・キーワード連動アイコンにとどまり、写実的な人物・映像を使う競合コンテンツと比較した際のクリエイティブ訴求力には限界がある可能性がある(あえての選択だが、CTRへの影響は実測が必要)。",
     "各台本のcompliance_self_check.unconfirmed_itemsに記載された広告主固有条件(社名表記可否、素材条件等)は、A8提携承認・広告主の最終資料確認までは機械チェックでは解決できない。",
     "このサンドボックス環境自体はffmpeg等の追加インストールでAPTミラーの一時的な404が発生するなど不安定な場合があり、本番運用は永続的な実行環境(ユーザーのPCまたは専用サーバー/CI)へ移す必要がある(A8 Collectorと同じ運用パターン)。"
   ],
@@ -174,14 +174,23 @@
     "output_local_path": "data/tiktok_production/s00000001248025-A/s00000001248025-A.mp4",
     "technical_properties": {
       "resolution": "1080x1920",
-      "duration_seconds": 20.03,
+      "duration_seconds": 16.41,
       "video_codec": "h264",
-      "audio_codec": "aac(無音トラック、ナレーション・BGM未実装のため)",
+      "audio_codec": "aac(VOICEVOX「青山龍星」によるナレーション実音声。尺はナレーションの実測長に同期)",
       "fps": 30
     },
+    "visual_design_v2_changes": [
+      "フォント: IPAGothic Regular -> Noto Sans JP Black(OFL、商用利用可)",
+      "背景: 単色ベタ -> グラデーション+装飾円",
+      "テロップ: 全画面テキスト -> 影付きカード+アクセントバー",
+      "①②③: Unicode文字のまま -> 塗りつぶし円+太字数字チップ",
+      "アイコン: なし -> キーワード連動の吹き出し/チェック/カレンダー/虫眼鏡アイコンを追加",
+      "動き: 完全静止・ハードカット -> 各カットに緩やかなズーム(Ken Burns風)+クロスフェード遷移",
+      "理由: 初回プロトタイプがユーザーから『AI作成感が強い』『完成度100点中2点』という明確な低評価を受けたため、無料OSSの範囲内で視覚的な作り込みを大幅に強化した。"
+    ],
     "compliance_check_result": "PASS(禁止表現なし、投稿キャプションにPRタグあり)",
     "quality_check_result": "PASS(解像度・尺・ストリームすべて要件を満たす)",
-    "not_included_in_this_prototype": ["ナレーション音声(VOICEVOX未実装)", "BGM/効果音(未実装)", "人間による最終目視レビュー(未実施)"],
+    "not_included_in_this_prototype": ["BGM/効果音(未実装)", "投稿キャプションへのVOICEVOXクレジット表記の自動追記(未実装、手動追加が必要)", "人間による最終目視レビュー(未実施)"],
     "publication_status": "非公開。TikTokへの投稿・外部公開は行っていない。ローカル(このセッションのリポジトリ)にのみ保存。"
   }
 }
