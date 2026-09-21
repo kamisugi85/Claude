@@ -15,26 +15,15 @@ def parse_number(text: Optional[str]) -> Optional[float]:
     return float(m.group().replace(",", "")) if m else None
 
 
-def parse_percent(text: Optional[str]) -> Optional[float]:
-    return parse_number(text)
-
-
 def score_record(record: dict) -> Optional[float]:
-    """Cheap, rule-based expected-value proxy: EPC (A8's own "earnings per
-    click" figure) already bakes in reward x conversion rate, so prefer it.
-    Falls back to reward x conversion_rate when EPC isn't available. No LLM
-    call here -- this is the free first-pass filter over the whole catalog.
+    """EPC only. reward x conversion_rate is NOT used as an EPC substitute --
+    conversion_rate here is A8's 確定率 (approval rate among applications),
+    not a click-through rate, so multiplying it by reward does not yield a
+    real earnings-per-click figure and would be a fabricated number. A
+    record with no EPC gets no score here (None), not a synthetic one; it is
+    never excluded on that basis, just left out of an EPC-only ranking.
     """
-    epc = parse_number(record.get("epc"))
-    if epc is not None:
-        return epc
-
-    reward = parse_number(record.get("reward"))
-    rate = parse_percent(record.get("conversion_rate"))
-    if reward is not None and rate is not None:
-        return reward * rate / 100.0
-
-    return None
+    return parse_number(record.get("epc"))
 
 
 def build_shortlist(records: Dict[str, dict], top_n: int) -> List[dict]:

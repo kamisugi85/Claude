@@ -14,9 +14,12 @@ def test_score_prefers_epc_when_present():
     assert score_record(record) == 68.67
 
 
-def test_score_falls_back_to_reward_times_conversion_rate():
+def test_score_is_none_without_epc_reward_times_rate_is_not_a_substitute():
+    # conversion_rate is A8's 確定率 (approval rate), not a click-through
+    # rate, so reward x conversion_rate is not a real EPC and must not be
+    # fabricated as one.
     record = {"reward": "16000円", "conversion_rate": "50%"}
-    assert score_record(record) == 8000.0
+    assert score_record(record) is None
 
 
 def test_score_none_when_no_usable_numbers():
