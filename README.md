@@ -139,25 +139,72 @@ cp .env.example .env
 
 ## 実行
 
-手動実行:
+初回ログイン(上の手順)が完了していれば、実行時にブラウザ画面は開きません(裏で自動的に動きます)。
+
+### 手動実行
+
+**① フォルダに移動して仮想環境を有効にする**
+
+```bash
+cd /path/to/Claude
+source .venv/bin/activate
+```
+
+- ✅ 目印: プロンプトの先頭に `(.venv)` が付く。
+- 同じターミナルで手順2の準備直後にそのまま実行する場合、この手順①は不要です(既に有効なため)。
+
+**② 実行する**
 
 ```bash
 ./scripts/run.sh
 ```
 
-`data/logs/run-<timestamp>.log` に詳細ログ、`data/logs/run-<timestamp>-access-summary.json`
-にアクセスURL一覧と件数、`data/diffs/diff-<timestamp>.json` に差分結果が出力されます。異常を
-検知した場合は終了コード1で終わり、`data/state/alert.json` に検知内容が記録されます。
+- ✅ 正常終了の目印: ターミナルに1行ずつログが流れ、最後に次のような行が出て入力待ちに戻る。
+  ```
+  ... run completed: new=0 changed=2 total_records=48
+  ... access summary: allowed=12 blocked=0 (full URL list/counts in access-summary json)
+  ```
+  (`new=` `changed=` の数字がその日の新規・変更件数です)
+- ❌ 異常検知で止まった場合の目印: 次のような行が出て終わる。
+  ```
+  ... ANOMALY DETECTED (session_expired): ... -- stopping immediately, no retry.
+  ```
+  この場合はリトライされず、そこで終了します。`data/state/alert.json` に検知内容が記録され、
+  Slack Webhookを設定していれば通知も届きます。`session_expired`(ログイン切れ)であれば、
+  上の「初回ログイン」手順3〜5を再度行えば復旧します。それ以外(CAPTCHA/2FA要求・想定外の
+  画面遷移・HTTPエラー連続)の場合は、自動では対処せず内容を確認してください。
 
-### 定期実行(cron)
+**③ 結果を確認する**
+
+- その日の差分: `data/diffs/diff-<実行日時>.json`(新規プログラム・条件変更が入っています)
+- 詳細ログ: `data/logs/run-<実行日時>.log`
+- アクセスしたURLと件数: `data/logs/run-<実行日時>-access-summary.json`
+- 直近の異常内容: `data/state/alert.json`(異常が起きていなければファイルは更新されません)
+
+### 定期実行(cron、1日1回程度)
 
 ```bash
 crontab -e
-# scripts/crontab.example の内容を参考に1日1回程度の行を追加する
 ```
 
-失敗時に自動でリトライするような設定(`*/5 * * * *` の細かい間隔やcron側のリトライ)は行わない
-でください。異常検知時は原因を人間が確認してから再実行する設計です。
+エディタが開くので、末尾に次の行を追加します(`/path/to/Claude` は実際の設置場所に置き換え)。
+`scripts/crontab.example` にも同じ例があります。
+
+```
+0 7 * * * cd /path/to/Claude && ./scripts/run.sh >> data/logs/cron_stdout.log 2>&1
+```
+
+保存して閉じたら、登録されたか確認します。
+
+```bash
+crontab -l
+```
+
+- ✅ 目印: 先ほど追加した行がそのまま表示される。
+
+失敗時に自動でリトライするような設定(`*/5 * * * *` のような細かい間隔やcron側のリトライ)は行わない
+でください。異常検知時は原因を人間が確認してから再実行する設計です。翌日以降の実行結果は
+`data/logs/cron_stdout.log` と上記③のファイル群で確認できます。
 
 ## ディレクトリ構成
 
