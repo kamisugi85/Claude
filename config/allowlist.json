@@ -1,14 +1,12 @@
 {
-  "_comment": "★要検証: 実際のA8管理画面(pub.a8.net)のURL構造を必ず確認のうえ調整してください。ここに書かれているパスは一般的な推測であり、実サイトでの正確な動作を保証しません。",
+  "_comment": "実際のログイン確認で判明: 管理画面のホストは media-console.a8.net。ただしプログラム一覧・報酬詳細ページのパスはまだ未確認のため、allowed_path_patterns は要追加(★要検証)。",
 
-  "allowed_hosts": ["pub.a8.net"],
+  "allowed_hosts": ["media-console.a8.net"],
 
   "allowed_methods": ["GET", "HEAD"],
 
   "allowed_path_patterns": [
-    "^/a8v2/asx/search",
-    "^/a8v2/asx/detail",
-    "^/a8v2/mypage/?$"
+    "^/home/?$"
   ],
 
   "csv_download_path_patterns": [
