@@ -1,13 +1,16 @@
 from __future__ import annotations
 
 import argparse
+import json
+import os
 import sys
 
 from playwright.sync_api import sync_playwright
 
+from .diff_store import load_snapshot
 from .runner import run
 from .settings import load_settings
-from .utils import ensure_dir
+from .utils import ensure_dir, read_json
 
 
 def cmd_login(args: argparse.Namespace) -> int:
@@ -35,6 +38,34 @@ def cmd_run(args: argparse.Namespace) -> int:
     return run(settings)
 
 
+def cmd_inspect(args: argparse.Namespace) -> int:
+    """収集済みデータをPowerShellの `ConvertFrom-Json` を経由せず直接確認する
+    (文字コード・キー大文字小文字の問題を避けるため)。
+    """
+    settings = load_settings()
+    snapshot = load_snapshot(settings.latest_snapshot_path)
+    review_queue = read_json(settings.review_queue_path, default={"count": 0})
+    shortlist = read_json(settings.shortlist_path, default={"count": 0})
+
+    print(f"catalog_total={len(snapshot)}")
+    print(f"needs_review={review_queue.get('count', 0)}")
+    print(f"shortlist={shortlist.get('count', 0)}")
+    print(f"alert_active={os.path.exists(settings.alert_json_path)}")
+    print()
+
+    detailed = [r for r in snapshot.values() if len(r) > 8]
+    if detailed:
+        print(f"--- 詳細ページ取得済みサンプル ({len(detailed)}件中の1件) ---")
+        print(json.dumps(detailed[0], ensure_ascii=False, indent=2))
+    elif snapshot:
+        print("--- 一覧レベルのみのサンプル(まだ詳細ページ未取得) ---")
+        print(json.dumps(next(iter(snapshot.values())), ensure_ascii=False, indent=2))
+    else:
+        print("カタログが空です。先に `run` を実行してください。")
+
+    return 0
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog="a8_automation")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -44,6 +75,9 @@ def main(argv=None) -> int:
 
     run_parser = sub.add_parser("run", help="無人実行: 巡回・CSV取得・差分検知を行う")
     run_parser.set_defaults(func=cmd_run)
+
+    inspect_parser = sub.add_parser("inspect", help="収集済みデータのサマリとサンプルを表示する")
+    inspect_parser.set_defaults(func=cmd_inspect)
 
     args = parser.parse_args(argv)
     return args.func(args)
