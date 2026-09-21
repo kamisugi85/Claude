@@ -47,7 +47,7 @@ def run(settings: Settings) -> int:
     with sync_playwright() as p:
         context = p.chromium.launch_persistent_context(
             user_data_dir=settings.browser_profile_dir,
-            headless=True,
+            headless=settings.headless,
         )
         install_allowlist_router(context, allowlist_cfg, access_log, logger)
         context.on("response", http_guard.on_response)

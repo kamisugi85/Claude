@@ -33,6 +33,7 @@ class Settings:
     alert_json_path: str
     max_consecutive_http_errors: int
     request_timeout_ms: int
+    headless: bool
 
 
 def load_settings() -> Settings:
@@ -53,4 +54,5 @@ def load_settings() -> Settings:
         alert_json_path=os.environ.get("A8_ALERT_JSON", os.path.join(data_dir, "state", "alert.json")),
         max_consecutive_http_errors=int(os.environ.get("A8_MAX_CONSECUTIVE_HTTP_ERRORS", "3")),
         request_timeout_ms=int(os.environ.get("A8_REQUEST_TIMEOUT_MS", "30000")),
+        headless=os.environ.get("A8_HEADLESS", "true").strip().lower() != "false",
     )
