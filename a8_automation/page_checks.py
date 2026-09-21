@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 from typing import Optional
+from urllib.parse import urlsplit
 
 from .errors import CaptchaOrMfaRequiredError, SessionExpiredError, UnexpectedNavigationError
 
@@ -40,9 +41,10 @@ def check_page_state(
     if not allow_login_redirect and LOGIN_URL_PATTERN.search(current_url):
         raise SessionExpiredError(f"step '{step_name}': redirected to login page ({current_url})")
 
-    if expected_path_pattern is not None and not expected_path_pattern.search(current_url):
+    current_path = urlsplit(current_url).path or "/"
+    if expected_path_pattern is not None and not expected_path_pattern.search(current_path):
         raise UnexpectedNavigationError(
-            f"step '{step_name}': expected URL pattern '{expected_path_pattern.pattern}', got '{current_url}'"
+            f"step '{step_name}': expected URL path pattern '{expected_path_pattern.pattern}', got '{current_url}'"
         )
 
     content_lower = page.content().lower()

@@ -1,13 +1,18 @@
 {
-  "_comment": "実際のログイン確認で判明: 管理画面のホストは media-console.a8.net。a8mc-public.s3...はA8自身が管理画面の描画に使う静的ファイル(css/js/画像)置き場であり、計測用トラッキングドメインではないため、読み取り専用の静的ファイルに限定して許可している(申請/設定変更等のAPIパスはここには含めない)。プログラム一覧・報酬詳細ページのパスはまだ未確認のため、allowed_path_patterns は要追加(★要検証)。",
+  "_comment": "media-console.a8.net はJSで画面を組み立てるSPAで、同ホストの多数のAPI(/common/timelineなど)を自ら呼び出す作りのため、allowed_hosts配下はGET/HEADを原則許可し、危険なパス(blocked_path_patterns)だけ個別にブロックする方式にしている。static_asset_hostsはA8自身のCDN/付随ドメイン(画像・JS・CSS等の読み込み専用配信元)で、静的ファイル拡張子のGET/HEADのみ許可し、APIパスは許可しない。",
 
-  "allowed_hosts": ["media-console.a8.net", "a8mc-public.s3.ap-northeast-1.amazonaws.com"],
+  "allowed_hosts": ["media-console.a8.net"],
+
+  "static_asset_hosts": [
+    "a8mc-public.s3.ap-northeast-1.amazonaws.com",
+    "support.a8.net",
+    "cdn.sheetjs.com"
+  ],
 
   "allowed_methods": ["GET", "HEAD"],
 
-  "allowed_path_patterns": [
-    "^/home/?$",
-    "\\.(css|js|png|jpg|jpeg|gif|svg|ico|woff2?|ttf|json)$"
+  "static_asset_extensions": [
+    "css", "js", "mjs", "png", "jpg", "jpeg", "gif", "svg", "ico", "woff", "woff2", "ttf", "json"
   ],
 
   "csv_download_path_patterns": [
