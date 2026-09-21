@@ -39,7 +39,7 @@ def load_settings() -> Settings:
     data_dir = os.environ.get("A8_DATA_DIR", _p("data"))
     snapshot_dir = os.path.join(data_dir, "snapshots")
     return Settings(
-        login_url=os.environ.get("A8_LOGIN_URL", "https://pub.a8.net/a8v2/login"),
+        login_url=os.environ.get("A8_LOGIN_URL", "https://www.a8.net/"),
         browser_profile_dir=os.environ.get("BROWSER_PROFILE_DIR", _p("browser_profile")),
         allowlist_config_path=os.environ.get("A8_ALLOWLIST_CONFIG", _p("config", "allowlist.json")),
         targets_config_path=os.environ.get("A8_TARGETS_CONFIG", _p("config", "targets.json")),
