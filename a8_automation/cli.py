@@ -13,6 +13,7 @@ from .allowlist import AllowlistConfig
 from .alert import write_alert
 from .candidate_quality import compute_population_quality, distinct_detail_headings
 from .candidate_screening import run_candidate_screening
+from .conversion_action_diagnostic import build_diagnostic_report
 from .coverage import compute_field_coverage
 from .detail_candidates import save_detail_fetch_population
 from .diff_store import load_snapshot
@@ -24,7 +25,7 @@ from .scraper import has_detail_fields, load_targets
 from .screen import run_screen
 from .settings import load_settings
 from .targeted_detail_fetch import load_progress, run_targeted_detail_fetch
-from .utils import ensure_dir, read_json, run_timestamp
+from .utils import ensure_dir, read_json, run_timestamp, write_json
 
 
 def cmd_login(args: argparse.Namespace) -> int:
@@ -255,6 +256,39 @@ def cmd_screen_candidates(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_conversion_action_diagnostic(args: argparse.Namespace) -> int:
+    """excluded_clearを除いた297件の成果条件テキストについて、候補キーワードの
+    出現頻度・マッチ数分布・サンプルテキストを機械的に集計する診断のみのコマンド。
+    分類体系の確定や適用は行わず、Program Master/screening_statusは一切変更
+    しない。ネットワーク・ブラウザ操作も行わない。AI/LLMは使用しない。
+    """
+    settings = load_settings()
+    catalog = load_snapshot(settings.latest_snapshot_path)
+    if not catalog:
+        print("カタログが空です。先に `run` を実行してください。")
+        return 1
+
+    report = build_diagnostic_report(catalog)
+    write_json(settings.conversion_action_diagnostic_path, report)
+
+    print(f"対象件数(excluded_clearを除く): {report['target_total']}件")
+    print(f"成果条件テキストを取得できた件数: {report['texts_collected']}件")
+    print(f"成果条件が空/欠損の件数: {report['texts_missing']}件")
+    print()
+    print("候補キーワードの出現頻度(そのテキストに含まれるかどうかのみ、分類ではない):")
+    for kw, count in report["keyword_frequency"].items():
+        print(f"   {kw}: {count}件")
+    print()
+    print("1件あたりの候補キーワード種類ヒット数の分布:")
+    print("   (0=候補リストに無い表現, 1=単一候補で分類しやすい, 2件以上=複数候補が混在)")
+    for match_count, count in report["match_count_distribution"].items():
+        print(f"   {match_count}件ヒット: {count}件")
+    print()
+    print(f"保存先: {settings.conversion_action_diagnostic_path}")
+    print("(ヒット数0/1/2/3/4のサンプルテキストも上記ファイルに保存済み。分類は未確定。)")
+    return 0
+
+
 def cmd_fetch_details(args: argparse.Namespace) -> int:
     """`plan-detail-fetch` が選定した候補(優先順位順)のうち、まだ完了して
     いないものから最大 --limit 件だけ実際に詳細ページを取得する。一覧ページの
@@ -391,6 +425,12 @@ def main(argv=None) -> int:
         help="候補300件をexcluded_clear/eligible_clear/needs_language_reviewの3区分に一次判定する(AI不使用)",
     )
     screen_candidates_parser.set_defaults(func=cmd_screen_candidates)
+
+    conversion_action_diagnostic_parser = sub.add_parser(
+        "conversion-action-diagnostic",
+        help="成果条件テキストの候補キーワード出現頻度・マッチ数分布を診断する(分類は確定しない、AI不使用)",
+    )
+    conversion_action_diagnostic_parser.set_defaults(func=cmd_conversion_action_diagnostic)
 
     args = parser.parse_args(argv)
     return args.func(args)
