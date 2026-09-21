@@ -1,0 +1,23 @@
+{
+  "generated_at": "2026-09-21T00:00:00+00:00",
+  "note": "Claude(このセッション)のWebSearchで発見した候補URL。TikTok自体を直接検索・巡回したものではなく、検索エンジンが既に収集した公開情報から見つけたもの。discover/タグページ(個別投稿でないもの)は含めていない。",
+  "test_program": "保育士人材バンク (A8 program_id: s00000001248025)",
+  "search_keywords_used": [
+    "保育士人材バンク",
+    "保育士 転職",
+    "保育士 辞めたい",
+    "保育士 給料",
+    "保育士 人間関係",
+    "保育士 転職サイト"
+  ],
+  "candidates": [
+    {"url": "https://www.tiktok.com/@job_it/video/7566153558848998677", "source_keyword": "保育士 転職"},
+    {"url": "https://www.tiktok.com/@hoiku_first/video/7296050564943613185", "source_keyword": "保育士 転職"},
+    {"url": "https://www.tiktok.com/@hoiku_restart/video/7567672974673808660", "source_keyword": "保育士 転職"},
+    {"url": "https://www.tiktok.com/@job_it/video/7569096834229079317", "source_keyword": "保育士 転職サイト"},
+    {"url": "https://www.tiktok.com/@job_it/video/7574289493667220757", "source_keyword": "保育士 転職"},
+    {"url": "https://www.tiktok.com/@career.tensyoku.navi/video/7570958625351552257", "source_keyword": "保育士 転職"},
+    {"url": "https://www.tiktok.com/@hoikunosekai/video/7356184671262084370", "source_keyword": "保育士 辞めたい"},
+    {"url": "https://www.tiktok.com/@ikuhaku_seido/video/7442661289286962439", "source_keyword": "保育士 給料"}
+  ]
+}
