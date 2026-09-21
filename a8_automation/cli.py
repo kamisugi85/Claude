@@ -8,6 +8,7 @@ import sys
 from playwright.sync_api import sync_playwright
 
 from .coverage import compute_field_coverage
+from .detail_candidates import save_detail_fetch_population
 from .diff_store import load_snapshot
 from .export_candidates import run_export
 from .runner import run
@@ -145,6 +146,29 @@ def cmd_coverage(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_plan_detail_fetch(args: argparse.Namespace) -> int:
+    """詳細ページ追加取得の候補母集団(300件: EPCあり250件+EPCなし50件)を
+    選定するだけで、実際の取得(ブラウザ操作)は行わない。
+    """
+    settings = load_settings()
+    catalog = load_snapshot(settings.latest_snapshot_path)
+    if not catalog:
+        print("カタログが空です。先に `run` を実行してください。")
+        return 1
+
+    result = save_detail_fetch_population(catalog, settings.detail_fetch_plan_path)
+
+    print(f"① EPCあり枠: {result['epc_tier_count']}件")
+    print(f"② EPCなし枠: {result['non_epc_tier_count']}件")
+    print(f"③ 既に詳細取得済み(重複): {result['already_detailed_count']}件")
+    print(f"④ 新規に詳細取得が必要: {result['needs_fetch_count']}件")
+    print()
+    print(f"候補母集団合計: {result['population_count']}件")
+    print(f"保存先: {settings.detail_fetch_plan_path}")
+    print("(実際の詳細取得はまだ開始していません)")
+    return 0
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog="a8_automation")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -166,6 +190,11 @@ def main(argv=None) -> int:
 
     coverage_parser = sub.add_parser("coverage", help="ランキングに使える項目の取得件数/欠損率を確認する")
     coverage_parser.set_defaults(func=cmd_coverage)
+
+    plan_parser = sub.add_parser(
+        "plan-detail-fetch", help="詳細ページ追加取得の候補母集団を選定する(実際の取得は行わない)"
+    )
+    plan_parser.set_defaults(func=cmd_plan_detail_fetch)
 
     args = parser.parse_args(argv)
     return args.func(args)
