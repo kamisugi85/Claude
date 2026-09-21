@@ -41,13 +41,31 @@ def check_page_state(
     if not allow_login_redirect and LOGIN_URL_PATTERN.search(current_url):
         raise SessionExpiredError(f"step '{step_name}': redirected to login page ({current_url})")
 
+    # A real reCAPTCHA widget is a structural, reliable signal regardless of
+    # which page we're on -- it won't show up incidentally in ad copy.
+    if page.query_selector("iframe[src*='recaptcha'], .g-recaptcha"):
+        raise CaptchaOrMfaRequiredError(f"step '{step_name}': reCAPTCHA widget detected at {current_url}")
+
     current_path = urlsplit(current_url).path or "/"
-    if expected_path_pattern is not None and not expected_path_pattern.search(current_path):
+    path_mismatch = expected_path_pattern is not None and not expected_path_pattern.search(current_path)
+
+    if path_mismatch:
+        # Only scan page text for CAPTCHA/MFA wording once we've already
+        # landed somewhere unexpected. A8 lists thousands of advertisers
+        # across every industry (including identity-verification and SMS
+        # services), so bare keyword matching on an *expected* page is prone
+        # to false positives -- e.g. an ad mentioning "SMS認証" as its own
+        # product tripped this on an ordinary program search results page.
+        # Every real re-authentication observed so far also changed the URL
+        # path, so gating the text scan on path_mismatch keeps the reliable
+        # signal (navigation went somewhere it shouldn't) while still telling
+        # session-expiry apart from CAPTCHA/MFA once we're already off-track.
+        content_lower = page.content().lower()
+        for kw in CAPTCHA_INDICATORS + MFA_INDICATORS:
+            if kw.lower() in content_lower:
+                raise CaptchaOrMfaRequiredError(
+                    f"step '{step_name}': suspicious indicator '{kw}' found at {current_url}"
+                )
         raise UnexpectedNavigationError(
             f"step '{step_name}': expected URL path pattern '{expected_path_pattern.pattern}', got '{current_url}'"
         )
-
-    content_lower = page.content().lower()
-    for kw in CAPTCHA_INDICATORS + MFA_INDICATORS:
-        if kw.lower() in content_lower:
-            raise CaptchaOrMfaRequiredError(f"step '{step_name}': suspicious indicator '{kw}' found at {current_url}")
