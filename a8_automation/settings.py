@@ -45,6 +45,7 @@ class Settings:
     detail_fetch_progress_path: str
     candidate_screening_report_path: str
     conversion_action_diagnostic_path: str
+    ai_review_selection_path: str
 
 
 def load_settings() -> Settings:
@@ -98,5 +99,8 @@ def load_settings() -> Settings:
         conversion_action_diagnostic_path=os.environ.get(
             "A8_CONVERSION_ACTION_DIAGNOSTIC_PATH",
             os.path.join(data_dir, "state", "conversion_action_diagnostic.json"),
+        ),
+        ai_review_selection_path=os.environ.get(
+            "A8_AI_REVIEW_SELECTION_PATH", os.path.join(data_dir, "state", "ai_review_selection.json")
         ),
     )

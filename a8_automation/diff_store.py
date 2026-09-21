@@ -24,6 +24,11 @@ IDENTITY_FIELDS = {
     "screening_status",
     "screening_reason",
     "screened_at",
+    "ai_review_selected",
+    "ai_review_tier",
+    "ai_review_reason",
+    "ai_review_rank",
+    "ai_review_selected_at",
 }
 
 

@@ -12,6 +12,7 @@ from .access_log import AccessLog
 from .allowlist import AllowlistConfig
 from .alert import write_alert
 from .candidate_quality import compute_population_quality, distinct_detail_headings
+from .ai_review_selection import save_ai_review_selection
 from .candidate_screening import run_candidate_screening
 from .conversion_action_diagnostic import build_diagnostic_report
 from .coverage import compute_field_coverage
@@ -289,6 +290,61 @@ def cmd_conversion_action_diagnostic(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_select_ai_review(args: argparse.Namespace) -> int:
+    """excluded_clearを除いた297件から、高性能AI評価に回す60件をPythonのみで
+    抽出する(単一の合成スコアは作らない)。EPCあり45件・EPCなし15件を独立に
+    選定し、成果地点・業種は選抜基準にはせず事後の多様性確認にのみ使う。
+    Program Masterからは何も削除せず、選定理由をタグとして記録する。AI/LLM
+    は使用せず、Google Driveへの共有も行わない。
+    """
+    settings = load_settings()
+    catalog = load_snapshot(settings.latest_snapshot_path)
+    if not catalog:
+        print("カタログが空です。先に `run` を実行してください。")
+        return 1
+    if not any(r.get("screening_status") for r in catalog.values()):
+        print("screening_statusが未設定です。先に `screen-candidates` を実行してください。")
+        return 1
+
+    report = save_ai_review_selection(catalog, settings.latest_snapshot_path, settings.ai_review_selection_path)
+
+    print(f"① EPCあり/なし内訳: EPCあり {report['epc_tier_count']}件 / EPCなし {report['non_epc_tier_count']}件 (合計{report['population_count']}件)")
+    print()
+    epc_range = report["epc_range"]
+    print(f"② EPCあり{report['epc_tier_count']}件のEPCレンジ: 最小{epc_range['min']} 〜 最大{epc_range['max']}")
+    print()
+    reward_range = report["non_epc_reward_range"]
+    rate_range = report["non_epc_rate_range"]
+    print(f"③ EPCなし{report['non_epc_tier_count']}件の選定方法: 報酬額降順 → 確定率降順 → シグナル無しは元順序のまま")
+    print(f"   報酬額レンジ: 最小{reward_range['min']} 〜 最大{reward_range['max']}")
+    print(f"   確定率レンジ: 最小{rate_range['min']} 〜 最大{rate_range['max']}")
+    print(f"   報酬額・確定率どちらも無い件数: {report['non_epc_no_signal_count']}件")
+    print()
+    diversity = report["conversion_action_diversity"]
+    print(f"④ 成果地点カテゴリの分布(安全に分類できたもののみ、分類不能{diversity['unclassified_count']}件は不利に扱っていない):")
+    if diversity["classified_counts"]:
+        for cat, count in diversity["classified_counts"].items():
+            print(f"   {cat}: {count}件")
+    else:
+        print("   (安全に分類できたものはありませんでした)")
+    print()
+    print("⑤ 業種/カテゴリの分布:")
+    for cat, count in report["industry_distribution"].items():
+        print(f"   {cat}: {count}件")
+    print()
+    print("⑥ 抽出時に発生した問題:")
+    if report["problems"]:
+        for problem in report["problems"]:
+            print(f"   - {problem}")
+    else:
+        print("   (なし)")
+    print()
+    print(f"保存: {settings.ai_review_selection_path}")
+    print("Program Masterには ai_review_selected/ai_review_tier/ai_review_reason/ai_review_rank を記録しました(削除なし)。")
+    print("(Google Driveへの共有はまだ行っていません)")
+    return 0
+
+
 def cmd_fetch_details(args: argparse.Namespace) -> int:
     """`plan-detail-fetch` が選定した候補(優先順位順)のうち、まだ完了して
     いないものから最大 --limit 件だけ実際に詳細ページを取得する。一覧ページの
@@ -431,6 +487,12 @@ def main(argv=None) -> int:
         help="成果条件テキストの候補キーワード出現頻度・マッチ数分布を診断する(分類は確定しない、AI不使用)",
     )
     conversion_action_diagnostic_parser.set_defaults(func=cmd_conversion_action_diagnostic)
+
+    select_ai_review_parser = sub.add_parser(
+        "select-ai-review",
+        help="297件から高性能AI評価に回す60件をPythonのみで抽出する(EPCあり45件+EPCなし15件、AI不使用)",
+    )
+    select_ai_review_parser.set_defaults(func=cmd_select_ai_review)
 
     args = parser.parse_args(argv)
     return args.func(args)
