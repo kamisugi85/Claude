@@ -24,6 +24,7 @@ from .scraper import (
     load_csv_column_map,
     load_targets,
     parse_csv,
+    select_detail_candidates,
 )
 from .settings import Settings
 from .utils import run_timestamp, write_json
@@ -97,11 +98,15 @@ def run_search_crawl(page, target, settings, http_guard, logger, previous_snapsh
         http_guard.check()
         logger.info("step done: %s (records this page: %d)", step_name, len(page_records))
 
-    new_ids = [pid for pid in records if pid not in previous_snapshot]
+    # New programs first, then backfill already-known ones this run's pages
+    # happened to touch that still only have list-level fields (see
+    # select_detail_candidates' docstring for why the backfill half matters).
+    detail_candidates = select_detail_candidates(records, previous_snapshot)
+    new_count = sum(1 for pid in detail_candidates if pid not in previous_snapshot)
     detail_limit = target.get("detail_fetch_limit", 20)
     detail_pattern = target.get("detail_expected_path_pattern")
 
-    for pid in new_ids[:detail_limit]:
+    for pid in detail_candidates[:detail_limit]:
         detail_url = records[pid].get("detail_url")
         if not detail_url:
             continue
@@ -119,11 +124,12 @@ def run_search_crawl(page, target, settings, http_guard, logger, previous_snapsh
         logger.info("step done: %s", step_name)
 
     logger.info(
-        "search_crawl summary: pages=%s records=%d new=%d detail_fetched=%d total_pages=%s",
+        "search_crawl summary: pages=%s records=%d new=%d detail_candidates=%d detail_fetched=%d total_pages=%s",
         page_numbers,
         len(records),
-        len(new_ids),
-        min(len(new_ids), detail_limit),
+        new_count,
+        len(detail_candidates),
+        min(len(detail_candidates), detail_limit),
         total_pages,
     )
     return records

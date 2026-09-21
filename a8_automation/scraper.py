@@ -11,6 +11,29 @@ from .utils import ensure_dir
 
 _PATH_PATTERN_KEYS = ["expected_path_pattern", "detail_expected_path_pattern"]
 
+# extract_search_results() always produces exactly these 8 keys per record.
+# A record with more than this many keys has had detail-page fields merged
+# in; one with exactly this many is still list-level-only.
+LIST_LEVEL_FIELD_COUNT = 8
+
+
+def has_detail_fields(record: dict) -> bool:
+    return len(record) > LIST_LEVEL_FIELD_COUNT
+
+
+def select_detail_candidates(records: Dict[str, dict], previous_snapshot: Dict[str, dict]) -> List[str]:
+    """Which program IDs (from this run's crawled records) should have their
+    detail page fetched, in priority order: brand-new programs first, then
+    already-known ones that still only have list-level fields (so a program
+    that was list-only right after a big crawl eventually gets backfilled
+    instead of being stuck without condition text forever).
+    """
+    new_ids = [pid for pid in records if pid not in previous_snapshot]
+    backfill_ids = [
+        pid for pid in records if pid in previous_snapshot and not has_detail_fields(previous_snapshot[pid])
+    ]
+    return new_ids + backfill_ids
+
 
 def load_targets(path: str) -> List[dict]:
     with open(path, "r", encoding="utf-8") as f:

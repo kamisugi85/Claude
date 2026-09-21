@@ -9,6 +9,7 @@ from playwright.sync_api import sync_playwright
 
 from .diff_store import load_snapshot
 from .runner import run
+from .scraper import has_detail_fields
 from .screen import run_screen
 from .settings import load_settings
 from .utils import ensure_dir, read_json
@@ -48,13 +49,16 @@ def cmd_inspect(args: argparse.Namespace) -> int:
     review_queue = read_json(settings.review_queue_path, default={"count": 0})
     shortlist = read_json(settings.shortlist_path, default={"count": 0})
 
+    detailed = [r for r in snapshot.values() if has_detail_fields(r)]
+
     print(f"catalog_total={len(snapshot)}")
+    print(f"catalog_detail_fetched={len(detailed)}")
+    print(f"catalog_list_only={len(snapshot) - len(detailed)}")
     print(f"needs_review={review_queue.get('count', 0)}")
     print(f"shortlist={shortlist.get('count', 0)}")
     print(f"alert_active={os.path.exists(settings.alert_json_path)}")
     print()
 
-    detailed = [r for r in snapshot.values() if len(r) > 8]
     if detailed:
         print(f"--- 詳細ページ取得済みサンプル ({len(detailed)}件中の1件) ---")
         print(json.dumps(detailed[0], ensure_ascii=False, indent=2))
