@@ -21,6 +21,7 @@ def _p(*parts: str) -> str:
 class Settings:
     login_url: str
     browser_profile_dir: str
+    storage_state_path: str
     allowlist_config_path: str
     targets_config_path: str
     csv_column_map_path: str
@@ -39,9 +40,13 @@ class Settings:
 def load_settings() -> Settings:
     data_dir = os.environ.get("A8_DATA_DIR", _p("data"))
     snapshot_dir = os.path.join(data_dir, "snapshots")
+    browser_profile_dir = os.environ.get("BROWSER_PROFILE_DIR", _p("browser_profile"))
     return Settings(
         login_url=os.environ.get("A8_LOGIN_URL", "https://www.a8.net/"),
-        browser_profile_dir=os.environ.get("BROWSER_PROFILE_DIR", _p("browser_profile")),
+        browser_profile_dir=browser_profile_dir,
+        storage_state_path=os.environ.get(
+            "A8_STORAGE_STATE_PATH", os.path.join(browser_profile_dir, "storage_state.json")
+        ),
         allowlist_config_path=os.environ.get("A8_ALLOWLIST_CONFIG", _p("config", "allowlist.json")),
         targets_config_path=os.environ.get("A8_TARGETS_CONFIG", _p("config", "targets.json")),
         csv_column_map_path=os.environ.get("A8_CSV_COLUMN_MAP", _p("config", "csv_column_map.json")),

@@ -15,19 +15,18 @@ def cmd_login(args: argparse.Namespace) -> int:
     ensure_dir(settings.browser_profile_dir)
 
     with sync_playwright() as p:
-        context = p.chromium.launch_persistent_context(
-            user_data_dir=settings.browser_profile_dir,
-            headless=False,
-        )
+        browser = p.chromium.launch(headless=False)
+        context = browser.new_context()
         page = context.new_page()
         page.goto(settings.login_url)
         print("ブラウザウィンドウで手動ログインを完了してください(2段階認証・CAPTCHA含む)。")
-        print("ログイン後、A8管理画面のトップ/マイページが表示されたらこのターミナルに戻ってください。")
-        input("ログイン完了後、Enter を押してください > ")
-        context.close()
+        print("ログイン後、実際に閲覧したい管理画面のページまで進んでから、このターミナルに戻ってください。")
+        input("そこまで進めたら、Enter を押してください > ")
+        context.storage_state(path=settings.storage_state_path)
+        browser.close()
 
-    print(f"セッション情報を {settings.browser_profile_dir} に保存しました。")
-    print("ID/パスワードはどこにも保存していません(保存されるのはブラウザのセッション状態のみです)。")
+    print(f"セッション情報を {settings.storage_state_path} に保存しました。")
+    print("ID/パスワードはどこにも保存していません(保存されるのはCookie等のセッション状態のみです)。")
     return 0
 
 

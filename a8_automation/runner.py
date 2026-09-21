@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import os
+
 from playwright.sync_api import sync_playwright
 
 from .access_log import AccessLog
@@ -35,6 +37,13 @@ def run(settings: Settings) -> int:
     log_path = f"{settings.log_dir}/run-{run_id}.log"
     logger = setup_logging(log_path)
 
+    if not os.path.exists(settings.storage_state_path):
+        logger.error(
+            "no saved session at %s -- run `login` first (scripts/login.sh or scripts/login.ps1).",
+            settings.storage_state_path,
+        )
+        return 1
+
     allowlist_cfg = AllowlistConfig.load(settings.allowlist_config_path)
     targets = load_targets(settings.targets_config_path)
     column_map = load_csv_column_map(settings.csv_column_map_path)
@@ -45,10 +54,8 @@ def run(settings: Settings) -> int:
     exit_code = 0
 
     with sync_playwright() as p:
-        context = p.chromium.launch_persistent_context(
-            user_data_dir=settings.browser_profile_dir,
-            headless=settings.headless,
-        )
+        browser = p.chromium.launch(headless=settings.headless)
+        context = browser.new_context(storage_state=settings.storage_state_path)
         install_allowlist_router(context, allowlist_cfg, access_log, logger)
         context.on("response", http_guard.on_response)
         page = context.new_page()
@@ -111,5 +118,6 @@ def run(settings: Settings) -> int:
                 summary["blocked_total"],
             )
             context.close()
+            browser.close()
 
     return exit_code
