@@ -19,6 +19,17 @@ def cmd_render(args: argparse.Namespace) -> int:
         print(f"RENDER FAILED: {e}", file=sys.stderr)
         return 1
     print(f"OK: {mp4_path}")
+
+    job = load_job(args.job_id)
+    if job.output.quality_tier == "placeholder_preview":
+        print("\n" + "=" * 70)
+        print("WARNING: PLACEHOLDER PREVIEW - NOT publishable TikTok quality.")
+        for note in job.output.quality_notes:
+            print(f"  - {note}")
+        print("This MP4 exists to prove the pipeline runs end to end; do not")
+        print("post it. Configure a real VideoProvider (see production/README.md)")
+        print("to get a final_candidate render.")
+        print("=" * 70)
     return 0
 
 

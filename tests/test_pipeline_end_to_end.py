@@ -35,3 +35,10 @@ def test_render_claude_d01_end_to_end(clean_output):
     assert job.status == "ready"
     assert all(s.status == "success" for s in job.shots)
     assert all(s.assigned_provider == "manual" for s in job.shots)
+
+    # Manual video + espeak-ng TTS + synthetic BGM/SFX must never be reported
+    # as final quality - this is the guardrail the render() quality-tier
+    # assessment exists for.
+    assert job.output.quality_tier == "placeholder_preview"
+    assert any("espeak-ng" in note for note in job.output.quality_notes)
+    assert any("manual/ffmpeg placeholder provider" in note for note in job.output.quality_notes)

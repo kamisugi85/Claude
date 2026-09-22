@@ -65,35 +65,64 @@ output file, so a partial failure only redoes what's missing.
 
 ## Provider status (item 4–7 of the task)
 
-**I could not fully verify Seedance's live API from this sandbox**: this
-environment's network egress proxy blocks `volcengine.com` and
-`byteplus.com` outright, so I could not load the primary Ark/BytePlus docs to
-confirm the exact endpoint, current model id, or current price. What follows
-is the best I could establish from secondary sources plus general knowledge,
-and **must be reconfirmed by a human against the current official docs**
-before enabling it for real spend:
+**Seedance 2.5 is now Team Claude's primary/first-choice provider**
+(`provider_preferences: ["seedance", "replicate_video", "manual"]` in
+`CLAUDE-D01.json`), per Team GPT's confirmation that BytePlus officially
+serves it under model id `dreamina-seedance-2-5-260628`.
+
+This sandbox's network egress proxy still blocks `volcengine.com` and
+`byteplus.com` directly, so `docs.byteplus.com` could not be read
+start-to-end here either. But the endpoint/field-name picture below is
+**corroborated across multiple independent sources**, most usefully a
+third-party open-source BytePlus Ark mock/replay harness
+([CopilotKit/aimock](https://github.com/CopilotKit/aimock), PR #424) whose
+recorded fixtures capture the *actual* wire response shape for this exact
+task-lifecycle API — not just marketing copy. Still: **reconfirm pricing and
+your account's terms in your own BytePlus console before spending money.**
 
 | Question | Finding | Confidence |
 |---|---|---|
-| Official API exists? | Yes — Volcengine Ark (mainland account) and BytePlus ModelArk (international account) both offer Doubao/Seedance video generation via a documented REST API. The Dreamina/Jimeng consumer web app is a different, non-API product and is intentionally **not** automated here (no browser scraping). | Medium |
-| Auth | Bearer API key issued from the Ark/BytePlus console, tied to a billing-enabled account. | Medium |
-| Pricing | Reported around $0.03–$0.14 per second of generated video depending on route (official Ark direct vs. resold access) — **not confirmed against Ark's own rate card**. | Low — confirm in console before use |
-| Commercial use | Ark/BytePlus model licenses are generally commercial-use permitting for paid API tiers, but terms vary by specific model version and must be checked at enablement time. | Low — confirm ToS for the exact model you enable |
-| Japan access | Third-party sources report Japan is on BytePlus's international allowlist. | Low — confirm on your own account, region support can change |
+| Official API exists? | Yes — BytePlus ModelArk (international account). Endpoint confirmed from multiple sources: `POST {base}/contents/generations/tasks` to create, `GET {base}/contents/generations/tasks/{id}` to poll, `base` = `https://ark.ap-southeast.bytepluses.com/api/v3`. The Dreamina/Jimeng consumer web app is a separate, non-API product and is intentionally **not** automated here (no browser scraping). | Medium-High |
+| Model id | `dreamina-seedance-2-5-260628` (per Team GPT + corroborated by BytePlus's own Seedance 2.5 tutorial page). | High |
+| Auth | `Authorization: Bearer <key>` header, key issued from a billing-enabled BytePlus account. | Medium-High |
+| Request shape | `{"model", "content": [{"type":"text","text": prompt}, ...optional image_url/video_url/audio_url parts], "resolution": "480p"\|"720p"\|"1080p"\|"4k", "duration": seconds (Seedance 2.5: 4–30), "aspect_ratio": "16:9"\|"9:16"\|"4:3"\|"3:4"\|"1:1"\|"21:9"\|"adaptive", "generate_audio": bool}`. | Medium |
+| Response shape | `{"model","status","created_at","updated_at","content":{"video_url":...},"usage":{...},"error":{"message":...}}`; status is one of `queued\|running\|succeeded\|failed\|cancelled\|expired` (only `queued`/`running` are non-terminal); result URLs expire ~24h after `updated_at`. | Medium-High (from aimock's recorded real fixtures) |
+| Pricing | Reported as **token-based**, not flat per-second (~$10.70 per million video tokens without a video input, per one secondary source) — materially different from a naive per-second estimate. | Low — confirm in console |
+| Commercial use | Paid ModelArk API tiers are generally commercial-use permitting, but terms vary by model version and must be checked at enablement time. | Low — confirm ToS for `dreamina-seedance-2-5-260628` specifically |
+| Japan access | Multiple secondary sources report Japan is on BytePlus's international allowlist (~40 markets). | Medium — still confirm on your own account, region support can change |
 
-`providers/seedance.py` implements the documented async task pattern (create
-task → poll → download result) against these best-guess field names, gated
-behind `ARK_API_KEY`. **It will not attempt any network call, and costs
-nothing, unless that environment variable is set.**
+`providers/seedance.py` implements this contract: it builds the request with
+`generate_audio: false` (this pipeline supplies its own TTS narration and
+mixes its own BGM/SFX — the model's own audio track would either be dead
+weight or conflict with our narration), clamps `duration` into Seedance
+2.5's documented `[4, 30]` range, and downloads the result immediately since
+result URLs expire in ~24h. It is gated behind `ARK_API_KEY`: **it will not
+attempt any network call, and costs nothing, unless that environment
+variable is set.** `tests/test_seedance_request_shape.py` verifies the exact
+request/response handling against fixture data shaped like the above,
+without any network access.
 
-### → What only you can do (Seedance)
-1. Create a BytePlus (international) or Volcengine account and enable billing.
-2. In the console, confirm Doubao-Seedance video generation is enabled for
-   your account/region, confirm Japan billing/ToS works for your use case,
-   and read the commercial-use terms for the exact model version you pick.
-3. Issue an API key, then set `ARK_API_KEY` (and `ARK_BASE_URL` /
-   `SEEDANCE_MODEL_ID` if the console shows different values than this
-   client's placeholders) in the environment before running `render`.
+### → What only you can do (Seedance) — stopping here, no billing yet
+1. **Create a BytePlus account** at byteplus.com (international access —
+   this is the account type reported to support Japan).
+2. **In the BytePlus console, open ModelArk** and confirm Dreamina Seedance
+   2.5 (`dreamina-seedance-2-5-260628`) is enabled for your account/region,
+   and read its current commercial-use terms for your intended use
+   (affiliate/PR content).
+3. **Enable billing** on the account. This is the step that costs money —
+   nothing before this point does, and this pipeline will not call the API
+   before you've done this and issued a key.
+4. **Issue an API key** in the console and set it as the `ARK_API_KEY`
+   environment variable. Only override `SEEDANCE_MODEL_ID` / `ARK_BASE_URL`
+   / `SEEDANCE_RESOLUTION` if your console shows different values than this
+   client's defaults (`dreamina-seedance-2-5-260628`, `https://ark.ap-southeast.bytepluses.com/api/v3`, `720p`).
+5. Once `ARK_API_KEY` is set, `python -m production.cli render CLAUDE-D01`
+   will call Seedance for every shot with no further code changes — it is
+   already first in `provider_preferences`.
+
+**I have not performed any of these steps, and no billing or account
+creation has happened.** This is exactly the point the task asked me to stop
+at and hand off to you.
 
 ### Low-cost/free alternative (item 6): Replicate
 `providers/replicate_video.py` wraps `api.replicate.com` generically: no
@@ -143,12 +172,33 @@ requires a new class implementing `tts/base.py`'s `TTSProvider`.
 
 - **Today (manual/placeholder + espeak TTS + local ffmpeg):** $0 — nothing
   calls a paid API.
-- **Once Seedance is configured:** roughly $0.5–$2 per ~26s video at the
-  per-second rates found above (4 shots × 6–7s each), **unconfirmed** — get
-  the real number from your Ark/BytePlus console after enabling billing.
+- **Once Seedance is configured:** billing is token-based, not flat
+  per-second (reported ~$10.70 per million video tokens without a video
+  input), so a per-second estimate is not reliable — **get the real number
+  from your BytePlus console after enabling billing**, ideally from a single
+  test generation's `usage.total_tokens` before running the full job.
 - **Once Replicate is configured instead:** highly model-dependent; check the
   chosen model's per-second/per-run price on its Replicate page before
   enabling it as the default provider.
+
+## Placeholder quality gating
+
+`render()` computes `output.quality_tier` on every run:
+- `"placeholder_preview"` if **any** of: a shot was produced by
+  `ManualProvider` (placeholder ffmpeg clip), narration used
+  `espeak_local` (offline robotic TTS), or the BGM/SFX tracks are the
+  synthetic ffmpeg tones checked into `production/assets/`.
+- `"final_candidate"` only once none of the above apply.
+
+`output.quality_notes` lists exactly which pieces are still placeholders.
+`python -m production.cli render` prints a loud `PLACEHOLDER PREVIEW` banner
+whenever `quality_tier != "final_candidate"` — **today, every CLAUDE-D01
+render is `placeholder_preview`, and must not be treated as publishable
+TikTok quality**, regardless of whether QA passed (QA checks structural
+correctness - resolution/duration/PR-disclosure/etc - not creative quality).
+This will only flip to `final_candidate` once a real video provider (e.g.
+Seedance) is configured *and* a non-placeholder TTS/BGM source replaces
+espeak-ng and the synthetic tones.
 
 ## The one thing that would unlock the most automation next
 

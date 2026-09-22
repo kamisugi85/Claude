@@ -153,6 +153,8 @@
   "status": "draft",
   "output": {
     "mp4_path": null,
-    "generated_at": null
+    "generated_at": null,
+    "quality_tier": null,
+    "quality_notes": []
   }
 }

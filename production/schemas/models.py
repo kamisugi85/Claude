@@ -128,9 +128,14 @@ class QAConfig(BaseModel):
     compliance: ComplianceQAConfig = Field(default_factory=ComplianceQAConfig)
 
 
+QualityTier = Literal["placeholder_preview", "final_candidate"]
+
+
 class JobOutput(BaseModel):
     mp4_path: Optional[str] = None
     generated_at: Optional[str] = None
+    quality_tier: Optional[QualityTier] = None
+    quality_notes: list[str] = Field(default_factory=list)
 
 
 class ProductionJob(BaseModel):
