@@ -17,17 +17,28 @@ First job implemented: `CLAUDE-D01` (`production/jobs/CLAUDE-D01.json`), an
 original Team Claude creative (short "app hook" promo, Japanese, PR-disclosed).
 Team GPT's `GPT-D01` was deliberately not touched.
 
-**Current phase: free PoC (no billing).** Seedance 2.5's official API contract
-is implemented and gated behind `ARK_API_KEY` (unset - no calls made, no
-account created). Per instruction, the current phase instead evaluates
-$0-cost video generation. See `production/README_free_poc_comparison.md`
-for findings and `production/jobs/CLAUDE-D01_free_tier_shot_package.md` for
-the shot-by-shot prompts a human can paste into a free-tier service; the
-short version: every free tier checked (Invideo AI, Dreamina, Kling, Pika,
-Luma) prohibits commercial use and leaves an unremovable watermark, so free
-tiers cap out at `quality_tier="free_tier_noncommercial_preview"`, never
-`"final_candidate"`. `pipeline.ingest_shot()` adopts a human-generated free-tier
-clip into the job (`python -m production.cli ingest-shot ...`).
+**Free PoC phase concluded**: every free tier checked (Invideo AI, Dreamina,
+Kling, Pika, Luma) prohibits commercial use and leaves an unremovable
+watermark, and Team GPT's real Invideo run confirmed free credits don't
+cover a full 24s AI video (it fell back to stills). See
+`production/README_free_poc_comparison.md` and
+`production/jobs/CLAUDE-D01_free_tier_shot_package.md` for that phase's
+findings; `pipeline.ingest_shot()` (adopts a human-generated clip,
+`quality_tier="free_tier_noncommercial_preview"`) remains available but is
+no longer the target path.
+
+**Current phase: paid-phase provider/TTS selection (no billing yet).** See
+`production/README_paid_phase_cost_analysis.md` for the full comparison and
+recommendation: **MiniMax Hailuo** (`providers/minimax_hailuo.py`, gated on
+`MINIMAX_API_KEY`) as the primary video candidate on cost-per-accepted-shot
+grounds, Seedance 2.5 kept as implemented fallback, and **Azure AI Speech
+Neural TTS** (`tts/azure_provider.py`, gated on `AZURE_SPEECH_KEY`/
+`AZURE_SPEECH_REGION`) to replace espeak-ng. `CLAUDE-D01.json`'s
+`provider_preferences` is already `["minimax_hailuo", "seedance",
+"replicate_video", "manual"]` so setting `MINIMAX_API_KEY` alone switches
+`render` over with no code changes; `tts.provider` is still `espeak_local`
+pending an Azure key. No account has been created and no key has been
+issued for either service.
 
 ## Run it
 

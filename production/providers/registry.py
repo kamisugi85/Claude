@@ -8,10 +8,12 @@ from pathlib import Path
 
 from production.providers.base import ShotResult, VideoProvider
 from production.providers.manual import ManualProvider
+from production.providers.minimax_hailuo import MiniMaxHailuoProvider
 from production.providers.replicate_video import ReplicateVideoProvider
 from production.providers.seedance import SeedanceProvider
 
 _REGISTRY: dict[str, VideoProvider] = {
+    "minimax_hailuo": MiniMaxHailuoProvider(),
     "seedance": SeedanceProvider(),
     "replicate_video": ReplicateVideoProvider(),
     "manual": ManualProvider(),

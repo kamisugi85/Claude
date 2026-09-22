@@ -37,9 +37,37 @@ class ComposeInputs:
     subtitle_font_size: int = 64
 
 
+def _normalize_shot(src: Path, dst: Path) -> None:
+    """Re-encode a shot to this pipeline's fixed convention (1080x1920,
+    h264, 30fps, no audio) before concatenation. Real generation providers
+    (Seedance, MiniMax, ...) and human-ingested free-tier clips can each
+    return different resolutions/codecs/framerates/keyframe layouts even
+    when nominally "9:16" - stream-copy concat silently breaks or produces
+    a corrupt file across such mismatches, so every shot is normalized
+    through the same filter graph regardless of its source."""
+    subprocess.run(
+        [
+            "ffmpeg", "-y", "-loglevel", "error",
+            "-i", str(src),
+            "-vf", "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=30",
+            "-c:v", "libx264", "-pix_fmt", "yuv420p", "-an",
+            str(dst),
+        ],
+        check=True, capture_output=True, text=True,
+    )
+
+
 def _concat_shots(shot_paths: list[Path], work_dir: Path) -> Path:
+    normalized_dir = work_dir / "shots_normalized"
+    normalized_dir.mkdir(parents=True, exist_ok=True)
+    normalized_paths = []
+    for i, src in enumerate(shot_paths):
+        dst = normalized_dir / f"{i:02d}.mp4"
+        _normalize_shot(src, dst)
+        normalized_paths.append(dst)
+
     concat_list = work_dir / "shots_concat.txt"
-    concat_list.write_text("".join(f"file '{p.resolve()}'\n" for p in shot_paths))
+    concat_list.write_text("".join(f"file '{p.resolve()}'\n" for p in normalized_paths))
     concatenated = work_dir / "shots_concatenated.mp4"
     subprocess.run(
         ["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0",
