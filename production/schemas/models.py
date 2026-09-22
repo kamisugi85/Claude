@@ -60,6 +60,11 @@ class ShotJob(BaseModel):
     output_path: Optional[str] = None
     error: Optional[str] = None
     qa_notes: Optional[str] = None
+    # Set only for shots ingested from a human-operated free-tier service
+    # (see pipeline.ingest_shot). None means "not applicable" (e.g. still
+    # pending, or produced by an API provider whose own ToS already covers
+    # commercial use). False must never be treated as True by omission.
+    license_commercial_clear: Optional[bool] = None
 
     @field_validator("video_prompt")
     @classmethod
@@ -128,7 +133,14 @@ class QAConfig(BaseModel):
     compliance: ComplianceQAConfig = Field(default_factory=ComplianceQAConfig)
 
 
-QualityTier = Literal["placeholder_preview", "final_candidate"]
+# free_tier_noncommercial_preview: shots come from a real generative model
+# (not the ffmpeg ManualProvider stand-in) but were produced under a free
+# tier whose terms prohibit commercial use and/or leave an unremovable
+# watermark - every major provider checked (Invideo, Dreamina, Kling, Pika,
+# Luma) draws this same line at their free tier. Such a render is real
+# enough to evaluate quality, but still not publishable, so it must never be
+# reported as final_candidate.
+QualityTier = Literal["placeholder_preview", "free_tier_noncommercial_preview", "final_candidate"]
 
 
 class JobOutput(BaseModel):

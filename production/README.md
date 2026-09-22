@@ -17,6 +17,18 @@ First job implemented: `CLAUDE-D01` (`production/jobs/CLAUDE-D01.json`), an
 original Team Claude creative (short "app hook" promo, Japanese, PR-disclosed).
 Team GPT's `GPT-D01` was deliberately not touched.
 
+**Current phase: free PoC (no billing).** Seedance 2.5's official API contract
+is implemented and gated behind `ARK_API_KEY` (unset - no calls made, no
+account created). Per instruction, the current phase instead evaluates
+$0-cost video generation. See `production/README_free_poc_comparison.md`
+for findings and `production/jobs/CLAUDE-D01_free_tier_shot_package.md` for
+the shot-by-shot prompts a human can paste into a free-tier service; the
+short version: every free tier checked (Invideo AI, Dreamina, Kling, Pika,
+Luma) prohibits commercial use and leaves an unremovable watermark, so free
+tiers cap out at `quality_tier="free_tier_noncommercial_preview"`, never
+`"final_candidate"`. `pipeline.ingest_shot()` adopts a human-generated free-tier
+clip into the job (`python -m production.cli ingest-shot ...`).
+
 ## Run it
 
 ```bash

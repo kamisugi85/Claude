@@ -1,15 +1,25 @@
 """python -m production.cli render CLAUDE-D01
 python -m production.cli regen-shot CLAUDE-D01 shot-02
 python -m production.cli qa CLAUDE-D01
+python -m production.cli ingest-shot CLAUDE-D01 shot-02 /path/to/clip.mp4 --service invideo
 """
 from __future__ import annotations
 
 import argparse
 import sys
 
-from production.pipeline import load_job, mark_shot_for_regen, regen_shot, render
+from production.pipeline import ingest_shot, load_job, mark_shot_for_regen, regen_shot, render
 from production.qa.compliance import run_compliance_qa
 from production.qa.technical import run_technical_qa
+
+_QUALITY_WARNINGS = {
+    "placeholder_preview": "PLACEHOLDER PREVIEW - NOT publishable TikTok quality.",
+    "free_tier_noncommercial_preview": (
+        "FREE-TIER PREVIEW - real generated video, but commercial-use clearance "
+        "is NOT confirmed (watermarked/personal-use-only unless proven otherwise). "
+        "NOT publishable as-is."
+    ),
+}
 
 
 def cmd_render(args: argparse.Namespace) -> int:
@@ -21,15 +31,27 @@ def cmd_render(args: argparse.Namespace) -> int:
     print(f"OK: {mp4_path}")
 
     job = load_job(args.job_id)
-    if job.output.quality_tier == "placeholder_preview":
+    warning = _QUALITY_WARNINGS.get(job.output.quality_tier)
+    if warning:
         print("\n" + "=" * 70)
-        print("WARNING: PLACEHOLDER PREVIEW - NOT publishable TikTok quality.")
+        print(f"WARNING: {warning}")
         for note in job.output.quality_notes:
             print(f"  - {note}")
-        print("This MP4 exists to prove the pipeline runs end to end; do not")
-        print("post it. Configure a real VideoProvider (see production/README.md)")
-        print("to get a final_candidate render.")
+        print("This MP4 exists to prove the pipeline/quality, not to publish.")
         print("=" * 70)
+    return 0
+
+
+def cmd_ingest_shot(args: argparse.Namespace) -> int:
+    ingest_shot(
+        args.job_id, args.shot_id, args.source_path, args.service,
+        license_commercial_clear=args.commercial_clear,
+        license_note=args.license_note or "",
+    )
+    job = load_job(args.job_id)
+    shot = job.shot(args.shot_id)
+    print(f"{args.shot_id}: ingested from {args.service} -> {shot.output_path}")
+    print(f"  license_commercial_clear={shot.license_commercial_clear} ({shot.qa_notes})")
     return 0
 
 
@@ -75,6 +97,19 @@ def main(argv: list[str] | None = None) -> int:
     p_qa = sub.add_parser("qa", help="run QA checks for a job without rendering")
     p_qa.add_argument("job_id")
     p_qa.set_defaults(func=cmd_qa)
+
+    p_ingest = sub.add_parser("ingest-shot", help="adopt a human-generated free-tier clip for one shot")
+    p_ingest.add_argument("job_id")
+    p_ingest.add_argument("shot_id")
+    p_ingest.add_argument("source_path", help="local path to the clip downloaded from the free-tier service")
+    p_ingest.add_argument("--service", required=True, help="e.g. invideo, dreamina")
+    p_ingest.add_argument(
+        "--commercial-clear", action="store_true",
+        help="only pass this if you have confirmed the service's terms actually allow commercial use "
+             "for this output - defaults to False (not confirmed) otherwise",
+    )
+    p_ingest.add_argument("--license-note", help="free-text note on what you confirmed/didn't confirm")
+    p_ingest.set_defaults(func=cmd_ingest_shot)
 
     args = parser.parse_args(argv)
     return args.func(args)

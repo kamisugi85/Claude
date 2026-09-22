@@ -42,7 +42,8 @@
       "attempts": 0,
       "output_path": null,
       "error": null,
-      "qa_notes": null
+      "qa_notes": null,
+      "license_commercial_clear": null
     },
     {
       "shot_id": "shot-01",
@@ -59,7 +60,8 @@
       "attempts": 0,
       "output_path": null,
       "error": null,
-      "qa_notes": null
+      "qa_notes": null,
+      "license_commercial_clear": null
     },
     {
       "shot_id": "shot-02",
@@ -76,7 +78,8 @@
       "attempts": 0,
       "output_path": null,
       "error": null,
-      "qa_notes": null
+      "qa_notes": null,
+      "license_commercial_clear": null
     },
     {
       "shot_id": "shot-03",
@@ -93,7 +96,8 @@
       "attempts": 0,
       "output_path": null,
       "error": null,
-      "qa_notes": null
+      "qa_notes": null,
+      "license_commercial_clear": null
     }
   ],
   "tts": {
