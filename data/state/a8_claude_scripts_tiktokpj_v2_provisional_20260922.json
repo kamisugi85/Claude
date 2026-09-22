@@ -172,6 +172,40 @@
       "test_objective": "AI制作を隠さず明示するフック(Format②)が、通常の情報提示フック(Format①)と比べてTikTok上での視聴維持・完了率にプラスに働くかを検証する実験区。介護職はTikTok観測データが無いプログラムのため、データに引っ張られない独立した構造仮説のテスト場としても位置づける。"
     }
   ],
+  "production_results": {
+    "renderer": "scripts/team_claude/render_video_v2.py (既存scripts/team_claude/render_video.pyは無変更)",
+    "git_commit": "ac14e39",
+    "note": "3本とも非公開MP4として生成済み。外部公開・TikTok投稿・課金は一切行っていない。動画バイナリはgitにコミット済み(data/tiktok_production/配下)。Driveには本specファイルのみ保存し、MP4本体はサイズの都合上ユーザーへ直接送付する運用とした。",
+    "items": [
+      {
+        "creative_id": "s00000001248025-V2-A",
+        "video_path": "data/tiktok_production/s00000001248025-V2-A/s00000001248025-V2-A.mp4",
+        "duration_seconds": 18.25,
+        "has_narration": true,
+        "has_bgm": true,
+        "quality_check_passed": true,
+        "compliance_check_passed": true
+      },
+      {
+        "creative_id": "s00000001248024-V2-DIALOGUE",
+        "video_path": "data/tiktok_production/s00000001248024-V2-DIALOGUE/s00000001248024-V2-DIALOGUE.mp4",
+        "duration_seconds": 22.56,
+        "has_narration": true,
+        "has_bgm": true,
+        "quality_check_passed": true,
+        "compliance_check_passed": true
+      },
+      {
+        "creative_id": "s00000026823003-V2-AIHOOK",
+        "video_path": "data/tiktok_production/s00000026823003-V2-AIHOOK/s00000026823003-V2-AIHOOK.mp4",
+        "duration_seconds": 21.72,
+        "has_narration": true,
+        "has_bgm": true,
+        "quality_check_passed": true,
+        "compliance_check_passed": true
+      }
+    ]
+  },
   "not_yet_done": [
     "実際の視聴データ・エンゲージメントによる3方式の優劣判定(非公開PoCのため、TikTok投稿後のデータが無いと不可能)",
     "介護士・保育士領域のTikTok競合観測(まだ未着手/スキップのため、Format②③の仮説はナース領域の少数データより弱い根拠に基づく)",
