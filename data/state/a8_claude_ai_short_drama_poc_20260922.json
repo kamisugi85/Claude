@@ -1,0 +1,222 @@
+{
+  "generated_at": "2026-09-22T15:00:00+00:00",
+  "source": "team_claude_independent",
+  "independence_note": "Team ChatGPTが今回制作した絵コンテ・台本・画像・プロンプト・制作判断は一切参照していない。使用したのは共有Driveの共通TikTok観測データ(tiktok_research_observed_posts_20260922.json / tiktok_research_creative_intelligence_20260922.json)、A8案件条件、Team Claude自身の既存台本(a8_claude_scripts_9_provisional_20260922.json / a8_claude_scripts_tiktokpj_v2_provisional_20260922.json)のみ。",
+  "input_data_disclaimer": "tiktok_research_observed_posts_20260922.json はPROVISIONAL_LOW_SAMPLE(n=12、大半の項目がnull、コメント内容・人物有無・構成・ナレーション・投稿日は十分取得できていない)。観測された『職場人間関係』『〜10選型』『ショートドラマ広告の存在』は検証候補であって勝ちパターンではないため、本クリエイティブのストーリー・台詞・演出は競合投稿の文言・映像を一切コピーせず、Team Claude独自に設計した。nullは推測で補完していない。",
+  "creative_id": "CLAUDE-D01",
+  "program_id": "s00000001248024",
+  "program_name": "ナース人材バンク",
+  "format": "ai_short_drama",
+  "format_label": "TikTokネイティブなAIショートドラマ(非公開PoC)",
+  "status": "PROVISIONAL_DRAFT_PENDING_A8_APPROVAL_AND_FINAL_TERMS",
+
+  "production_status_disclaimer": "2026-09-22時点で、このセッション(サンドボックス環境)から外部のAI動画生成サービス(Runway/Pika/Kling/Luma/Hailuo/Veo/Sora/Wan2.2等、huggingface.co含む)への接続は全て遮断されていることを確認済み(TikTok・Docker Hub・ロイヤリティフリー音源CDNと同種のネットワークポリシー)。そのため、本ファイルに記載のフォトリアルなAI人物ショートドラマ映像そのものは、この環境では生成できない。一方で、下記のシーン設計・セリフ・カメラ指示・ショット別AI動画生成プロンプト・音声設計・BGM/SFX設計は、外部のAI動画生成サービスへそのまま投入すれば映像を完成できる状態まで作り込んである。非公開試作として、ローカルのPillow/ffmpeg/VOICEVOXのみで作れる範囲のプレビズ(イラストベースの香盤・字幕・音声タイミング確認用動画)を別途レンダリングした。プレビズはフォトリアルな人物を一切描写しておらず、最終のAIショートドラマ映像そのものではない。",
+
+  "1_concept": "夜勤明けの休憩室で、後輩看護師が疲労から抱く『このままでいいのか』という迷いを、先輩看護師とのさりげない会話から自分事化していく、TikTokの『職場のワンシーン系』ショートドラマ。転職サービスを直接売り込む構成ではなく、悩み→会話・出来事→気づき→考える、という自然な流れを優先した。広告を見せられている感覚を抑えるため、サービス名・具体的な訴求文言は最後のテロップ1枚のみに絞った。",
+
+  "2_hook": {
+    "text": "夜勤明け、6回目のため息。",
+    "timing": "0.0-3.0s",
+    "visual": "薄暗い休憩室、疲れた表情の後輩看護師がロッカーにもたれかかり、壁の時計をちらっと見る。台詞なし、環境音のみを想定。",
+    "rationale": "TikTokで流れる『職場あるある』系動画の冷たいオープニングに近い、状況提示のみのフック。共感ワードの断定提示ではなく、情景描写で入ることで広告色を薄める狙い。"
+  },
+
+  "3_script_summary": "後輩看護師ミナが夜勤明けの疲労から『このままでいいのか』と漏らす。先輩看護師リカが『知らないだけかもよ』と軽く返し、ミナがその一言で少し顔を上げる。最後は物語を離れ、テロップのみで『知っておくだけで、変わることがある』と提示し、低摩擦CTAで締める。",
+
+  "4_scene_by_scene": [
+    {
+      "shot": 1, "timing_seconds": "0.0-3.0",
+      "location": "病院の休憩室、ロッカー前",
+      "characters_on_screen": [],
+      "action": "後輩看護師ミナ(疲れた表情)がロッカーにもたれかかり、壁の時計をちらっと見る。台詞なし。",
+      "on_screen_caption": "夜勤明け、6回目のため息。",
+      "narration_or_dialogue": null
+    },
+    {
+      "shot": 2, "timing_seconds": "3.0-7.0",
+      "location": "同、休憩室のテーブル",
+      "characters_on_screen": ["リカ"],
+      "action": "先輩看護師リカが隣に座り、缶コーヒーを軽く差し出す仕草。",
+      "on_screen_caption": "お疲れ。今日もキツかった?",
+      "narration_or_dialogue": {"speaker": "リカ", "text": "お疲れ。今日もキツかった?"}
+    },
+    {
+      "shot": 3, "timing_seconds": "7.0-11.0",
+      "location": "同",
+      "characters_on_screen": ["ミナ"],
+      "action": "ミナ、うつむき気味に言葉を選ぶ。",
+      "on_screen_caption": "正直、このままでいいのかなって…",
+      "narration_or_dialogue": {"speaker": "ミナ", "text": "正直、このままでいいのかなって…"}
+    },
+    {
+      "shot": 4, "timing_seconds": "11.0-16.0",
+      "location": "同",
+      "characters_on_screen": ["リカ"],
+      "action": "リカ、少し間を置いてから、落ち着いたトーンで。",
+      "on_screen_caption": "わかる。でも、知らないだけかもよ。他にもいろんな働き方があるの。",
+      "narration_or_dialogue": {"speaker": "リカ", "text": "わかる。でも、知らないだけかもよ。他にもいろんな働き方があるの。"}
+    },
+    {
+      "shot": 5, "timing_seconds": "16.0-19.0",
+      "location": "同",
+      "characters_on_screen": ["ミナ"],
+      "action": "ミナ、わずかに顔を上げる。控えめな『気づき』の表情変化。",
+      "on_screen_caption": "知らないだけ、か。",
+      "narration_or_dialogue": {"speaker": "ミナ", "text": "知らないだけ、か。"}
+    },
+    {
+      "shot": 6, "timing_seconds": "19.0-23.0",
+      "location": "(人物なし)休憩室の窓、柔らかい自然光",
+      "characters_on_screen": [],
+      "action": "物語から離れ、人物のいない環境ショット(B-roll)に切り替え。",
+      "on_screen_caption": "知っておくだけで、変わることがある。",
+      "narration_or_dialogue": null
+    },
+    {
+      "shot": 7, "timing_seconds": "23.0-26.0",
+      "location": "テロップのみ",
+      "characters_on_screen": [],
+      "action": "CTAテロップ。",
+      "on_screen_caption": "看護師専門の無料相談は、プロフィールから。",
+      "narration_or_dialogue": null
+    }
+  ],
+
+  "5_characters": [
+    {
+      "name": "ミナ(仮名)",
+      "role": "後輩看護師、劇中の架空人物",
+      "setting": "20代後半、経験3年目という設定。特定の病院・雇用主を示唆する設定は含めない。",
+      "fictional_disclaimer": "実在の看護師・人物をモデルにしていない。実在病院を再現せず、実在病院のロゴ等も一切使用しない。本人が実際にサービスを利用した/転職に成功した等の体験は描写しない。"
+    },
+    {
+      "name": "リカ(仮名)",
+      "role": "先輩看護師、劇中の架空人物",
+      "setting": "30代前半、ミナより経験が長いという設定。同じく特定病院を示唆しない。",
+      "fictional_disclaimer": "実在の看護師・人物をモデルにしていない。サービス利用者・体験談の語り手を装わない。"
+    }
+  ],
+
+  "6_dialogue_lines": [
+    {"shot": 2, "speaker": "リカ", "text": "お疲れ。今日もキツかった?", "align": "left"},
+    {"shot": 3, "speaker": "ミナ", "text": "正直、このままでいいのかなって…", "align": "right"},
+    {"shot": 4, "speaker": "リカ", "text": "わかる。でも、知らないだけかもよ。他にもいろんな働き方があるの。", "align": "left"},
+    {"shot": 5, "speaker": "ミナ", "text": "知らないだけ、か。", "align": "right"}
+  ],
+
+  "7_on_screen_captions": [
+    "夜勤明け、6回目のため息。",
+    "お疲れ。今日もキツかった?",
+    "正直、このままでいいのかなって…",
+    "わかる。でも、知らないだけかもよ。他にもいろんな働き方があるの。",
+    "知らないだけ、か。",
+    "知っておくだけで、変わることがある。",
+    "看護師専門の無料相談は、プロフィールから。"
+  ],
+
+  "8_camera_instructions": [
+    {"shot": 1, "instruction": "スマホ手持ち風、固定気味だがわずかな自然な揺れ。バストショット〜ミディアムショット。顔のドアップは避ける。"},
+    {"shot": 2, "instruction": "手持ち風、ミナ側からの切り返しに近い自然なアングル。ツーショットに近い距離感。"},
+    {"shot": 3, "instruction": "ミナのミディアムショット、うつむき加減。カメラは静止に近い。"},
+    {"shot": 4, "instruction": "リカのミディアムショット、落ち着いた間を活かすため動きを抑えた構図。"},
+    {"shot": 5, "instruction": "ミナのミディアムショット、わずかな表情変化が見える距離感。"},
+    {"shot": 6, "instruction": "人物なし、窓からの自然光のみのB-rollカット。ゆっくりとした環境ショット。"},
+    {"shot": 7, "instruction": "テロップのみ、映像は暗転またはシンプルな背景。"}
+  ],
+
+  "9_ai_video_generation_prompts": {
+    "common_style_positive": "shot on smartphone, handheld with slight natural shake, realistic indoor fluorescent lighting typical of a Japanese hospital break room, naturalistic/slightly desaturated color grading, visible natural skin texture with minor imperfections, casual off-center framing typical of candid TikTok clips, ordinary worn hospital scrub uniforms with no visible logos or signage, generic unbranded breakroom furniture, two fictional Japanese women in their 20s-30s not resembling any real public figure, restrained natural facial expressions, plain everyday movements",
+    "common_negative_avoid": "flawless glossy skin, beauty-filter look, cinematic three-point lighting, shallow depth of field / heavy bokeh, unnaturally smooth or fused/extra fingers, uncanny fixed stare, exaggerated facial expression, CGI/render look, stock-photo model appearance, pristine or overly staged interior, glossy reflective floors, smooth gimbal-like camera moves, perfect facial symmetry, plastic-looking skin texture, visible brand logos, any resemblance to a real identifiable hospital or person",
+    "shots": [
+      {"shot": 1, "prompt_ja": "薄暗い病院の休憩室、疲れた表情の20代後半の女性(架空のキャラクター)がロッカーにもたれかかり、壁の時計をちらっと見る。台詞なし、顔のクローズアップは避ける。", "negative_note": "共通negativeリストを適用"},
+      {"shot": 2, "prompt_ja": "同じ休憩室、先輩役の30代前半の女性(架空)が隣に座り、缶コーヒーを軽く差し出す仕草。自然な会話シーンのバストショット。", "negative_note": "共通negativeリストを適用"},
+      {"shot": 3, "prompt_ja": "後輩役の女性がうつむき加減で言葉を選ぶような、抑えた自然な表情。", "negative_note": "共通negativeリストを適用"},
+      {"shot": 4, "prompt_ja": "先輩役の女性が少し間を置いてから話す、落ち着いたトーンの表情。", "negative_note": "共通negativeリストを適用"},
+      {"shot": 5, "prompt_ja": "後輩役の女性がわずかに顔を上げる、控えめな気づきの表情変化。", "negative_note": "共通negativeリストを適用"},
+      {"shot": 6, "prompt_ja": "人物のいない休憩室の窓、柔らかい自然光が差し込む環境カット(0.5〜1秒程度のB-roll)。", "negative_note": "共通negativeリストを適用"}
+    ],
+    "usage_note": "外部のAI動画生成サービスへ接続できる環境(ユーザー自身のPC等)で、上記prompt_ja(必要に応じて英訳)+common_style_positive+common_negative_avoidをそのまま投入すれば、このシーン設計どおりの映像生成を試せる状態にしてある。生成後は必ず目視で「実在人物への偶発的な類似がないか」を確認すること(compliance_self_checkのunconfirmed_items参照)。"
+  },
+
+  "10_voice_design": {
+    "previz_local": "非公開プレビズではVOICEVOXの2話者を配役: ミナ=冥鳴ひまり(speaker_id=14)、リカ=波音リツ(speaker_id=9)。ナレーション/テロップ音声も同エンジンで補助的に読み上げ。",
+    "future_full_production": "外部AI動画生成サービスを使う場合、サービス純正の音声/リップシンク機能を使うか、VOICEVOXを差し替えナレーションとして使うかは選定サービスの対応状況次第で別途確定する(未確定)。",
+    "credit_requirement": "VOICEVOX使用時はクレジット表記(例: 「VOICEVOX:冥鳴ひまり」「VOICEVOX:波音リツ」)が必要。両キャラクターの商用利用規約は青山龍星と同様の想定だが未最終確認(not_yet_doneに記載)。"
+  },
+
+  "11_bgm_sfx_design": {
+    "previz_local": "既存のffmpeg自己生成BGM(サイン波3和音パッド、著作権懸念なし)をそのまま流用。ロッカーの開閉音・缶コーヒーを置く音等の効果音(SFX)は今回のプレビズには含めていない(自己生成できる範囲を超えるため)。",
+    "future_full_production": "臨場感を高めるにはSFX(ロッカー音、コーヒー缶の音、環境ノイズ等)の追加が望ましいが、著作権フリーSFXライブラリへの外部接続はこの環境から全てブロックされている(前回セッションで確認済み)。ユーザー側で著作権フリーのSFXを用意してもらう必要がある。"
+  },
+
+  "12_cta": {
+    "text": "看護師専門の無料相談は、プロフィールから。",
+    "friction_level": "低摩擦(情報収集の入り口のみ、転職の強い勧誘ではない)",
+    "final_cta_note": "正式サービス名・最終CTA文言・PR表示・リンク導線はA8提携承認後の最終Compliance Gateで確定する。今回のCTAは暫定。"
+  },
+  "hook": "夜勤明け、6回目のため息。",
+  "CTA": "看護師専門の無料相談は、プロフィールから。",
+  "narration": "on_screen_captionsおよび6_dialogue_linesのテキストをそのまま読み上げ原稿として使用(新たな作文なし)。",
+  "on_screen_captions": [
+    "夜勤明け、6回目のため息。",
+    "お疲れ。今日もキツかった?",
+    "正直、このままでいいのかなって…",
+    "わかる。でも、知らないだけかもよ。他にもいろんな働き方があるの。",
+    "知らないだけ、か。",
+    "知っておくだけで、変わることがある。",
+    "看護師専門の無料相談は、プロフィールから。"
+  ],
+  "post_caption": "夜勤明け、ふと考えた。知らないだけかもしれない。(フィクションです) #PR #看護師 #看護師の転職 #ナース人材バンク",
+  "hashtags": ["#PR", "#看護師", "#看護師の転職", "#ナース人材バンク"],
+  "required_PR_disclosure": "投稿本文冒頭に#PRを明記。TikTok上の広告表示機能(有効な場合)も併用。AI生成コンテンツである旨の開示も別途必要(13_compliance_self_check参照)。",
+
+  "13_compliance_self_check": {
+    "no_fabricated_service_experience": true,
+    "no_claim_of_using_service_to_change_jobs": true,
+    "no_salary_increase_claims": true,
+    "no_job_change_success_guarantee": true,
+    "no_salary_guarantee": true,
+    "no_unverified_job_count": true,
+    "no_unverified_no1_claim": true,
+    "no_definitive_competitor_comparison": true,
+    "no_medical_advice": true,
+    "no_unconfirmed_advertiser_facts": true,
+    "no_real_nurse_testimonial_impression": true,
+    "fictional_characters_disclosed": true,
+    "no_real_hospital_depicted": true,
+    "no_real_hospital_logo_used": true,
+    "no_impersonation_of_real_nurse": true,
+    "ai_generated_content_disclosure_not_hidden": true,
+    "based_only_on_verified_a8_data_and_common_tiktok_research_data": true,
+    "unconfirmed_items": [
+      "広告主(ナース人材バンク)によるAI人物を用いた表現の許諾可否は未確認。A8スクリーニング上『人物画像に関する明示的な制限なし』(screening_reason: no_explicit_restriction_found)だが、『明示的な許可』でもないため、最終的な採否はA8提携承認後に広告主確認が必要。",
+      "正式サービス名・最終CTA文言・PR表示・リンク導線はA8承認後の最終Compliance Gateで確定(現状は暫定)。",
+      "実際に外部AI動画生成サービスで映像を生成した場合、生成モデルが偶発的に実在人物に類似した顔を生成しないことの目視確認が必要(生成前には保証できない)。",
+      "AI生成コンテンツである旨の表示方法(TikTok側のAIコンテンツ開示ラベル等)は、投稿時点のTikTok仕様に従い別途確定する。今回は非公開PoCのため投稿自体を行っていない。",
+      "VOICEVOX冥鳴ひまり・波音リツの商用利用規約は青山龍星と同様の想定だが未最終確認。"
+    ]
+  },
+
+  "14_prototype": {
+    "type": "local_previz_only_not_final_ai_video",
+    "description": "フォトリアルなAI人物ショートドラマそのものはこの環境では生成不可(production_status_disclaimer参照)。代わりに、香盤・セリフ・字幕タイミング・音声を確認するための、イラストベースのプレビズをローカルのPillow/ffmpeg/VOICEVOXでレンダリングした。人物は実写・フォトリアルAIアバターではなく、色分けされたモノグラムアイコン+吹き出しUIで抽象的に表現している(既存のTeam Claude安全側設計方針を踏襲)。",
+    "renderer": "scripts/team_claude/render_video_v2.py (render_dialogue_frame を再利用、モノグラムラベルをミ/リ/CAPTIONへ拡張、render_custom_drama_videoを新規追加)",
+    "video_path": "data/tiktok_production/CLAUDE-D01/CLAUDE-D01.mp4",
+    "production_results": {
+      "duration_seconds": 20.51,
+      "has_narration": true,
+      "has_bgm": true,
+      "narration_voicevox_speakers": ["冥鳴ひまり", "波音リツ", "青山龍星"],
+      "quality_check_passed": true,
+      "compliance_check_passed": true
+    }
+  },
+
+  "not_yet_done": [
+    "フォトリアルなAI人物によるショートドラマ映像そのものの生成(外部AI動画生成サービスへの接続がこの環境からは全て遮断されているため未実施。9_ai_video_generation_promptsをそのまま外部サービスへ投入すれば生成を試せる)",
+    "SFX(ロッカー音・缶コーヒー音等)の追加(著作権フリーSFXライブラリへの外部接続がブロックされているため)",
+    "広告主(ナース人材バンク)によるAI人物表現の許諾確認(A8提携承認後)",
+    "VOICEVOX冥鳴ひまり・波音リツの商用利用規約の最終確認",
+    "Team ChatGPT案との比較検証(本タスクでは実施しない、別途指示待ち)"
+  ]
+}

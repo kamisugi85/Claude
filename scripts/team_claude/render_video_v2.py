@@ -48,7 +48,10 @@ _BASE_DIR = os.path.dirname(os.path.dirname(_HERE))
 _SCRIPTS_PATH = os.path.join(_BASE_DIR, "data", "state", "a8_claude_scripts_tiktokpj_v2_provisional_20260922.json")
 _OUTPUT_ROOT = os.path.join(_BASE_DIR, "data", "tiktok_production")
 
-_MONOGRAM_COLORS = {"A": (74, 144, 217), "B": (219, 120, 87)}
+_MONOGRAM_COLORS = {
+    "A": (74, 144, 217), "B": (219, 120, 87),
+    "ミ": (219, 90, 130), "リ": (90, 150, 219),
+}
 
 
 def load_item(creative_id: str) -> dict:
@@ -91,11 +94,11 @@ def render_dialogue_frame(line: dict, index: int, total: int, palette: dict, out
     _draw_pr_badge(img, draw)
 
     speaker = line.get("speaker", "A")
-    is_cta = speaker == "CTA"
+    is_cta = speaker in ("CTA", "CAPTION")
     text = line["text"]
 
     mono_color = _MONOGRAM_COLORS.get(speaker, palette["accent"])
-    align_left = speaker == "A"
+    align_left = line.get("align", "left" if speaker == "A" else "right") == "left"
 
     font_size = 54 if len(text) <= 20 else 44
     font = _font("Black", font_size)
@@ -201,11 +204,11 @@ def render_ai_reveal_frame(text: str, palette: dict, out_path: str) -> None:
     final_img.save(out_path)
 
 
-def _render_generic_video(creative_id: str, out_dir: str, lines: list, texts: list, voice_ids: list, frame_fn) -> dict:
+def _render_generic_video(creative_id: str, program_id: str, fallback_duration_seconds: float, out_dir: str, lines: list, texts: list, voice_ids: list, frame_fn) -> dict:
     """lines: フレーム描画に渡す生データ(dict or str)。texts: ナレーション用テキスト(str)。
-    voice_ids: 各行のVOICEVOX話者ID。frame_fn(line, i, total, palette, out_path)。"""
-    item = load_item(creative_id)
-    palette = _PALETTES.get(item["program_id"], _PALETTES["s00000001248025"])
+    voice_ids: 各行のVOICEVOX話者ID。frame_fn(line, i, total, palette, out_path)。
+    fallback_duration_seconds: ナレーション合成が全て失敗した場合の均等割り尺。"""
+    palette = _PALETTES.get(program_id, _PALETTES["s00000001248025"])
     frames_dir = os.path.join(out_dir, "frames")
     os.makedirs(frames_dir, exist_ok=True)
 
@@ -225,7 +228,7 @@ def _render_generic_video(creative_id: str, out_dir: str, lines: list, texts: li
         clip_durations.append(_ffprobe_duration(wav_path) + hold_pad)
 
     if not has_narration:
-        per_caption = item["estimated_duration_seconds"] / len(lines)
+        per_caption = fallback_duration_seconds / len(lines)
         clip_durations = [per_caption] * len(lines)
 
     frame_paths = []
@@ -328,7 +331,7 @@ def render_dialogue_video(creative_id: str = "s00000001248024-V2-DIALOGUE") -> d
     texts = [d["text"] for d in dialogue_lines]
     voice_ids = [d["voicevox_speaker_id"] for d in dialogue_lines]
     out_dir = os.path.join(_OUTPUT_ROOT, creative_id)
-    result = _render_generic_video(creative_id, out_dir, dialogue_lines, texts, voice_ids, render_dialogue_frame)
+    result = _render_generic_video(creative_id, item["program_id"], item["estimated_duration_seconds"], out_dir, dialogue_lines, texts, voice_ids, render_dialogue_frame)
     result["narration_voicevox_speakers"] = sorted({d["voicevox_speaker_name"] for d in dialogue_lines})
     result["narration_credit_required"] = [f"VOICEVOX:{n}" for n in result["narration_voicevox_speakers"]] if result["has_narration"] else None
     return result
@@ -347,7 +350,7 @@ def render_ai_hook_video(creative_id: str = "s00000026823003-V2-AIHOOK") -> dict
 
     voice_ids = [_VOICEVOX_SPEAKER_ID] * len(captions)
     out_dir = os.path.join(_OUTPUT_ROOT, creative_id)
-    result = _render_generic_video(creative_id, out_dir, captions, captions, voice_ids, frame_fn)
+    result = _render_generic_video(creative_id, item["program_id"], item["estimated_duration_seconds"], out_dir, captions, captions, voice_ids, frame_fn)
     result["narration_voicevox_speakers"] = ["青山龍星"] if result["has_narration"] else None
     result["narration_credit_required"] = "VOICEVOX:青山龍星" if result["has_narration"] else None
     return result
@@ -360,9 +363,27 @@ def render_person_free_video(creative_id: str = "s00000001248025-V2-A") -> dict:
 
     voice_ids = [_VOICEVOX_SPEAKER_ID] * len(captions)
     out_dir = os.path.join(_OUTPUT_ROOT, creative_id)
-    result = _render_generic_video(creative_id, out_dir, captions, captions, voice_ids, render_caption_frame)
+    result = _render_generic_video(creative_id, item["program_id"], item["estimated_duration_seconds"], out_dir, captions, captions, voice_ids, render_caption_frame)
     result["narration_voicevox_speakers"] = ["青山龍星"] if result["has_narration"] else None
     result["narration_credit_required"] = "VOICEVOX:青山龍星" if result["has_narration"] else None
+    return result
+
+
+def render_custom_drama_video(creative_id: str, program_id: str, fallback_duration_seconds: float, lines: list) -> dict:
+    """複数ショットの短いドラマ用プレビズを描画する汎用エントリポイント。
+
+    lines: 各要素は {"speaker": "ミ"/"リ"/"CAPTION"/"CTA", "text": str,
+    "align": "left"/"right"(省略可), "voicevox_speaker_id": int} の辞書。
+    _SCRIPTS_PATH のJSONに依存しないため、別ファイルで管理される
+    カスタムクリエイティブ(例: CLAUDE-D01)をそのまま描画できる。
+    """
+    texts = [line["text"] for line in lines]
+    voice_ids = [line["voicevox_speaker_id"] for line in lines]
+    out_dir = os.path.join(_OUTPUT_ROOT, creative_id)
+    result = _render_generic_video(creative_id, program_id, fallback_duration_seconds, out_dir, lines, texts, voice_ids, render_dialogue_frame)
+    speaker_names = sorted({ln.get("voicevox_speaker_name") for ln in lines if ln.get("voicevox_speaker_name")})
+    result["narration_voicevox_speakers"] = speaker_names if result["has_narration"] else None
+    result["narration_credit_required"] = [f"VOICEVOX:{n}" for n in speaker_names] if result["has_narration"] else None
     return result
 
 
