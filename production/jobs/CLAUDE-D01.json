@@ -37,12 +37,12 @@
       "camera_style": "eye-level, static, shallow depth of field",
       "reference_image_path": null,
       "seed": 1001,
-      "assigned_provider": "manual",
-      "status": "success",
-      "attempts": 1,
-      "output_path": "/home/user/Claude/output/CLAUDE-D01/shots/shot-00.mp4",
+      "assigned_provider": null,
+      "status": "pending",
+      "attempts": 0,
+      "output_path": null,
       "error": null,
-      "qa_notes": "placeholder clip - replace before publishing",
+      "qa_notes": null,
       "license_commercial_clear": null
     },
     {
@@ -55,12 +55,12 @@
       "camera_style": "close-up, top-down hand shot",
       "reference_image_path": null,
       "seed": 1002,
-      "assigned_provider": "manual",
-      "status": "success",
-      "attempts": 1,
-      "output_path": "/home/user/Claude/output/CLAUDE-D01/shots/shot-01.mp4",
+      "assigned_provider": null,
+      "status": "pending",
+      "attempts": 0,
+      "output_path": null,
       "error": null,
-      "qa_notes": "placeholder clip - replace before publishing",
+      "qa_notes": null,
       "license_commercial_clear": null
     },
     {
@@ -73,12 +73,12 @@
       "camera_style": "eye-level, slight handheld motion",
       "reference_image_path": null,
       "seed": 1003,
-      "assigned_provider": "manual",
-      "status": "success",
-      "attempts": 1,
-      "output_path": "/home/user/Claude/output/CLAUDE-D01/shots/shot-02.mp4",
+      "assigned_provider": null,
+      "status": "pending",
+      "attempts": 0,
+      "output_path": null,
       "error": null,
-      "qa_notes": "placeholder clip - replace before publishing",
+      "qa_notes": null,
       "license_commercial_clear": null
     },
     {
@@ -91,12 +91,12 @@
       "camera_style": "eye-level, static",
       "reference_image_path": null,
       "seed": 1004,
-      "assigned_provider": "manual",
-      "status": "success",
-      "attempts": 1,
-      "output_path": "/home/user/Claude/output/CLAUDE-D01/shots/shot-03.mp4",
+      "assigned_provider": null,
+      "status": "pending",
+      "attempts": 0,
+      "output_path": null,
       "error": null,
-      "qa_notes": "placeholder clip - replace before publishing",
+      "qa_notes": null,
       "license_commercial_clear": null
     }
   ],
@@ -155,16 +155,11 @@
       "forbid_model_rendered_text": true
     }
   },
-  "status": "ready",
+  "status": "draft",
   "output": {
-    "mp4_path": "/home/user/Claude/output/CLAUDE-D01/CLAUDE-D01.mp4",
-    "generated_at": "2026-09-22T15:14:10.259169+00:00",
-    "quality_tier": "placeholder_preview",
-    "quality_notes": [
-      "video: 4 shot(s) rendered by the manual/ffmpeg placeholder provider, not a real generation model: ['shot-00', 'shot-01', 'shot-02', 'shot-03']",
-      "audio: narration synthesized with espeak-ng, an offline robotic placeholder voice - not final TikTok narration quality",
-      "bgm: synthetic ffmpeg-generated tone, not a licensed/royalty-free track",
-      "sfx: shot shot-01 uses a synthetic ffmpeg-generated placeholder sound"
-    ]
+    "mp4_path": null,
+    "generated_at": null,
+    "quality_tier": null,
+    "quality_notes": []
   }
 }
