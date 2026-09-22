@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://claude.internal/schemas/production_job.schema.json",
+  "title": "ProductionJob",
+  "description": "Interchangeable TikTok video production job: Creative JSON -> VideoProvider -> TTS -> Subtitles/Edit -> QA -> MP4. Provider-agnostic: no field here may name a specific vendor as a required dependency.",
+  "type": "object",
+  "required": ["job_id", "owner_team", "language", "target_platform", "aspect_ratio", "resolution", "creative", "shots", "tts", "subtitles", "qa", "provider_preferences", "status"],
+  "additionalProperties": false,
+  "properties": {
+    "job_id": {
+      "type": "string",
+      "pattern": "^[A-Z]+-D[0-9]+$",
+      "description": "Stable job identifier, e.g. CLAUDE-D01. Prefix identifies the owning team so Team Claude and Team GPT jobs never collide."
+    },
+    "owner_team": {
+      "type": "string",
+      "enum": ["claude", "gpt"]
+    },
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "language": {
+      "type": "string",
+      "description": "BCP-47 language tag of narration/subtitles, e.g. ja-JP."
+    },
+    "target_platform": {
+      "type": "string",
+      "enum": ["tiktok"]
+    },
+    "aspect_ratio": {
+      "type": "string",
+      "const": "9:16"
+    },
+    "resolution": {
+      "type": "object",
+      "required": ["width", "height"],
+      "additionalProperties": false,
+      "properties": {
+        "width": {"type": "integer", "const": 1080},
+        "height": {"type": "integer", "const": 1920}
+      }
+    },
+    "duration_target_sec": {"type": "number", "exclusiveMinimum": 0, "maximum": 180},
+    "creative": {
+      "type": "object",
+      "description": "Independent creative brief. Must not reference another team's script/storyboard assets.",
+      "required": ["hook", "narration_script", "cta", "pr_disclosure", "hashtags", "source"],
+      "additionalProperties": false,
+      "properties": {
+        "hook": {"type": "string", "minLength": 1},
+        "narration_script": {"type": "string", "minLength": 1},
+        "cta": {"type": "string", "minLength": 1},
+        "pr_disclosure": {
+          "type": "object",
+          "required": ["required", "text"],
+          "additionalProperties": false,
+          "properties": {
+            "required": {"type": "boolean"},
+            "text": {"type": "string"}
+          }
+        },
+        "hashtags": {"type": "array", "items": {"type": "string"}},
+        "source": {
+          "type": "string",
+          "enum": ["team_claude_original"],
+          "description": "Provenance guard: this pipeline's first job must use Team Claude's own creative, never Team GPT's script/storyboard."
+        }
+      }
+    },
+    "shots": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "shot_job.schema.json"}
+    },
+    "tts": {
+      "type": "object",
+      "required": ["provider", "voice", "language"],
+      "additionalProperties": false,
+      "properties": {
+        "provider": {"type": "string"},
+        "voice": {"type": "string"},
+        "language": {"type": "string"},
+        "speaking_rate": {"type": "number", "default": 1.0}
+      }
+    },
+    "subtitles": {
+      "type": "object",
+      "required": ["enabled", "burn_in", "style"],
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "burn_in": {"type": "boolean", "description": "If true, subtitles are rendered into the video by the post-process renderer, never by the video-generation model."},
+        "style": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "font": {"type": "string"},
+            "font_size": {"type": "integer"},
+            "position": {"type": "string", "enum": ["bottom", "top", "center"]},
+            "highlight_color": {"type": "string"}
+          }
+        }
+      }
+    },
+    "bgm": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "track_path": {"type": "string"},
+        "volume_db": {"type": "number"},
+        "license": {"type": "string"}
+      }
+    },
+    "sfx": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["shot_id", "effect", "at_sec"],
+        "additionalProperties": false,
+        "properties": {
+          "shot_id": {"type": "string"},
+          "effect": {"type": "string"},
+          "at_sec": {"type": "number"},
+          "volume_db": {"type": "number"}
+        }
+      }
+    },
+    "provider_preferences": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string"},
+      "description": "Ordered provider ids to try per shot, e.g. [\"seedance\", \"replicate_video\", \"manual\"]. Pipeline must fail over to the next provider without code changes."
+    },
+    "qa": {
+      "type": "object",
+      "required": ["technical", "compliance"],
+      "additionalProperties": false,
+      "properties": {
+        "technical": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "min_resolution": {"type": "string"},
+            "max_duration_sec": {"type": "number"},
+            "min_duration_sec": {"type": "number"},
+            "require_audio_track": {"type": "boolean"},
+            "loudness_target_lufs": {"type": "number"}
+          }
+        },
+        "compliance": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "require_pr_disclosure": {"type": "boolean"},
+            "require_cta": {"type": "boolean"},
+            "banned_words": {"type": "array", "items": {"type": "string"}},
+            "forbid_model_rendered_text": {
+              "type": "boolean",
+              "description": "Video-generation prompts must not ask the model to draw subtitles/CTA/PR text on screen; that is the renderer's job."
+            }
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "generating", "needs_regen", "qa_failed", "ready", "published"]
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mp4_path": {"type": "string"},
+        "generated_at": {"type": "string", "format": "date-time"}
+      }
+    }
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "job_id": "CLAUDE-D01",
+  "owner_team": "claude",
+  "schema_version": "1.0.0",
+  "language": "ja-JP",
+  "target_platform": "tiktok",
+  "aspect_ratio": "9:16",
+  "resolution": {
+    "width": 1080,
+    "height": 1920
+  },
+  "duration_target_sec": 26.0,
+  "creative": {
+    "hook": "え、まだこのアプリ知らないの?",
+    "narration_script": "え、まだこのアプリ知らないの? これ一個で、メモも予定も全部整理できるの。しかも操作めちゃくちゃ簡単で、もう手放せない。気になった人はプロフィールのリンクから見てみて。",
+    "cta": "プロフィールのリンクからチェックしてね",
+    "pr_disclosure": {
+      "required": true,
+      "text": "#PR"
+    },
+    "hashtags": [
+      "#PR",
+      "#時短術",
+      "#神アプリ",
+      "#tiktok教室"
+    ],
+    "source": "team_claude_original"
+  },
+  "shots": [
+    {
+      "shot_id": "shot-00",
+      "order": 0,
+      "duration_sec": 6.0,
+      "video_prompt": "明るいカフェの窓際で、驚いた表情でスマホの画面を見つめる20代女性。自然光、縦構図9:16、手元にスマホ、清潔感のあるカジュアルな服装。",
+      "negative_prompt": "blurry, distorted hands, extra fingers, low quality, text, watermark, logo",
+      "narration_text": "え、まだこのアプリ知らないの?",
+      "camera_style": "eye-level, static, shallow depth of field",
+      "reference_image_path": null,
+      "seed": 1001,
+      "assigned_provider": null,
+      "status": "pending",
+      "attempts": 0,
+      "output_path": null,
+      "error": null,
+      "qa_notes": null
+    },
+    {
+      "shot_id": "shot-01",
+      "order": 1,
+      "duration_sec": 7.0,
+      "video_prompt": "スマホアプリ画面を指でタップしてメモを整理する手元のクローズアップ。清潔感のあるデスク、縦構図9:16、柔らかい自然光。",
+      "negative_prompt": "blurry, distorted hands, extra fingers, low quality, text, watermark, logo",
+      "narration_text": "これ一個で、メモも予定も全部整理できるの。",
+      "camera_style": "close-up, top-down hand shot",
+      "reference_image_path": null,
+      "seed": 1002,
+      "assigned_provider": null,
+      "status": "pending",
+      "attempts": 0,
+      "output_path": null,
+      "error": null,
+      "qa_notes": null
+    },
+    {
+      "shot_id": "shot-02",
+      "order": 2,
+      "duration_sec": 7.0,
+      "video_prompt": "カフェを背景に笑顔でうなずく20代女性、リラックスした雰囲気、縦構図9:16、自然光。",
+      "negative_prompt": "blurry, distorted hands, extra fingers, low quality, text, watermark, logo",
+      "narration_text": "しかも操作めちゃくちゃ簡単で、もう手放せない。",
+      "camera_style": "eye-level, slight handheld motion",
+      "reference_image_path": null,
+      "seed": 1003,
+      "assigned_provider": null,
+      "status": "pending",
+      "attempts": 0,
+      "output_path": null,
+      "error": null,
+      "qa_notes": null
+    },
+    {
+      "shot_id": "shot-03",
+      "order": 3,
+      "duration_sec": 6.0,
+      "video_prompt": "スマホを持ち上げてカメラに見せるジェスチャーをする20代女性、明るい背景、縦構図9:16、指差しのポーズ。",
+      "negative_prompt": "blurry, distorted hands, extra fingers, low quality, text, watermark, logo",
+      "narration_text": "気になった人はプロフィールのリンクから見てみて。",
+      "camera_style": "eye-level, static",
+      "reference_image_path": null,
+      "seed": 1004,
+      "assigned_provider": null,
+      "status": "pending",
+      "attempts": 0,
+      "output_path": null,
+      "error": null,
+      "qa_notes": null
+    }
+  ],
+  "tts": {
+    "provider": "espeak_local",
+    "voice": "ja",
+    "language": "ja",
+    "speaking_rate": 1.0
+  },
+  "subtitles": {
+    "enabled": true,
+    "burn_in": true,
+    "style": {
+      "font": "IPAGothic",
+      "font_size": 64,
+      "position": "bottom",
+      "highlight_color": "#FFE600"
+    }
+  },
+  "bgm": {
+    "enabled": true,
+    "track_path": "production/assets/placeholder_bgm.mp3",
+    "volume_db": -22.0,
+    "license": "synthetic tone generated locally with ffmpeg (sine+echo) for pipeline testing only - replace with a licensed/royalty-free track before publishing"
+  },
+  "sfx": [
+    {
+      "shot_id": "shot-01",
+      "effect": "production/assets/sfx_whoosh.mp3",
+      "at_sec": 0.0,
+      "volume_db": -8.0
+    }
+  ],
+  "provider_preferences": [
+    "seedance",
+    "replicate_video",
+    "manual"
+  ],
+  "qa": {
+    "technical": {
+      "min_resolution": "1080x1920",
+      "max_duration_sec": 90.0,
+      "min_duration_sec": 5.0,
+      "require_audio_track": true,
+      "loudness_target_lufs": -14.0
+    },
+    "compliance": {
+      "require_pr_disclosure": true,
+      "require_cta": true,
+      "banned_words": [
+        "絶対儲かる",
+        "必ず痩せる",
+        "誰でも簡単に稼げる"
+      ],
+      "forbid_model_rendered_text": true
+    }
+  },
+  "status": "draft",
+  "output": {
+    "mp4_path": null,
+    "generated_at": null
+  }
+}

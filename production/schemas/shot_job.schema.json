@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://claude.internal/schemas/shot_job.schema.json",
+  "title": "ShotJob",
+  "description": "A single shot's video-generation job, provider-agnostic. Sent to whichever VideoProvider is currently active for the ProductionJob.",
+  "type": "object",
+  "required": ["shot_id", "order", "duration_sec", "video_prompt", "negative_prompt", "narration_text", "status", "attempts"],
+  "additionalProperties": false,
+  "properties": {
+    "shot_id": {"type": "string", "pattern": "^shot-[0-9]{2}$"},
+    "order": {"type": "integer", "minimum": 0},
+    "duration_sec": {"type": "number", "exclusiveMinimum": 0, "maximum": 30},
+    "video_prompt": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Visual description only. Must not request on-screen text, subtitles, captions, logos, or PR/CTA copy - those are composited later by the renderer."
+    },
+    "negative_prompt": {"type": "string"},
+    "narration_text": {"type": "string", "description": "The slice of narration_script spoken during this shot; used for TTS timing and subtitle generation."},
+    "camera_style": {"type": "string"},
+    "reference_image_path": {"type": ["string", "null"]},
+    "seed": {"type": ["integer", "null"]},
+    "assigned_provider": {"type": ["string", "null"]},
+    "status": {
+      "type": "string",
+      "enum": ["pending", "generating", "success", "failed", "needs_regen"]
+    },
+    "attempts": {"type": "integer", "minimum": 0},
+    "output_path": {"type": ["string", "null"]},
+    "error": {"type": ["string", "null"]},
+    "qa_notes": {"type": ["string", "null"]}
+  }
+}
