@@ -1,0 +1,181 @@
+{
+  "generated_at": "2026-09-22T14:00:00+00:00",
+  "source": "team_claude_independent",
+  "independence_note": "Team ChatGPTの台本・企画・制作物は一切参照していない。既存Claude 9台本(a8_claude_scripts_9_provisional_20260922.json)は上書きせず、別ファイルとして保存した新バージョン。",
+  "input_data": [
+    "tiktok_research_observed_posts_20260922.json (PROVISIONAL_LOW_SAMPLE, n=12, program s00000001248024のみ)",
+    "tiktok_research_creative_intelligence_20260922.json (同上、data_sufficiency='ok'は投稿件数のみの機械判定であり項目充足を意味しない)",
+    "a8_claude_scripts_9_provisional_20260922.json (既存Claude9台本、比較対象として参照するが正解とは扱わない)",
+    "A8プログラムデータ(商品リンク条件・否認条件・remarks等、data/state/a8_ai_review_selection_60_latest.jsonより)"
+  ],
+  "purpose": "TikTok PJ Team Claude PoC制作フェーズ: 3つの制作方式(人物なし情報系/AIらしさをフックにする実験系/AI人物会話系)を比較検証するための非公開クリエイティブ",
+  "status": "PROVISIONAL_DRAFT_PENDING_A8_APPROVAL_AND_FINAL_TERMS",
+  "explicitly_not_winning_patterns_disclaimer": "「10選」「職場人間関係」「ショートドラマ」等はTikTok観測データ(n=12, 大半null)で検証候補として名前が挙がった構造にすぎず、勝ちパターンとして確認されたものではない。以下の台本は競合投稿の文言・映像を一切コピーせず、抽象化した構造のみを仮説として利用している。",
+  "count": 3,
+  "items": [
+    {
+      "creative_id": "s00000001248025-V2-A",
+      "program_id": "s00000001248025",
+      "program_name": "保育士人材バンク",
+      "format": "person_free_info",
+      "format_label": "①人物なし・TikTokネイティブな情報系",
+      "target": "保育士資格を持ち、今の職場に何らかの不満・迷いを持つが、転職するかは未定の層",
+      "hypothesis": "既存3台本(-A/-B/-C)はいずれも『悩み共感の提示→3項目羅列→CTA』という同一の構成パターンだった。フックを断定的な共感提示型ではなく『問いかけ型』に変え、キャプションを疑問→気づきの対比構造にした場合、同じ人物なし情報系フォーマット内でも初速の離脱率に違いが出るかを検証する。",
+      "hook": "保育士の求人票、これだけで選んでいませんか?",
+      "script": "求人票の給与欄だけでは分からない職場の実態、人間関係、辞めたいと感じる前に知れる情報があることを、断定・誇張を避けたトーンで淡々と提示し、情報収集だけでもプロフィールへ、という軽いCTAで締める。",
+      "scene_by_scene_structure": [
+        "0.0-3.0s: フック『保育士の求人票、これだけで選んでいませんか?』(疑問形、テロップのみ)",
+        "3.0-9.0s: 『①給与欄だけでは分からないこと』",
+        "9.0-14.0s: 『②人間関係、入ってみないと分からないこと』",
+        "14.0-19.0s: 『③「辞めたい」と思う前に知れること』",
+        "19.0-22.0s: 『求人票の外側の情報も、集めてから決めたい』→CTA『気になる方はプロフィールへ』"
+      ],
+      "narration": "on_screen_captionsをそのまま読み上げ原稿として使用(新たな作文なし)。",
+      "on_screen_captions": [
+        "保育士の求人票、これだけで選んでいませんか?",
+        "①給与欄だけでは分からないこと",
+        "②人間関係、入ってみないと分からないこと",
+        "③「辞めたい」と思う前に知れること",
+        "求人票の外側の情報も、集めてから決めたい",
+        "気になる方はプロフィールへ"
+      ],
+      "visual_instructions": "実写人物・AIアバターは一切使用しない(広告主商品リンク条件に『人物画像の使用はNGです』と明記されているため)。グラデーション背景+アイコン+テロップカードのみ。既存render_video.pyの人物なしレンダラーをそのまま使用可能。",
+      "estimated_duration_seconds": 22,
+      "CTA": "今すぐ転職しなくても、情報だけ知っておきたい人はプロフィールへ",
+      "post_caption": "保育士の求人票、給与欄だけで選んでいませんか。知っておきたい情報、まとめました。 #PR #保育士 #保育士転職 #保育士の悩み",
+      "hashtags": ["#PR", "#保育士", "#保育士転職", "#保育士の悩み"],
+      "required_PR_disclosure": "投稿本文冒頭に#PRを明記。TikTok上の広告表示機能(有効な場合)も併用。",
+      "production_method": "Python(Pillow)によるグラデーションカード+アイコン描画、ffmpeg zoompan(Ken Burns風)+xfadeクロスフェード、VOICEVOX(青山龍星, id=13)によるナレーション合成、ffmpeg自己生成BGM(sidechaincompressでダッキング)。既存render_video.py(v2)をそのまま使用。",
+      "estimated_production_cost_jpy": 0,
+      "estimated_production_cost_note": "追加課金・外部API利用なし。ローカルの無料オープンソースツールのみで完結。VOICEVOX利用のためクレジット表記『VOICEVOX:青山龍星』が必要(商用利用は無料)。",
+      "compliance_self_check": {
+        "no_fabricated_testimonials": true,
+        "no_guaranteed_outcomes": true,
+        "no_unverified_rankings_or_job_counts": true,
+        "no_superlatives": true,
+        "no_face_or_self_filming": true,
+        "person_images_used": false,
+        "based_only_on_verified_a8_data": true
+      },
+      "compliance_notes": "人物画像は不使用(広告主条件に明記されたNG事項へ対応)。断定的な保証表現・最上級表現・未確認の実績数値は含めない。compliance_check.pyによる機械チェック対象。",
+      "test_objective": "同一プログラム・同一フォーマット(人物なし情報系)内での、フック文体(共感提示型=既存版 vs 問いかけ型=本バージョン)の比較用ベースラインを作る。将来、実際の視聴維持率データが取得でき次第、既存3台本との比較材料とする。"
+    },
+    {
+      "creative_id": "s00000001248024-V2-DIALOGUE",
+      "program_id": "s00000001248024",
+      "program_name": "ナース人材バンク",
+      "format": "ai_avatar_dialogue",
+      "format_label": "③AI人物による会話・ショートドラマ系(抽象化アバター、安全側設計)",
+      "target": "看護師資格を持ち、転職するか未定だが同僚や友人と情報交換するような軽いトーンに親しみを感じる層",
+      "hypothesis": "ナース人材バンクの広告主条件には人物画像に関する明示的な禁止事項が見当たらない(screening_reason: no_explicit_restriction_found)。ただし『許可』が明記されているわけでもないため、フォトリアルな人物・AIアバターは生成せず、抽象化されたモノグラム(色分けされた頭文字アイコン、顔の表現なし)による『二者の会話』形式のみを試す。単一ナレーターの説明形式(Format①)よりも心理的距離が近く感じられ、最後まで視聴されやすくなるかを検証する仮説であり、確立した勝ちパターンではない。",
+      "hook": "ねえ、看護師の転職ってどう調べてる? / え、調べたことないかも",
+      "script": "二人の匿名キャラクター(モノグラムアイコンのみ、顔・実写・フォトリアルAIアバターなし)が、看護師の転職情報について軽く言葉を交わす。どちらも『自分が利用して転職できた』等の一人称の体験談は語らない(体験談の捏造禁止のため、一般的な情報の存在を指摘し合う会話に限定)。",
+      "scene_by_scene_structure": [
+        "0.0-3.0s: A(モノグラム『A』, 話者:青山龍星)『ねえ、看護師の転職ってどう調べてる?』",
+        "3.0-6.5s: B(モノグラム『B』, 話者:波音リツ)『え、調べたことないかも』",
+        "6.5-11.0s: A『給与とか夜勤の条件、病院によって結構違うらしいよ』",
+        "11.0-14.5s: B『たしかに、今の職場しか知らないかも』",
+        "14.5-18.5s: A『転職する気がなくても、情報だけ集めておくのはアリかもね』",
+        "18.5-21.0s: B『気になる。どこで調べればいいの?』",
+        "21.0-24.0s: テロップCTA『看護師専門の無料相談はプロフィールから』"
+      ],
+      "narration": "on_screen_captionsの各行を、dialogue_linesのspeaker指定どおりVOICEVOXで合成する(新たな作文なし、台本の会話文そのものを読み上げる)。",
+      "on_screen_captions": [
+        "ねえ、看護師の転職ってどう調べてる?",
+        "え、調べたことないかも",
+        "給与とか夜勤の条件、病院によって結構違うらしいよ",
+        "たしかに、今の職場しか知らないかも",
+        "転職する気がなくても、情報だけ集めておくのはアリかもね",
+        "気になる。どこで調べればいいの?",
+        "看護師専門の無料相談はプロフィールから"
+      ],
+      "dialogue_lines": [
+        {"speaker": "A", "text": "ねえ、看護師の転職ってどう調べてる?", "voicevox_speaker_id": 13, "voicevox_speaker_name": "青山龍星"},
+        {"speaker": "B", "text": "え、調べたことないかも", "voicevox_speaker_id": 9, "voicevox_speaker_name": "波音リツ"},
+        {"speaker": "A", "text": "給与とか夜勤の条件、病院によって結構違うらしいよ", "voicevox_speaker_id": 13, "voicevox_speaker_name": "青山龍星"},
+        {"speaker": "B", "text": "たしかに、今の職場しか知らないかも", "voicevox_speaker_id": 9, "voicevox_speaker_name": "波音リツ"},
+        {"speaker": "A", "text": "転職する気がなくても、情報だけ集めておくのはアリかもね", "voicevox_speaker_id": 13, "voicevox_speaker_name": "青山龍星"},
+        {"speaker": "B", "text": "気になる。どこで調べればいいの?", "voicevox_speaker_id": 9, "voicevox_speaker_name": "波音リツ"},
+        {"speaker": "CTA", "text": "看護師専門の無料相談はプロフィールから", "voicevox_speaker_id": 13, "voicevox_speaker_name": "青山龍星"}
+      ],
+      "visual_instructions": "実写人物・フォトリアルAIアバターは一切生成しない。話者ごとに色分けされた円形モノグラムアイコン(頭文字のみ、顔の造形なし)+吹き出しUIで会話を表現する。広告主条件が『明示的な人物画像禁止なし』であっても『明示的な許可』もないため安全側に倒した抽象表現とする。",
+      "estimated_duration_seconds": 24,
+      "CTA": "看護師専門の無料相談はプロフィールから",
+      "post_caption": "看護師の転職情報、調べたことある? ちょっとした会話から。 #PR #看護師 #看護師の転職 #ナース人材バンク",
+      "hashtags": ["#PR", "#看護師", "#看護師の転職", "#ナース人材バンク"],
+      "required_PR_disclosure": "投稿本文冒頭に#PRを明記。TikTok上の広告表示機能(有効な場合)も併用。",
+      "production_method": "新規レンダラー(render_video_v2.py::render_dialogue_frame)によるモノグラムアイコン+吹き出しUI。話者ごとに異なるVOICEVOX話者ID(13/9)でナレーション合成。既存のffmpeg zoompan/xfade/BGM自己生成パイプラインを流用。",
+      "estimated_production_cost_jpy": 0,
+      "estimated_production_cost_note": "追加課金・外部API利用なし。VOICEVOXクレジット表記『VOICEVOX:青山龍星』『VOICEVOX:波音リツ』が必要(いずれも商用利用条件は要最終確認だが、無料利用可能な標準キャラクターとして提供されている)。",
+      "compliance_self_check": {
+        "no_fabricated_testimonials": true,
+        "no_guaranteed_outcomes": true,
+        "no_unverified_rankings_or_job_counts": true,
+        "no_superlatives": true,
+        "no_face_or_self_filming": true,
+        "person_images_used": false,
+        "photorealistic_ai_avatar_used": false,
+        "based_only_on_verified_a8_data": true
+      },
+      "compliance_notes": "会話は一般的情報への言及のみで、一人称の利用体験・転職成功体験は一切含まない(捏造体験談の禁止に対応)。人物画像・フォトリアルAIアバターは不使用(条件未確定のため安全側)。波音リツのVOICEVOX商用利用条件は青山龍星と同様の想定だが未最終確認、人間による最終確認が必要。",
+      "test_objective": "単一ナレーター説明形式(Format①)と、二者会話形式(Format③、抽象アバター)とで、同一情報量・同一CTAでも視聴完了率やプロフィール遷移率に違いが出るかを比較する実験区。"
+    },
+    {
+      "creative_id": "s00000026823003-V2-AIHOOK",
+      "program_id": "s00000026823003",
+      "program_name": "転職エージェント(介護職特化・パーソル系)",
+      "format": "ai_meta_experiment",
+      "format_label": "②AI生成であることを隠さず、AIらしさ自体をフック/表現として使う実験系",
+      "target": "介護職に従事し、人手不足・夜勤・人間関係などの負担を感じているが転職するか未定の層",
+      "hypothesis": "『AIが作った』ことを隠さず明示するTikTok投稿が目新しさで一定の反応を得ているという一般的な傾向があるが、本PJの実データではまだ検証できていない(介護職領域はTikTok調査が今回未着手のため観測データ自体が無い)。冒頭でAI制作であることを明示し『広告臭のある宣伝』から『実験・企画コンテンツ』へと受け取られ方を変えることで、視聴維持に違いが出るかを検証する。",
+      "hook": "この台本、AIが考えました。",
+      "script": "冒頭でAI(Claude)が台本を作成した事実をそのまま明示するターミナル風のカードから始め、その後は通常の情報提示(介護職の『辞めたい』を分解する3項目)に移り、最後にAI制作である旨を再度触れつつ、情報収集目的の軽いCTAで締める。",
+      "scene_by_scene_structure": [
+        "0.0-3.0s: ターミナル風UIカードで『この台本、AIが考えました。』",
+        "3.0-8.0s: 『テーマ:介護職の“辞めたい”を分解する』",
+        "8.0-13.0s: 『①人手不足のしわ寄せ』",
+        "13.0-17.5s: 『②夜勤・身体的な負担』",
+        "17.5-21.5s: 『③一人で抱えやすい人間関係』",
+        "21.5-24.5s: 『AIが作った台本ですが、内容は実在の悩みをもとに構成しています』",
+        "24.5-27.0s: CTA『情報を知っておきたい人はプロフィールへ』"
+      ],
+      "narration": "on_screen_captionsをそのまま読み上げ原稿として使用(新たな作文なし)。",
+      "on_screen_captions": [
+        "この台本、AIが考えました。",
+        "テーマ:介護職の“辞めたい”を分解する",
+        "①人手不足のしわ寄せ",
+        "②夜勤・身体的な負担",
+        "③一人で抱えやすい人間関係",
+        "AIが作った台本ですが、内容は実在の悩みをもとに構成しています",
+        "情報を知っておきたい人はプロフィールへ"
+      ],
+      "visual_instructions": "実写人物・AIアバターは使用しない(この案件も人物画像条件は未確認のため安全側に倒す)。冒頭カードのみダーク背景+ウィンドウ風UI(丸ボタン3つの装飾)+等幅寄りの配置でAI/テック感を演出し、以降は既存の情報カードスタイルに戻す。",
+      "estimated_duration_seconds": 27,
+      "CTA": "介護職の無料相談、まずは情報だけ知りたい人はプロフィールへ",
+      "post_caption": "この動画の台本、AIが考えました。それでも伝えたいことは変わりません。 #PR #介護職 #介護士 #介護職の悩み",
+      "hashtags": ["#PR", "#介護職", "#介護士", "#介護職の悩み"],
+      "required_PR_disclosure": "投稿本文冒頭に#PRを明記。TikTok上の広告表示機能(有効な場合)も併用。",
+      "production_method": "新規レンダラー(render_video_v2.py::render_ai_reveal_frame)によるターミナル風フレーム1枚+既存の情報カードスタイル。VOICEVOX(青山龍星)ナレーション+ffmpeg自己生成BGM。既存パイプラインの範囲内。",
+      "estimated_production_cost_jpy": 0,
+      "estimated_production_cost_note": "追加課金・外部API利用なし。",
+      "compliance_self_check": {
+        "no_fabricated_testimonials": true,
+        "no_guaranteed_outcomes": true,
+        "no_unverified_rankings_or_job_counts": true,
+        "no_superlatives": true,
+        "no_face_or_self_filming": true,
+        "person_images_used": false,
+        "ai_authorship_claim_is_factually_true": true,
+        "based_only_on_verified_a8_data": true
+      },
+      "compliance_notes": "『AIが考えました』は事実(実際にClaudeが台本を作成した)であり誇張・虚偽ではない。人物なし・体験談なし・保証表現なし。介護職領域はTikTok競合観測データが今回まだ無いため、hypothesisは一般的傾向の推測であり、本PJの実データによる裏付けはまだ無いことを明記。",
+      "test_objective": "AI制作を隠さず明示するフック(Format②)が、通常の情報提示フック(Format①)と比べてTikTok上での視聴維持・完了率にプラスに働くかを検証する実験区。介護職はTikTok観測データが無いプログラムのため、データに引っ張られない独立した構造仮説のテスト場としても位置づける。"
+    }
+  ],
+  "not_yet_done": [
+    "実際の視聴データ・エンゲージメントによる3方式の優劣判定(非公開PoCのため、TikTok投稿後のデータが無いと不可能)",
+    "介護士・保育士領域のTikTok競合観測(まだ未着手/スキップのため、Format②③の仮説はナース領域の少数データより弱い根拠に基づく)",
+    "VOICEVOX各キャラクターの商用利用規約の最終確認(青山龍星は確認済み、波音リツは同種の想定だが要再確認)",
+    "A8提携承認後の最終トーン・表現の広告主確認"
+  ]
+}
