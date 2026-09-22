@@ -1,0 +1,99 @@
+{
+  "generated_at": "2026-09-22T13:44:11+00:00",
+  "note": "単純な再生数ランキングではない。投稿日・エンゲージメント・形式を分離して集計している。各program_idのdata_sufficiencyを必ず確認し、no_data/low_sampleの場合は傾向として扱わないこと。",
+  "programs": {
+    "s00000001248024": {
+      "ad_pr_likeness_distribution": {
+        "高い(DMMショート公式・アプリ誘導)": 1
+      },
+      "caption_style_distribution": {
+        "画面上部に白地・黒太字の見出し": 1
+      },
+      "comment_theme_frequency": {},
+      "cta_text_samples": [
+        "DMM TVアプリで全話配信中／DLはプロフィールから"
+      ],
+      "data_sufficiency": "ok",
+      "duration_distribution": {
+        "60s+": 1
+      },
+      "engagement_rates": [],
+      "format_distribution": {
+        "ai_character_like": {
+          "false": 1,
+          "unknown": 11
+        },
+        "has_face": {
+          "unknown": 12
+        },
+        "has_person": {
+          "unknown": 12
+        },
+        "is_broll": {
+          "unknown": 12
+        },
+        "is_conversation_or_skit": {
+          "false": 1,
+          "unknown": 11
+        },
+        "is_ugc_style": {
+          "unknown": 12
+        }
+      },
+      "narration_style_distribution": {},
+      "post_count": 12,
+      "posts_with_posted_at_count": 0,
+      "program_id": "s00000001248024",
+      "recency_trend_analysis": "posted_atが取得できた投稿が無いため、時系列比較(伸びている形式/飽和している形式)は実施不可。",
+      "winning_structure_template": null
+    },
+    "s00000001248025": {
+      "ad_pr_likeness_distribution": {},
+      "caption_style_distribution": {},
+      "comment_theme_frequency": {},
+      "cta_text_samples": [],
+      "data_sufficiency": "no_data",
+      "duration_distribution": {},
+      "engagement_rates": [],
+      "format_distribution": {
+        "ai_character_like": {},
+        "has_face": {},
+        "has_person": {},
+        "is_broll": {},
+        "is_conversation_or_skit": {},
+        "is_ugc_style": {}
+      },
+      "narration_style_distribution": {},
+      "post_count": 0,
+      "posts_with_posted_at_count": 0,
+      "program_id": "s00000001248025",
+      "recency_trend_analysis": "posted_atが取得できた投稿が無いため、時系列比較(伸びている形式/飽和している形式)は実施不可。",
+      "winning_structure_template": null
+    },
+    "s00000026823003": {
+      "ad_pr_likeness_distribution": {},
+      "caption_style_distribution": {},
+      "comment_theme_frequency": {},
+      "cta_text_samples": [],
+      "data_sufficiency": "no_data",
+      "duration_distribution": {},
+      "engagement_rates": [],
+      "format_distribution": {
+        "ai_character_like": {},
+        "has_face": {},
+        "has_person": {},
+        "is_broll": {},
+        "is_conversation_or_skit": {},
+        "is_ugc_style": {}
+      },
+      "narration_style_distribution": {},
+      "post_count": 0,
+      "posts_with_posted_at_count": 0,
+      "program_id": "s00000026823003",
+      "recency_trend_analysis": "posted_atが取得できた投稿が無いため、時系列比較(伸びている形式/飽和している形式)は実施不可。",
+      "winning_structure_template": null
+    }
+  },
+  "source": "claude_code",
+  "total_posts_ingested": 12
+}
