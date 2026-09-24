@@ -6,9 +6,11 @@ shots that already passed.
 from __future__ import annotations
 
 import subprocess
+import time
 from pathlib import Path
 
 from production.compositor.ffmpeg_compose import ComposeInputs, SFXCueInput, compose
+from production.costlog import CostLogEntry, append_cost_log
 from production.providers.registry import generate_with_failover
 from production.qa.compliance import run_compliance_qa
 from production.qa.technical import run_technical_qa
@@ -48,7 +50,8 @@ def save_job(job: ProductionJob) -> None:
 
 def generate_shots(job: ProductionJob, only_shot_ids: set[str] | None = None) -> None:
     """Generate every shot whose id is in only_shot_ids (or every shot that
-    isn't already 'success' when only_shot_ids is None)."""
+    isn't already 'success' when only_shot_ids is None). Every attempt -
+    success or failure - is timed, costed, and appended to cost_log.jsonl."""
     shots_dir = _job_output_dir(job.job_id) / "shots"
     for shot in job.shots:
         already_done = (
@@ -64,16 +67,49 @@ def generate_shots(job: ProductionJob, only_shot_ids: set[str] | None = None) ->
 
         shot.status = "generating"
         shot.attempts += 1
+        started = time.perf_counter()
         result = generate_with_failover(shot, shots_dir, job.provider_preferences)
+        elapsed = round(time.perf_counter() - started, 2)
+
+        cost = result.cost_usd_estimate if result.success else 0.0
+        shot.total_cost_usd = round(shot.total_cost_usd + cost, 4)
+        if shot.first_attempt_cost_usd is None:
+            shot.first_attempt_cost_usd = cost
+        shot.last_generation_time_sec = elapsed
+
+        from production.providers.registry import get_provider
+        provider_meta = {}
+        if result.provider and result.provider != "none":
+            try:
+                provider_meta = get_provider(result.provider).current_config()
+            except ValueError:
+                pass
+
         if result.success:
             shot.status = "success"
             shot.output_path = result.output_path
             shot.assigned_provider = result.provider
             shot.error = None
             shot.qa_notes = "placeholder clip - replace before publishing" if result.is_placeholder else None
+            rejection_reason = None
         else:
             shot.status = "failed"
             shot.error = result.error
+            rejection_reason = result.error
+
+        append_cost_log(OUTPUT_ROOT, job.job_id, CostLogEntry(
+            provider=result.provider or "none",
+            model=provider_meta.get("model", ""),
+            creative_id=job.job_id,
+            shot_id=shot.shot_id,
+            duration_sec=shot.duration_sec,
+            resolution=provider_meta.get("resolution", ""),
+            attempt_count=shot.attempts,
+            generation_cost_usd=cost,
+            generation_time_sec=elapsed,
+            accepted=shot.accepted,
+            rejection_reason=rejection_reason,
+        ))
 
 
 def _assess_quality(job: ProductionJob) -> tuple[str, list[str]]:
@@ -204,11 +240,16 @@ def render(job_id: str) -> Path:
         raise RuntimeError(f"QA failed: {failing}")
 
     quality_tier, quality_notes = _assess_quality(job)
+    cost_rollup = compute_cost_rollup(job)
 
     job.status = "ready"
     job.output.mp4_path = str(final_mp4)
     job.output.quality_tier = quality_tier
     job.output.quality_notes = quality_notes
+    job.output.total_generation_cost_usd = cost_rollup["total_generation_cost_usd"]
+    job.output.total_regeneration_cost_usd = cost_rollup["total_regeneration_cost_usd"]
+    job.output.total_render_cost_usd = cost_rollup["total_render_cost_usd"]
+    job.output.cost_per_finished_video = cost_rollup["cost_per_finished_video"]
     from datetime import datetime, timezone
     job.output.generated_at = datetime.now(timezone.utc).isoformat()
     save_job(job)
@@ -280,3 +321,43 @@ def regen_shot(job_id: str, shot_id: str) -> None:
     job = load_job(job_id)
     generate_shots(job, only_shot_ids={shot_id})
     save_job(job)
+
+
+def accept_shot(job_id: str, shot_id: str) -> None:
+    """Record the human/QA verdict that a generated shot is usable. This is
+    independent of status=="success" (which only means a file exists) - per
+    the cost-PoC brief, "accepted" is what expected-accepted-shot-cost is
+    computed against."""
+    job = load_job(job_id)
+    shot = job.shot(shot_id)
+    shot.accepted = True
+    shot.rejection_reason = None
+    save_job(job)
+
+
+def reject_shot(job_id: str, shot_id: str, reason: str) -> None:
+    """Record a rejection and mark the shot for a single regen - never
+    triggers regenerating the rest of the job."""
+    job = load_job(job_id)
+    shot = job.shot(shot_id)
+    shot.accepted = False
+    shot.rejection_reason = reason
+    shot.status = "needs_regen"
+    job.status = "needs_regen"
+    save_job(job)
+
+
+def compute_cost_rollup(job: ProductionJob) -> dict:
+    """expected accepted-shot cost = generation cost x expected attempts.
+    total_generation_cost_usd is what the job would have cost if every shot
+    were accepted on the first try; total_regeneration_cost_usd is the extra
+    spent on retries beyond that."""
+    total_first = sum(s.first_attempt_cost_usd or 0.0 for s in job.shots)
+    total_all = sum(s.total_cost_usd for s in job.shots)
+    total_regen = round(total_all - total_first, 4)
+    return {
+        "total_generation_cost_usd": round(total_first, 4),
+        "total_regeneration_cost_usd": total_regen,
+        "total_render_cost_usd": round(total_all, 4),
+        "cost_per_finished_video": round(total_all, 4),
+    }

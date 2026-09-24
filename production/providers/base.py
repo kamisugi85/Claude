@@ -57,3 +57,8 @@ class VideoProvider(ABC):
 
     def estimate_cost_usd(self, shot: ShotJob) -> float:
         return 0.0
+
+    def current_config(self) -> dict:
+        """Optional: provider-specific metadata (model id, resolution, ...)
+        for cost-log entries. Default empty - override where useful."""
+        return {}

@@ -1,16 +1,42 @@
-"""MiniMax Hailuo (model id `MiniMax-H3`) VideoProvider - official direct API
-at platform.minimax.io. Recommended primary candidate for CLAUDE-D01's
-paid phase: cheapest confirmed 1080p-class per-second rate of the providers
-compared in production/README_paid_phase_cost_analysis.md.
+"""MiniMax H3 VideoProvider - official direct API at platform.minimax.io.
+Recommended primary candidate for CLAUDE-D01's paid phase.
 
 STATUS: implemented against the corroborated public contract below, NOT
 live-tested - no MINIMAX_API_KEY has been issued and none of this was called.
-Endpoint/response shape is corroborated across MiniMax's own docs pages (via
-search snippets - docs.minimax.io itself was not reachable from this
-sandbox) and an open-source ComfyUI integration node (nodes_minimax.py,
-which contains real working request/response handling for this same API).
-Confirm exact pricing/limits/Japan account eligibility in your own MiniMax
-console before spending.
+Endpoint/response shape corroborated across MiniMax's own docs pages (via
+search snippets - platform.minimax.io itself is blocked by this sandbox's
+egress proxy, confirmed 2026-09-24) and an open-source ComfyUI integration
+node (nodes_minimax.py), which contains real working request/response
+handling for this same API. Confirm exact pricing/limits/Japan account
+eligibility in your own MiniMax console before spending.
+
+PRICING - reconfirmed 2026-09-24, supersedes this file's earlier
+$0.055/sec estimate (that number was for a different/older Hailuo model,
+not H3's own pay-as-you-go rate):
+  Source: platform.minimax.io/docs/guides/pricing-paygo (page itself
+  unreachable from this sandbox; the figures below are corroborated by
+  independent third-party write-ups that explicitly cite that page and
+  agree with each other on 768P/2K rates - one other search result
+  reported $0.18/$0.26 instead, which could not be reconciled and looks
+  like it may be describing a different tier or product (e.g. "H3 Max");
+  treat $0.08/$0.13 as the better-supported figure but verify the live
+  page yourself before budgeting).
+    768P: $0.08 / generated second
+    2K:   $0.13 / generated second
+    768P -> 2K regeneration: $0.05 / second
+    Reference images: first 5 free, then ~$0.04 each
+  Duration: 4-15 seconds, integers only (official).
+  Concurrency limit (not RPM): 2 concurrent tasks on free tier, 15 on paid.
+  Commercial use: paid/API-billed generations come with a commercial-use
+  license (you own the output, responsible for clearing third-party rights
+  in your prompt/references) per MiniMax's own Terms of Service; free
+  trial credits are personal-use-only - this pipeline only ever uses the
+  paid path. (Source: minimax.io terms-of-service page, checked via search
+  summary 2026-09-24, not fetched directly - reconfirm before relying on it
+  for a real commercial release.)
+  Native audio: H3 generates synced stereo audio (including lip-synced
+  dialogue) natively, with Japanese among 11 stably-supported languages.
+  Not used by this client - see module note below.
 
 Endpoint and auth:
   POST {base}/v1/video_generation          - create a task, returns task_id
@@ -30,10 +56,10 @@ independently re-derived):
                character consistency across shots but is not used by this
                client yet - see module note below)
   duration   - seconds, 4-15 for MiniMax-H3 (clamped below)
-  resolution - "768P" | "2K" (there is no documented plain "1080p" option;
-               "2K" is used here as the closest higher-fidelity tier - this
-               needs reconfirmation against your console before assuming
-               it matches the $/sec figures used in the cost analysis)
+  resolution - "768P" | "2K" (no plain "1080p" option; this pipeline
+               defaults to 768P for cost and relies on
+               compositor._normalize_shot to scale up to the job's fixed
+               1080x1920 output canvas, same as every other shot source)
   ratio      - "9:16" for this pipeline
 
 Response/poll shape (from MiniMax's own docs pages + the ComfyUI node):
@@ -43,6 +69,15 @@ Response/poll shape (from MiniMax's own docs pages + the ComfyUI node):
            other string keeps polling, which is the safe default given the
            in-between state names were not independently confirmed)
   retrieve: {"file_id":..., "download_url": "...", ...}
+
+Audio note: H3's native audio (including possible dialogue) is intentionally
+NOT requested/used - this pipeline supplies its own narration via a separate
+TTS stage (Azure Neural or espeak-ng) and mixes its own BGM/SFX, so a native
+audio track would either be redundant or conflict with the narration. Any
+audio baked into the downloaded clip is stripped when the compositor
+normalizes every shot before concatenation (production/compositor/
+ffmpeg_compose.py:_normalize_shot uses `-an`), so this needs no special
+handling here.
 
 Character consistency note: MiniMax publishes a separate Subject-Reference
 capability (model "S2V-01") that conditions generation on a single
@@ -75,10 +110,10 @@ _TERMINAL_SUCCESS = "Success"
 _TERMINAL_FAIL = "Fail"
 _MIN_DURATION_SEC, _MAX_DURATION_SEC = 4, 15
 
-# Rough proxy from a reported direct-API data point ($0.33 for a 6s 1080p
-# clip => ~$0.055/sec); MiniMax's actual rate card was not reachable from
-# this sandbox. Confirm in console before relying on this number.
-ESTIMATED_USD_PER_SECOND = 0.055
+# Reconfirmed 2026-09-24 against platform.minimax.io's pay-as-you-go pricing
+# for MiniMax-H3 (see module docstring for sourcing/caveats). Supersedes the
+# earlier $0.055/sec figure, which was for a different model.
+ESTIMATED_USD_PER_SECOND_BY_RESOLUTION = {"768P": 0.08, "2K": 0.13}
 
 
 class MiniMaxHailuoProvider(VideoProvider):
@@ -133,7 +168,36 @@ class MiniMaxHailuoProvider(VideoProvider):
         )
 
     def estimate_cost_usd(self, shot: ShotJob) -> float:
-        return round(shot.duration_sec * ESTIMATED_USD_PER_SECOND, 3)
+        rate = ESTIMATED_USD_PER_SECOND_BY_RESOLUTION.get(self._resolution(), ESTIMATED_USD_PER_SECOND_BY_RESOLUTION[DEFAULT_RESOLUTION])
+        duration = min(_MAX_DURATION_SEC, max(_MIN_DURATION_SEC, round(shot.duration_sec)))
+        return round(duration * rate, 3)
+
+    def current_config(self) -> dict:
+        return {"model": self._model(), "resolution": self._resolution()}
+
+    def _create_task_with_retry(self, body: dict, headers: dict, max_retries: int = 2):
+        """Transient network hiccups (5xx, timeouts) shouldn't burn a whole
+        shot's cost estimate on the first blip - retry the task-creation call
+        itself a couple of times before giving up. Does not retry 4xx
+        (bad request / auth errors), since those won't fix themselves."""
+        last_exc = None
+        for attempt in range(max_retries + 1):
+            try:
+                resp = self._session.post(
+                    f"{self._base_url()}/video_generation", json=body, headers=headers, timeout=30,
+                )
+                if resp.status_code >= 500 and attempt < max_retries:
+                    time.sleep(2 ** attempt)
+                    continue
+                resp.raise_for_status()
+                return resp
+            except requests.RequestException as e:
+                last_exc = e
+                if attempt < max_retries:
+                    time.sleep(2 ** attempt)
+                    continue
+                raise
+        raise last_exc
 
     def generate_shot(self, shot: ShotJob, out_dir: Path) -> ShotResult:
         avail = self.check_availability()
@@ -150,10 +214,7 @@ class MiniMaxHailuoProvider(VideoProvider):
             "ratio": "9:16",
         }
         try:
-            resp = self._session.post(
-                f"{self._base_url()}/video_generation", json=create_body, headers=headers, timeout=30,
-            )
-            resp.raise_for_status()
+            resp = self._create_task_with_retry(create_body, headers)
             task_id = resp.json()["task_id"]
 
             deadline = time.time() + 900

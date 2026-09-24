@@ -8,7 +8,17 @@ from __future__ import annotations
 import argparse
 import sys
 
-from production.pipeline import ingest_shot, load_job, mark_shot_for_regen, regen_shot, render
+from production.pipeline import (
+    accept_shot,
+    compute_cost_rollup,
+    ingest_shot,
+    load_job,
+    mark_shot_for_regen,
+    reject_shot,
+    regen_shot,
+    render,
+)
+from production.providers.registry import get_provider
 from production.qa.compliance import run_compliance_qa
 from production.qa.technical import run_technical_qa
 
@@ -64,6 +74,49 @@ def cmd_regen_shot(args: argparse.Namespace) -> int:
     return 0 if shot.status == "success" else 1
 
 
+def cmd_accept_shot(args: argparse.Namespace) -> int:
+    accept_shot(args.job_id, args.shot_id)
+    print(f"{args.shot_id}: accepted")
+    return 0
+
+
+def cmd_reject_shot(args: argparse.Namespace) -> int:
+    reject_shot(args.job_id, args.shot_id, args.reason)
+    print(f"{args.shot_id}: rejected ({args.reason}), marked needs_regen. "
+          f"Run regen-shot to retry just this shot.")
+    return 0
+
+
+def cmd_estimate_cost(args: argparse.Namespace) -> int:
+    job = load_job(args.job_id)
+    shot = job.shot(args.shot_id)
+    provider = get_provider(args.provider or job.provider_preferences[0])
+    per_attempt = provider.estimate_cost_usd(shot)
+    print(f"{args.shot_id} via {provider.name}: estimated_cost_usd per attempt = {per_attempt}")
+    for attempts, label in [(1, "1回生成"), (1.5, "1.5回生成(平均)"), (2, "2回生成")]:
+        print(f"  {label}: expected accepted-shot cost = {round(per_attempt * attempts, 4)} USD")
+    avail = provider.check_availability()
+    if not avail.available:
+        print(f"\nNOTE: {provider.name} is not currently configured: {avail.reason}")
+        for action in avail.required_user_actions:
+            print(f"  - {action}")
+    return 0
+
+
+def cmd_cost_report(args: argparse.Namespace) -> int:
+    job = load_job(args.job_id)
+    rollup = compute_cost_rollup(job)
+    for shot in sorted(job.shots, key=lambda s: s.order):
+        print(f"{shot.shot_id}: attempts={shot.attempts} total_cost_usd={shot.total_cost_usd} "
+              f"first_attempt_cost_usd={shot.first_attempt_cost_usd} "
+              f"last_generation_time_sec={shot.last_generation_time_sec} "
+              f"accepted={shot.accepted} rejection_reason={shot.rejection_reason}")
+    print()
+    for k, v in rollup.items():
+        print(f"{k}: {v}")
+    return 0
+
+
 def cmd_qa(args: argparse.Namespace) -> int:
     from pathlib import Path
     job = load_job(args.job_id)
@@ -110,6 +163,27 @@ def main(argv: list[str] | None = None) -> int:
     )
     p_ingest.add_argument("--license-note", help="free-text note on what you confirmed/didn't confirm")
     p_ingest.set_defaults(func=cmd_ingest_shot)
+
+    p_accept = sub.add_parser("accept-shot", help="record that a generated shot passed human/QA review")
+    p_accept.add_argument("job_id")
+    p_accept.add_argument("shot_id")
+    p_accept.set_defaults(func=cmd_accept_shot)
+
+    p_reject = sub.add_parser("reject-shot", help="record that a generated shot failed review; marks needs_regen")
+    p_reject.add_argument("job_id")
+    p_reject.add_argument("shot_id")
+    p_reject.add_argument("reason", help="why it was rejected, e.g. 'hand distortion in frame 40'")
+    p_reject.set_defaults(func=cmd_reject_shot)
+
+    p_estimate = sub.add_parser("estimate-cost", help="estimate cost for a shot before calling any API")
+    p_estimate.add_argument("job_id")
+    p_estimate.add_argument("shot_id")
+    p_estimate.add_argument("--provider", help="defaults to the job's first provider_preferences entry")
+    p_estimate.set_defaults(func=cmd_estimate_cost)
+
+    p_cost_report = sub.add_parser("cost-report", help="print per-shot and total cost/time so far")
+    p_cost_report.add_argument("job_id")
+    p_cost_report.set_defaults(func=cmd_cost_report)
 
     args = parser.parse_args(argv)
     return args.func(args)

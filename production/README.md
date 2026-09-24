@@ -27,18 +27,32 @@ findings; `pipeline.ingest_shot()` (adopts a human-generated clip,
 `quality_tier="free_tier_noncommercial_preview"`) remains available but is
 no longer the target path.
 
-**Current phase: paid-phase provider/TTS selection (no billing yet).** See
-`production/README_paid_phase_cost_analysis.md` for the full comparison and
-recommendation: **MiniMax Hailuo** (`providers/minimax_hailuo.py`, gated on
-`MINIMAX_API_KEY`) as the primary video candidate on cost-per-accepted-shot
-grounds, Seedance 2.5 kept as implemented fallback, and **Azure AI Speech
-Neural TTS** (`tts/azure_provider.py`, gated on `AZURE_SPEECH_KEY`/
-`AZURE_SPEECH_REGION`) to replace espeak-ng. `CLAUDE-D01.json`'s
-`provider_preferences` is already `["minimax_hailuo", "seedance",
-"replicate_video", "manual"]` so setting `MINIMAX_API_KEY` alone switches
-`render` over with no code changes; `tts.provider` is still `espeak_local`
-pending an Azure key. No account has been created and no key has been
-issued for either service.
+Also investigated (kept as a future cost-reduction / API-outage backup, not
+currently the active path): open-weight video generation on free cloud GPUs.
+See `production/README_local_and_free_gpu_investigation.md` and
+`production/jobs/CLAUDE-D01_free_gpu_poc_wan21.ipynb` (Wan2.1-T2V-1.3B,
+Apache 2.0, runs on a free Colab/Kaggle T4 - code-verified against the
+installed `diffusers` library but not yet executed, since this sandbox has
+no GPU and blocks huggingface.co).
+
+**Current phase: MiniMax H3 paid API small-budget PoC (no billing yet).**
+See `production/README_minimax_paid_poc_20260924.md` for the full writeup:
+official model/pricing re-verification (dated, with source URLs - note
+`platform.minimax.io`/`api.minimax.io` are both blocked by this sandbox's
+network policy, so even a keyless connectivity check couldn't be run here),
+provider audit (added retry-with-backoff on task creation, corrected the
+per-second cost constant), the new cost-tracking layer (`costlog.py`, plus
+`ShotJob`/`JobOutput` cost fields), and the chosen PoC target
+(`shot-00`, cost-estimated at $0.48-$0.96 for 1-2 generation attempts at
+768P). `production/README_paid_phase_cost_analysis.md` has a pointer note at
+its top marking its $0.055/sec MiniMax figure as superseded/incorrect -
+its content is otherwise left as a historical record.
+`CLAUDE-D01.json`'s `provider_preferences` is `["minimax_hailuo", "seedance",
+"replicate_video", "manual"]`, so setting `MINIMAX_API_KEY` **in an
+environment that can actually reach api.minimax.io** (not this sandbox)
+switches `render`/`regen-shot` over with no code changes. `tts.provider` is
+still `espeak_local` pending an Azure key. No account has been created and
+no key has been issued for either MiniMax or Azure.
 
 ## Run it
 

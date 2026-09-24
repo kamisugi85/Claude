@@ -65,6 +65,17 @@ class ShotJob(BaseModel):
     # pending, or produced by an API provider whose own ToS already covers
     # commercial use). False must never be treated as True by omission.
     license_commercial_clear: Optional[bool] = None
+    # Cost/time tracking (see pipeline.generate_shots and costlog.py).
+    # total_cost_usd accumulates across every attempt for this shot, so
+    # "expected accepted-shot cost" = total_cost_usd once accepted=True.
+    total_cost_usd: float = 0.0
+    first_attempt_cost_usd: Optional[float] = None
+    last_generation_time_sec: Optional[float] = None
+    # Distinct from status=="success" (a file exists): accepted is the
+    # human/QA verdict on whether that file is usable in the final video.
+    # None = not yet reviewed.
+    accepted: Optional[bool] = None
+    rejection_reason: Optional[str] = None
 
     @field_validator("video_prompt")
     @classmethod
@@ -148,6 +159,20 @@ class JobOutput(BaseModel):
     generated_at: Optional[str] = None
     quality_tier: Optional[QualityTier] = None
     quality_notes: list[str] = Field(default_factory=list)
+    # Cost rollup across all shots (see pipeline._compute_cost_rollup).
+    # total_generation_cost_usd: sum of each shot's first_attempt_cost_usd
+    #   (what this video would have cost if every shot were accepted on
+    #   the first try).
+    # total_regeneration_cost_usd: sum of (total_cost_usd - first_attempt_cost_usd)
+    #   across shots - the cost attributable purely to retries.
+    # total_render_cost_usd: generation + regeneration (+ TTS, when the
+    #   active TTS provider reports a per-character cost).
+    # cost_per_finished_video: alias for total_render_cost_usd for a single
+    #   job; meant to generalize to an average when rolling up many jobs.
+    total_generation_cost_usd: Optional[float] = None
+    total_regeneration_cost_usd: Optional[float] = None
+    total_render_cost_usd: Optional[float] = None
+    cost_per_finished_video: Optional[float] = None
 
 
 class ProductionJob(BaseModel):
