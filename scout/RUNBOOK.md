@@ -5,7 +5,7 @@ Claude Codeのセッションが上から順に実行する。応募・契約・
 ## 0. 準備
 ```bash
 git fetch origin claude/brave-lovelace-7n0flp && git checkout claude/brave-lovelace-7n0flp && git pull
-export SCOUT_VAULT_KEY=...   # 定期実行のプロンプト（または環境変数）で渡される
+# SCOUT_VAULT_KEY は環境の設定で環境変数として渡される（値を表示・ログ出力・コミットしない）
 ```
 - Driveのファイル・フォルダのIDは、`python3 scout/pipeline.py export` の後に `scout/out/sync_manifest.json` の `drive` で確認できる。
 
