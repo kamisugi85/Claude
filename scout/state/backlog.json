@@ -49,7 +49,8 @@
    200,
    2500
   ],
-  "prescore": 5.6
+  "prescore": 116.48,
+  "fit_n": 0
  },
  "13481813": {
   "id": 13481813,
@@ -98,7 +99,8 @@
    50,
    2500
   ],
-  "prescore": 7.34
+  "prescore": 214.5,
+  "fit_n": 0
  },
  "13481654": {
   "id": 13481654,
@@ -147,7 +149,8 @@
    20,
    200
   ],
-  "prescore": 7.47
+  "prescore": 54.476,
+  "fit_n": 0
  },
  "13481653": {
   "id": 13481653,
@@ -196,7 +199,8 @@
    20,
    200
   ],
-  "prescore": 7.47
+  "prescore": 49.029,
+  "fit_n": 0
  },
  "13481548": {
   "id": 13481548,
@@ -243,7 +247,8 @@
   "price_mentions": [
    300
   ],
-  "prescore": 6.57
+  "prescore": 30.03,
+  "fit_n": 0
  },
  "13481417": {
   "id": 13481417,
@@ -294,7 +299,8 @@
    2600,
    2800
   ],
-  "prescore": 4.03
+  "prescore": 60.06,
+  "fit_n": 0
  },
  "13481388": {
   "id": 13481388,
@@ -341,7 +347,8 @@
    50,
    2500
   ],
-  "prescore": 7.3
+  "prescore": 143.0,
+  "fit_n": 0
  },
  "13481233": {
   "id": 13481233,
@@ -389,7 +396,8 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 5.64
+  "prescore": 131.56,
+  "fit_n": 0
  },
  "13481210": {
   "id": 13481210,
@@ -440,7 +448,8 @@
    330,
    4500
   ],
-  "prescore": 4.2
+  "prescore": 55.314,
+  "fit_n": 0
  },
  "13481208": {
   "id": 13481208,
@@ -490,7 +499,8 @@
    330,
    6000
   ],
-  "prescore": 5.03
+  "prescore": 21.426,
+  "fit_n": 0
  },
  "13480905": {
   "id": 13480905,
@@ -540,7 +550,8 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 4.7
+  "prescore": 57.901,
+  "fit_n": 1
  },
  "13480692": {
   "id": 13480692,
@@ -589,7 +600,8 @@
    20,
    200
   ],
-  "prescore": 7.47
+  "prescore": 32.686,
+  "fit_n": 0
  },
  "13480691": {
   "id": 13480691,
@@ -638,7 +650,8 @@
    20,
    200
   ],
-  "prescore": 7.47
+  "prescore": 37.714,
+  "fit_n": 0
  },
  "13480689": {
   "id": 13480689,
@@ -687,7 +700,8 @@
    20,
    200
   ],
-  "prescore": 7.47
+  "prescore": 35.02,
+  "fit_n": 0
  },
  "13480681": {
   "id": 13480681,
@@ -736,7 +750,8 @@
    2000,
    2300
   ],
-  "prescore": 5.63
+  "prescore": 31.763,
+  "fit_n": 0
  },
  "13480659": {
   "id": 13480659,
@@ -786,7 +801,8 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 5.58
+  "prescore": 43.794,
+  "fit_n": 0
  },
  "12629635": {
   "id": 12629635,
@@ -832,7 +848,8 @@
   "price_mentions": [
    1000
   ],
-  "prescore": 5.79
+  "prescore": 6.9,
+  "fit_n": 1
  },
  "12946039": {
   "id": 12946039,
@@ -878,7 +895,8 @@
   "price_mentions": [
    1000
   ],
-  "prescore": 5.79
+  "prescore": 8.689,
+  "fit_n": 1
  },
  "13377823": {
   "id": 13377823,
@@ -924,7 +942,8 @@
   "price_mentions": [
    1000
   ],
-  "prescore": 5.79
+  "prescore": 7.724,
+  "fit_n": 1
  },
  "13430730": {
   "id": 13430730,
@@ -970,7 +989,8 @@
   "price_mentions": [
    1000
   ],
-  "prescore": 5.79
+  "prescore": 25.761,
+  "fit_n": 1
  },
  "13480280": {
   "id": 13480280,
@@ -1023,7 +1043,8 @@
    5000,
    10000
   ],
-  "prescore": 6.58
+  "prescore": 150.15,
+  "fit_n": 0
  },
  "13480142": {
   "id": 13480142,
@@ -1071,7 +1092,7 @@
   "price_mentions": [
    12000
   ],
-  "prescore": 4.87
+  "prescore": 8.474
  },
  "13480117": {
   "id": 13480117,
@@ -1122,7 +1143,8 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 4.67
+  "prescore": 68.538,
+  "fit_n": 0
  },
  "13479892": {
   "id": 13479892,
@@ -1175,7 +1197,8 @@
   "listing_fp": "b6b85a2c314b",
   "desc_hash": "f58ac89735bcfba2504aee9b89a93e5e",
   "price_mentions": [],
-  "prescore": 6.86
+  "prescore": 48.262,
+  "fit_n": 0
  },
  "13361035": {
   "id": 13361035,
@@ -1221,7 +1244,8 @@
   "listing_fp": "477e9e580d11",
   "desc_hash": "d2f471f44402c1413a0c7cd112f0cfbf",
   "price_mentions": [],
-  "prescore": 7.06
+  "prescore": 105.028,
+  "fit_n": 0
  },
  "13479755": {
   "id": 13479755,
@@ -1274,7 +1298,8 @@
   "price_mentions": [
    8000
   ],
-  "prescore": 5.6
+  "prescore": 16.23,
+  "fit_n": 3
  },
  "13474585": {
   "id": 13474585,
@@ -1326,7 +1351,8 @@
   "listing_fp": "b8f05c2371cb",
   "desc_hash": "5ef93f611c50fc0a6f9b880d319abc7e",
   "price_mentions": [],
-  "prescore": 3.6
+  "prescore": 201.802,
+  "fit_n": 1
  },
  "13479357": {
   "id": 13479357,
@@ -1375,7 +1401,8 @@
    455,
    500
   ],
-  "prescore": 6.58
+  "prescore": 51.333,
+  "fit_n": 0
  },
  "13479188": {
   "id": 13479188,
@@ -1426,7 +1453,8 @@
   "price_mentions": [
    1500
   ],
-  "prescore": 6.74
+  "prescore": 98.67,
+  "fit_n": 0
  },
  "13479286": {
   "id": 13479286,
@@ -1472,7 +1500,8 @@
   "price_mentions": [
    100
   ],
-  "prescore": 4.37
+  "prescore": 42.24,
+  "fit_n": 0
  },
  "13478812": {
   "id": 13478812,
@@ -1523,7 +1552,8 @@
    2000,
    20000
   ],
-  "prescore": 6.09
+  "prescore": 23.547,
+  "fit_n": 1
  },
  "13401007": {
   "id": 13401007,
@@ -1579,7 +1609,8 @@
    20000,
    30000
   ],
-  "prescore": 5.65
+  "prescore": 27.062,
+  "fit_n": 0
  },
  "13397974": {
   "id": 13397974,
@@ -1637,7 +1668,8 @@
    90000,
    150000
   ],
-  "prescore": 5.65
+  "prescore": 28.929,
+  "fit_n": 0
  },
  "13478997": {
   "id": 13478997,
@@ -1688,7 +1720,8 @@
    100,
    1500
   ],
-  "prescore": 5.8
+  "prescore": 94.875,
+  "fit_n": 0
  },
  "13453034": {
   "id": 13453034,
@@ -1740,7 +1773,7 @@
   "price_mentions": [
    100
   ],
-  "prescore": 2.1
+  "prescore": 4.933
  },
  "13478804": {
   "id": 13478804,
@@ -1792,57 +1825,8 @@
    500,
    2000
   ],
-  "prescore": 6.59
- },
- "13478668": {
-  "id": 13478668,
-  "url": "https://crowdworks.jp/public/jobs/13478668",
-  "title": "【継続発注あり】Kickstarterプロジェクトページの構成・コピーライティング（1本30,000円〜）",
-  "tiers": [
-   "B",
-   "C"
-  ],
-  "category_id": 127,
-  "expired_on": "2026-10-09",
-  "released_at": "2026-09-25T11:17:54+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 20
-   }
-  },
-  "client": {
-   "userId": 4161643,
-   "userDisplayName": "北浦雄亮",
-   "isIdentityVerified": true,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 2,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 30000.0,
-   "chars": 3000.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "評価0",
-   "発注実績<=2"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "22a2819bcb4f",
-  "desc_hash": "11b830a0fde8e3116d67f380e1b7e131",
-  "price_mentions": [
-   30000
-  ],
-  "prescore": 3.1
+  "prescore": 36.036,
+  "fit_n": 0
  },
  "13478175": {
   "id": 13478175,
@@ -1891,7 +1875,8 @@
    20,
    200
   ],
-  "prescore": 7.47
+  "prescore": 13.371,
+  "fit_n": 0
  },
  "13478173": {
   "id": 13478173,
@@ -1940,7 +1925,8 @@
    20,
    200
   ],
-  "prescore": 7.47
+  "prescore": 40.857,
+  "fit_n": 0
  },
  "13477999": {
   "id": 13477999,
@@ -1986,7 +1972,8 @@
   "listing_fp": "35ae12b13518",
   "desc_hash": "b8302d124027db5d710a4b3e575bedf4",
   "price_mentions": [],
-  "prescore": 5.68
+  "prescore": 165.715,
+  "fit_n": 0
  },
  "13477891": {
   "id": 13477891,
@@ -2035,7 +2022,8 @@
    20,
    200
   ],
-  "prescore": 7.47
+  "prescore": 32.686,
+  "fit_n": 0
  },
  "13477810": {
   "id": 13477810,
@@ -2087,7 +2075,8 @@
    455,
    500
   ],
-  "prescore": 2.6
+  "prescore": 20.092,
+  "fit_n": 0
  },
  "13477082": {
   "id": 13477082,
@@ -2138,7 +2127,8 @@
    330,
    4500
   ],
-  "prescore": 4.2
+  "prescore": 27.657,
+  "fit_n": 0
  },
  "13476495": {
   "id": 13476495,
@@ -2187,7 +2177,8 @@
    1500,
    3000
   ],
-  "prescore": 5.69
+  "prescore": 314.6,
+  "fit_n": 0
  },
  "13471965": {
   "id": 13471965,
@@ -2239,7 +2230,8 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 5.36
+  "prescore": 19.495,
+  "fit_n": 0
  },
  "13472953": {
   "id": 13472953,
@@ -2292,7 +2284,8 @@
    200,
    1500
   ],
-  "prescore": 4.89
+  "prescore": 42.768,
+  "fit_n": 1
  },
  "13474049": {
   "id": 13474049,
@@ -2343,7 +2336,8 @@
   "price_mentions": [
    500
   ],
-  "prescore": 3.1
+  "prescore": 203.28,
+  "fit_n": 0
  },
  "13474711": {
   "id": 13474711,
@@ -2396,7 +2390,8 @@
    500,
    2000
   ],
-  "prescore": 5.67
+  "prescore": 76.702,
+  "fit_n": 0
  },
  "13474605": {
   "id": 13474605,
@@ -2446,7 +2441,8 @@
    500,
    2000
   ],
-  "prescore": 4.6
+  "prescore": 33.421,
+  "fit_n": 1
  },
  "13474571": {
   "id": 13474571,
@@ -2497,56 +2493,8 @@
    200,
    220
   ],
-  "prescore": 2.1
- },
- "13474534": {
-  "id": 13474534,
-  "url": "https://crowdworks.jp/public/jobs/13474534",
-  "title": "【記事作成】【初心者歓迎】テーマ「シルバーウィーク何してた？」",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-10-08",
-  "released_at": "2026-09-24T13:22:14+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 3,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 13
-   }
-  },
-  "client": {
-   "userId": 7115497,
-   "userDisplayName": "supersame",
-   "isIdentityVerified": false,
-   "averageScore": 4.94125,
-   "jobOfferAchievementCount": 224,
-   "projectFinishedRate": 99,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 200.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 40,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "b31b29a345ad",
-  "desc_hash": "5f5e6c6d5617e62036513429311d2b03",
-  "price_mentions": [
-   20,
-   200
-  ],
-  "prescore": 7.47
+  "prescore": 33.218,
+  "fit_n": 0
  },
  "13474531": {
   "id": 13474531,
@@ -2595,56 +2543,8 @@
    20,
    200
   ],
-  "prescore": 7.47
- },
- "13474528": {
-  "id": 13474528,
-  "url": "https://crowdworks.jp/public/jobs/13474528",
-  "title": "【記事作成】【初心者歓迎】テーマ「好きなYoutuber」",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-10-08",
-  "released_at": "2026-09-24T13:20:46+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 3,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 9
-   }
-  },
-  "client": {
-   "userId": 7115497,
-   "userDisplayName": "supersame",
-   "isIdentityVerified": false,
-   "averageScore": 4.94125,
-   "jobOfferAchievementCount": 224,
-   "projectFinishedRate": 99,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 200.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 40,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "0c885fbc6a16",
-  "desc_hash": "7829b51e7b981c12e285ec1e758d4e7b",
-  "price_mentions": [
-   20,
-   200
-  ],
-  "prescore": 7.47
+  "prescore": 37.714,
+  "fit_n": 0
  },
  "11527746": {
   "id": 11527746,
@@ -2694,7 +2594,8 @@
   "price_mentions": [
    110
   ],
-  "prescore": 3.5
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13463934": {
   "id": 13463934,
@@ -2746,7 +2647,8 @@
    364,
    400
   ],
-  "prescore": 4.6
+  "prescore": 9.197,
+  "fit_n": 1
  },
  "13470665": {
   "id": 13470665,
@@ -2797,7 +2699,8 @@
   "price_mentions": [
    150
   ],
-  "prescore": 1.6
+  "prescore": 24.654,
+  "fit_n": 1
  },
  "13474405": {
   "id": 13474405,
@@ -2846,7 +2749,8 @@
    20,
    200
   ],
-  "prescore": 7.47
+  "prescore": 49.029,
+  "fit_n": 0
  },
  "13474403": {
   "id": 13474403,
@@ -2895,56 +2799,8 @@
    20,
    200
   ],
-  "prescore": 7.47
- },
- "13474401": {
-  "id": 13474401,
-  "url": "https://crowdworks.jp/public/jobs/13474401",
-  "title": "【記事作成】【初心者歓迎】テーマ「好きなスポーツ漫画」",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-10-08",
-  "released_at": "2026-09-24T12:26:31+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 8,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 19
-   }
-  },
-  "client": {
-   "userId": 7115497,
-   "userDisplayName": "supersame",
-   "isIdentityVerified": false,
-   "averageScore": 4.94125,
-   "jobOfferAchievementCount": 224,
-   "projectFinishedRate": 99,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 200.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 40,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "add4873b6069",
-  "desc_hash": "f730194e3a8723b30d8d514af371dcb3",
-  "price_mentions": [
-   20,
-   200
-  ],
-  "prescore": 7.47
+  "prescore": 49.029,
+  "fit_n": 0
  },
  "13474039": {
   "id": 13474039,
@@ -2993,7 +2849,8 @@
    50,
    2000
   ],
-  "prescore": 7.3
+  "prescore": 88.364,
+  "fit_n": 0
  },
  "13473907": {
   "id": 13473907,
@@ -3042,7 +2899,8 @@
   "price_mentions": [
    1500
   ],
-  "prescore": 5.56
+  "prescore": 18.225,
+  "fit_n": 1
  },
  "13470278": {
   "id": 13470278,
@@ -3091,7 +2949,8 @@
   "price_mentions": [
    5000
   ],
-  "prescore": 4.5
+  "prescore": 42.0,
+  "fit_n": 1
  },
  "13472828": {
   "id": 13472828,
@@ -3143,7 +3002,8 @@
    2600,
    2800
   ],
-  "prescore": 4.1
+  "prescore": 26.4,
+  "fit_n": 0
  },
  "13472783": {
   "id": 13472783,
@@ -3192,7 +3052,7 @@
    500,
    2000
   ],
-  "prescore": 5.88
+  "prescore": 7.627
  },
  "13472656": {
   "id": 13472656,
@@ -3244,7 +3104,8 @@
    2600,
    2800
   ],
-  "prescore": 4.04
+  "prescore": 53.814,
+  "fit_n": 0
  },
  "13472500": {
   "id": 13472500,
@@ -3293,7 +3154,8 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 5.6
+  "prescore": 110.813,
+  "fit_n": 0
  },
  "13472338": {
   "id": 13472338,
@@ -3345,7 +3207,7 @@
    300,
    3000
   ],
-  "prescore": 5.54
+  "prescore": 0.0
  },
  "13472313": {
   "id": 13472313,
@@ -3395,7 +3257,8 @@
    500,
    2000
   ],
-  "prescore": 4.6
+  "prescore": 33.421,
+  "fit_n": 1
  },
  "13472167": {
   "id": 13472167,
@@ -3444,7 +3307,8 @@
    20,
    200
   ],
-  "prescore": 7.47
+  "prescore": 21.317,
+  "fit_n": 0
  },
  "13472164": {
   "id": 13472164,
@@ -3493,7 +3357,8 @@
    20,
    200
   ],
-  "prescore": 7.47
+  "prescore": 37.714,
+  "fit_n": 0
  },
  "13472162": {
   "id": 13472162,
@@ -3542,7 +3407,8 @@
    20,
    200
   ],
-  "prescore": 7.47
+  "prescore": 30.643,
+  "fit_n": 0
  },
  "13472106": {
   "id": 13472106,
@@ -3590,7 +3456,8 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 5.56
+  "prescore": 90.09,
+  "fit_n": 0
  },
  "13472058": {
   "id": 13472058,
@@ -3638,7 +3505,8 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 4.2
+  "prescore": 14.52,
+  "fit_n": 0
  },
  "13471763": {
   "id": 13471763,
@@ -3687,7 +3555,8 @@
    20,
    200
   ],
-  "prescore": 7.47
+  "prescore": 44.571,
+  "fit_n": 0
  },
  "13471760": {
   "id": 13471760,
@@ -3736,56 +3605,8 @@
    20,
    200
   ],
-  "prescore": 7.47
- },
- "13471759": {
-  "id": 13471759,
-  "url": "https://crowdworks.jp/public/jobs/13471759",
-  "title": "【記事作成】【初心者歓迎】テーマ「AIをどういう風に使ってますか？」",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-10-07",
-  "released_at": "2026-09-23T12:50:06+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 5,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 19
-   }
-  },
-  "client": {
-   "userId": 7115497,
-   "userDisplayName": "supersame",
-   "isIdentityVerified": false,
-   "averageScore": 4.94125,
-   "jobOfferAchievementCount": 224,
-   "projectFinishedRate": 99,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 200.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 40,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "9e7ab57d473e",
-  "desc_hash": "765aa8dba68f4cad250707ce662d86dd",
-  "price_mentions": [
-   20,
-   200
-  ],
-  "prescore": 7.47
+  "prescore": 37.714,
+  "fit_n": 0
  },
  "13471622": {
   "id": 13471622,
@@ -3836,7 +3657,8 @@
    100,
    1500
   ],
-  "prescore": 5.8
+  "prescore": 228.403,
+  "fit_n": 0
  },
  "13471459": {
   "id": 13471459,
@@ -3884,7 +3706,8 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 5.64
+  "prescore": 129.536,
+  "fit_n": 0
  },
  "13471405": {
   "id": 13471405,
@@ -3933,7 +3756,8 @@
    20,
    200
   ],
-  "prescore": 7.47
+  "prescore": 15.565,
+  "fit_n": 0
  },
  "13471403": {
   "id": 13471403,
@@ -3982,7 +3806,8 @@
    20,
    200
   ],
-  "prescore": 7.47
+  "prescore": 27.238,
+  "fit_n": 0
  },
  "13471062": {
   "id": 13471062,
@@ -4034,7 +3859,8 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 5.86
+  "prescore": 610.133,
+  "fit_n": 0
  },
  "13471195": {
   "id": 13471195,
@@ -4083,7 +3909,8 @@
    2000,
    2300
   ],
-  "prescore": 5.63
+  "prescore": 44.044,
+  "fit_n": 0
  },
  "13470770": {
   "id": 13470770,
@@ -4129,7 +3956,8 @@
   "listing_fp": "e880ec426ed5",
   "desc_hash": "8338a9bec288eb3929e6dea9a10b7639",
   "price_mentions": [],
-  "prescore": 5.59
+  "prescore": 264.624,
+  "fit_n": 0
  },
  "13369130": {
   "id": 13369130,
@@ -4175,56 +4003,8 @@
   "listing_fp": "b074a7fa2c38",
   "desc_hash": "629cd167ac74317383acb5ccee8c76a6",
   "price_mentions": [],
-  "prescore": 7.06
- },
- "13470686": {
-  "id": 13470686,
-  "url": "https://crowdworks.jp/public/jobs/13470686",
-  "title": "【記事作成】【初心者歓迎】テーマ「私の好きな男の丼料理」",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-10-06",
-  "released_at": "2026-09-22T19:04:01+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 5,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 19
-   }
-  },
-  "client": {
-   "userId": 7115497,
-   "userDisplayName": "supersame",
-   "isIdentityVerified": false,
-   "averageScore": 4.94125,
-   "jobOfferAchievementCount": 224,
-   "projectFinishedRate": 99,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 200.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 40,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "c8414ecb641a",
-  "desc_hash": "bfcfa4c793108bb72cea5070e512cdd6",
-  "price_mentions": [
-   20,
-   200
-  ],
-  "prescore": 7.47
+  "prescore": 116.643,
+  "fit_n": 0
  },
  "13470685": {
   "id": 13470685,
@@ -4273,7 +4053,8 @@
    20,
    200
   ],
-  "prescore": 7.47
+  "prescore": 40.857,
+  "fit_n": 0
  },
  "13470682": {
   "id": 13470682,
@@ -4322,7 +4103,8 @@
    20,
    200
   ],
-  "prescore": 7.47
+  "prescore": 61.286,
+  "fit_n": 0
  },
  "13470446": {
   "id": 13470446,
@@ -4368,7 +4150,8 @@
   "listing_fp": "9c04104607b2",
   "desc_hash": "3e92622f4500a5058792f85fc853c7ae",
   "price_mentions": [],
-  "prescore": 6.6
+  "prescore": 2.811,
+  "fit_n": 1
  },
  "13384642": {
   "id": 13384642,
@@ -4414,56 +4197,8 @@
   "price_mentions": [
    1000
   ],
-  "prescore": 6.9
- },
- "13470157": {
-  "id": 13470157,
-  "url": "https://crowdworks.jp/public/jobs/13470157",
-  "title": "【記事作成】【初心者歓迎】テーマ「使っているガジェット」",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-10-06",
-  "released_at": "2026-09-22T13:02:14+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 3,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 9
-   }
-  },
-  "client": {
-   "userId": 7115497,
-   "userDisplayName": "supersame",
-   "isIdentityVerified": false,
-   "averageScore": 4.94125,
-   "jobOfferAchievementCount": 224,
-   "projectFinishedRate": 99,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 200.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 40,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "4522478d6004",
-  "desc_hash": "caf65037404ba9acac4953e42f0f7f6b",
-  "price_mentions": [
-   20,
-   200
-  ],
-  "prescore": 7.47
+  "prescore": 22.431,
+  "fit_n": 0
  },
  "13470153": {
   "id": 13470153,
@@ -4512,56 +4247,8 @@
    20,
    200
   ],
-  "prescore": 7.47
- },
- "13470152": {
-  "id": 13470152,
-  "url": "https://crowdworks.jp/public/jobs/13470152",
-  "title": "【記事作成】【初心者歓迎】テーマ「ポイ活してます！」",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-10-06",
-  "released_at": "2026-09-22T13:00:38+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 5,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 15
-   }
-  },
-  "client": {
-   "userId": 7115497,
-   "userDisplayName": "supersame",
-   "isIdentityVerified": false,
-   "averageScore": 4.94125,
-   "jobOfferAchievementCount": 224,
-   "projectFinishedRate": 99,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 200.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 40,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "1eb5006e583a",
-  "desc_hash": "f3dea771f4b43c0426fd6a2f95b2c1f7",
-  "price_mentions": [
-   20,
-   200
-  ],
-  "prescore": 7.47
+  "prescore": 30.643,
+  "fit_n": 0
  },
  "13470151": {
   "id": 13470151,
@@ -4610,7 +4297,8 @@
    20,
    200
   ],
-  "prescore": 7.47
+  "prescore": 29.714,
+  "fit_n": 0
  },
  "13469574": {
   "id": 13469574,
@@ -4659,105 +4347,8 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 2.6
- },
- "13469340": {
-  "id": 13469340,
-  "url": "https://crowdworks.jp/public/jobs/13469340",
-  "title": "【記事作成】【初心者歓迎】テーマ「TV vs Youtube」",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-10-05",
-  "released_at": "2026-09-21T23:34:35+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 4,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 26
-   }
-  },
-  "client": {
-   "userId": 7115497,
-   "userDisplayName": "supersame",
-   "isIdentityVerified": false,
-   "averageScore": 4.94125,
-   "jobOfferAchievementCount": 224,
-   "projectFinishedRate": 99,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 200.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 40,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "e920f2274851",
-  "desc_hash": "227cf8682a55c8cdd21bfb3e069fa463",
-  "price_mentions": [
-   20,
-   200
-  ],
-  "prescore": 7.47
- },
- "13469337": {
-  "id": 13469337,
-  "url": "https://crowdworks.jp/public/jobs/13469337",
-  "title": "【記事作成】【初心者歓迎】テーマ「昔見た一番好きなドラマ」",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-10-05",
-  "released_at": "2026-09-21T23:33:54+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 3,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 17
-   }
-  },
-  "client": {
-   "userId": 7115497,
-   "userDisplayName": "supersame",
-   "isIdentityVerified": false,
-   "averageScore": 4.94125,
-   "jobOfferAchievementCount": 224,
-   "projectFinishedRate": 99,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 200.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 40,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "14ac6c4088df",
-  "desc_hash": "d5abc6695075ce95b02a34f5832ac3e5",
-  "price_mentions": [
-   20,
-   200
-  ],
-  "prescore": 7.47
+  "prescore": 24.255,
+  "fit_n": 0
  },
  "13469318": {
   "id": 13469318,
@@ -4806,55 +4397,7 @@
    500,
    2000
   ],
-  "prescore": 5.88
- },
- "13445063": {
-  "id": 13445063,
-  "url": "https://crowdworks.jp/public/jobs/13445063",
-  "title": "【ゲーム好き歓迎】神ゲーに特化したゆっくり解説動画のシナリオ作成【継続希望】",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 287,
-  "expired_on": "2026-10-04",
-  "released_at": "2026-09-21T22:20:13+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 6,
-    "project_contract_hope_number": 2,
-    "num_application_conditions": 16
-   }
-  },
-  "client": {
-   "userId": 2672531,
-   "userDisplayName": "AKI ZUKI",
-   "isIdentityVerified": true,
-   "averageScore": 4.96361,
-   "jobOfferAchievementCount": 298,
-   "projectFinishedRate": 88,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "稼働時間"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 3,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "ea5e480a6eb7",
-  "desc_hash": "228698b8394b60aabaf3530d6f21d71e",
-  "price_mentions": [
-   3000
-  ],
-  "prescore": 6.78
+  "prescore": 8.028
  },
  "13469040": {
   "id": 13469040,
@@ -4906,7 +4449,8 @@
   "price_mentions": [
    3300
   ],
-  "prescore": 2.6
+  "prescore": 39.049,
+  "fit_n": 1
  },
  "13468987": {
   "id": 13468987,
@@ -4957,7 +4501,8 @@
    100,
    1500
   ],
-  "prescore": 5.8
+  "prescore": 276.968,
+  "fit_n": 0
  },
  "13468912": {
   "id": 13468912,
@@ -5006,56 +4551,8 @@
    20,
    200
   ],
-  "prescore": 7.47
- },
- "13468908": {
-  "id": 13468908,
-  "url": "https://crowdworks.jp/public/jobs/13468908",
-  "title": "【記事作成】【初心者歓迎】テーマ「今年中にやりたいこと」",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-10-05",
-  "released_at": "2026-09-21T18:32:57+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 3,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 18
-   }
-  },
-  "client": {
-   "userId": 7115497,
-   "userDisplayName": "supersame",
-   "isIdentityVerified": false,
-   "averageScore": 4.94125,
-   "jobOfferAchievementCount": 224,
-   "projectFinishedRate": 99,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 200.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 40,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "5781a480c201",
-  "desc_hash": "f6042dde7f0e9c4222d011b39a3ca271",
-  "price_mentions": [
-   20,
-   200
-  ],
-  "prescore": 7.47
+  "prescore": 49.029,
+  "fit_n": 0
  },
  "13468906": {
   "id": 13468906,
@@ -5104,56 +4601,8 @@
    20,
    200
   ],
-  "prescore": 7.47
- },
- "13468897": {
-  "id": 13468897,
-  "url": "https://crowdworks.jp/public/jobs/13468897",
-  "title": "【記事作成】【初心者歓迎】テーマ「今後世界は、AI制御できるのか？」",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-10-05",
-  "released_at": "2026-09-21T18:24:54+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 3,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 23
-   }
-  },
-  "client": {
-   "userId": 7115497,
-   "userDisplayName": "supersame",
-   "isIdentityVerified": false,
-   "averageScore": 4.94125,
-   "jobOfferAchievementCount": 224,
-   "projectFinishedRate": 99,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 200.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 40,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "b1687184484d",
-  "desc_hash": "67d77f47220b9f289ce6cd2d38df4dd0",
-  "price_mentions": [
-   20,
-   200
-  ],
-  "prescore": 7.47
+  "prescore": 28.84,
+  "fit_n": 0
  },
  "13467782": {
   "id": 13467782,
@@ -5209,7 +4658,8 @@
    50,
    1500
   ],
-  "prescore": 4.1
+  "prescore": 15.206,
+  "fit_n": 1
  },
  "13467975": {
   "id": 13467975,
@@ -5260,7 +4710,7 @@
    5000,
    8000
   ],
-  "prescore": 5.6
+  "prescore": 0.0
  },
  "13467814": {
   "id": 13467814,
@@ -5310,7 +4760,8 @@
    200,
    400
   ],
-  "prescore": 7.48
+  "prescore": 54.476,
+  "fit_n": 0
  },
  "13467813": {
   "id": 13467813,
@@ -5360,7 +4811,8 @@
    200,
    400
   ],
-  "prescore": 7.48
+  "prescore": 54.476,
+  "fit_n": 0
  },
  "13467812": {
   "id": 13467812,
@@ -5410,7 +4862,8 @@
    200,
    400
   ],
-  "prescore": 7.48
+  "prescore": 57.681,
+  "fit_n": 0
  },
  "13467808": {
   "id": 13467808,
@@ -5460,7 +4913,8 @@
    200,
    400
   ],
-  "prescore": 7.48
+  "prescore": 57.681,
+  "fit_n": 0
  },
  "13467807": {
   "id": 13467807,
@@ -5510,7 +4964,8 @@
    200,
    400
   ],
-  "prescore": 7.48
+  "prescore": 46.694,
+  "fit_n": 0
  },
  "13467529": {
   "id": 13467529,
@@ -5560,7 +5015,8 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 4.67
+  "prescore": 38.016,
+  "fit_n": 0
  },
  "13467517": {
   "id": 13467517,
@@ -5609,7 +5065,8 @@
    2728,
    3000
   ],
-  "prescore": 6.69
+  "prescore": 22.742,
+  "fit_n": 0
  },
  "13464954": {
   "id": 13464954,
@@ -5658,7 +5115,8 @@
   "price_mentions": [
    1400
   ],
-  "prescore": 6.6
+  "prescore": 10.08,
+  "fit_n": 1
  },
  "13464794": {
   "id": 13464794,
@@ -5710,7 +5168,8 @@
    3500,
    14000
   ],
-  "prescore": 1.8
+  "prescore": 18.368,
+  "fit_n": 0
  },
  "13467021": {
   "id": 13467021,
@@ -5760,7 +5219,8 @@
    200,
    400
   ],
-  "prescore": 7.48
+  "prescore": 31.631,
+  "fit_n": 0
  },
  "13466804": {
   "id": 13466804,
@@ -5813,7 +5273,8 @@
   "listing_fp": "390f386809e4",
   "desc_hash": "f0e547bc210d2990438f717276547cb1",
   "price_mentions": [],
-  "prescore": 6.86
+  "prescore": 28.957,
+  "fit_n": 0
  },
  "13466677": {
   "id": 13466677,
@@ -5867,57 +5328,8 @@
    100,
    2300
   ],
-  "prescore": 4.8
- },
- "13466671": {
-  "id": 13466671,
-  "url": "https://crowdworks.jp/public/jobs/13466671",
-  "title": "【はじめての仕事や実績作りに】「男性の美容」についての記事作成をお願いします！",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-10-04",
-  "released_at": "2026-09-20T18:41:50+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 3,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 14
-   }
-  },
-  "client": {
-   "userId": 7181092,
-   "userDisplayName": "tokyoreve",
-   "isIdentityVerified": false,
-   "averageScore": 4.96517,
-   "jobOfferAchievementCount": 82,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 400.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 36,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "cca98004712d",
-  "desc_hash": "51e46120f436a99f14099fa894968545",
-  "price_mentions": [
-   20,
-   200,
-   400
-  ],
-  "prescore": 7.48
+  "prescore": 27.378,
+  "fit_n": 0
  },
  "13466665": {
   "id": 13466665,
@@ -5967,7 +5379,8 @@
    200,
    400
   ],
-  "prescore": 7.48
+  "prescore": 75.429,
+  "fit_n": 0
  },
  "13360331": {
   "id": 13360331,
@@ -6017,7 +5430,8 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 2.6
+  "prescore": 5.982,
+  "fit_n": 1
  },
  "13465740": {
   "id": 13465740,
@@ -6065,7 +5479,8 @@
   "listing_fp": "83b741c47699",
   "desc_hash": "0b019a5f27e7338a6648522ef5ae0434",
   "price_mentions": [],
-  "prescore": 7.2
+  "prescore": 37.714,
+  "fit_n": 2
  },
  "13390811": {
   "id": 13390811,
@@ -6117,7 +5532,8 @@
   "price_mentions": [
    1000
   ],
-  "prescore": 3.8
+  "prescore": 11.424,
+  "fit_n": 2
  },
  "13465307": {
   "id": 13465307,
@@ -6164,7 +5580,8 @@
    50,
    2000
   ],
-  "prescore": 7.3
+  "prescore": 63.221,
+  "fit_n": 0
  },
  "13465131": {
   "id": 13465131,
@@ -6214,7 +5631,8 @@
    200,
    400
   ],
-  "prescore": 7.48
+  "prescore": 44.571,
+  "fit_n": 0
  },
  "13465112": {
   "id": 13465112,
@@ -6264,7 +5682,8 @@
    200,
    400
   ],
-  "prescore": 7.48
+  "prescore": 42.634,
+  "fit_n": 0
  },
  "13465111": {
   "id": 13465111,
@@ -6314,7 +5733,8 @@
    200,
    400
   ],
-  "prescore": 7.48
+  "prescore": 54.476,
+  "fit_n": 0
  },
  "13450073": {
   "id": 13450073,
@@ -6362,7 +5782,8 @@
    50,
    4000
   ],
-  "prescore": 6.8
+  "prescore": 42.11,
+  "fit_n": 1
  },
  "13464798": {
   "id": 13464798,
@@ -6417,7 +5838,8 @@
    3000,
    6000
   ],
-  "prescore": 2.3
+  "prescore": 31.046,
+  "fit_n": 1
  },
  "13464279": {
   "id": 13464279,
@@ -6467,7 +5889,8 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 5.75
+  "prescore": 28.0,
+  "fit_n": 0
  },
  "13463872": {
   "id": 13463872,
@@ -6517,7 +5940,8 @@
    2100,
    2800
   ],
-  "prescore": 4.98
+  "prescore": 20.492,
+  "fit_n": 0
  },
  "13424539": {
   "id": 13424539,
@@ -6567,7 +5991,8 @@
    3000,
    12000
   ],
-  "prescore": 1.6
+  "prescore": 24.415,
+  "fit_n": 0
  },
  "13424538": {
   "id": 13424538,
@@ -6620,7 +6045,8 @@
    3000,
    12000
   ],
-  "prescore": 1.6
+  "prescore": 35.75,
+  "fit_n": 0
  },
  "13463537": {
   "id": 13463537,
@@ -6668,58 +6094,7 @@
   "price_mentions": [
    1500
   ],
-  "prescore": 5.4
- },
- "13463352": {
-  "id": 13463352,
-  "url": "https://crowdworks.jp/public/jobs/13463352",
-  "title": "【継続依頼あり】旅行ノウハウに関するテスト記事作成｜旅行好き歓迎",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-10-02",
-  "released_at": "2026-09-18T14:50:13+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 12,
-    "project_contract_hope_number": 10,
-    "num_application_conditions": 19
-   }
-  },
-  "client": {
-   "userId": 7063450,
-   "userDisplayName": "しん太/webマーケ",
-   "isIdentityVerified": false,
-   "averageScore": 4.93228,
-   "jobOfferAchievementCount": 12,
-   "projectFinishedRate": 94,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 300.0,
-   "chars": 500.0
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "46dfb07d2f46",
-  "desc_hash": "07498e7e7e6980257e4a24b010a16821",
-  "price_mentions": [
-   300
-  ],
-  "prescore": 5.57
+  "prescore": 13.026
  },
  "13463299": {
   "id": 13463299,
@@ -6769,7 +6144,8 @@
    200,
    400
   ],
-  "prescore": 7.48
+  "prescore": 40.857,
+  "fit_n": 0
  },
  "13463296": {
   "id": 13463296,
@@ -6819,7 +6195,8 @@
    200,
    400
   ],
-  "prescore": 7.48
+  "prescore": 94.286,
+  "fit_n": 0
  },
  "13463294": {
   "id": 13463294,
@@ -6869,7 +6246,8 @@
    200,
    400
   ],
-  "prescore": 7.48
+  "prescore": 102.143,
+  "fit_n": 0
  },
  "13461995": {
   "id": 13461995,
@@ -6918,7 +6296,8 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 6.58
+  "prescore": 78.306,
+  "fit_n": 2
  },
  "13462093": {
   "id": 13462093,
@@ -6972,7 +6351,8 @@
    15000,
    20000
   ],
-  "prescore": 6.56
+  "prescore": 243.936,
+  "fit_n": 0
  },
  "13462184": {
   "id": 13462184,
@@ -7022,7 +6402,7 @@
   "price_mentions": [
    1500
   ],
-  "prescore": 6.57
+  "prescore": 9.977
  },
  "13461853": {
   "id": 13461853,
@@ -7072,7 +6452,7 @@
   "price_mentions": [
    1000
   ],
-  "prescore": 2.1
+  "prescore": 0.0
  },
  "13458979": {
   "id": 13458979,
@@ -7130,107 +6510,8 @@
    49999,
    50000
   ],
-  "prescore": 7.0
- },
- "13457623": {
-  "id": 13457623,
-  "url": "https://crowdworks.jp/public/jobs/13457623",
-  "title": "【１記事/550円】マニュアル完備だから安心！隙間時間でOK＆継続案件ありのライターさん募集！！！",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-09-30",
-  "released_at": "2026-09-17T09:59:09+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 4,
-    "project_contract_hope_number": 2,
-    "num_application_conditions": 25
-   }
-  },
-  "client": {
-   "userId": 6748001,
-   "userDisplayName": "はくさいライティング",
-   "isIdentityVerified": true,
-   "averageScore": 3.67639,
-   "jobOfferAchievementCount": 38,
-   "projectFinishedRate": 66,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 550.0,
-   "chars": 1000.0
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "稼働時間",
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 3,
-  "same_text_count": 3,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "9a82740ec62a",
-  "desc_hash": "c02f61c5890cff5da37ac02c7e030be2",
-  "price_mentions": [
-   500,
-   550
-  ],
-  "prescore": 6.14
- },
- "13457621": {
-  "id": 13457621,
-  "url": "https://crowdworks.jp/public/jobs/13457621",
-  "title": "【1記事/550円】ライター未経験・初心者さんが活躍中。隙間時間でできる継続ライティング案件！！",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-09-30",
-  "released_at": "2026-09-17T09:59:09+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 4,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 19
-   }
-  },
-  "client": {
-   "userId": 6748001,
-   "userDisplayName": "はくさいライティング",
-   "isIdentityVerified": true,
-   "averageScore": 3.67639,
-   "jobOfferAchievementCount": 38,
-   "projectFinishedRate": 66,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 550.0,
-   "chars": 1000.0
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "稼働時間",
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 3,
-  "same_text_count": 3,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "c0f17571e900",
-  "desc_hash": "c02f61c5890cff5da37ac02c7e030be2",
-  "price_mentions": [
-   500,
-   550
-  ],
-  "prescore": 6.14
+  "prescore": 17.062,
+  "fit_n": 1
  },
  "13450078": {
   "id": 13450078,
@@ -7278,7 +6559,8 @@
    50,
    4000
   ],
-  "prescore": 6.8
+  "prescore": 64.785,
+  "fit_n": 1
  },
  "13452860": {
   "id": 13452860,
@@ -7329,7 +6611,8 @@
   "price_mentions": [
    2500
   ],
-  "prescore": 5.74
+  "prescore": 37.156,
+  "fit_n": 1
  },
  "13457944": {
   "id": 13457944,
@@ -7379,57 +6662,7 @@
   "price_mentions": [
    800
   ],
-  "prescore": 5.3
- },
- "13457615": {
-  "id": 13457615,
-  "url": "https://crowdworks.jp/public/jobs/13457615",
-  "title": "【1記事/550円】ライター未経験・初心者さんおすすめ！　1日１〜２時間でできる継続ライティング案件！！！",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-09-30",
-  "released_at": "2026-09-16T19:07:46+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 5,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 20
-   }
-  },
-  "client": {
-   "userId": 6748001,
-   "userDisplayName": "はくさいライティング",
-   "isIdentityVerified": true,
-   "averageScore": 3.67639,
-   "jobOfferAchievementCount": 38,
-   "projectFinishedRate": 66,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 550.0,
-   "chars": 1000.0
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "稼働時間",
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 3,
-  "same_text_count": 3,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "833af0c2663a",
-  "desc_hash": "c02f61c5890cff5da37ac02c7e030be2",
-  "price_mentions": [
-   500,
-   550
-  ],
-  "prescore": 6.14
+  "prescore": 12.916
  },
  "13457508": {
   "id": 13457508,
@@ -7479,107 +6712,8 @@
    200,
    400
   ],
-  "prescore": 7.48
- },
- "13457512": {
-  "id": 13457512,
-  "url": "https://crowdworks.jp/public/jobs/13457512",
-  "title": "【はじめての仕事や実績作りに】「来年の抱負」についての記事作成をお願いします！",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-09-30",
-  "released_at": "2026-09-16T18:06:42+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 5,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 14
-   }
-  },
-  "client": {
-   "userId": 7181092,
-   "userDisplayName": "tokyoreve",
-   "isIdentityVerified": false,
-   "averageScore": 4.96517,
-   "jobOfferAchievementCount": 82,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 400.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 36,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "290d789360c5",
-  "desc_hash": "8631db037a9f53210fb8672e4d05c1ba",
-  "price_mentions": [
-   20,
-   200,
-   400
-  ],
-  "prescore": 7.48
- },
- "13457506": {
-  "id": 13457506,
-  "url": "https://crowdworks.jp/public/jobs/13457506",
-  "title": "【はじめての仕事や実績作りに】「次に行きたい旅行先」についての記事作成をお願いします！",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-09-30",
-  "released_at": "2026-09-16T18:05:45+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 4,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 14
-   }
-  },
-  "client": {
-   "userId": 7181092,
-   "userDisplayName": "tokyoreve",
-   "isIdentityVerified": false,
-   "averageScore": 4.96517,
-   "jobOfferAchievementCount": 82,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 400.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 36,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "cec792f31922",
-  "desc_hash": "f66879f679bc760ea8b7a43baaff42e7",
-  "price_mentions": [
-   20,
-   200,
-   400
-  ],
-  "prescore": 7.48
+  "prescore": 47.143,
+  "fit_n": 0
  },
  "13456873": {
   "id": 13456873,
@@ -7630,7 +6764,8 @@
    2100,
    2800
   ],
-  "prescore": 5.6
+  "prescore": 19.958,
+  "fit_n": 1
  },
  "13455868": {
   "id": 13455868,
@@ -7677,109 +6812,8 @@
    50,
    4000
   ],
-  "prescore": 5.8
- },
- "13343581": {
-  "id": 13343581,
-  "url": "https://crowdworks.jp/public/jobs/13343581",
-  "title": "【営業経験者限定】ChatGPTなどAIを活用した記事作成｜大量案件｜継続依頼あり",
-  "tiers": [
-   "B",
-   "C"
-  ],
-  "category_id": 318,
-  "expired_on": "2026-09-29",
-  "released_at": "2026-09-15T22:29:37+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 5,
-    "project_contract_hope_number": 2,
-    "num_application_conditions": 38
-   }
-  },
-  "client": {
-   "userId": 2973342,
-   "userDisplayName": "codem2020",
-   "isIdentityVerified": false,
-   "averageScore": 2.28997,
-   "jobOfferAchievementCount": 1007,
-   "projectFinishedRate": 27,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 30000.0,
-   "max": 50000.0
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "b65974f1f3c1",
-  "desc_hash": "bd8f64e42ba6c7d6d906f79ea652f456",
-  "price_mentions": [
-   300,
-   500
-  ],
-  "prescore": 5.74
- },
- "13455502": {
-  "id": 13455502,
-  "url": "https://crowdworks.jp/public/jobs/13455502",
-  "title": "【はじめての仕事や実績作りに】「東京と大阪を比較してみた」についての記事作成をお願いします！",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-09-29",
-  "released_at": "2026-09-15T22:06:03+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 3,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 21
-   }
-  },
-  "client": {
-   "userId": 7181092,
-   "userDisplayName": "tokyoreve",
-   "isIdentityVerified": false,
-   "averageScore": 4.96517,
-   "jobOfferAchievementCount": 82,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 400.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 36,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "632f6394c117",
-  "desc_hash": "7cc6accd9050c9e592181392b3b66934",
-  "price_mentions": [
-   20,
-   200,
-   400
-  ],
-  "prescore": 7.48
+  "prescore": 43.273,
+  "fit_n": 1
  },
  "13455501": {
   "id": 13455501,
@@ -7829,107 +6863,8 @@
    200,
    400
   ],
-  "prescore": 7.48
- },
- "13455499": {
-  "id": 13455499,
-  "url": "https://crowdworks.jp/public/jobs/13455499",
-  "title": "【はじめての仕事や実績作りに】「マクドナルドとモスバーガーを比較してみた」についての記事作成をお願いします！",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-09-29",
-  "released_at": "2026-09-15T22:05:07+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 4,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 16
-   }
-  },
-  "client": {
-   "userId": 7181092,
-   "userDisplayName": "tokyoreve",
-   "isIdentityVerified": false,
-   "averageScore": 4.96517,
-   "jobOfferAchievementCount": 82,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 400.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 36,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "17e1319cf495",
-  "desc_hash": "6bee90534303610fdfff842c70b2a0fa",
-  "price_mentions": [
-   20,
-   200,
-   400
-  ],
-  "prescore": 7.48
- },
- "13455498": {
-  "id": 13455498,
-  "url": "https://crowdworks.jp/public/jobs/13455498",
-  "title": "【はじめての仕事や実績作りに】「スタバとドトールを比較してみた」についての記事作成をお願いします！",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-09-29",
-  "released_at": "2026-09-15T22:04:39+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 5,
-    "project_contract_hope_number": 2,
-    "num_application_conditions": 20
-   }
-  },
-  "client": {
-   "userId": 7181092,
-   "userDisplayName": "tokyoreve",
-   "isIdentityVerified": false,
-   "averageScore": 4.96517,
-   "jobOfferAchievementCount": 82,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 400.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 36,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "f86e4d0ef22f",
-  "desc_hash": "a8686da5c13bcc75f9069fcdea6329c5",
-  "price_mentions": [
-   20,
-   200,
-   400
-  ],
-  "prescore": 7.48
+  "prescore": 74.71,
+  "fit_n": 0
  },
  "13452874": {
   "id": 13452874,
@@ -7980,7 +6915,8 @@
   "price_mentions": [
    2500
   ],
-  "prescore": 5.74
+  "prescore": 30.189,
+  "fit_n": 1
  },
  "13453661": {
   "id": 13453661,
@@ -8032,7 +6968,8 @@
   "price_mentions": [
    1000
   ],
-  "prescore": 2.6
+  "prescore": 21.133,
+  "fit_n": 1
  },
  "13453468": {
   "id": 13453468,
@@ -8078,7 +7015,8 @@
   "price_mentions": [
    7000
   ],
-  "prescore": 6.58
+  "prescore": 896.896,
+  "fit_n": 0
  },
  "13453465": {
   "id": 13453465,
@@ -8132,7 +7070,8 @@
    100,
    2300
   ],
-  "prescore": 4.8
+  "prescore": 43.804,
+  "fit_n": 0
  },
  "13453170": {
   "id": 13453170,
@@ -8183,7 +7122,8 @@
   "price_mentions": [
    500
   ],
-  "prescore": 2.6
+  "prescore": 32.147,
+  "fit_n": 0
  },
  "13448408": {
   "id": 13448408,
@@ -8235,57 +7175,8 @@
    300,
    3000
   ],
-  "prescore": 5.36
- },
- "13452636": {
-  "id": 13452636,
-  "url": "https://crowdworks.jp/public/jobs/13452636",
-  "title": "【はじめての仕事や実績作りに】「AIこうやって使ってる！」についての記事作成をお願いします！",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-09-28",
-  "released_at": "2026-09-14T19:49:40+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 5,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 22
-   }
-  },
-  "client": {
-   "userId": 7181092,
-   "userDisplayName": "tokyoreve",
-   "isIdentityVerified": false,
-   "averageScore": 4.96517,
-   "jobOfferAchievementCount": 82,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 400.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 36,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "bedb601cb4a9",
-  "desc_hash": "9cccaaa9b9ac0210f658d22da918a596",
-  "price_mentions": [
-   20,
-   200,
-   400
-  ],
-  "prescore": 7.48
+  "prescore": 7.241,
+  "fit_n": 0
  },
  "13451763": {
   "id": 13451763,
@@ -8336,7 +7227,8 @@
   "price_mentions": [
    500
   ],
-  "prescore": 5.1
+  "prescore": 29.108,
+  "fit_n": 1
  },
  "13451321": {
   "id": 13451321,
@@ -8384,7 +7276,8 @@
   "listing_fp": "6bc333f26ddf",
   "desc_hash": "f0d423ca04307fd9f2848a3978a61ccb",
   "price_mentions": [],
-  "prescore": 1.6
+  "prescore": 91.52,
+  "fit_n": 0
  },
  "13414400": {
   "id": 13414400,
@@ -8434,7 +7327,8 @@
    2000,
    4000
   ],
-  "prescore": 2.1
+  "prescore": 23.654,
+  "fit_n": 0
  },
  "13450772": {
   "id": 13450772,
@@ -8484,7 +7378,8 @@
    200,
    400
   ],
-  "prescore": 7.48
+  "prescore": 78.446,
+  "fit_n": 0
  },
  "13450770": {
   "id": 13450770,
@@ -8534,57 +7429,8 @@
    200,
    400
   ],
-  "prescore": 7.48
- },
- "13450708": {
-  "id": 13450708,
-  "url": "https://crowdworks.jp/public/jobs/13450708",
-  "title": "【はじめての仕事や実績作りに】「良く行く遊びスポット」についての記事作成をお願いします！",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-09-28",
-  "released_at": "2026-09-14T09:36:47+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 4,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 14
-   }
-  },
-  "client": {
-   "userId": 7181092,
-   "userDisplayName": "tokyoreve",
-   "isIdentityVerified": false,
-   "averageScore": 4.96517,
-   "jobOfferAchievementCount": 82,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 400.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 36,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "94d38d8b8b59",
-  "desc_hash": "6c4357be9f8df1de962dceddf3d52198",
-  "price_mentions": [
-   20,
-   200,
-   400
-  ],
-  "prescore": 7.48
+  "prescore": 112.065,
+  "fit_n": 0
  },
  "13450616": {
   "id": 13450616,
@@ -8634,107 +7480,8 @@
    200,
    400
   ],
-  "prescore": 7.48
- },
- "13450570": {
-  "id": 13450570,
-  "url": "https://crowdworks.jp/public/jobs/13450570",
-  "title": "【はじめての仕事や実績作りに】「ペットと一緒に暮らす」についての記事作成をお願いします！",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-09-28",
-  "released_at": "2026-09-14T09:34:31+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 6,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 30
-   }
-  },
-  "client": {
-   "userId": 7181092,
-   "userDisplayName": "tokyoreve",
-   "isIdentityVerified": false,
-   "averageScore": 4.96517,
-   "jobOfferAchievementCount": 82,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 400.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 36,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "6ac9f004defc",
-  "desc_hash": "749b70b22e1c7e547422c38472ba6735",
-  "price_mentions": [
-   20,
-   200,
-   400
-  ],
-  "prescore": 7.48
- },
- "13450518": {
-  "id": 13450518,
-  "url": "https://crowdworks.jp/public/jobs/13450518",
-  "title": "【はじめての仕事や実績作りに】「電車旅」についての記事作成をお願いします！",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-09-28",
-  "released_at": "2026-09-14T09:34:28+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 4,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 15
-   }
-  },
-  "client": {
-   "userId": 7181092,
-   "userDisplayName": "tokyoreve",
-   "isIdentityVerified": false,
-   "averageScore": 4.96517,
-   "jobOfferAchievementCount": 82,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 400.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 36,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "24407f944657",
-  "desc_hash": "e5ab0d860674fe001a5293f5600ccf80",
-  "price_mentions": [
-   20,
-   200,
-   400
-  ],
-  "prescore": 7.48
+  "prescore": 82.574,
+  "fit_n": 0
  },
  "13414385": {
   "id": 13414385,
@@ -8784,7 +7531,8 @@
    2000,
    4000
   ],
-  "prescore": 2.1
+  "prescore": 18.252,
+  "fit_n": 0
  },
  "13414375": {
   "id": 13414375,
@@ -8836,7 +7584,8 @@
    2000,
    4000
   ],
-  "prescore": 3.6
+  "prescore": 54.912,
+  "fit_n": 0
  },
  "13449952": {
   "id": 13449952,
@@ -8885,7 +7634,7 @@
    600,
    2000
   ],
-  "prescore": 5.88
+  "prescore": 13.728
  },
  "13449951": {
   "id": 13449951,
@@ -8935,107 +7684,8 @@
    200,
    400
   ],
-  "prescore": 7.48
- },
- "13449949": {
-  "id": 13449949,
-  "url": "https://crowdworks.jp/public/jobs/13449949",
-  "title": "【はじめての仕事や実績作りに】「chatgptと他のAIを比較」についての記事作成をお願いします！",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-09-27",
-  "released_at": "2026-09-13T22:12:12+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 9,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 40
-   }
-  },
-  "client": {
-   "userId": 7181092,
-   "userDisplayName": "tokyoreve",
-   "isIdentityVerified": false,
-   "averageScore": 4.96517,
-   "jobOfferAchievementCount": 82,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 400.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 36,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "60691e1e2ca7",
-  "desc_hash": "1ea80529c9facde0df63cdd9fc5b9797",
-  "price_mentions": [
-   20,
-   200,
-   400
-  ],
-  "prescore": 7.48
- },
- "13449430": {
-  "id": 13449430,
-  "url": "https://crowdworks.jp/public/jobs/13449430",
-  "title": "【はじめての仕事や実績作りに】「彼女と仲直りする方法」についての記事作成をお願いします！",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-09-27",
-  "released_at": "2026-09-13T14:29:31+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 7,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 20
-   }
-  },
-  "client": {
-   "userId": 7181092,
-   "userDisplayName": "tokyoreve",
-   "isIdentityVerified": false,
-   "averageScore": 4.96517,
-   "jobOfferAchievementCount": 82,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 400.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 36,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "aa0350a7477d",
-  "desc_hash": "daceb6841300924223df07e69ea94da0",
-  "price_mentions": [
-   20,
-   200,
-   400
-  ],
-  "prescore": 7.48
+  "prescore": 65.371,
+  "fit_n": 0
  },
  "13449118": {
   "id": 13449118,
@@ -9082,108 +7732,8 @@
    50,
    1200
   ],
-  "prescore": 5.49
- },
- "13200013": {
-  "id": 13200013,
-  "url": "https://crowdworks.jp/public/jobs/13200013",
-  "title": "【1記事あたり 2,100円〜2,800円】サッカー観戦が好きな方歓迎｜体験談・コラム執筆のお仕事",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-09-27",
-  "released_at": "2026-09-13T01:08:49+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 22,
-    "project_contract_hope_number": 15,
-    "num_application_conditions": 355
-   }
-  },
-  "client": {
-   "userId": 6708627,
-   "userDisplayName": "りぃまるさん",
-   "isIdentityVerified": true,
-   "averageScore": 4.91541,
-   "jobOfferAchievementCount": 59,
-   "projectFinishedRate": 99,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "article",
-   "price": 1500.0,
-   "chars": 1200.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": true,
-  "client_open_jobs": 45,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "b5669b6083ec",
-  "desc_hash": "aa1d60ca6be43ef9f94ebaa4e1e70f5a",
-  "price_mentions": [
-   1500,
-   2100,
-   2800
-  ],
-  "prescore": 7.46
- },
- "13479057": {
-  "id": 13479057,
-  "url": "https://crowdworks.jp/public/jobs/13479057",
-  "title": "【EEAT情報（プロフィール情報）公開可能な方限定】業界特化の、生成AI活用事例・導入事例ブログ記事執筆",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-09-27",
-  "released_at": "2026-09-25T14:25:56+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 5,
-    "num_application_conditions": 2
-   }
-  },
-  "client": {
-   "userId": 1555159,
-   "userDisplayName": "yyokoyama_48c4",
-   "isIdentityVerified": true,
-   "averageScore": 4.95,
-   "jobOfferAchievementCount": 94,
-   "projectFinishedRate": 91,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "article",
-   "price": 5000.0,
-   "chars": 500.0
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "WordPress",
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "b71f8090476c",
-  "desc_hash": "f7283b480059fecc8ab694a2f53ebbfc",
-  "price_mentions": [
-   1000,
-   5000,
-   10000
-  ],
-  "prescore": 6.57
+  "prescore": 14.256,
+  "fit_n": 1
  },
  "13478161": {
   "id": 13478161,
@@ -9237,7 +7787,8 @@
   "price_mentions": [
    100
   ],
-  "prescore": 2.1
+  "prescore": 10.381,
+  "fit_n": 0
  },
  "13474728": {
   "id": 13474728,
@@ -9286,7 +7837,8 @@
    155,
    170
   ],
-  "prescore": 5.58
+  "prescore": 62.452,
+  "fit_n": 0
  },
  "13039172": {
   "id": 13039172,
@@ -9338,57 +7890,8 @@
   "price_mentions": [
    800
   ],
-  "prescore": 4.7
- },
- "13466393": {
-  "id": 13466393,
-  "url": "https://crowdworks.jp/public/jobs/13466393",
-  "title": "【長期継続】YouTube漫画動画のAIシナリオライター募集",
-  "tiers": [
-   "B",
-   "C"
-  ],
-  "category_id": 287,
-  "expired_on": "2026-10-04",
-  "released_at": "2026-09-20T14:40:30+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 11,
-    "project_contract_hope_number": 2,
-    "num_application_conditions": 29
-   }
-  },
-  "client": {
-   "userId": 1812682,
-   "userDisplayName": "お仕事依頼用",
-   "isIdentityVerified": true,
-   "averageScore": 4.69379,
-   "jobOfferAchievementCount": 218,
-   "projectFinishedRate": 16,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "ポートフォリオ/実績提出",
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "5247eba39833",
-  "desc_hash": "aeb60f43d1c33e79eedc599f51978e7e",
-  "price_mentions": [
-   3000
-  ],
-  "prescore": 6.45
+  "prescore": 75.214,
+  "fit_n": 1
  },
  "13390821": {
   "id": 13390821,
@@ -9438,7 +7941,8 @@
   "price_mentions": [
    1500
   ],
-  "prescore": 5.3
+  "prescore": 14.465,
+  "fit_n": 3
  },
  "12599252": {
   "id": 12599252,
@@ -9487,7 +7991,8 @@
    50,
    100
   ],
-  "prescore": 5.2
+  "prescore": 0.374,
+  "fit_n": 1
  },
  "13464796": {
   "id": 13464796,
@@ -9537,7 +8042,8 @@
    3000,
    12000
   ],
-  "prescore": 1.8
+  "prescore": 3.786,
+  "fit_n": 0
  },
  "13455522": {
   "id": 13455522,
@@ -9586,7 +8092,7 @@
    600,
    2000
   ],
-  "prescore": 5.88
+  "prescore": 14.451
  },
  "13454970": {
   "id": 13454970,
@@ -9637,7 +8143,8 @@
   "price_mentions": [
    3500
   ],
-  "prescore": 4.59
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13162943": {
   "id": 13162943,
@@ -9685,106 +8192,8 @@
    2000,
    4000
   ],
-  "prescore": 6.28
- },
- "13452934": {
-  "id": 13452934,
-  "url": "https://crowdworks.jp/public/jobs/13452934",
-  "title": "【初心者OK】AIライティングについての簡単な記事作成できる方を募集",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 36,
-  "expired_on": "2026-09-28",
-  "released_at": "2026-09-14T22:56:26+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 30,
-    "project_contract_hope_number": 10,
-    "num_application_conditions": 170
-   }
-  },
-  "client": {
-   "userId": 7203982,
-   "userDisplayName": "dake87834",
-   "isIdentityVerified": true,
-   "averageScore": 5.0,
-   "jobOfferAchievementCount": 1,
-   "projectFinishedRate": 75,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 100.0,
-   "chars": 200.0
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "発注実績<=2"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "ecaabc146323",
-  "desc_hash": "4458acd1ee80ca7ce12d850de96a4ff3",
-  "price_mentions": [
-   100
-  ],
-  "prescore": 6.1
- },
- "13044268": {
-  "id": 13044268,
-  "url": "https://crowdworks.jp/public/jobs/13044268",
-  "title": "【ゲーム好き歓迎】ゲームに絡んだWordPressのブログの記事作成【継続あり】",
-  "tiers": [
-   "B",
-   "C"
-  ],
-  "category_id": 36,
-  "expired_on": "2026-10-04",
-  "released_at": "2026-09-24T09:37:45+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 4,
-    "project_contract_hope_number": 2,
-    "num_application_conditions": 18
-   }
-  },
-  "client": {
-   "userId": 2672531,
-   "userDisplayName": "AKI ZUKI",
-   "isIdentityVerified": true,
-   "averageScore": 4.96361,
-   "jobOfferAchievementCount": 298,
-   "projectFinishedRate": 88,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "article",
-   "price": 500.0,
-   "chars": 2000.0
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "WordPress"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 3,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "773820d2a31a",
-  "desc_hash": "bf4bf4afcd93b2e0e16683725926822d",
-  "price_mentions": [
-   500
-  ],
-  "prescore": 6.78
+  "prescore": 8.802,
+  "fit_n": 1
  },
  "13452967": {
   "id": 13452967,
@@ -9834,58 +8243,8 @@
   "price_mentions": [
    100
   ],
-  "prescore": 3.6
- },
- "13452761": {
-  "id": 13452761,
-  "url": "https://crowdworks.jp/public/jobs/13452761",
-  "title": "【映画300本・小説200冊を浴びた方へ】YouTube朗読のプロット作成＆シナリオ添削ライター募集！！",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 287,
-  "expired_on": "2026-09-28",
-  "released_at": "2026-09-14T21:13:57+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 8,
-    "project_contract_hope_number": 4,
-    "num_application_conditions": 9
-   }
-  },
-  "client": {
-   "userId": 5804253,
-   "userDisplayName": "omochi11",
-   "isIdentityVerified": true,
-   "averageScore": 4.85833,
-   "jobOfferAchievementCount": 77,
-   "projectFinishedRate": 79,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "年齢条件",
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "70cba897114b",
-  "desc_hash": "70924a801837cf4c275a646fdec5ae03",
-  "price_mentions": [
-   100,
-   1000,
-   2000
-  ],
-  "prescore": 6.53
+  "prescore": 52.858,
+  "fit_n": 0
  },
  "13482124": {
   "id": 13482124,
@@ -9937,7 +8296,7 @@
   "price_mentions": [
    15
   ],
-  "prescore": -0.4
+  "prescore": 4.817
  },
  "13481809": {
   "id": 13481809,
@@ -9985,7 +8344,8 @@
   "price_mentions": [
    200
   ],
-  "prescore": 4.05
+  "prescore": 57.344,
+  "fit_n": 0
  },
  "13481118": {
   "id": 13481118,
@@ -10029,7 +8389,8 @@
   "listing_fp": "e02d73622f59",
   "desc_hash": "3be34ba2e4ffdb2519e695b0d1ba2d2f",
   "price_mentions": [],
-  "prescore": 5.59
+  "prescore": 0.567,
+  "fit_n": 1
  },
  "13479876": {
   "id": 13479876,
@@ -10080,54 +8441,7 @@
   "price_mentions": [
    20
   ],
-  "prescore": 3.09
- },
- "13479553": {
-  "id": 13479553,
-  "url": "https://crowdworks.jp/public/jobs/13479553",
-  "title": "【持ち家にお住まいの方限定】住宅の修理・修繕に関する簡単なアンケート",
-  "tiers": [
-   "A"
-  ],
-  "category_id": 108,
-  "expired_on": "2026-09-27",
-  "released_at": "2026-09-25T16:04:41+09:00",
-  "entry": {
-   "task_entry": {
-    "num_completed_tasks": 465,
-    "num_tasks": 478
-   }
-  },
-  "client": {
-   "userId": 5528471,
-   "userDisplayName": "sachiel3",
-   "isIdentityVerified": false,
-   "averageScore": 4.96202,
-   "jobOfferAchievementCount": 763,
-   "projectFinishedRate": 99,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "task",
-   "price": 11.0,
-   "minutes": 10
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 4,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "0960e5c063ee",
-  "desc_hash": "02286ffff17a8f65b181156bfb0a5e2d",
-  "price_mentions": [],
-  "prescore": 3.38
+  "prescore": 0.696
  },
  "13479297": {
   "id": 13479297,
@@ -10177,7 +8491,8 @@
    10000,
    20000
   ],
-  "prescore": 6.76
+  "prescore": 0.671,
+  "fit_n": 1
  },
  "13477001": {
   "id": 13477001,
@@ -10227,7 +8542,8 @@
   "price_mentions": [
    1000
   ],
-  "prescore": 1.1
+  "prescore": 258.72,
+  "fit_n": 0
  },
  "13473709": {
   "id": 13473709,
@@ -10277,7 +8593,8 @@
    10000,
    20000
   ],
-  "prescore": 6.76
+  "prescore": 0.671,
+  "fit_n": 1
  },
  "13471612": {
   "id": 13471612,
@@ -10327,7 +8644,8 @@
   "price_mentions": [
    150
   ],
-  "prescore": 5.6
+  "prescore": 19.958,
+  "fit_n": 1
  },
  "13467886": {
   "id": 13467886,
@@ -10372,52 +8690,8 @@
   "price_mentions": [
    100
   ],
-  "prescore": 4.37
- },
- "13467086": {
-  "id": 13467086,
-  "url": "https://crowdworks.jp/public/jobs/13467086",
-  "title": "【職場でAI導入が進むオフィスワーカー／質問6つ】業務にAIの導入が進むことに対して、不安はありますか？",
-  "tiers": [
-   "A"
-  ],
-  "category_id": 108,
-  "expired_on": "2026-10-05",
-  "released_at": "2026-09-21T07:25:03+09:00",
-  "entry": {
-   "task_entry": {
-    "num_completed_tasks": 491,
-    "num_tasks": 500
-   }
-  },
-  "client": {
-   "userId": 77807,
-   "userDisplayName": "株式会社ビズヒッツ",
-   "isIdentityVerified": true,
-   "averageScore": 4.94126,
-   "jobOfferAchievementCount": 3194,
-   "projectFinishedRate": 97,
-   "isCertifiedEmployer": true,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "task",
-   "price": 5.0,
-   "minutes": 5
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 10,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "124e90d61ed9",
-  "desc_hash": "fde3e81ed87b983accfd0bad2c631f15",
-  "price_mentions": [],
-  "prescore": 4.97
+  "prescore": 38.4,
+  "fit_n": 0
  },
  "13467084": {
   "id": 13467084,
@@ -10463,7 +8737,8 @@
   "listing_fp": "8ad98929a3bd",
   "desc_hash": "34a2a346dfda86c430d0780b51a9736b",
   "price_mentions": [],
-  "prescore": 6.47
+  "prescore": 1.62,
+  "fit_n": 1
  },
  "13465684": {
   "id": 13465684,
@@ -10511,7 +8786,8 @@
   "listing_fp": "7ad73d949cc3",
   "desc_hash": "d8edf88c02389c5972d36fc3df43418b",
   "price_mentions": [],
-  "prescore": 0.1
+  "prescore": 2.484,
+  "fit_n": 0
  },
  "13465353": {
   "id": 13465353,
@@ -10556,7 +8832,8 @@
   "listing_fp": "53c006ebbc2a",
   "desc_hash": "55a0b1c181111da985c393991dc9f407",
   "price_mentions": [],
-  "prescore": 6.47
+  "prescore": 1.037,
+  "fit_n": 1
  },
  "13463827": {
   "id": 13463827,
@@ -10601,7 +8878,8 @@
   "listing_fp": "46317de199c9",
   "desc_hash": "e9e353e2b481e7753669e581f696326f",
   "price_mentions": [],
-  "prescore": 6.47
+  "prescore": 1.296,
+  "fit_n": 1
  },
  "13463767": {
   "id": 13463767,
@@ -10646,52 +8924,8 @@
   "listing_fp": "620c4d54d0a9",
   "desc_hash": "0bbec91e7ca9b4d79a6b7870d32c37f9",
   "price_mentions": [],
-  "prescore": 4.97
- },
- "13463746": {
-  "id": 13463746,
-  "url": "https://crowdworks.jp/public/jobs/13463746",
-  "title": "【お子さんがいて不動産（持ち家や土地）を所有している方／質問5つ】ご自身が所有する不動産を子どもに遺したいと思いますか？",
-  "tiers": [
-   "A"
-  ],
-  "category_id": 108,
-  "expired_on": "2026-10-02",
-  "released_at": "2026-09-18T16:33:41+09:00",
-  "entry": {
-   "task_entry": {
-    "num_completed_tasks": 492,
-    "num_tasks": 500
-   }
-  },
-  "client": {
-   "userId": 77807,
-   "userDisplayName": "株式会社ビズヒッツ",
-   "isIdentityVerified": true,
-   "averageScore": 4.94126,
-   "jobOfferAchievementCount": 3194,
-   "projectFinishedRate": 97,
-   "isCertifiedEmployer": true,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "task",
-   "price": 5.0,
-   "minutes": 4
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 10,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "a33b61758074",
-  "desc_hash": "4b89488ee3de4ed202a1725cba58666e",
-  "price_mentions": [],
-  "prescore": 4.97
+  "prescore": 0.96,
+  "fit_n": 0
  },
  "13463722": {
   "id": 13463722,
@@ -10736,7 +8970,8 @@
   "listing_fp": "a8183acc48a6",
   "desc_hash": "af96cbfd95d2a61e2d8531be466b5e97",
   "price_mentions": [],
-  "prescore": 4.97
+  "prescore": 0.96,
+  "fit_n": 0
  },
  "13463684": {
   "id": 13463684,
@@ -10781,7 +9016,8 @@
   "listing_fp": "7ab9118e148b",
   "desc_hash": "5a55287b888ea5b02d462187457394ea",
   "price_mentions": [],
-  "prescore": 4.97
+  "prescore": 0.48,
+  "fit_n": 0
  },
  "13463634": {
   "id": 13463634,
@@ -10829,7 +9065,8 @@
   "listing_fp": "0a45af11ff57",
   "desc_hash": "c4ff25260c95f4839d10ef361266da6a",
   "price_mentions": [],
-  "prescore": 1.1
+  "prescore": 16.558,
+  "fit_n": 0
  },
  "13461296": {
   "id": 13461296,
@@ -10879,7 +9116,8 @@
    10000,
    20000
   ],
-  "prescore": 6.76
+  "prescore": 0.839,
+  "fit_n": 1
  },
  "13459099": {
   "id": 13459099,
@@ -10929,7 +9167,8 @@
   "price_mentions": [
    30
   ],
-  "prescore": 3.3
+  "prescore": 12.144,
+  "fit_n": 0
  },
  "13451089": {
   "id": 13451089,
@@ -10974,7 +9213,8 @@
   "price_mentions": [
    100
   ],
-  "prescore": 4.37
+  "prescore": 49.152,
+  "fit_n": 0
  },
  "13450820": {
   "id": 13450820,
@@ -11024,7 +9264,8 @@
   "price_mentions": [
    30
   ],
-  "prescore": 3.3
+  "prescore": 15.544,
+  "fit_n": 0
  },
  "13450809": {
   "id": 13450809,
@@ -11074,7 +9315,8 @@
   "price_mentions": [
    30
   ],
-  "prescore": 3.3
+  "prescore": 15.544,
+  "fit_n": 0
  },
  "13449985": {
   "id": 13449985,
@@ -11117,7 +9359,7 @@
   "listing_fp": "643d7fa1b581",
   "desc_hash": "08c43fe52f4b50bb998db437a3a50b00",
   "price_mentions": [],
-  "prescore": 4.3
+  "prescore": 1.57
  },
  "13449668": {
   "id": 13449668,
@@ -11167,7 +9409,8 @@
   "price_mentions": [
    50
   ],
-  "prescore": 4.18
+  "prescore": 24.781,
+  "fit_n": 0
  },
  "13449461": {
   "id": 13449461,
@@ -11210,7 +9453,7 @@
   "listing_fp": "a0f047a86bdd",
   "desc_hash": "e23b0f629e063aee2f52ae35f8ae3432",
   "price_mentions": [],
-  "prescore": 4.3
+  "prescore": 2.355
  },
  "13449263": {
   "id": 13449263,
@@ -11260,7 +9503,8 @@
   "price_mentions": [
    50
   ],
-  "prescore": 4.18
+  "prescore": 24.781,
+  "fit_n": 0
  },
  "13481282": {
   "id": 13481282,
@@ -11306,7 +9550,8 @@
   "listing_fp": "bc8e34f0fee1",
   "desc_hash": "28b3c2ba588770fa1a0da466bc2969b6",
   "price_mentions": [],
-  "prescore": 5.48
+  "prescore": 0.103,
+  "fit_n": 1
  },
  "13473949": {
   "id": 13473949,
@@ -11354,7 +9599,8 @@
   "listing_fp": "6885139be733",
   "desc_hash": "3d755da7449e4761719df093e0e031c3",
   "price_mentions": [],
-  "prescore": 3.1
+  "prescore": 14.784,
+  "fit_n": 0
  },
  "13478624": {
   "id": 13478624,
@@ -11399,7 +9645,7 @@
   "listing_fp": "3fb5647d1a4b",
   "desc_hash": "afb657203c43b22a942e04c219fde916",
   "price_mentions": [],
-  "prescore": 4.05
+  "prescore": 0.986
  },
  "13326090": {
   "id": 13326090,
@@ -11447,7 +9693,8 @@
   "price_mentions": [
    150
   ],
-  "prescore": 4.06
+  "prescore": 40.32,
+  "fit_n": 0
  },
  "13471507": {
   "id": 13471507,
@@ -11495,7 +9742,8 @@
   "listing_fp": "74f0866925ed",
   "desc_hash": "57673d6632cd4b4557eec900f20be321",
   "price_mentions": [],
-  "prescore": 3.1
+  "prescore": 0.246,
+  "fit_n": 1
  },
  "13455669": {
   "id": 13455669,
@@ -11545,7 +9793,8 @@
   "price_mentions": [
    100
   ],
-  "prescore": 1.1
+  "prescore": 6.209,
+  "fit_n": 0
  },
  "13467101": {
   "id": 13467101,
@@ -11590,7 +9839,8 @@
   "listing_fp": "6cfcf441752d",
   "desc_hash": "f74858d2c3a6bbe53a2c18d4a5104b6e",
   "price_mentions": [],
-  "prescore": 4.97
+  "prescore": 0.23,
+  "fit_n": 0
  },
  "13465890": {
   "id": 13465890,
@@ -11637,7 +9887,7 @@
   "listing_fp": "8f47514a7760",
   "desc_hash": "6139cc34de3c7fbe341ee3acf8e0b56c",
   "price_mentions": [],
-  "prescore": 2.96
+  "prescore": 0.538
  },
  "13465437": {
   "id": 13465437,
@@ -11686,7 +9936,7 @@
   "price_mentions": [
    10
   ],
-  "prescore": 4.3
+  "prescore": 2.355
  },
  "13462953": {
   "id": 13462953,
@@ -11734,7 +9984,8 @@
   "listing_fp": "86b4051bb6f0",
   "desc_hash": "57673d6632cd4b4557eec900f20be321",
   "price_mentions": [],
-  "prescore": 3.1
+  "prescore": 0.307,
+  "fit_n": 1
  },
  "13451318": {
   "id": 13451318,
@@ -11779,7 +10030,8 @@
   "price_mentions": [
    100
   ],
-  "prescore": 4.37
+  "prescore": 49.152,
+  "fit_n": 0
  },
  "13478307": {
   "id": 13478307,
@@ -11827,7 +10079,8 @@
   "listing_fp": "3308d95390a0",
   "desc_hash": "57673d6632cd4b4557eec900f20be321",
   "price_mentions": [],
-  "prescore": 3.1
+  "prescore": 0.246,
+  "fit_n": 1
  },
  "13467559": {
   "id": 13467559,
@@ -11875,7 +10128,8 @@
   "listing_fp": "b2803d8fccea",
   "desc_hash": "57673d6632cd4b4557eec900f20be321",
   "price_mentions": [],
-  "prescore": 3.1
+  "prescore": 0.246,
+  "fit_n": 1
  },
  "13450802": {
   "id": 13450802,
@@ -11923,7 +10177,8 @@
   "listing_fp": "4de5cce18f78",
   "desc_hash": "57673d6632cd4b4557eec900f20be321",
   "price_mentions": [],
-  "prescore": 3.1
+  "prescore": 0.393,
+  "fit_n": 1
  },
  "13456298": {
   "id": 13456298,
@@ -11971,7 +10226,8 @@
   "listing_fp": "f64a895c09ce",
   "desc_hash": "57673d6632cd4b4557eec900f20be321",
   "price_mentions": [],
-  "prescore": 3.1
+  "prescore": 0.307,
+  "fit_n": 1
  },
  "13481613": {
   "id": 13481613,
@@ -12019,7 +10275,7 @@
   "listing_fp": "3241301135f1",
   "desc_hash": "42383ae86dae22233b5b16522e1f36cb",
   "price_mentions": [],
-  "prescore": 0.1
+  "prescore": 0.941
  },
  "13480527": {
   "id": 13480527,
@@ -12070,7 +10326,8 @@
    1000,
    2000
   ],
-  "prescore": 4.6
+  "prescore": 83.382,
+  "fit_n": 1
  },
  "13472894": {
   "id": 13472894,
@@ -12116,7 +10373,8 @@
   "listing_fp": "dd7baa517b28",
   "desc_hash": "af102fe62ddbe5a69087f270a770c5af",
   "price_mentions": [],
-  "prescore": 4.1
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13472709": {
   "id": 13472709,
@@ -12167,7 +10425,8 @@
   "listing_fp": "cbfc9db37796",
   "desc_hash": "2d9c92fd2eac00c4d2564b04840942a7",
   "price_mentions": [],
-  "prescore": 7.47
+  "prescore": 0.0,
+  "fit_n": 3
  },
  "13469836": {
   "id": 13469836,
@@ -12217,7 +10476,8 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 6.1
+  "prescore": 61.6,
+  "fit_n": 2
  },
  "13468845": {
   "id": 13468845,
@@ -12268,7 +10528,8 @@
    30000,
    40000
   ],
-  "prescore": 5.6
+  "prescore": 23.543,
+  "fit_n": 1
  },
  "13471463": {
   "id": 13471463,
@@ -12319,7 +10580,8 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 4.67
+  "prescore": 20.158,
+  "fit_n": 1
  },
  "13470571": {
   "id": 13470571,
@@ -12370,7 +10632,8 @@
    300,
    2000
   ],
-  "prescore": 5.97
+  "prescore": 17.342,
+  "fit_n": 2
  },
  "13464271": {
   "id": 13464271,
@@ -12418,7 +10681,8 @@
   "listing_fp": "3a272ada71ac",
   "desc_hash": "3bbffe0290a3ebfd206a06a29a4e4c9f",
   "price_mentions": [],
-  "prescore": 1.1
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13464177": {
   "id": 13464177,
@@ -12472,7 +10736,8 @@
    1000,
    5000
   ],
-  "prescore": 1.1
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13463570": {
   "id": 13463570,
@@ -12522,7 +10787,7 @@
    18000,
    60000
   ],
-  "prescore": 5.6
+  "prescore": 33.732
  },
  "13461083": {
   "id": 13461083,
@@ -12572,7 +10837,8 @@
   "listing_fp": "68a527ee32f7",
   "desc_hash": "f606df4285d5e7b5c5023a978a8ea3ce",
   "price_mentions": [],
-  "prescore": 1.6
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13460810": {
   "id": 13460810,
@@ -12627,7 +10893,8 @@
    6150,
    9150
   ],
-  "prescore": 5.84
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13415678": {
   "id": 13415678,
@@ -12677,59 +10944,8 @@
   "price_mentions": [
    10000
   ],
-  "prescore": 4.53
- },
- "13457695": {
-  "id": 13457695,
-  "url": "https://crowdworks.jp/public/jobs/13457695",
-  "title": "【1本6万円〜長期継続案件】金融・投資系YouTube完コピ編集者募集｜あなたの再現力を高単価で評価します",
-  "tiers": [
-   "C"
-  ],
-  "category_id": 293,
-  "expired_on": "2026-09-30",
-  "released_at": "2026-09-16T19:50:34+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 1,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 5
-   }
-  },
-  "client": {
-   "userId": 5690489,
-   "userDisplayName": "sakura__",
-   "isIdentityVerified": false,
-   "averageScore": 4.91667,
-   "jobOfferAchievementCount": 1311,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 50000.0,
-   "max": 100000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "4316034ff6e1",
-  "desc_hash": "5d6d6bf327887d857d6c3278964a16f0",
-  "price_mentions": [
-   10500,
-   15000,
-   60000
-  ],
-  "prescore": 6.06
+  "prescore": 24.958,
+  "fit_n": 1
  },
  "13311160": {
   "id": 13311160,
@@ -12779,7 +10995,8 @@
   "listing_fp": "547f149fbe1b",
   "desc_hash": "7eb4be7b04c926da3ea7d453e770fd81",
   "price_mentions": [],
-  "prescore": 2.1
+  "prescore": 72.265,
+  "fit_n": 1
  },
  "13310609": {
   "id": 13310609,
@@ -12826,7 +11043,8 @@
   "listing_fp": "8ce60401de38",
   "desc_hash": "de5a1eed37c78039f2fe879216b2bcd7",
   "price_mentions": [],
-  "prescore": 2.1
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13369372": {
   "id": 13369372,
@@ -12873,7 +11091,8 @@
   "listing_fp": "4e5f975cf7ef",
   "desc_hash": "6b9d56b5c648409756eebd7db4ae43a5",
   "price_mentions": [],
-  "prescore": 3.6
+  "prescore": 91.0,
+  "fit_n": 2
  },
  "13310597": {
   "id": 13310597,
@@ -12920,7 +11139,8 @@
   "listing_fp": "6a99d99b57b3",
   "desc_hash": "e15d84d9209fb70fe73ed9c247e7b3eb",
   "price_mentions": [],
-  "prescore": 2.1
+  "prescore": 72.265,
+  "fit_n": 1
  },
  "13452577": {
   "id": 13452577,
@@ -12972,7 +11192,8 @@
    1000,
    1500
   ],
-  "prescore": 4.6
+  "prescore": 9.392,
+  "fit_n": 1
  },
  "13480267": {
   "id": 13480267,
@@ -13023,7 +11244,8 @@
   "price_mentions": [
    15000
   ],
-  "prescore": 4.46
+  "prescore": 10.262,
+  "fit_n": 1
  },
  "13479256": {
   "id": 13479256,
@@ -13070,7 +11292,8 @@
   "listing_fp": "f8351e7eb4d3",
   "desc_hash": "6b95f026d8648e3c61f4900d053aab8b",
   "price_mentions": [],
-  "prescore": 1.6
+  "prescore": 4.669,
+  "fit_n": 1
  },
  "12629685": {
   "id": 12629685,
@@ -13117,7 +11340,8 @@
   "listing_fp": "57d2e0b72a4d",
   "desc_hash": "051f725abcad13f55815e9406482a798",
   "price_mentions": [],
-  "prescore": 6.58
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13466520": {
   "id": 13466520,
@@ -13167,7 +11391,8 @@
   "listing_fp": "e43982795734",
   "desc_hash": "9d3a216843fff78563a4cf01eb3a2d88",
   "price_mentions": [],
-  "prescore": 6.07
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13449472": {
   "id": 13449472,
@@ -13217,7 +11442,8 @@
   "price_mentions": [
    6000
   ],
-  "prescore": 4.52
+  "prescore": 23.718,
+  "fit_n": 1
  },
  "13473843": {
   "id": 13473843,
@@ -13267,7 +11493,8 @@
    435200,
    640000
   ],
-  "prescore": 5.99
+  "prescore": 79.412,
+  "fit_n": 1
  },
  "13469369": {
   "id": 13469369,
@@ -13315,7 +11542,8 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 5.6
+  "prescore": 40.024,
+  "fit_n": 1
  },
  "13465555": {
   "id": 13465555,
@@ -13365,7 +11593,8 @@
   "listing_fp": "089d7382e282",
   "desc_hash": "47bf8c4ecf77283f397d2ae05d924c1e",
   "price_mentions": [],
-  "prescore": 1.1
+  "prescore": 46.694,
+  "fit_n": 1
  },
  "13340942": {
   "id": 13340942,
@@ -13418,7 +11647,8 @@
   "price_mentions": [
    30000
   ],
-  "prescore": 4.59
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13462106": {
   "id": 13462106,
@@ -13466,7 +11696,8 @@
   "listing_fp": "b58f73501216",
   "desc_hash": "a9098955a307692a9ff4dc60b98113d3",
   "price_mentions": [],
-  "prescore": 1.1
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13455410": {
   "id": 13455410,
@@ -13523,7 +11754,8 @@
    2800,
    16500
   ],
-  "prescore": 1.1
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13449368": {
   "id": 13449368,
@@ -13574,7 +11806,8 @@
   "listing_fp": "a8464107fb5a",
   "desc_hash": "69b8b5c0dbff3d462e5f9ed25dcfa675",
   "price_mentions": [],
-  "prescore": 1.1
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13477866": {
   "id": 13477866,
@@ -13622,7 +11855,8 @@
   "listing_fp": "5d1a50828256",
   "desc_hash": "9faf458b2fbaf9001faaed88e689d8f3",
   "price_mentions": [],
-  "prescore": 2.6
+  "prescore": 4.704,
+  "fit_n": 2
  },
  "13461687": {
   "id": 13461687,
@@ -13668,7 +11902,8 @@
   "listing_fp": "074643baec8d",
   "desc_hash": "fcc211c19c545ef5d27a26e682ce852a",
   "price_mentions": [],
-  "prescore": 4.6
+  "prescore": 12.828,
+  "fit_n": 1
  },
  "13477096": {
   "id": 13477096,
@@ -13715,7 +11950,8 @@
   "listing_fp": "a7a4912deef7",
   "desc_hash": "f2cbc6211d2931e8fd3ab0360881f25a",
   "price_mentions": [],
-  "prescore": 4.47
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13472082": {
   "id": 13472082,
@@ -13766,7 +12002,8 @@
   "listing_fp": "5f471afb5ba2",
   "desc_hash": "68a2ae123700ef1c5e938b65ee7e7bfb",
   "price_mentions": [],
-  "prescore": 1.1
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13462075": {
   "id": 13462075,
@@ -13812,7 +12049,8 @@
   "listing_fp": "f372c3e38205",
   "desc_hash": "eddbcc831b734b29f983683d6c2d1433",
   "price_mentions": [],
-  "prescore": 4.6
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13346280": {
   "id": 13346280,
@@ -13860,7 +12098,8 @@
   "listing_fp": "557eff3fb1ce",
   "desc_hash": "cf85ae14afe76cb9de5edc781b0fedcb",
   "price_mentions": [],
-  "prescore": 5.06
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13418579": {
   "id": 13418579,
@@ -13907,7 +12146,8 @@
   "listing_fp": "3fce42daeb06",
   "desc_hash": "ef5d284f8e0f47dbe9afef13d87256a1",
   "price_mentions": [],
-  "prescore": 6.58
+  "prescore": 15.247,
+  "fit_n": 1
  },
  "13411123": {
   "id": 13411123,
@@ -13956,7 +12196,8 @@
   "listing_fp": "8114f29bc9f6",
   "desc_hash": "674133ac1efbea3232d43fe90697f2ef",
   "price_mentions": [],
-  "prescore": 3.3
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13476871": {
   "id": 13476871,
@@ -14008,7 +12249,8 @@
   "price_mentions": [
    50000
   ],
-  "prescore": 1.1
+  "prescore": 2.241,
+  "fit_n": 1
  },
  "13275174": {
   "id": 13275174,
@@ -14056,7 +12298,8 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 5.52
+  "prescore": 50.029,
+  "fit_n": 1
  },
  "13452009": {
   "id": 13452009,
@@ -14106,7 +12349,8 @@
    700000,
    900000
   ],
-  "prescore": 5.99
+  "prescore": 127.059,
+  "fit_n": 1
  },
  "13366227": {
   "id": 13366227,
@@ -14156,7 +12400,8 @@
    2000,
    4000
   ],
-  "prescore": 4.47
+  "prescore": 5.985,
+  "fit_n": 1
  },
  "13449176": {
   "id": 13449176,
@@ -14203,7 +12448,8 @@
   "listing_fp": "5dcf1cb34f76",
   "desc_hash": "fd5e3fbb67868028215210eb34787404",
   "price_mentions": [],
-  "prescore": 1.6
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13374271": {
   "id": 13374271,
@@ -14256,7 +12502,7 @@
    1200,
    1500
   ],
-  "prescore": 7.46
+  "prescore": 0.0
  },
  "13477815": {
   "id": 13477815,
@@ -14303,7 +12549,8 @@
   "listing_fp": "8defaebfd43c",
   "desc_hash": "67cf4cff323a812cb16a270e9f72358e",
   "price_mentions": [],
-  "prescore": 5.6
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13476499": {
   "id": 13476499,
@@ -14352,7 +12599,8 @@
   "listing_fp": "adc97c28a765",
   "desc_hash": "0c31a6131d73994dc59c2bb353319731",
   "price_mentions": [],
-  "prescore": 4.78
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13472703": {
   "id": 13472703,
@@ -14402,7 +12650,8 @@
   "listing_fp": "b4943f26cd4f",
   "desc_hash": "cc226dd4dab005ffebbf77bc36070387",
   "price_mentions": [],
-  "prescore": 1.7
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13393841": {
   "id": 13393841,
@@ -14449,7 +12698,8 @@
   "listing_fp": "320c544e47a2",
   "desc_hash": "bd9901d21a1a9d67bcfefa89104698a2",
   "price_mentions": [],
-  "prescore": 5.96
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13473040": {
   "id": 13473040,
@@ -14498,7 +12748,8 @@
   "listing_fp": "7bcaf42cf7ae",
   "desc_hash": "8bc3e034d2eaf475a556cc1169327c5b",
   "price_mentions": [],
-  "prescore": 4.78
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13471682": {
   "id": 13471682,
@@ -14546,7 +12797,8 @@
   "listing_fp": "1a17d48b9b17",
   "desc_hash": "595aa3c116d2258ac622d9233f4cc5cb",
   "price_mentions": [],
-  "prescore": 4.78
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13466791": {
   "id": 13466791,
@@ -14600,7 +12852,8 @@
    3000,
    3500
   ],
-  "prescore": 4.1
+  "prescore": 26.682,
+  "fit_n": 1
  },
  "13458872": {
   "id": 13458872,
@@ -14646,7 +12899,8 @@
   "price_mentions": [
    1500
   ],
-  "prescore": 7.05
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13456842": {
   "id": 13456842,
@@ -14697,7 +12951,8 @@
   "price_mentions": [
    2300
   ],
-  "prescore": 5.68
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13456486": {
   "id": 13456486,
@@ -14749,7 +13004,8 @@
   "price_mentions": [
    1500
   ],
-  "prescore": 2.1
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13481262": {
   "id": 13481262,
@@ -14797,7 +13053,8 @@
   "listing_fp": "ba5547878289",
   "desc_hash": "dcddd0df157e3477fb4013e8f305d72d",
   "price_mentions": [],
-  "prescore": 2.1
+  "prescore": 21.915,
+  "fit_n": 1
  },
  "13478319": {
   "id": 13478319,
@@ -14845,7 +13102,8 @@
   "price_mentions": [
    350
   ],
-  "prescore": 4.57
+  "prescore": 8.561,
+  "fit_n": 1
  },
  "13473927": {
   "id": 13473927,
@@ -14894,7 +13152,8 @@
   "price_mentions": [
    500
   ],
-  "prescore": 4.6
+  "prescore": 9.784,
+  "fit_n": 1
  },
  "13472488": {
   "id": 13472488,
@@ -14941,7 +13200,8 @@
   "listing_fp": "852d78ada411",
   "desc_hash": "bbb23551f444b126bc8675b98154ad27",
   "price_mentions": [],
-  "prescore": 1.8
+  "prescore": 51.141,
+  "fit_n": 1
  },
  "13472371": {
   "id": 13472371,
@@ -14987,7 +13247,8 @@
   "listing_fp": "61b9940ff86a",
   "desc_hash": "c5b0bdbcfa57de894a2029ff6e9b5b60",
   "price_mentions": [],
-  "prescore": 5.49
+  "prescore": 29.779,
+  "fit_n": 1
  },
  "13472315": {
   "id": 13472315,
@@ -15034,7 +13295,8 @@
    1000,
    30000
   ],
-  "prescore": 7.09
+  "prescore": 8.842,
+  "fit_n": 2
  },
  "13471815": {
   "id": 13471815,
@@ -15085,7 +13347,8 @@
   "price_mentions": [
    330
   ],
-  "prescore": 4.23
+  "prescore": 10.331,
+  "fit_n": 1
  },
  "13470880": {
   "id": 13470880,
@@ -15136,7 +13399,8 @@
    455,
    500
   ],
-  "prescore": 5.54
+  "prescore": 40.024,
+  "fit_n": 1
  },
  "13470588": {
   "id": 13470588,
@@ -15188,7 +13452,8 @@
   "price_mentions": [
    4000
   ],
-  "prescore": 2.1
+  "prescore": 34.482,
+  "fit_n": 1
  },
  "13465225": {
   "id": 13465225,
@@ -15239,7 +13504,8 @@
    3000,
    30000
   ],
-  "prescore": 7.07
+  "prescore": 17.92,
+  "fit_n": 2
  },
  "13468744": {
   "id": 13468744,
@@ -15291,7 +13557,8 @@
   "price_mentions": [
    5000
   ],
-  "prescore": 1.1
+  "prescore": 28.016,
+  "fit_n": 1
  },
  "13055546": {
   "id": 13055546,
@@ -15340,7 +13607,8 @@
   "price_mentions": [
    6000
   ],
-  "prescore": 5.78
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13472935": {
   "id": 13472935,
@@ -15386,7 +13654,8 @@
   "price_mentions": [
    1000
   ],
-  "prescore": 5.79
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13472666": {
   "id": 13472666,
@@ -15438,7 +13707,8 @@
    455,
    500
   ],
-  "prescore": 5.59
+  "prescore": 9.318,
+  "fit_n": 1
  },
  "13471620": {
   "id": 13471620,
@@ -15485,53 +13755,8 @@
   "listing_fp": "b5fddbc8448e",
   "desc_hash": "52ffb829fd4f6a7961cf0d1e969ffaa1",
   "price_mentions": [],
-  "prescore": 1.9
- },
- "13471250": {
-  "id": 13471250,
-  "url": "https://crowdworks.jp/public/jobs/13471250",
-  "title": "【オンラインオリパ好き歓迎！】売れているガチャを調べる市場リサーチのお仕事",
-  "tiers": [
-   "C"
-  ],
-  "category_id": 100,
-  "expired_on": "2026-09-30",
-  "released_at": "2026-09-23T04:04:24+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 1,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 8
-   }
-  },
-  "client": {
-   "userId": 6372357,
-   "userDisplayName": "Oneスタジオ",
-   "isIdentityVerified": true,
-   "averageScore": 4.98182,
-   "jobOfferAchievementCount": 75,
-   "projectFinishedRate": 98,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "hourly",
-   "min_hourly_wage": 1000,
-   "max_hourly_wage": 2000
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 3,
-  "same_text_count": 2,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "8f5092f809f2",
-  "desc_hash": "eb204824c09d33740fd656a41007b2d8",
-  "price_mentions": [
-   1000
-  ],
-  "prescore": 5.79
+  "prescore": 53.365,
+  "fit_n": 1
  },
  "13471079": {
   "id": 13471079,
@@ -15579,7 +13804,8 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 5.59
+  "prescore": 40.659,
+  "fit_n": 1
  },
  "13469620": {
   "id": 13469620,
@@ -15630,7 +13856,8 @@
   "price_mentions": [
    500
   ],
-  "prescore": 2.1
+  "prescore": 8.561,
+  "fit_n": 1
  },
  "13468692": {
   "id": 13468692,
@@ -15682,7 +13909,8 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 2.1
+  "prescore": 43.83,
+  "fit_n": 1
  },
  "13466361": {
   "id": 13466361,
@@ -15733,7 +13961,8 @@
    200,
    500
   ],
-  "prescore": 2.6
+  "prescore": 6.441,
+  "fit_n": 1
  },
  "13424612": {
   "id": 13424612,
@@ -15784,7 +14013,8 @@
    3500,
    3850
   ],
-  "prescore": 5.78
+  "prescore": 43.835,
+  "fit_n": 1
  },
  "13464684": {
   "id": 13464684,
@@ -15832,7 +14062,8 @@
   "listing_fp": "1c026772dcd2",
   "desc_hash": "5f5b821e9b236e1899e8a46d435f0c73",
   "price_mentions": [],
-  "prescore": 2.2
+  "prescore": 74.25,
+  "fit_n": 1
  },
  "13464648": {
   "id": 13464648,
@@ -15878,7 +14109,8 @@
   "price_mentions": [
    500
   ],
-  "prescore": 5.43
+  "prescore": 9.784,
+  "fit_n": 1
  },
  "13463531": {
   "id": 13463531,
@@ -15927,7 +14159,8 @@
   "price_mentions": [
    1000
   ],
-  "prescore": 6.1
+  "prescore": 20.533,
+  "fit_n": 2
  },
  "13461086": {
   "id": 13461086,
@@ -15979,7 +14212,8 @@
    2000,
    2200
   ],
-  "prescore": 4.23
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13459119": {
   "id": 13459119,
@@ -16031,7 +14265,8 @@
    455,
    500
   ],
-  "prescore": 5.59
+  "prescore": 11.647,
+  "fit_n": 1
  },
  "13458090": {
   "id": 13458090,
@@ -16080,7 +14315,8 @@
   "listing_fp": "cd4343af60f0",
   "desc_hash": "a6311be8287523bea84d1c3fa95c3d3e",
   "price_mentions": [],
-  "prescore": 6.2
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13455495": {
   "id": 13455495,
@@ -16132,7 +14368,8 @@
   "price_mentions": [
    500
   ],
-  "prescore": 1.1
+  "prescore": 10.958,
+  "fit_n": 1
  },
  "12982336": {
   "id": 12982336,
@@ -16183,7 +14420,8 @@
   "price_mentions": [
    110
   ],
-  "prescore": 3.5
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13455290": {
   "id": 13455290,
@@ -16235,7 +14473,8 @@
    2000,
    2200
   ],
-  "prescore": 4.23
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13411113": {
   "id": 13411113,
@@ -16288,7 +14527,8 @@
    250000,
    300000
   ],
-  "prescore": 2.7
+  "prescore": 8.696,
+  "fit_n": 1
  },
  "13387041": {
   "id": 13387041,
@@ -16339,7 +14579,8 @@
   "price_mentions": [
    800
   ],
-  "prescore": 4.94
+  "prescore": 64.038,
+  "fit_n": 1
  },
  "13411129": {
   "id": 13411129,
@@ -16392,59 +14633,8 @@
   "listing_fp": "e70e4a0bcd85",
   "desc_hash": "5a86f45557aba91d99e6c2c5353f6eb1",
   "price_mentions": [],
-  "prescore": 1.8
- },
- "13452863": {
-  "id": 13452863,
-  "url": "https://crowdworks.jp/public/jobs/13452863",
-  "title": "【15分で完了】ウォーターサーバーに興味がある方へ 簡単なヒアリング業務",
-  "tiers": [
-   "C"
-  ],
-  "category_id": 108,
-  "expired_on": "2026-09-28",
-  "released_at": "2026-09-14T22:22:45+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 11,
-    "project_contract_hope_number": 10,
-    "num_application_conditions": 28
-   }
-  },
-  "client": {
-   "userId": 7105872,
-   "userDisplayName": "nekonekoniko",
-   "isIdentityVerified": false,
-   "averageScore": 5.0,
-   "jobOfferAchievementCount": 5,
-   "projectFinishedRate": 97,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": 500.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "年齢条件",
-   "必須"
-  ],
-  "risk": [
-   "本人確認未",
-   "外部誘導"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "70f4149f1156",
-  "desc_hash": "1106ea94768688b309fe6b531c35eba5",
-  "price_mentions": [
-   500
-  ],
-  "prescore": 4.6
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13448990": {
   "id": 13448990,
@@ -16494,7 +14684,8 @@
    300,
    5000
   ],
-  "prescore": 2.6
+  "prescore": 74.711,
+  "fit_n": 1
  },
  "13466024": {
   "id": 13466024,
@@ -16541,7 +14732,8 @@
    2300,
    3500
   ],
-  "prescore": 5.8
+  "prescore": 73.059,
+  "fit_n": 1
  },
  "12322108": {
   "id": 12322108,
@@ -16590,7 +14782,8 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 5.78
+  "prescore": 42.861,
+  "fit_n": 1
  },
  "13465967": {
   "id": 13465967,
@@ -16639,7 +14832,8 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 5.6
+  "prescore": 0.007,
+  "fit_n": 1
  },
  "13023724": {
   "id": 13023724,
@@ -16688,7 +14882,8 @@
   "price_mentions": [
    3500
   ],
-  "prescore": 5.78
+  "prescore": 43.835,
+  "fit_n": 1
  },
  "13480410": {
   "id": 13480410,
@@ -16736,7 +14931,8 @@
   "price_mentions": [
    50000
   ],
-  "prescore": 5.7
+  "prescore": 2.192,
+  "fit_n": 1
  },
  "13470791": {
   "id": 13470791,
@@ -16783,7 +14979,8 @@
   "listing_fp": "8d789504e426",
   "desc_hash": "e02319b116b6db03ab3c001d0b3b32ea",
   "price_mentions": [],
-  "prescore": 2.1
+  "prescore": 57.812,
+  "fit_n": 1
  },
  "13467521": {
   "id": 13467521,
@@ -16829,7 +15026,8 @@
   "price_mentions": [
    5000
   ],
-  "prescore": 5.57
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13460900": {
   "id": 13460900,
@@ -16879,7 +15077,8 @@
    3000,
    30000
   ],
-  "prescore": 1.8
+  "prescore": 8.879,
+  "fit_n": 1
  },
  "13455616": {
   "id": 13455616,
@@ -16930,7 +15129,8 @@
   "price_mentions": [
    50000
   ],
-  "prescore": 2.6
+  "prescore": 9.961,
+  "fit_n": 1
  },
  "13456709": {
   "id": 13456709,
@@ -16977,7 +15177,8 @@
   "listing_fp": "9c65d80d1e67",
   "desc_hash": "17866c12ebeda659a119b98a0628dae8",
   "price_mentions": [],
-  "prescore": 2.1
+  "prescore": 72.265,
+  "fit_n": 1
  },
  "13449647": {
   "id": 13449647,
@@ -17026,7 +15227,8 @@
   "price_mentions": [
    10000
   ],
-  "prescore": 1.7
+  "prescore": 15.654,
+  "fit_n": 1
  },
  "13479781": {
   "id": 13479781,
@@ -17075,7 +15277,7 @@
   "listing_fp": "f5ad3f1b3654",
   "desc_hash": "c41fd3a89c114f3b5f2b70280b74cdb1",
   "price_mentions": [],
-  "prescore": 2.7
+  "prescore": 0.0
  },
  "13297608": {
   "id": 13297608,
@@ -17126,7 +15328,8 @@
    2000,
    5000
   ],
-  "prescore": 6.68
+  "prescore": 28.028,
+  "fit_n": 1
  },
  "13476880": {
   "id": 13476880,
@@ -17174,7 +15377,8 @@
   "price_mentions": [
    1000
   ],
-  "prescore": 4.48
+  "prescore": 4.709,
+  "fit_n": 1
  },
  "13471349": {
   "id": 13471349,
@@ -17223,7 +15427,8 @@
   "listing_fp": "ad97547938ba",
   "desc_hash": "f4e0e90d01de175af2d78b873533d87a",
   "price_mentions": [],
-  "prescore": 4.81
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13470553": {
   "id": 13470553,
@@ -17269,7 +15474,8 @@
   "listing_fp": "bdc40b65b487",
   "desc_hash": "b399948199d7c659b01a2c51c55db2eb",
   "price_mentions": [],
-  "prescore": 4.7
+  "prescore": 3.993,
+  "fit_n": 1
  },
  "13474356": {
   "id": 13474356,
@@ -17320,7 +15526,8 @@
   "price_mentions": [
    1500
   ],
-  "prescore": 4.6
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13469775": {
   "id": 13469775,
@@ -17372,7 +15579,8 @@
    1200,
    3500
   ],
-  "prescore": 5.6
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13297593": {
   "id": 13297593,
@@ -17423,7 +15631,8 @@
    2000,
    5000
   ],
-  "prescore": 6.68
+  "prescore": 40.659,
+  "fit_n": 1
  },
  "13470737": {
   "id": 13470737,
@@ -17474,7 +15683,8 @@
    10,
    300
   ],
-  "prescore": 4.6
+  "prescore": 0.196,
+  "fit_n": 1
  },
  "13469472": {
   "id": 13469472,
@@ -17523,7 +15733,8 @@
    500,
    1500
   ],
-  "prescore": 4.99
+  "prescore": 36.436,
+  "fit_n": 1
  },
  "13461588": {
   "id": 13461588,
@@ -17574,53 +15785,8 @@
   "price_mentions": [
    1300
   ],
-  "prescore": 4.49
- },
- "13462153": {
-  "id": 13462153,
-  "url": "https://crowdworks.jp/public/jobs/13462153",
-  "title": "【報酬6万円】トレード動画の英語翻訳とテロップ入れ(動画時間2時間42分)",
-  "tiers": [
-   "C"
-  ],
-  "category_id": 154,
-  "expired_on": "2026-10-02",
-  "released_at": "2026-09-18T06:56:22+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 1,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 27
-   }
-  },
-  "client": {
-   "userId": 1101462,
-   "userDisplayName": "タカシ@taksahi",
-   "isIdentityVerified": true,
-   "averageScore": 4.89876,
-   "jobOfferAchievementCount": 558,
-   "projectFinishedRate": 94,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": 66000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "283b659002b3",
-  "desc_hash": "e3ec7e45f893c59ac7bf1e865cd5f60d",
-  "price_mentions": [],
-  "prescore": 5.55
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13297601": {
   "id": 13297601,
@@ -17671,7 +15837,8 @@
    2000,
    5000
   ],
-  "prescore": 6.68
+  "prescore": 18.326,
+  "fit_n": 1
  },
  "12248804": {
   "id": 12248804,
@@ -17721,7 +15888,8 @@
    3500,
    5000
   ],
-  "prescore": 5.98
+  "prescore": 13.235,
+  "fit_n": 1
  },
  "13306413": {
   "id": 13306413,
@@ -17774,7 +15942,8 @@
    1500,
    2000
   ],
-  "prescore": 4.9
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13017044": {
   "id": 13017044,
@@ -17823,7 +15992,8 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 5.62
+  "prescore": 32.725,
+  "fit_n": 1
  },
  "13462089": {
   "id": 13462089,
@@ -17874,7 +16044,8 @@
    50,
    25000
   ],
-  "prescore": 4.7
+  "prescore": 5.728,
+  "fit_n": 1
  },
  "13456447": {
   "id": 13456447,
@@ -17922,7 +16093,8 @@
   "price_mentions": [
    220
   ],
-  "prescore": 2.6
+  "prescore": 3.424,
+  "fit_n": 1
  },
  "13456791": {
   "id": 13456791,
@@ -17970,7 +16142,8 @@
   "price_mentions": [
    200
   ],
-  "prescore": 5.58
+  "prescore": 83.382,
+  "fit_n": 1
  },
  "13472010": {
   "id": 13472010,
@@ -18022,7 +16195,8 @@
    2273,
    2500
   ],
-  "prescore": 6.64
+  "prescore": 64.8,
+  "fit_n": 2
  },
  "13470751": {
   "id": 13470751,
@@ -18070,7 +16244,8 @@
   "listing_fp": "470643753272",
   "desc_hash": "24600f2f7d26f2647c70689bd4f6506a",
   "price_mentions": [],
-  "prescore": 1.1
+  "prescore": 3.736,
+  "fit_n": 1
  },
  "13470365": {
   "id": 13470365,
@@ -18118,7 +16293,8 @@
   "listing_fp": "543bdcb2b310",
   "desc_hash": "532c1f5c93fb51444cd00e181f6b8757",
   "price_mentions": [],
-  "prescore": 4.7
+  "prescore": 7.624,
+  "fit_n": 1
  },
  "13465439": {
   "id": 13465439,
@@ -18167,7 +16343,7 @@
    1300,
    3000
   ],
-  "prescore": 5.6
+  "prescore": 0.0
  },
  "13476866": {
   "id": 13476866,
@@ -18221,7 +16397,8 @@
    15000,
    20000
   ],
-  "prescore": 4.6
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13392352": {
   "id": 13392352,
@@ -18269,7 +16446,8 @@
   "price_mentions": [
    300
   ],
-  "prescore": 5.06
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13460666": {
   "id": 13460666,
@@ -18318,7 +16496,8 @@
    100,
    500
   ],
-  "prescore": 7.2
+  "prescore": 50.769,
+  "fit_n": 2
  },
  "13463074": {
   "id": 13463074,
@@ -18369,7 +16548,8 @@
    9091,
    10000
   ],
-  "prescore": 4.57
+  "prescore": 17.23,
+  "fit_n": 1
  },
  "13477834": {
   "id": 13477834,
@@ -18415,7 +16595,8 @@
   "listing_fp": "6558386c30a5",
   "desc_hash": "16d6d9cb186f4191a3e2252fb0b62d78",
   "price_mentions": [],
-  "prescore": 5.6
+  "prescore": 24.459,
+  "fit_n": 1
  },
  "13477305": {
   "id": 13477305,
@@ -18466,7 +16647,8 @@
   "price_mentions": [
    1300
   ],
-  "prescore": 4.49
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13063973": {
   "id": 13063973,
@@ -18513,7 +16695,8 @@
   "listing_fp": "1bc2e3493fcf",
   "desc_hash": "731d11852d904584caf18b3e4a5c08af",
   "price_mentions": [],
-  "prescore": 6.58
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13472236": {
   "id": 13472236,
@@ -18569,7 +16752,8 @@
    1500,
    2500
   ],
-  "prescore": 2.7
+  "prescore": 21.842,
+  "fit_n": 1
  },
  "13471429": {
   "id": 13471429,
@@ -18622,55 +16806,8 @@
    1000,
    5000
   ],
-  "prescore": 2.1
- },
- "13471082": {
-  "id": 13471082,
-  "url": "https://crowdworks.jp/public/jobs/13471082",
-  "title": "オンラインPC講師募集。ExcelやWordを教えるお仕事です。",
-  "tiers": [
-   "C"
-  ],
-  "category_id": 334,
-  "expired_on": "2026-09-30",
-  "released_at": "2026-09-23T00:17:35+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 1,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 3
-   }
-  },
-  "client": {
-   "userId": 6293304,
-   "userDisplayName": "kusha_cw",
-   "isIdentityVerified": true,
-   "averageScore": 5.0,
-   "jobOfferAchievementCount": 95,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": true,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "資格"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "c2caa7760f60",
-  "desc_hash": "24e8c036efbb78e9aabcaa8ffc6d5e9d",
-  "price_mentions": [
-   1300
-  ],
-  "prescore": 5.7
+  "prescore": 38.344,
+  "fit_n": 1
  },
  "13462373": {
   "id": 13462373,
@@ -18721,7 +16858,7 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 2.8
+  "prescore": 0.0
  },
  "13219896": {
   "id": 13219896,
@@ -18772,7 +16909,7 @@
   "price_mentions": [
    1200
   ],
-  "prescore": 5.58
+  "prescore": 0.0
  },
  "13454720": {
   "id": 13454720,
@@ -18820,7 +16957,8 @@
   "listing_fp": "a3441c5dc199",
   "desc_hash": "59da2cea3e8cb0c2b02fe6c31a5ba33b",
   "price_mentions": [],
-  "prescore": 1.2
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13456874": {
   "id": 13456874,
@@ -18868,7 +17006,8 @@
   "price_mentions": [
    800
   ],
-  "prescore": 4.35
+  "prescore": 6.004,
+  "fit_n": 1
  },
  "13383215": {
   "id": 13383215,
@@ -18915,7 +17054,8 @@
   "listing_fp": "2d40357baf63",
   "desc_hash": "096c86611cf86f05f475776803c556d2",
   "price_mentions": [],
-  "prescore": 6.58
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13418602": {
   "id": 13418602,
@@ -18962,7 +17102,8 @@
   "listing_fp": "74864ee204fd",
   "desc_hash": "1f1b43de742c11ae57eaebcbebe93c96",
   "price_mentions": [],
-  "prescore": 6.58
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13451767": {
   "id": 13451767,
@@ -19013,7 +17154,8 @@
   "listing_fp": "95a1129d641a",
   "desc_hash": "15bafed9ea1597421597f71758ae7c55",
   "price_mentions": [],
-  "prescore": 4.6
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13472562": {
   "id": 13472562,
@@ -19065,106 +17207,8 @@
    3000,
    3500
   ],
-  "prescore": 7.17
- },
- "13469018": {
-  "id": 13469018,
-  "url": "https://crowdworks.jp/public/jobs/13469018",
-  "title": "【収益化済みチャンネルで長期継続可♬】1本3,000円～！PowerPointを使ったお金系YouTube動画のスライド作成",
-  "tiers": [
-   "C"
-  ],
-  "category_id": 293,
-  "expired_on": "2026-10-05",
-  "released_at": "2026-09-21T20:16:20+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 5,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 32
-   }
-  },
-  "client": {
-   "userId": 227056,
-   "userDisplayName": "蕎麦茶",
-   "isIdentityVerified": true,
-   "averageScore": 4.94017,
-   "jobOfferAchievementCount": 183,
-   "projectFinishedRate": 96,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 10000.0,
-   "max": 30000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "ポートフォリオ/実績提出",
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "52f760fe9432",
-  "desc_hash": "39a3ef9c4f89526f824986cb83eb226c",
-  "price_mentions": [
-   300,
-   2500,
-   3000,
-   3500
-  ],
-  "prescore": 7.17
- },
- "13223079": {
-  "id": 13223079,
-  "url": "https://crowdworks.jp/public/jobs/13223079",
-  "title": "(初心者・主婦さん大歓迎)YouTube「お金」をテーマにした動画編集を長期でして頂ける方募集！【トライアル１分２５０円】",
-  "tiers": [
-   "C"
-  ],
-  "category_id": 293,
-  "expired_on": "2026-10-08",
-  "released_at": "2026-09-24T22:07:20+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 2,
-    "project_contract_hope_number": 2,
-    "num_application_conditions": 11
-   }
-  },
-  "client": {
-   "userId": 6341691,
-   "userDisplayName": "KASA_MICHI",
-   "isIdentityVerified": true,
-   "averageScore": 4.9908,
-   "jobOfferAchievementCount": 137,
-   "projectFinishedRate": 97,
-   "isCertifiedEmployer": true,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 0.0,
-   "max": 5000.0
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "3fb5f00426e4",
-  "desc_hash": "8217698b6f5a35c8772c8565936e51b4",
-  "price_mentions": [
-   250,
-   2000
-  ],
-  "prescore": 5.6
+  "prescore": 19.556,
+  "fit_n": 2
  },
  "13466419": {
   "id": 13466419,
@@ -19219,7 +17263,8 @@
    2000,
    3000
   ],
-  "prescore": 4.1
+  "prescore": 42.544,
+  "fit_n": 3
  },
  "13449318": {
   "id": 13449318,
@@ -19271,7 +17316,8 @@
    2273,
    2500
   ],
-  "prescore": 5.14
+  "prescore": 82.334,
+  "fit_n": 1
  },
  "13474173": {
   "id": 13474173,
@@ -19318,7 +17364,8 @@
   "listing_fp": "62517dc0684a",
   "desc_hash": "6dccc10a9c777754b97c50bb9763fba4",
   "price_mentions": [],
-  "prescore": 1.6
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13453663": {
   "id": 13453663,
@@ -19368,7 +17415,8 @@
    6000,
    30000
   ],
-  "prescore": 6.0
+  "prescore": 58.643,
+  "fit_n": 1
  },
  "13478726": {
   "id": 13478726,
@@ -19416,7 +17464,8 @@
   "price_mentions": [
    10000
   ],
-  "prescore": 7.18
+  "prescore": 110.0,
+  "fit_n": 2
  },
  "13464716": {
   "id": 13464716,
@@ -19471,7 +17520,8 @@
    1500,
    5000
   ],
-  "prescore": 3.2
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13455283": {
   "id": 13455283,
@@ -19521,7 +17571,8 @@
   "price_mentions": [
    5500
   ],
-  "prescore": 7.06
+  "prescore": 80.64,
+  "fit_n": 2
  },
  "13347176": {
   "id": 13347176,
@@ -19573,7 +17624,8 @@
   "price_mentions": [
    4000
   ],
-  "prescore": 1.7
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13400026": {
   "id": 13400026,
@@ -19624,7 +17676,8 @@
   "price_mentions": [
    20000
   ],
-  "prescore": 3.2
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13465588": {
   "id": 13465588,
@@ -19674,7 +17727,7 @@
   "price_mentions": [
    50000
   ],
-  "prescore": 2.6
+  "prescore": 0.0
  },
  "13473817": {
   "id": 13473817,
@@ -19724,7 +17777,8 @@
    600000,
    640000
   ],
-  "prescore": 5.99
+  "prescore": 52.941,
+  "fit_n": 1
  },
  "12949157": {
   "id": 12949157,
@@ -19776,7 +17830,7 @@
   "price_mentions": [
    2500
   ],
-  "prescore": 4.79
+  "prescore": 4.329
  },
  "13374578": {
   "id": 13374578,
@@ -19825,7 +17879,8 @@
   "listing_fp": "0eb5e626cfd4",
   "desc_hash": "2abbc27ecddbb2b4192751a175940457",
   "price_mentions": [],
-  "prescore": 4.1
+  "prescore": 84.0,
+  "fit_n": 2
  },
  "12169571": {
   "id": 12169571,
@@ -19876,7 +17931,8 @@
   "price_mentions": [
    110
   ],
-  "prescore": 5.0
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "11728045": {
   "id": 11728045,
@@ -19927,7 +17983,8 @@
   "price_mentions": [
    110
   ],
-  "prescore": 3.5
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13347022": {
   "id": 13347022,
@@ -19974,7 +18031,8 @@
   "listing_fp": "4f0d8fda3a50",
   "desc_hash": "6a914e0d325b0df4514fce04ec67fb8b",
   "price_mentions": [],
-  "prescore": 5.0
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13464197": {
   "id": 13464197,
@@ -20029,7 +18087,8 @@
    1300,
    1600
   ],
-  "prescore": 4.57
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "12089567": {
   "id": 12089567,
@@ -20078,7 +18137,8 @@
   "price_mentions": [
    110
   ],
-  "prescore": 3.5
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13306978": {
   "id": 13306978,
@@ -20127,7 +18187,8 @@
   "listing_fp": "9fbbc8b9514a",
   "desc_hash": "9051596863311dbee2d1a6cfc360d1d4",
   "price_mentions": [],
-  "prescore": 3.5
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13432294": {
   "id": 13432294,
@@ -20178,7 +18239,7 @@
   "price_mentions": [
    44000
   ],
-  "prescore": 4.66
+  "prescore": 0.0
  },
  "13479071": {
   "id": 13479071,
@@ -20232,7 +18293,7 @@
    2000,
    3000
   ],
-  "prescore": 4.57
+  "prescore": 0.0
  },
  "13390844": {
   "id": 13390844,
@@ -20282,7 +18343,7 @@
    4000,
    6000
   ],
-  "prescore": 5.59
+  "prescore": 0.0
  },
  "13478680": {
   "id": 13478680,
@@ -20337,7 +18398,8 @@
    375000,
    750000
   ],
-  "prescore": 4.5
+  "prescore": 40.024,
+  "fit_n": 1
  },
  "13477692": {
   "id": 13477692,
@@ -20391,7 +18453,8 @@
    2000,
    3000
   ],
-  "prescore": 1.7
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13363038": {
   "id": 13363038,
@@ -20439,7 +18502,8 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 6.58
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13476754": {
   "id": 13476754,
@@ -20493,7 +18557,7 @@
    400000,
    500000
   ],
-  "prescore": 4.49
+  "prescore": 0.0
  },
  "13476525": {
   "id": 13476525,
@@ -20548,7 +18612,7 @@
    1500,
    2000
   ],
-  "prescore": 1.1
+  "prescore": 0.0
  },
  "13474458": {
   "id": 13474458,
@@ -20599,7 +18663,7 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 1.6
+  "prescore": 0.0
  },
  "13474343": {
   "id": 13474343,
@@ -20647,7 +18711,7 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 5.59
+  "prescore": 0.0
  },
  "13472504": {
   "id": 13472504,
@@ -20694,7 +18758,8 @@
   "listing_fp": "537d8fc82886",
   "desc_hash": "6300a2020717c20da7eb1ee947398423",
   "price_mentions": [],
-  "prescore": 5.7
+  "prescore": 34.941,
+  "fit_n": 1
  },
  "13472067": {
   "id": 13472067,
@@ -20747,7 +18812,8 @@
    15000,
    82500
   ],
-  "prescore": 2.7
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13467699": {
   "id": 13467699,
@@ -20799,7 +18865,8 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 6.98
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13299835": {
   "id": 13299835,
@@ -20852,7 +18919,7 @@
    2500,
    3000
   ],
-  "prescore": 5.58
+  "prescore": 0.0
  },
  "13471133": {
   "id": 13471133,
@@ -20903,7 +18970,7 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 2.8
+  "prescore": 0.0
  },
  "13470940": {
   "id": 13470940,
@@ -20956,7 +19023,8 @@
    5000,
    20000
   ],
-  "prescore": 5.48
+  "prescore": 106.729,
+  "fit_n": 1
  },
  "13470324": {
   "id": 13470324,
@@ -21011,7 +19079,8 @@
    15000,
    20000
   ],
-  "prescore": 1.7
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13470277": {
   "id": 13470277,
@@ -21063,7 +19132,8 @@
   "listing_fp": "ebb30ad112ac",
   "desc_hash": "b2f284e98d68cb6247cddcf3fef8a7ac",
   "price_mentions": [],
-  "prescore": 1.7
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13469933": {
   "id": 13469933,
@@ -21113,7 +19183,8 @@
   "listing_fp": "1fe66d69fc70",
   "desc_hash": "4d9b6d51e9748ac8b41deca4f22b33fe",
   "price_mentions": [],
-  "prescore": 1.1
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13473858": {
   "id": 13473858,
@@ -21163,7 +19234,8 @@
    400000,
    500000
   ],
-  "prescore": 5.99
+  "prescore": 79.412,
+  "fit_n": 1
  },
  "13469361": {
   "id": 13469361,
@@ -21209,7 +19281,7 @@
   "listing_fp": "0aa88327219f",
   "desc_hash": "7f98769f26c25a3f5905d7a30064ba79",
   "price_mentions": [],
-  "prescore": 5.8
+  "prescore": 34.635
  },
  "13469173": {
   "id": 13469173,
@@ -21266,7 +19338,7 @@
    120000,
    150000
   ],
-  "prescore": 1.1
+  "prescore": 0.0
  },
  "13468802": {
   "id": 13468802,
@@ -21314,7 +19386,8 @@
   "listing_fp": "a9747176f0f3",
   "desc_hash": "f850e11f22a3039876664d820fd21b0e",
   "price_mentions": [],
-  "prescore": 6.31
+  "prescore": 95.294,
+  "fit_n": 1
  },
  "13471081": {
   "id": 13471081,
@@ -21363,7 +19436,8 @@
    1800,
    2000
   ],
-  "prescore": 5.7
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13465895": {
   "id": 13465895,
@@ -21416,7 +19490,7 @@
    30,
    15000
   ],
-  "prescore": 4.6
+  "prescore": 33.732
  },
  "13465086": {
   "id": 13465086,
@@ -21470,7 +19544,8 @@
    0,
    50000
   ],
-  "prescore": 1.1
+  "prescore": 58.368,
+  "fit_n": 1
  },
  "13464791": {
   "id": 13464791,
@@ -21522,7 +19597,8 @@
    2000,
    4000
   ],
-  "prescore": 1.9
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13464095": {
   "id": 13464095,
@@ -21573,7 +19649,7 @@
    5000,
    10000
   ],
-  "prescore": 4.6
+  "prescore": 39.529
  },
  "13464043": {
   "id": 13464043,
@@ -21620,7 +19696,7 @@
    1000,
    20000
   ],
-  "prescore": 5.6
+  "prescore": 0.0
  },
  "13467148": {
   "id": 13467148,
@@ -21669,7 +19745,7 @@
    5000,
    10000
   ],
-  "prescore": 4.6
+  "prescore": 12.649
  },
  "13425288": {
   "id": 13425288,
@@ -21717,7 +19793,8 @@
   "listing_fp": "e20134547a23",
   "desc_hash": "a4c2248b55415d8e20cc274d03d6cdfa",
   "price_mentions": [],
-  "prescore": 5.8
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13463343": {
   "id": 13463343,
@@ -21771,7 +19848,7 @@
    2000,
    3000
   ],
-  "prescore": 4.57
+  "prescore": 0.0
  },
  "12001631": {
   "id": 12001631,
@@ -21822,7 +19899,8 @@
   "listing_fp": "3541749629cc",
   "desc_hash": "3604817e68e66c60802c8e4870208826",
   "price_mentions": [],
-  "prescore": 5.6
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13358848": {
   "id": 13358848,
@@ -21871,7 +19949,8 @@
   "price_mentions": [
    250
   ],
-  "prescore": 5.6
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13462697": {
   "id": 13462697,
@@ -21923,7 +20002,8 @@
   "price_mentions": [
    50000
   ],
-  "prescore": 1.6
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13462593": {
   "id": 13462593,
@@ -21969,7 +20049,7 @@
   "listing_fp": "16453c9549fb",
   "desc_hash": "1dbc63d4cc91a4611b91901a155d978b",
   "price_mentions": [],
-  "prescore": 6.2
+  "prescore": 0.0
  },
  "13345443": {
   "id": 13345443,
@@ -22020,7 +20100,8 @@
    1000,
    2000
   ],
-  "prescore": 6.15
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13462375": {
   "id": 13462375,
@@ -22071,7 +20152,7 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 2.8
+  "prescore": 0.0
  },
  "13460969": {
   "id": 13460969,
@@ -22129,7 +20210,8 @@
    90000,
    100000
   ],
-  "prescore": 1.8
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13460967": {
   "id": 13460967,
@@ -22187,7 +20269,8 @@
    90000,
    100000
   ],
-  "prescore": 1.8
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13460947": {
   "id": 13460947,
@@ -22245,7 +20328,8 @@
    90000,
    100000
   ],
-  "prescore": 1.8
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13458345": {
   "id": 13458345,
@@ -22296,7 +20380,8 @@
   "listing_fp": "bf1e8b91e8a9",
   "desc_hash": "5b2edd18e990cb560ee0add9fc74f008",
   "price_mentions": [],
-  "prescore": 1.7
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13457972": {
   "id": 13457972,
@@ -22342,7 +20427,7 @@
   "listing_fp": "320b0b8c29fe",
   "desc_hash": "1dbc63d4cc91a4611b91901a155d978b",
   "price_mentions": [],
-  "prescore": 6.26
+  "prescore": 0.0
  },
  "13455864": {
   "id": 13455864,
@@ -22390,7 +20475,8 @@
   "price_mentions": [
    10
   ],
-  "prescore": 4.97
+  "prescore": 25.656,
+  "fit_n": 1
  },
  "13456257": {
   "id": 13456257,
@@ -22443,7 +20529,7 @@
    30000,
    33000
   ],
-  "prescore": 4.02
+  "prescore": 23.718
  },
  "13456059": {
   "id": 13456059,
@@ -22493,7 +20579,8 @@
   "listing_fp": "09c3c69764a0",
   "desc_hash": "7c10424733795d086e6f55a228edbc34",
   "price_mentions": [],
-  "prescore": 1.7
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13455952": {
   "id": 13455952,
@@ -22543,7 +20630,7 @@
    11,
    330000
   ],
-  "prescore": 5.6
+  "prescore": 23.718
  },
  "13392939": {
   "id": 13392939,
@@ -22593,7 +20680,8 @@
   "listing_fp": "ab29f3ab7105",
   "desc_hash": "27fc56898c7ede034841b86a72b72759",
   "price_mentions": [],
-  "prescore": 1.1
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13455721": {
   "id": 13455721,
@@ -22647,7 +20735,7 @@
    80000,
    150000
   ],
-  "prescore": 4.7
+  "prescore": 0.0
  },
  "13455207": {
   "id": 13455207,
@@ -22695,7 +20783,8 @@
   "listing_fp": "634f0f3ce6f1",
   "desc_hash": "8059369dfb74256473eb6f3ca721d51d",
   "price_mentions": [],
-  "prescore": 4.5
+  "prescore": 106.729,
+  "fit_n": 1
  },
  "13454649": {
   "id": 13454649,
@@ -22746,7 +20835,7 @@
    20000,
    40000
   ],
-  "prescore": 6.8
+  "prescore": 0.0
  },
  "13385642": {
   "id": 13385642,
@@ -22796,7 +20885,8 @@
    1200,
    1500
   ],
-  "prescore": 5.53
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13455598": {
   "id": 13455598,
@@ -22845,7 +20935,8 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 5.9
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13454671": {
   "id": 13454671,
@@ -22894,7 +20985,8 @@
   "price_mentions": [
    20000
   ],
-  "prescore": 5.8
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13453664": {
   "id": 13453664,
@@ -22946,7 +21038,8 @@
    5000,
    30000
   ],
-  "prescore": 6.0
+  "prescore": 76.235,
+  "fit_n": 1
  },
  "13453634": {
   "id": 13453634,
@@ -22994,7 +21087,8 @@
   "price_mentions": [
    6000
   ],
-  "prescore": 6.0
+  "prescore": 76.235,
+  "fit_n": 1
  },
  "13453627": {
   "id": 13453627,
@@ -23043,7 +21137,8 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 6.0
+  "prescore": 76.235,
+  "fit_n": 1
  },
  "13453457": {
   "id": 13453457,
@@ -23096,7 +21191,8 @@
    15000,
    82500
   ],
-  "prescore": 2.7
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13451984": {
   "id": 13451984,
@@ -23149,7 +21245,7 @@
    25000,
    250000
   ],
-  "prescore": 1.6
+  "prescore": 35.418
  },
  "13480336": {
   "id": 13480336,
@@ -23199,7 +21295,8 @@
   "price_mentions": [
    1500
   ],
-  "prescore": 5.57
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13468970": {
   "id": 13468970,
@@ -23248,7 +21345,8 @@
   "price_mentions": [
    13
   ],
-  "prescore": 5.6
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13170607": {
   "id": 13170607,
@@ -23296,7 +21394,8 @@
   "listing_fp": "f7b3cf1b7a96",
   "desc_hash": "7e7123801b1727d592c4c5c4d62aa17a",
   "price_mentions": [],
-  "prescore": 6.56
+  "prescore": 4.181,
+  "fit_n": 2
  },
  "13105200": {
   "id": 13105200,
@@ -23346,7 +21445,8 @@
   "price_mentions": [
    15
   ],
-  "prescore": 6.56
+  "prescore": 3.24,
+  "fit_n": 2
  },
  "13478172": {
   "id": 13478172,
@@ -23401,7 +21501,8 @@
    6000,
    9000
   ],
-  "prescore": 4.62
+  "prescore": 69.882,
+  "fit_n": 1
  },
  "13473060": {
   "id": 13473060,
@@ -23453,7 +21554,8 @@
    2273,
    2500
   ],
-  "prescore": 5.14
+  "prescore": 51.459,
+  "fit_n": 1
  },
  "13469776": {
   "id": 13469776,
@@ -23504,7 +21606,8 @@
   "price_mentions": [
    7000
   ],
-  "prescore": 1.6
+  "prescore": 5.837,
+  "fit_n": 1
  },
  "13451174": {
   "id": 13451174,
@@ -23554,7 +21657,8 @@
   "price_mentions": [
    2273
   ],
-  "prescore": 5.14
+  "prescore": 82.334,
+  "fit_n": 1
  },
  "13449429": {
   "id": 13449429,
@@ -23601,7 +21705,8 @@
   "listing_fp": "b7bf6cc3322b",
   "desc_hash": "5609a816dc3c493fb1a883244fa35a00",
   "price_mentions": [],
-  "prescore": 1.6
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13449315": {
   "id": 13449315,
@@ -23652,7 +21757,8 @@
    2273,
    2500
   ],
-  "prescore": 5.14
+  "prescore": 137.224,
+  "fit_n": 1
  },
  "13481979": {
   "id": 13481979,
@@ -23703,7 +21809,8 @@
   "price_mentions": [
    1500
   ],
-  "prescore": 1.7
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13208325": {
   "id": 13208325,
@@ -23749,7 +21856,8 @@
   "listing_fp": "f5fb399a93d0",
   "desc_hash": "32854a325c94aafe20e8f0642b8d66e8",
   "price_mentions": [],
-  "prescore": 4.06
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13480740": {
   "id": 13480740,
@@ -23801,7 +21909,7 @@
    1000,
    5000
   ],
-  "prescore": 4.6
+  "prescore": 50.598
  },
  "13479986": {
   "id": 13479986,
@@ -23853,7 +21961,8 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 1.1
+  "prescore": 46.694,
+  "fit_n": 1
  },
  "13091038": {
   "id": 13091038,
@@ -23905,7 +22014,8 @@
    2000,
    6000
   ],
-  "prescore": 5.7
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13477550": {
   "id": 13477550,
@@ -23958,7 +22068,8 @@
    3000,
    5000
   ],
-  "prescore": 4.49
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13453736": {
   "id": 13453736,
@@ -24008,56 +22119,8 @@
    2273,
    2500
   ],
-  "prescore": 5.7
- },
- "8990078": {
-  "id": 8990078,
-  "url": "https://crowdworks.jp/public/jobs/8990078",
-  "title": "【長期希望限定】主婦の方！英語での顧客対応・メール対応です。ネットショップ　■完全在宅■リモートワーク",
-  "tiers": [
-   "C"
-  ],
-  "category_id": 154,
-  "expired_on": "2026-09-29",
-  "released_at": "2026-09-25T12:13:31+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 3,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 36
-   }
-  },
-  "client": {
-   "userId": 1203153,
-   "userDisplayName": "Tokyokaitori",
-   "isIdentityVerified": true,
-   "averageScore": 4.76574,
-   "jobOfferAchievementCount": 323,
-   "projectFinishedRate": 53,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": 5500.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間",
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "899cd17460b5",
-  "desc_hash": "44eed0faa0a1117a69b2a483279118a7",
-  "price_mentions": [
-   5000
-  ],
-  "prescore": 5.48
+  "prescore": 38.335,
+  "fit_n": 1
  },
  "13478288": {
   "id": 13478288,
@@ -24108,7 +22171,8 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 1.6
+  "prescore": 58.368,
+  "fit_n": 1
  },
  "13477221": {
   "id": 13477221,
@@ -24157,7 +22221,8 @@
    20000,
    25000
   ],
-  "prescore": 5.55
+  "prescore": 40.024,
+  "fit_n": 1
  },
  "13474987": {
   "id": 13474987,
@@ -24207,7 +22272,8 @@
   "listing_fp": "f7fdd2cd851e",
   "desc_hash": "7055fdd4f939ee2e11e0a6b801e0f5a3",
   "price_mentions": [],
-  "prescore": 1.1
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13474984": {
   "id": 13474984,
@@ -24257,7 +22323,8 @@
    1500,
    2000
   ],
-  "prescore": 1.6
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13474515": {
   "id": 13474515,
@@ -24307,57 +22374,8 @@
   "listing_fp": "0d5eec4d9257",
   "desc_hash": "cef69598f9325759b00b4c7d3886434a",
   "price_mentions": [],
-  "prescore": 5.6
- },
- "13265284": {
-  "id": 13265284,
-  "url": "https://crowdworks.jp/public/jobs/13265284",
-  "title": "【6,000円/1本】海外の反応系動画の編集者募集【粗編済み】",
-  "tiers": [
-   "C"
-  ],
-  "category_id": 293,
-  "expired_on": "2026-09-30",
-  "released_at": "2026-09-24T14:40:24+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 3,
-    "project_contract_hope_number": 2,
-    "num_application_conditions": 20
-   }
-  },
-  "client": {
-   "userId": 3688404,
-   "userDisplayName": "stnoa0315",
-   "isIdentityVerified": true,
-   "averageScore": 4.95198,
-   "jobOfferAchievementCount": 313,
-   "projectFinishedRate": 97,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 5000.0,
-   "max": 10000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 12,
-  "same_text_count": 2,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "174140ecf26a",
-  "desc_hash": "8aabb739264a57090eeb4c2729569454",
-  "price_mentions": [
-   1819,
-   2000,
-   6000
-  ],
-  "prescore": 6.68
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13472541": {
   "id": 13472541,
@@ -24408,7 +22426,8 @@
   "price_mentions": [
    1000
   ],
-  "prescore": 2.1
+  "prescore": 7.782,
+  "fit_n": 1
  },
  "13472086": {
   "id": 13472086,
@@ -24457,7 +22476,8 @@
    1250,
    2500
   ],
-  "prescore": 5.76
+  "prescore": 48.706,
+  "fit_n": 1
  },
  "13474350": {
   "id": 13474350,
@@ -24507,7 +22527,8 @@
    2500,
    3500
   ],
-  "prescore": 4.1
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13470378": {
   "id": 13470378,
@@ -24558,7 +22579,8 @@
    2200,
    10000
   ],
-  "prescore": 7.2
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13469336": {
   "id": 13469336,
@@ -24607,7 +22629,8 @@
    500,
    1500
   ],
-  "prescore": 5.19
+  "prescore": 29.351,
+  "fit_n": 1
  },
  "13468942": {
   "id": 13468942,
@@ -24653,7 +22676,8 @@
   "listing_fp": "563bd0961afb",
   "desc_hash": "cffa4f45c188be72978c5e66abbc5847",
   "price_mentions": [],
-  "prescore": 5.6
+  "prescore": 44.471,
+  "fit_n": 1
  },
  "12845625": {
   "id": 12845625,
@@ -24701,7 +22725,8 @@
   "price_mentions": [
    5000
   ],
-  "prescore": 5.6
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "10721405": {
   "id": 10721405,
@@ -24750,7 +22775,8 @@
   "price_mentions": [
    10000
   ],
-  "prescore": 5.62
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13471385": {
   "id": 13471385,
@@ -24800,7 +22826,8 @@
   "listing_fp": "a75839bd303c",
   "desc_hash": "70f5c7cb88400093bbe5a32a7eec23ff",
   "price_mentions": [],
-  "prescore": 2.2
+  "prescore": 8.894,
+  "fit_n": 1
  },
  "13470684": {
   "id": 13470684,
@@ -24846,7 +22873,8 @@
   "listing_fp": "dc4ac73ce7c6",
   "desc_hash": "51b0a3f779978cd67d455bccdb88146c",
   "price_mentions": [],
-  "prescore": 5.6
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "12499589": {
   "id": 12499589,
@@ -24896,7 +22924,8 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 5.8
+  "prescore": 8.767,
+  "fit_n": 1
  },
  "13348353": {
   "id": 13348353,
@@ -24947,7 +22976,8 @@
    600,
    2900
   ],
-  "prescore": 7.2
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13341466": {
   "id": 13341466,
@@ -24999,7 +23029,8 @@
    1700,
    4000
   ],
-  "prescore": 6.28
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13314261": {
   "id": 13314261,
@@ -25052,7 +23083,8 @@
    1700,
    4000
   ],
-  "prescore": 6.28
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "12897139": {
   "id": 12897139,
@@ -25103,7 +23135,8 @@
    3000,
    5000
   ],
-  "prescore": 6.28
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13465507": {
   "id": 13465507,
@@ -25153,7 +23186,8 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 3.4
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13464699": {
   "id": 13464699,
@@ -25208,58 +23242,8 @@
    1500,
    5000
   ],
-  "prescore": 3.2
- },
- "13427242": {
-  "id": 13427242,
-  "url": "https://crowdworks.jp/public/jobs/13427242",
-  "title": "【未経験・学生歓迎・全国OK】英語が活かせる!外国人観光客への街頭インタビュー撮影(1組2,000円/スマホOK/継続依頼あり)",
-  "tiers": [
-   "C"
-  ],
-  "category_id": 121,
-  "expired_on": "2026-10-03",
-  "released_at": "2026-09-21T09:03:06+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 3,
-    "project_contract_hope_number": 2,
-    "num_application_conditions": 3
-   }
-  },
-  "client": {
-   "userId": 4217325,
-   "userDisplayName": "yutaka=y",
-   "isIdentityVerified": true,
-   "averageScore": 4.99719,
-   "jobOfferAchievementCount": 553,
-   "projectFinishedRate": 96,
-   "isCertifiedEmployer": true,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間",
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 2,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "0621a24eaafd",
-  "desc_hash": "f41d156075c578f0335f1491c348069e",
-  "price_mentions": [
-   2000,
-   2200,
-   10000
-  ],
-  "prescore": 7.2
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13390212": {
   "id": 13390212,
@@ -25312,7 +23296,8 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 3.1
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13465802": {
   "id": 13465802,
@@ -25362,7 +23347,8 @@
   "price_mentions": [
    500
   ],
-  "prescore": 5.59
+  "prescore": 5.149,
+  "fit_n": 1
  },
  "13464206": {
   "id": 13464206,
@@ -25412,7 +23398,8 @@
   "listing_fp": "fa3d76d8279d",
   "desc_hash": "70f5c7cb88400093bbe5a32a7eec23ff",
   "price_mentions": [],
-  "prescore": 2.2
+  "prescore": 7.643,
+  "fit_n": 1
  },
  "13462786": {
   "id": 13462786,
@@ -25464,7 +23451,8 @@
    2200,
    3000
   ],
-  "prescore": 3.3
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13462782": {
   "id": 13462782,
@@ -25519,7 +23507,8 @@
    3000,
    3500
   ],
-  "prescore": 3.3
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13462779": {
   "id": 13462779,
@@ -25574,55 +23563,8 @@
    3000,
    3500
   ],
-  "prescore": 3.3
- },
- "13345501": {
-  "id": 13345501,
-  "url": "https://crowdworks.jp/public/jobs/13345501",
-  "title": "Linkedinを利用して海外のお客様と英語でチャット会話するお仕事です",
-  "tiers": [
-   "C"
-  ],
-  "category_id": 39,
-  "expired_on": "2026-10-02",
-  "released_at": "2026-09-18T10:07:16+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 4,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 52
-   }
-  },
-  "client": {
-   "userId": 1156743,
-   "userDisplayName": "CPT",
-   "isIdentityVerified": true,
-   "averageScore": 4.90328,
-   "jobOfferAchievementCount": 1574,
-   "projectFinishedRate": 92,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "hourly",
-   "min_hourly_wage": 1000,
-   "max_hourly_wage": 1500
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 7,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "bd94e26dc5e5",
-  "desc_hash": "31bc569335301b14702a6236f6afeebd",
-  "price_mentions": [
-   1500
-  ],
-  "prescore": 6.15
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13345440": {
   "id": 13345440,
@@ -25670,7 +23612,8 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 6.15
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13461865": {
   "id": 13461865,
@@ -25720,7 +23663,8 @@
    1500,
    2500
   ],
-  "prescore": 5.66
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13461860": {
   "id": 13461860,
@@ -25772,7 +23716,8 @@
    1500,
    2000
   ],
-  "prescore": 3.81
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13461861": {
   "id": 13461861,
@@ -25822,7 +23767,8 @@
    1500,
    2500
   ],
-  "prescore": 5.66
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13461507": {
   "id": 13461507,
@@ -25877,7 +23823,8 @@
    2500,
    3500
   ],
-  "prescore": 1.9
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13461097": {
   "id": 13461097,
@@ -25929,7 +23876,7 @@
    2000,
    30000
   ],
-  "prescore": 5.6
+  "prescore": 31.624
  },
  "13460934": {
   "id": 13460934,
@@ -25982,7 +23929,8 @@
    150,
    5000
   ],
-  "prescore": 2.6
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13460868": {
   "id": 13460868,
@@ -26032,7 +23980,8 @@
   "price_mentions": [
    5000
   ],
-  "prescore": 6.6
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13460869": {
   "id": 13460869,
@@ -26081,7 +24030,8 @@
    450,
    9000
   ],
-  "prescore": 5.76
+  "prescore": 21.075,
+  "fit_n": 1
  },
  "13456497": {
   "id": 13456497,
@@ -26129,56 +24079,8 @@
   "price_mentions": [
    200
   ],
-  "prescore": 5.8
- },
- "13421728": {
-  "id": 13421728,
-  "url": "https://crowdworks.jp/public/jobs/13421728",
-  "title": "【継続案件】英語ショート動画の日本語リライト・VOICEVOX音声編集担当・動画編集",
-  "tiers": [
-   "C"
-  ],
-  "category_id": 293,
-  "expired_on": "2026-10-01",
-  "released_at": "2026-09-17T10:26:09+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 20,
-    "project_contract_hope_number": 5,
-    "num_application_conditions": 30
-   }
-  },
-  "client": {
-   "userId": 6863925,
-   "userDisplayName": "drdr_yt",
-   "isIdentityVerified": true,
-   "averageScore": 4.99214,
-   "jobOfferAchievementCount": 242,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "ポートフォリオ/実績提出"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "09b45fcb69b0",
-  "desc_hash": "ddc0f85f1e7bfb939f0e44783a5d725e",
-  "price_mentions": [
-   500,
-   3000
-  ],
-  "prescore": 5.6
+  "prescore": 36.529,
+  "fit_n": 1
  },
  "13456770": {
   "id": 13456770,
@@ -26233,7 +24135,8 @@
    2500,
    3500
   ],
-  "prescore": 1.9
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13456255": {
   "id": 13456255,
@@ -26281,7 +24184,8 @@
   "price_mentions": [
    15000
   ],
-  "prescore": 5.56
+  "prescore": 33.353,
+  "fit_n": 1
  },
  "13456653": {
   "id": 13456653,
@@ -26332,7 +24236,8 @@
    5000,
    8000
   ],
-  "prescore": 6.0
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13456413": {
   "id": 13456413,
@@ -26387,7 +24292,8 @@
    3000,
    3500
   ],
-  "prescore": 3.2
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13354949": {
   "id": 13354949,
@@ -26435,7 +24341,8 @@
   "price_mentions": [
    4000
   ],
-  "prescore": 6.28
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13453637": {
   "id": 13453637,
@@ -26483,7 +24390,8 @@
   "price_mentions": [
    1000
   ],
-  "prescore": 7.09
+  "prescore": 134.4,
+  "fit_n": 2
  },
  "13452583": {
   "id": 13452583,
@@ -26533,7 +24441,8 @@
    2000,
    60000
   ],
-  "prescore": 5.8
+  "prescore": 11.689,
+  "fit_n": 1
  },
  "13449305": {
   "id": 13449305,
@@ -26581,7 +24490,8 @@
   "price_mentions": [
    1800
   ],
-  "prescore": 7.3
+  "prescore": 73.6,
+  "fit_n": 2
  },
  "13451615": {
   "id": 13451615,
@@ -26632,7 +24542,8 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 1.6
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13347140": {
   "id": 13347140,
@@ -26684,7 +24595,8 @@
   "price_mentions": [
    4000
   ],
-  "prescore": 1.7
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13449449": {
   "id": 13449449,
@@ -26736,7 +24648,8 @@
    2700,
    16000
   ],
-  "prescore": 4.2
+  "prescore": 56.32,
+  "fit_n": 2
  },
  "13293518": {
   "id": 13293518,
@@ -26789,7 +24702,8 @@
    4400,
    35200
   ],
-  "prescore": 4.6
+  "prescore": 0.0,
+  "fit_n": 3
  },
  "12552964": {
   "id": 12552964,
@@ -26839,7 +24753,8 @@
   "price_mentions": [
    1200
   ],
-  "prescore": 7.03
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13265291": {
   "id": 13265291,
@@ -26889,7 +24804,8 @@
    2000,
    6000
   ],
-  "prescore": 6.68
+  "prescore": 36.652,
+  "fit_n": 1
  },
  "11845728": {
   "id": 11845728,
@@ -26938,7 +24854,8 @@
   "price_mentions": [
    10000
   ],
-  "prescore": 5.62
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13463877": {
   "id": 13463877,
@@ -26991,7 +24908,8 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 3.3
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13474738": {
   "id": 13474738,
@@ -27042,7 +24960,8 @@
    500,
    9000
   ],
-  "prescore": 5.46
+  "prescore": 0.0,
+  "fit_n": 1
  },
  "13482143": {
   "id": 13482143,
@@ -27090,7 +25009,8 @@
    2000,
    10000
   ],
-  "prescore": 6.43
+  "prescore": 512.512,
+  "fit_n": 0
  },
  "13481661": {
   "id": 13481661,
@@ -27138,7 +25058,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
+  "prescore": 89.143,
+  "fit_n": 0
  },
  "13480459": {
   "id": 13480459,
@@ -27185,7 +25106,8 @@
    50,
    3000
   ],
-  "prescore": 7.75
+  "prescore": 429.0,
+  "fit_n": 0
  },
  "13478186": {
   "id": 13478186,
@@ -27233,7 +25155,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
+  "prescore": 108.952,
+  "fit_n": 0
  },
  "13478089": {
   "id": 13478089,
@@ -27280,7 +25203,8 @@
    50,
    3000
   ],
-  "prescore": 7.86
+  "prescore": 214.5,
+  "fit_n": 0
  },
  "13474015": {
   "id": 13474015,
@@ -27328,7 +25252,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
+  "prescore": 98.057,
+  "fit_n": 0
  },
  "13474013": {
   "id": 13474013,
@@ -27376,7 +25301,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
+  "prescore": 89.143,
+  "fit_n": 0
  },
  "13472790": {
   "id": 13472790,
@@ -27423,7 +25349,8 @@
    50,
    3000
   ],
-  "prescore": 7.75
+  "prescore": 102.96,
+  "fit_n": 0
  },
  "13471751": {
   "id": 13471751,
@@ -27471,7 +25398,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
+  "prescore": 140.082,
+  "fit_n": 0
  },
  "13471748": {
   "id": 13471748,
@@ -27519,7 +25447,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
+  "prescore": 49.029,
+  "fit_n": 0
  },
  "13470679": {
   "id": 13470679,
@@ -27567,7 +25496,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
+  "prescore": 51.609,
+  "fit_n": 0
  },
  "13470677": {
   "id": 13470677,
@@ -27615,55 +25545,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
- },
- "13470675": {
-  "id": 13470675,
-  "url": "https://crowdworks.jp/public/jobs/13470675",
-  "title": "【記事作成】【カンタン！】　テーマ「暗号通過で売買した銘柄」",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-10-06",
-  "released_at": "2026-09-22T18:59:57+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 3
-   }
-  },
-  "client": {
-   "userId": 7181080,
-   "userDisplayName": "thisisawork",
-   "isIdentityVerified": false,
-   "averageScore": 4.97143,
-   "jobOfferAchievementCount": 65,
-   "projectFinishedRate": 98,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 400.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 48,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "37a7fa098ee9",
-  "desc_hash": "9bec7e489a80c24289d089e3200033bc",
-  "price_mentions": [
-   400
-  ],
-  "prescore": 7.49
+  "prescore": 163.429,
+  "fit_n": 0
  },
  "13469403": {
   "id": 13469403,
@@ -27710,7 +25593,8 @@
    50,
    3000
   ],
-  "prescore": 7.75
+  "prescore": 108.379,
+  "fit_n": 0
  },
  "13467078": {
   "id": 13467078,
@@ -27757,7 +25641,8 @@
    50,
    3000
   ],
-  "prescore": 7.75
+  "prescore": 147.086,
+  "fit_n": 0
  },
  "13466659": {
   "id": 13466659,
@@ -27805,7 +25690,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
+  "prescore": 61.286,
+  "fit_n": 0
  },
  "13465974": {
   "id": 13465974,
@@ -27852,7 +25738,8 @@
    50,
    3000
   ],
-  "prescore": 7.75
+  "prescore": 93.6,
+  "fit_n": 0
  },
  "13465128": {
   "id": 13465128,
@@ -27900,7 +25787,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
+  "prescore": 81.714,
+  "fit_n": 0
  },
  "13465127": {
   "id": 13465127,
@@ -27948,7 +25836,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
+  "prescore": 30.643,
+  "fit_n": 0
  },
  "13465126": {
   "id": 13465126,
@@ -27996,7 +25885,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
+  "prescore": 37.714,
+  "fit_n": 0
  },
  "13463051": {
   "id": 13463051,
@@ -28044,7 +25934,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
+  "prescore": 72.101,
+  "fit_n": 0
  },
  "13463046": {
   "id": 13463046,
@@ -28092,7 +25983,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
+  "prescore": 111.429,
+  "fit_n": 0
  },
  "13457307": {
   "id": 13457307,
@@ -28140,103 +26032,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
- },
- "13457304": {
-  "id": 13457304,
-  "url": "https://crowdworks.jp/public/jobs/13457304",
-  "title": "【記事作成】【カンタン！】　テーマ「レストランチェーン推しポイント」",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-09-30",
-  "released_at": "2026-09-16T16:37:28+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 3,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 14
-   }
-  },
-  "client": {
-   "userId": 7181080,
-   "userDisplayName": "thisisawork",
-   "isIdentityVerified": false,
-   "averageScore": 4.97143,
-   "jobOfferAchievementCount": 65,
-   "projectFinishedRate": 98,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 400.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 48,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "8c67564f3f20",
-  "desc_hash": "45bfa1a766954cb45c55e9953f2f7bb2",
-  "price_mentions": [
-   400
-  ],
-  "prescore": 7.49
- },
- "13452755": {
-  "id": 13452755,
-  "url": "https://crowdworks.jp/public/jobs/13452755",
-  "title": "【記事作成】【初心者歓迎】　テーマ「乗っている車」",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-09-28",
-  "released_at": "2026-09-14T21:10:41+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 4,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 19
-   }
-  },
-  "client": {
-   "userId": 7181080,
-   "userDisplayName": "thisisawork",
-   "isIdentityVerified": false,
-   "averageScore": 4.97143,
-   "jobOfferAchievementCount": 65,
-   "projectFinishedRate": 98,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 400.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 48,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "4064617faa4c",
-  "desc_hash": "fef194b93f223e900895d75e56f82eb4",
-  "price_mentions": [
-   400
-  ],
-  "prescore": 7.49
+  "prescore": 53.292,
+  "fit_n": 0
  },
  "13452754": {
   "id": 13452754,
@@ -28284,7 +26081,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
+  "prescore": 104.594,
+  "fit_n": 0
  },
  "13452753": {
   "id": 13452753,
@@ -28332,7 +26130,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
+  "prescore": 87.162,
+  "fit_n": 0
  },
  "13452219": {
   "id": 13452219,
@@ -28380,7 +26179,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
+  "prescore": 74.71,
+  "fit_n": 0
  },
  "13452216": {
   "id": 13452216,
@@ -28428,55 +26228,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
- },
- "13451301": {
-  "id": 13451301,
-  "url": "https://crowdworks.jp/public/jobs/13451301",
-  "title": "【記事作成】【カンタン！】　テーマ「最近気になる体調」",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-09-28",
-  "released_at": "2026-09-14T12:59:23+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 4,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 18
-   }
-  },
-  "client": {
-   "userId": 7181080,
-   "userDisplayName": "thisisawork",
-   "isIdentityVerified": false,
-   "averageScore": 4.97143,
-   "jobOfferAchievementCount": 65,
-   "projectFinishedRate": 98,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 400.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 48,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "49bdf53968f2",
-  "desc_hash": "ee3d7c05a4672b971a6969c1f67c4c91",
-  "price_mentions": [
-   400
-  ],
-  "prescore": 7.49
+  "prescore": 78.446,
+  "fit_n": 0
  },
  "13451298": {
   "id": 13451298,
@@ -28524,7 +26277,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
+  "prescore": 98.057,
+  "fit_n": 0
  },
  "13451297": {
   "id": 13451297,
@@ -28572,7 +26326,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
+  "prescore": 104.594,
+  "fit_n": 0
  },
  "13450348": {
   "id": 13450348,
@@ -28620,7 +26375,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
+  "prescore": 68.214,
+  "fit_n": 0
  },
  "13450346": {
   "id": 13450346,
@@ -28668,55 +26424,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
- },
- "13450344": {
-  "id": 13450344,
-  "url": "https://crowdworks.jp/public/jobs/13450344",
-  "title": "【記事作成】【カンタン！】　テーマ「AIとの共存」",
-  "tiers": [
-   "B"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-09-28",
-  "released_at": "2026-09-14T09:07:42+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 3,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 23
-   }
-  },
-  "client": {
-   "userId": 7181080,
-   "userDisplayName": "thisisawork",
-   "isIdentityVerified": false,
-   "averageScore": 4.97143,
-   "jobOfferAchievementCount": 65,
-   "projectFinishedRate": 98,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 400.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 48,
-  "same_text_count": 2,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "aecab7582723",
-  "desc_hash": "38729166196ab7bf255eb5b96cb9137c",
-  "price_mentions": [
-   400
-  ],
-  "prescore": 7.49
+  "prescore": 71.314,
+  "fit_n": 0
  },
  "13450343": {
   "id": 13450343,
@@ -28764,7 +26473,8 @@
   "price_mentions": [
    400
   ],
-  "prescore": 7.49
+  "prescore": 98.057,
+  "fit_n": 0
  },
  "13479118": {
   "id": 13479118,
@@ -28818,7 +26528,8 @@
    2500,
    5000
   ],
-  "prescore": 7.81
+  "prescore": 0.0,
+  "fit_n": 2
  },
  "13452031": {
   "id": 13452031,
@@ -28868,7 +26579,7 @@
    640000,
    720000
   ],
-  "prescore": 7.49
+  "prescore": 60.235
  },
  "13471334": {
   "id": 13471334,
@@ -28917,7 +26628,8 @@
   "listing_fp": "a3f3183ae084",
   "desc_hash": "e812c7d088bf11941e035ee94196611b",
   "price_mentions": [],
-  "prescore": 7.55
+  "prescore": 0.0,
+  "fit_n": 3
  },
  "13469426": {
   "id": 13469426,
@@ -28965,7 +26677,8 @@
   "listing_fp": "a7fb32e767e2",
   "desc_hash": "673998c73480a81ba673bd93b3c27c7b",
   "price_mentions": [],
-  "prescore": 7.6
+  "prescore": 60.776,
+  "fit_n": 3
  },
  "13341467": {
   "id": 13341467,
@@ -29017,6 +26730,7 @@
    1700,
    4000
   ],
-  "prescore": 7.78
+  "prescore": 0.0,
+  "fit_n": 2
  }
 }
