@@ -1,2 +1,4 @@
 scout/data/
+scout/out/
 __pycache__/
+*.tmp

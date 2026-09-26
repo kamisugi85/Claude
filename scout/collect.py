@@ -66,16 +66,40 @@ def search_json(text):
     return json.loads(html.unescape(m.group(1)))["searchResult"] if m else None
 
 
-def collect_search(qs):
+def listing_fp(jo):
+    """Fingerprint of the search-listing fields that matter for re-evaluation."""
+    j = jo["job_offer"]
+    key = [j.get("title", "").strip(), j.get("expired_on"), j.get("status"),
+           json.dumps(jo.get("payment", {}), sort_keys=True),
+           (jo.get("client") or {}).get("is_employer_certification")]
+    return hashlib.md5(json.dumps(key, ensure_ascii=False).encode()).hexdigest()[:12]
+
+
+def collect_search(qs, known=None, max_pages=60):
+    """Fetch search pages newest-first.
+
+    With ``known`` (job id -> listing fingerprint), stop after the first page on
+    which every job is already known and unchanged (delta scan).
+    """
     out, page, total = [], 1, 1
-    while page <= total:
-        sr = search_json(curl(f"{BASE}/search?order=new&hide_expired=true&{qs}&page={page}"))
+    while page <= min(total, max_pages):
+        sr = None
+        for _ in range(3):
+            sr = search_json(curl(f"{BASE}/search?order=new&hide_expired=true&{qs}&page={page}"))
+            if sr:
+                break
+            time.sleep(3)
         if not sr:
+            print(f"  page {page} failed: {qs}", file=sys.stderr)
             break
         out += sr["job_offers"]
         total = sr["page"]["total_page"]
         page += 1
         time.sleep(0.4)
+        if known is not None and all(
+                known.get(str(jo["job_offer"]["id"])) == listing_fp(jo)
+                for jo in sr["job_offers"]):
+            break
     return out
 
 
@@ -156,7 +180,8 @@ REQ_PATTERNS = {
 }
 RISK_PATTERNS = {
     "外部誘導": r"LINE|ライン(?:で|へ|に)|公式LINE|外部(?:サイト|ツール)(?:で|へ)の(?:やり取り|連絡)",
-    "購入/費用要求": r"購入して|購入が必要|自己負担|初期費用|登録料|教材|講座|スクール|コンサル",
+    "購入/費用要求": r"購入して(?:ください|いただ)|購入が必要|自己負担|初期費用|登録料|教材費|受講料|入会金|"
+                  r"有料(?:講座|プラン|会員|サポート|コミュニティ)|(?:スクール|講座|コンサル|サロン)(?:への)?(?:入会|受講|申し?込み?)(?:が必要|をお願い|いただ)",
     "勧誘兆候": r"理想の未来|今後の目標|目指したい働き方|ライフスタイル|一人暮らし|実家|月収|収入面|稼げるように|自由な働き方|場所に縛られ",
 }
 EXPERIENCE = re.compile(r"体験談|実体験|ご自身の(?:経験|体験)|あなたの(?:経験|体験)|経験談|エッセイ|思い出|感想|口コミ|レビュー|実際に(?:使|利用|行|購入)|使ってみた|本音|不満")
@@ -205,6 +230,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--date", default=dt.datetime.now(JST).strftime("%Y-%m-%d"))
     ap.add_argument("--workers", type=int, default=4)
+    ap.add_argument("--mode", choices=["full", "delta"], default="full",
+                    help="delta: only new or listing-changed jobs vs scout/state/index.json")
     args = ap.parse_args()
     out_dir = os.path.join(ROOT, "data", args.date)
     cache = os.path.join(ROOT, "data", "cache")
@@ -212,16 +239,25 @@ def main():
     os.makedirs(cache, exist_ok=True)
     state_path = os.path.join(ROOT, "state", "seen.json")
     seen = json.load(open(state_path)) if os.path.exists(state_path) else {}
+    index_path = os.path.join(ROOT, "state", "index.json")
+    index = json.load(open(index_path)) if os.path.exists(index_path) else {}
+    known = {k: v.get("listing_fp") for k, v in index.items()} if args.mode == "delta" else None
     now = dt.datetime.now(JST).isoformat(timespec="minutes")
 
-    jobs, sources = {}, collections.defaultdict(set)
+    jobs, sources, errors = {}, collections.defaultdict(set), []
     for label, qs, tier in QUERIES:
-        res = collect_search(qs)
+        try:
+            res = collect_search(qs, known)
+        except Exception as e:  # keep the run going; report in the log
+            errors.append(f"{label}: {e}")
+            res = []
         print(f"{label}: {len(res)}", file=sys.stderr)
         for jo in res:
             jid = jo["job_offer"]["id"]
             jobs.setdefault(jid, jo)
             sources[jid].add(tier)
+    listed = {str(jid): listing_fp(jo) for jid, jo in jobs.items()}
+    todo = [jid for jid in jobs if args.mode == "full" or known.get(str(jid)) != listed[str(jid)]]
 
     def fetch(jid):
         p = os.path.join(cache, f"{jid}.html")
@@ -233,17 +269,25 @@ def main():
         return jid
 
     with cf.ThreadPoolExecutor(args.workers) as ex:
-        list(ex.map(fetch, jobs))
+        list(ex.map(fetch, todo))
 
-    dup = collections.Counter()
+    dup = collections.Counter(v.get("desc_hash") for v in index.values() if v.get("desc_hash"))
+    dup_clients = collections.defaultdict(set)
+    for v in index.values():
+        if v.get("desc_hash"):
+            dup_clients[v["desc_hash"]].add(v.get("client_id"))
     rows = []
-    for jid, jo in jobs.items():
+    for jid in todo:
+        jo = jobs[jid]
         p = os.path.join(cache, f"{jid}.html")
         if not os.path.exists(p):
+            errors.append(f"detail fetch failed: {jid}")
             continue
         desc, client = parse_detail(open(p, encoding="utf-8").read())
         f = screen(jo, desc, client)
-        dup[f["desc_hash"]] += 1
+        if str(jid) not in index or index[str(jid)].get("desc_hash") != f["desc_hash"]:
+            dup[f["desc_hash"]] += 1
+            dup_clients[f["desc_hash"]].add(client.get("userId"))
         j = jo["job_offer"]
         entry = jo.get("entry", {})
         rows.append({
@@ -251,21 +295,25 @@ def main():
             "category_id": j["category_id"], "expired_on": j["expired_on"],
             "released_at": j["last_released_at"], "tiers": sorted(sources[jid]),
             "entry": entry, "client": client, "first_seen": seen.get(str(jid), now),
-            "is_new": str(jid) not in seen, "desc": desc, **f,
+            "is_new": str(jid) not in seen, "listing_fp": listed[str(jid)],
+            "desc": desc, **f,
         })
         seen.setdefault(str(jid), now)
-    by_client = collections.Counter(r["client"].get("userId") for r in rows)
+    by_client = collections.Counter(jo.get("client", {}).get("user_id") for jo in jobs.values())
     for r in rows:
         r["same_text_count"] = dup[r["desc_hash"]]
-        r["client_open_jobs"] = by_client[r["client"].get("userId")]
-        if r["same_text_count"] >= 3 and len({x["client"].get("userId") for x in rows if x["desc_hash"] == r["desc_hash"]}) >= 3:
+        r["client_open_jobs"] = max(by_client.get(r["client"].get("userId"), 0),
+                                    sum(1 for x in rows if x["client"].get("userId") == r["client"].get("userId")))
+        if r["same_text_count"] >= 3 and len(dup_clients[r["desc_hash"]]) >= 3:
             r["risk"].append("同一文面を複数アカウントが投稿")
     with open(os.path.join(out_dir, "jobs.jsonl"), "w", encoding="utf-8") as fo:
         for r in rows:
             fo.write(json.dumps(r, ensure_ascii=False) + "\n")
+    json.dump(listed, open(os.path.join(out_dir, "listed.json"), "w"))
     summ = {
-        "date": args.date, "collected": len(rows),
-        "new": sum(r["is_new"] for r in rows),
+        "date": args.date, "mode": args.mode, "listed": len(jobs),
+        "processed": len(rows), "new": sum(r["is_new"] for r in rows),
+        "unchanged_skipped": len(jobs) - len(todo), "errors": errors,
         "tiers": collections.Counter(t for r in rows for t in r["tiers"]),
         "ai_policy": collections.Counter(r["ai_policy"] for r in rows),
     }
