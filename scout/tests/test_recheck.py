@@ -77,6 +77,11 @@ def main():
     assert j["status"] == "ASTRA_PASS"
     print("D ok: user confirmation / unfinished answers stay on hold")
 
+    j = job(application_draft="NISAで投資を始めるなら、つみたて投資枠の活用をおすすめします。")  # article body
+    recheck(j, rc(), rc())
+    assert j["status"] == "ASTRA_PASS" and "応募メッセージ" in j["application"]["next_action"]
+    print("D2 ok: an article body in place of the application message is never READY")
+
     # E/F: APPLIED and SKIPPED are never moved
     for st in ("APPLIED", "SKIPPED"):
         j = job(status=st)

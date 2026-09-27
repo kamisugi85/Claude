@@ -212,6 +212,13 @@ def _profile_value(profile, ref):
     return cur
 
 
+COVER_RE = re.compile(r"はじめまして|初めまして|こんにちは|ご担当者|応募|担当させて|書かせて|執筆を希望|よろしくお願い")
+
+
+def _is_cover_letter(text):
+    return bool(COVER_RE.search(text or ""))
+
+
 AI_RE = re.compile(r"AI|ＡＩ|人工知能|ChatGPT|Claude|Gemini|生成系?ツール", re.I)
 
 
@@ -247,6 +254,9 @@ def _validate(d, job, src, profile):
             f["profile_value"] = _profile_value(profile, f["profile_ref"])
         except (KeyError, IndexError, TypeError):
             errs.append(f"facts_usedの参照先がプロフィールに無い: {f.get('profile_ref')}")
+    # The draft is the message sent when applying, not the article itself
+    if not _is_cover_letter(d.get("application_draft", "")):
+        errs.append("application_draftが応募メッセージになっていない（記事本文などは不可）")
     # Do not bring up AI use in the cover text; answer it only where the posting asks (answers are exempt)
     # quoting the theme (e.g. 「AIの発展」 from the job title) is not a statement about AI use
     title = job.get("title", "")
@@ -269,6 +279,8 @@ def _hold_reasons(job, date):
         why.append("原文の変化：" + "、".join(rc["changes"]))
     if rc.get("closed"):
         why.append("募集終了")
+    if not _is_cover_letter(app.get("application_draft", "")):
+        why.append("応募文が応募メッセージになっていない（記事本文など）")
     if not app.get("application_draft", "").strip() or "【本人記入" in app["application_draft"] + \
             "".join(app.get("application_answers", [])):
         why.append("応募文・回答が未完成")
