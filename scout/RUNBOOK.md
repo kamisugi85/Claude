@@ -81,9 +81,22 @@ python3 scout/pipeline.py merge --evals scout/data/<date>/evals.json
    - 本Scout・AI運用を、AI案件の受注経験・コンサル経験・CrowdWorksでの実績として書かない。勤務先名は書かない。
 3. `python3 scout/pipeline.py app-merge --drafts scout/data/<date>/app_drafts.json` を実行する。引用・設問・プロフィール参照が原文と一致しない下書きは取り込まれない。
 4. `CW Scout - Application Queue｜<生成日時> JST` をJob Master等と同じ方法で差し替え、`set-drive application_queue_sheet <id>` で新しいIDを記録する。
-5. Astraの最終QA結果と応募後の記録は、Status Updatesシートの列 `final_qa_status`・`user_confirmed`・`applied_at`・`gen_minutes` と、既存の実測値の列から取り込む。
-   - 最終QAの行では `astra_verdict` を空欄にする（ステータスが戻らないように）。
-   - 応募したら `new_status=APPLIED` にする。
+5. Astraの最終QA結果はStatus Updatesから取り込む（`astra_verdict` は空欄にして、ステータスが戻らないようにする）。
+   - 通過：`new_status=READY_TO_APPLY`, `final_qa_status=PASS`
+   - 今回見送り：`new_status=SKIPPED`, `final_qa_status=SKIP`、理由は `note` に書く。条件不一致によるREJECTとは区別する。
+6. 応募直前に `app-check --ids <READY_TO_APPLYのid>` を再実行する。
+   - `recheck_changes` に報酬・期限・募集枠・AI条件・本文の変化、または募集終了が出たら、応募しない。
+7. 実測PoCはStatus Updatesの次の列で記録する。列名は別名でも同じ項目として取り込まれる。
+   - `application_preparation_ai_time`（別名 `gen_minutes`）
+   - `human_review_minutes`
+   - `applied_at` と、応募時の `new_status=APPLIED`
+   - `result`（accepted / rejected。別名 `accept_result`。APPLIEDの案件ではステータスが ACCEPTED / NOT_SELECTED に変わる）
+   - `production_ai_time`（＝`actual_ai_processing`）
+   - `production_human_minutes`（＝`actual_human_minutes`）
+   - `revision_count`
+   - `actual_net_reward`
+   - 実績の Net ÷ Human Minutes は `metrics` の `poc_actual` と、各案件の `actual_net_per_human_min` で確認する。
+   - 計算方法：実際の手取り ÷（応募確認の分＋制作の分）。見送り・不採用は0円として数える。
 
 ## 6. 保存
 ```bash

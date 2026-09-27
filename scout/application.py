@@ -11,8 +11,10 @@ import re
 import pipeline as P
 
 TARGET = {"ASTRA_PASS"}
-# Statuses that keep an existing draft visible in the queue until the job is applied/closed.
-QUEUE_VISIBLE = {"ASTRA_PASS", "READY_TO_APPLY", "APPLIED"}
+RECHECK = {"ASTRA_PASS", "READY_TO_APPLY"}  # app-check also re-verifies right before applying
+# Statuses that keep a draft visible, so actual results stay traceable through to payment.
+QUEUE_VISIBLE = {"ASTRA_PASS", "READY_TO_APPLY", "APPLIED", "SKIPPED", "ACCEPTED", "NOT_SELECTED",
+                 "IN_PROGRESS", "READY_FOR_QA", "READY_TO_DELIVER", "DELIVERED", "PAID"}
 CONFIRM_PENALTY_MIN = 5  # user time for answering a confirmation question
 # Wording Astra should look at: claims of track record / AI work the profile does not support.
 CLAIM_RE = re.compile(r"実績(?!作り|づくり)|受注|納品経験|ライター(?:経験|として)|執筆経験|SEO|WordPress|"
@@ -56,19 +58,19 @@ def parse_source(page):
 
 
 def cmd_app_check(a):
-    """Re-read reward / deadline / open slots from the live posting for ASTRA_PASS jobs."""
+    """Re-read reward / deadline / open slots / AI terms from the live posting; report changes."""
     import collect
     v = P.vault_load()
     master = v["master"]
     sdir = os.path.join(P.ROOT, "data", a.date, "app_source")
     os.makedirs(sdir, exist_ok=True)
     ids = [x.strip() for x in a.ids.split(",") if x.strip()] if a.ids else \
-        [j for j, job in master.items() if job.get("status") in TARGET]
+        [j for j, job in master.items() if job.get("status") in RECHECK]
     out = []
     for jid in ids:
         job = master.get(jid)
-        if not job or job.get("status") not in TARGET:
-            out.append({"job_id": jid, "skip": f"status={job and job.get('status')}（ASTRA_PASSのみ対象）"})
+        if not job or job.get("status") not in RECHECK:
+            out.append({"job_id": jid, "skip": f"status={job and job.get('status')}（ASTRA_PASS/READY_TO_APPLYのみ対象）"})
             continue
         page = collect.curl(f"{collect.BASE}/{jid}")
         if not page:
@@ -76,12 +78,26 @@ def cmd_app_check(a):
             continue
         src = parse_source(page)
         P.save_json(os.path.join(sdir, f"{jid}.json"), src)
+        prev = job.get("reward_check") or {}
         rc = {k: src[k] for k in ("header_reward", "deadline", "applicants", "contracted",
                                   "capacity", "closed", "body_reward_mentions")}
+        rc["ai_policy"] = collect.ai_policy(src["desc"])[0]
+        rc["desc_hash"] = P.hashlib.md5(_norm(src["desc"]).encode()).hexdigest()[:12]
         rc["checked_at"] = P.now_iso()
-        rc["listing_gross"] = job.get("gross")
+        rc["listing_gross"] = prev.get("listing_gross", job.get("gross"))
+        changes = [f"{k}: {prev.get(k)} → {rc[k]}" for k in
+                   ("header_reward", "deadline", "closed", "capacity", "body_reward_mentions", "ai_policy", "desc_hash")
+                   if k in prev and prev.get(k) != rc[k]]
+        if rc["closed"]:
+            changes.append("募集終了")
+        if rc["capacity"] and (rc["contracted"] or 0) >= rc["capacity"]:
+            changes.append(f"募集枠充足 {rc['contracted']}/{rc['capacity']}")
+        if rc["ai_policy"] != (job.get("eval") or {}).get("ai_condition"):
+            changes.append(f"AI条件 評価時{(job.get('eval') or {}).get('ai_condition')} → 原文判定{rc['ai_policy']}")
+        rc["changes"] = changes
         job["reward_check"] = rc
-        out.append({"job_id": jid, "title": job["title"][:40], **{k: rc[k] for k in rc if k != "checked_at"}})
+        out.append({"job_id": jid, "title": job["title"][:40], "status": job.get("status"),
+                    **{k: rc[k] for k in rc if k not in ("checked_at", "body_reward_mentions")}})
     P.vault_save(v)
     print(json.dumps(out, ensure_ascii=False, indent=1))
 
@@ -155,7 +171,7 @@ def cmd_app_merge(a):
         text = d["application_draft"] + " ".join(d.get("application_answers", []))
         confirm = d.get("user_confirmation_required") == "yes"
         net = round(d["actual_reward"] * (1 - P.FEE_RATE))
-        review = float(d.get("human_review_minutes") or 3)
+        review = float(d.get("review_minutes_est") or d.get("human_review_minutes") or 3)
         job["gross"], job["net_est"] = d["actual_reward"], net
         job["application"] = {
             "actual_reward": d["actual_reward"], "actual_net": net,
@@ -167,14 +183,14 @@ def cmd_app_merge(a):
             "unverified_facts": d.get("unverified_facts", []),
             "conflict_risk": d.get("conflict_risk", ""),
             "user_confirmation_required": "yes" if confirm else "no",
-            "human_review_minutes": review,
+            "review_minutes_est": review,
             "app_priority": round(net / (review + (CONFIRM_PENALTY_MIN if confirm else 0)), 1),
             "claim_flags": sorted(set(CLAIM_RE.findall(text))),
             "final_qa_status": "PENDING_ASTRA",
             "next_action": d.get("next_action") or "Astra最終QA",
             "generated_at": P.now_iso(),
-            # drafting time is not measurable from here; recorded via Status Updates (gen_minutes)
-            "gen_minutes": d.get("gen_minutes"),
+            # measured times come back via Status Updates (application_preparation_ai_time etc.)
+            "application_preparation_ai_time": d.get("application_preparation_ai_time"),
         }
         ok.append(jid)
     P.vault_save(v)
@@ -220,21 +236,76 @@ APP_COLS = [
     ("user_confirmation_required", lambda j: j["application"]["user_confirmation_required"]),
     ("next_action", lambda j: j["application"]["next_action"]),
     ("app_priority", lambda j: j["application"]["app_priority"]),
-    ("human_review_minutes", lambda j: j["application"]["human_review_minutes"]),
+    ("review_minutes_est", lambda j: j["application"]["review_minutes_est"]),
     ("ai_condition", lambda j: (j.get("eval") or {}).get("ai_condition")),
     ("key_excerpt", lambda j: j.get("key_excerpt") or j.get("desc_excerpt", "")),
     ("status", lambda j: j.get("status")),
+    ("status_reason", lambda j: (j.get("status_history") or [{}])[-1].get("note")),
     ("generated_at", lambda j: j["application"]["generated_at"]),
-    ("gen_minutes", lambda j: j["application"]["gen_minutes"]),
+    ("recheck_at", lambda j: (j.get("reward_check") or {}).get("checked_at")),
+    ("recheck_changes", lambda j: P._fmt_list((j.get("reward_check") or {}).get("changes"))),
+    ("app_note", lambda j: j["application"].get("app_note")),
     ("user_confirmed", lambda j: j["application"].get("user_confirmed")),
+    # actual PoC tracking (filled from Status Updates)
+    ("application_preparation_ai_time", lambda j: j["application"].get("application_preparation_ai_time")),
+    ("human_review_minutes", lambda j: j["application"].get("human_review_minutes")),
     ("applied_at", lambda j: j["application"].get("applied_at")),
+    ("result", lambda j: (j.get("actual") or {}).get("result")),
+    ("production_ai_time", lambda j: (j.get("actual") or {}).get("actual_ai_processing")),
+    ("production_human_minutes", lambda j: (j.get("actual") or {}).get("actual_human_minutes")),
+    ("revision_count", lambda j: (j.get("actual") or {}).get("revision_count")),
+    ("actual_net_reward", lambda j: (j.get("actual") or {}).get("actual_net_reward")),
+    ("actual_net_per_human_min", lambda j: realized(j).get("net_per_min")),
 ]
+
+
+def _num(x):
+    try:
+        return float(str(x).replace(",", "").replace("分", "").replace("円", ""))
+    except (TypeError, ValueError):
+        return None
+
+
+def realized(j):
+    """Actual (not estimated) net JPY per human minute, once the outcome is known.
+
+    Human minutes = review/confirmation minutes for the application + production minutes.
+    A rejected or skipped application still costs its review minutes and earns 0.
+    """
+    app, act = j.get("application") or {}, j.get("actual") or {}
+    review = _num(app.get("human_review_minutes"))
+    prod = _num(act.get("actual_human_minutes"))
+    status = j.get("status")
+    if status == "PAID" or _num(act.get("actual_net_reward")) is not None:
+        net, done = _num(act.get("actual_net_reward")), status in ("PAID", "DELIVERED")
+    elif status in ("NOT_SELECTED", "SKIPPED"):
+        net, done = 0.0, True
+    else:
+        return {}
+    if net is None or review is None or not done:
+        return {"net": net, "human_min": (review or 0) + (prod or 0), "complete": False}
+    mins = review + (prod or 0)
+    return {"net": net, "human_min": mins, "complete": True,
+            "net_per_min": round(net / mins, 1) if mins else None}
+
+
+def poc_summary(master):
+    rows = [realized(j) for j in master.values() if j.get("application")]
+    done = [r for r in rows if r.get("complete")]
+    net, mins = sum(r["net"] for r in done), sum(r["human_min"] for r in done)
+    st = [j.get("status") for j in master.values() if j.get("application")]
+    return {"applications": len(st), "ready": st.count("READY_TO_APPLY"), "skipped": st.count("SKIPPED"),
+            "applied": sum(s in ("APPLIED", "ACCEPTED", "NOT_SELECTED", "IN_PROGRESS", "READY_FOR_QA",
+                                 "READY_TO_DELIVER", "DELIVERED", "PAID") for s in st),
+            "not_selected": st.count("NOT_SELECTED"), "paid": st.count("PAID"),
+            "measured": len(done), "net_jpy": net, "human_minutes": mins,
+            "net_per_human_min": round(net / mins, 1) if mins else None}
 
 
 def export_queue(master):
     jobs = [j for j in master.values() if j.get("application") and j.get("status") in QUEUE_VISIBLE]
     # app_priority already charges user-confirmation time (net JPY per human minute)
-    jobs.sort(key=lambda j: -j["application"]["app_priority"])
+    jobs.sort(key=lambda j: (j.get("status") in ("SKIPPED", "NOT_SELECTED"), -j["application"]["app_priority"]))
     P._write_csv(os.path.join(P.OUT, "application_queue.csv"), APP_COLS, jobs)
     P.save_json(os.path.join(P.OUT, "application_queue.json"),
                 {"generated_at": P.now_iso(), "count": len(jobs),

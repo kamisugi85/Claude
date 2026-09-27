@@ -48,6 +48,8 @@ STATUSES = [
     "ASTRA_PASS", "ASTRA_REJECT", "NEED_USER", "READY_TO_APPLY", "APPLIED",
     "ACCEPTED", "IN_PROGRESS", "READY_FOR_QA", "READY_TO_DELIVER", "DELIVERED",
     "PAID", "CLOSED",
+    "SKIPPED",       # user/Astra chose not to apply this time (not a fit/condition rejection)
+    "NOT_SELECTED",  # applied but the client did not accept
 ]
 # Statuses Claude may overwrite on re-evaluation; later ones belong to Astra/user.
 CLAUDE_OWNED = {"SCOUTED", "CLAUDE_CANDIDATE", "CLAUDE_REJECTED", "ASTRA_QUEUE"}
@@ -662,9 +664,10 @@ MASTER_COLS = [
 ] + [(k, (lambda k: lambda j: j.get("actual", {}).get(k))(k)) for k in ACTUAL_FIELDS] + [
     ("app_final_qa_status", lambda j: (j.get("application") or {}).get("final_qa_status")),
     ("app_user_confirmation_required", lambda j: (j.get("application") or {}).get("user_confirmation_required")),
-    ("app_gen_minutes", lambda j: (j.get("application") or {}).get("gen_minutes")),
+    ("app_prep_ai_time", lambda j: (j.get("application") or {}).get("application_preparation_ai_time")),
     ("app_user_confirmed", lambda j: (j.get("application") or {}).get("user_confirmed")),
     ("app_applied_at", lambda j: (j.get("application") or {}).get("applied_at")),
+    ("app_actual_net_per_human_min", lambda j: __import__("application").realized(j).get("net_per_min")),
 ]
 
 QUEUE_COLS = [
@@ -737,9 +740,19 @@ def cmd_export(a):
 
 
 # Application Queue fields Astra/the user may write back (final QA, confirmation, applied date)
-APP_FIELDS = ["final_qa_status", "user_confirmed", "applied_at", "gen_minutes", "app_note"]
+APP_FIELDS = ["final_qa_status", "user_confirmed", "applied_at", "app_note",
+              # actual PoC tracking (application side)
+              "application_preparation_ai_time", "human_review_minutes"]
+# Sheet column aliases: new PoC names map onto the existing actual/app fields
+FIELD_ALIASES = {"gen_minutes": "application_preparation_ai_time",
+                 "production_human_minutes": "actual_human_minutes",
+                 "production_ai_time": "actual_ai_processing",
+                 "accept_result": "result"}
+RESULT_STATUS = {"accepted": "ACCEPTED", "受注": "ACCEPTED", "採用": "ACCEPTED",
+                 "rejected": "NOT_SELECTED", "不採用": "NOT_SELECTED", "落選": "NOT_SELECTED"}
 UPDATE_COLS = ["job_id", "astra_verdict", "astra_reason", "new_status", "need_user", "next_action",
-               "updated_at", "updated_by"] + ACTUAL_FIELDS + APP_FIELDS + ["note"]
+               "updated_at", "updated_by"] + ACTUAL_FIELDS + APP_FIELDS + \
+              ["production_ai_time", "production_human_minutes", "note"]
 ASTRA_FIELDS = ["astra_verdict", "astra_reason", "need_user", "next_action", "updated_at", "updated_by"]
 VERDICT_MAP = {"PASS": "ASTRA_PASS", "採用": "ASTRA_PASS", "合格": "ASTRA_PASS", "応募": "ASTRA_PASS",
                "REJECT": "ASTRA_REJECT", "不採用": "ASTRA_REJECT", "除外": "ASTRA_REJECT", "見送り": "ASTRA_REJECT",
@@ -760,6 +773,10 @@ def cmd_apply_updates(a):
     tally = {"astra_pass": 0, "astra_reject": 0, "need_user": 0, "scout_miss": 0, "other_status": 0}
     for row in csv.DictReader(io.StringIO(text)):
         row = {k.strip(): (val or "").strip() for k, val in row.items() if k}
+        for alias, k in FIELD_ALIASES.items():
+            if row.get(alias) and not row.get(k):
+                row[k] = row[alias]
+            row.pop(alias, None)
         if not row.get("job_id"):
             continue
         # Signature over non-empty cells, so adding sheet columns does not re-apply old rows;
@@ -791,6 +808,8 @@ def cmd_apply_updates(a):
             st = VERDICT_MAP.get(verdict.upper(), VERDICT_MAP.get(verdict, ""))
             if not st and _truthy(row.get("need_user")):
                 st = "NEED_USER"
+            if not st and job.get("status") == "APPLIED":
+                st = RESULT_STATUS.get(row.get("result", "").lower(), "")
         before = job.get("status")
         try:
             if st:
@@ -810,6 +829,8 @@ def cmd_apply_updates(a):
             for k in APP_FIELDS:
                 if row.get(k):
                     job["application"][k] = row[k]
+            if row.get("next_action"):
+                job["application"]["next_action"] = row["next_action"]
         if job.get("status") != before:  # text-only corrections are not new decisions
             key = {"ASTRA_PASS": "astra_pass", "ASTRA_REJECT": "astra_reject", "NEED_USER": "need_user"}.get(st, "other_status")
             tally[key] += 1
@@ -840,6 +861,8 @@ def cmd_metrics(a):
            "precision_proxy": round(passed / (passed + rejected), 3) if passed + rejected else None,
            "recall_proxy": round(passed / (passed + misses), 3) if passed + misses else None,
            "scout_misses": misses}
+    import application
+    out["poc_actual"] = application.poc_summary(master)
     print(json.dumps(out, ensure_ascii=False, indent=1))
 
 
