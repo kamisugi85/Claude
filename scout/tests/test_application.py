@@ -46,13 +46,18 @@ def main():
     tmp = tempfile.mkdtemp()
     shutil.copytree(SRC, tmp, dirs_exist_ok=True, ignore=shutil.ignore_patterns("tests"))
     ddir = max((os.path.join(tmp, "data", d) for d in os.listdir(os.path.join(tmp, "data"))
-                if os.path.isdir(os.path.join(tmp, "data", d, "app_source"))))
+                if os.path.exists(os.path.join(tmp, "data", d, "app_drafts.json"))))
     date = os.path.basename(ddir)
     # fixed starting point regardless of the real Vault's progress: 3 jobs ready, no batch record
     subprocess.run([sys.executable, "-c", "import pipeline as P; v=P.vault_load(); "
                     "v['meta'].pop('review_batches', None); P.vault_save(v)"], cwd=tmp, check=True)
     for x in ("13481662", "13480694", "13481649"):
         setst(tmp, x, "READY_TO_APPLY")
+    # a few jobs waiting for Astra QA (the real queue may be empty right after Astra's run)
+    code = ("import pipeline as P; v=P.vault_load(); ids=[j for j,x in v['master'].items() "
+            "if x.get('status')=='CLAUDE_REJECTED'][:3]; [P.set_status(v['master'][j],'ASTRA_QA_PENDING','test') "
+            "for j in ids]; P.vault_save(v)")
+    subprocess.run([sys.executable, "-c", code], cwd=tmp, check=True)
     good = json.load(open(os.path.join(ddir, "app_drafts.json"), encoding="utf-8"))
     base = copy.deepcopy(good[1])  # a 400-char article draft
     base["application_draft"] = "\n".join(l for l in base["application_draft"].split("\n") if "AI" not in l)

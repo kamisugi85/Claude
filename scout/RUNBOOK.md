@@ -85,27 +85,41 @@ python3 scout/pipeline.py merge --evals scout/data/<date>/evals.json
 - `runs.jsonl` には実行ごとの値が記録される。
 
 ## 5.7 応募準備（Application Queue）※応募・フォーム入力・送信はしない
-手順5の同期が終わってから行う。対象は、応募文がまだない `ASTRA_PASS` の案件（Status Updatesで取り込んだAstra PASS）。1回の実行で最大10件、推定手取額 ÷ 推定本人作業時間の大きい順に処理する。
-1. `python3 scout/pipeline.py app-check --ids <id,...>` で、募集原文をその日のうちに再取得する。確認する項目：募集中か、締切、募集枠、実際の報酬、AI利用条件。
+手順5の同期が終わってから行う。対象は、応募文がまだない `ASTRA_PASS` の案件（Status Updatesで取り込んだAstra PASS）。
+1. `python3 scout/pipeline.py app-check` を実行し、`ASTRA_PASS` と `READY_TO_APPLY` の全件について、募集原文をその日のうちに再取得する。AIは使わない。
+   - 確認する項目：募集中か、締切、募集枠、実際の報酬、AI利用条件、本文の条件行。
+   - HOLDになるのは、応募判断に影響する実質的な変更だけ。
+     - 報酬の減額。既知の実報酬、または評価時の想定より低い場合を含む。
+     - 募集終了、募集枠の充足、期限切れ、期限の前倒し。
+     - AI条件が厳しくなった場合。
+     - 応募文の根拠にした報酬記載が本文から消えた場合。
+     - 本文に条件行（連絡手段・応募資格・納期・報酬・AIなど）が追加された場合。
+   - 取得できなかった値が取れるようになっただけの場合は、`notes` に記録するだけでHOLDにしない。例：見出しの「契約金額（目安）440円」が、既知の400円＋税と整合する場合。期限の延長や、条件行が増えない本文の修正も同様。
+   - 1回だけ現れる変更（減額・前倒し・条件行の追加など）は、`recheck_flags` に残す。Astraが改めて判定するまで、HOLDのままにする。
+   - 応募文がある案件は、この時点でREADY_TO_APPLYになるか、HOLDに戻るかが再判定される。APPLIED・SKIPPEDは変わらない。
+2. `python3 scout/pipeline.py app-plan --cap 15` を実行し、`draft_now` の案件だけ応募文を作る。
+   - 除外される案件：募集終了・枠充足・期限切れ・実質的な変更がある案件。上限の件数には数えない。
+   - 並び順：応募期限の近い順、次に推定手取額 ÷ 推定本人作業時間の大きい順。
+   - 上限（1回15件）を超えた分は `carry_over` に入り、次の実行（06:00または07:17）で処理する。
    - 報酬は一覧の表示額ではなく、募集本文の実額を使う（例：tokyoreve・supersameは本文の200円（税抜）＝税込220円）。
    - 募集終了・期限切れ・募集枠が埋まった案件は、応募文を作らない。
-2. `scout/data/<date>/app_source/<id>.json` の原文と `show-profile` だけを使い、`scout/data/<date>/app_drafts.json` を作る。
+3. `scout/data/<date>/app_source/<id>.json` の原文と `show-profile` だけを使い、`scout/data/<date>/app_drafts.json` を作る。
    - 1件ごとの項目：`job_id`, `actual_reward`（税込）, `reward_evidence`（本文からそのまま引用）, `application_draft`, `application_questions`（本文の設問をそのまま）, `application_answers`, `facts_used`（`fact` と `profile_ref`、例：`professional.qualifications[2]`）, `unverified_facts`, `conflict_risk`（「低：」「中：」「高：」で始める）, `user_confirmation_required`, `review_minutes_est`, `next_action`
    - プロフィールにない経験・実績・好みは書かない。必要なら `unverified_facts` に入れ、回答欄は【本人記入】のままにして `user_confirmation_required=yes` にする。
    - 本Scout・AI運用を、AI案件の受注経験・コンサル経験・CrowdWorksでの実績として書かない。勤務先名は書かない。
    - 応募文ではAI利用に自分から触れない。募集本文の設問でAI利用を聞かれた場合だけ、回答欄で事実どおり答える（使わないと偽らない）。納品時は募集のAI条件（推敲して提出など）に従う。
-3. `python3 scout/pipeline.py app-merge --drafts scout/data/<date>/app_drafts.json` を実行する。
+4. `python3 scout/pipeline.py app-merge --drafts scout/data/<date>/app_drafts.json` を実行する。
    - 引用・設問・プロフィール参照が原文と一致しない下書きは取り込まれない。
    - 次の条件をすべて満たす案件だけが、自動で `READY_TO_APPLY` になる：当日の原文再確認で変化なし、本人確認が必要な項目なし、実績を主張する表現なし、利益相反リスクが「低」。
    - 満たさない案件は `ASTRA_PASS` のまま残り、`next_action` に保留理由が入る。
-4. `CW Scout - Application Queue｜<生成日時> JST` をJob Master等と同じ方法で差し替え、`set-drive application_queue_sheet <id>` で新しいIDを記録する。
-5. `READY_TO_APPLY` 以降の案件を、応募準備の対象として再び提示しない。
-6. 応募直前に原文を確認したいときは `app-check --ids <READY_TO_APPLYのid>` を実行する。`recheck_changes` に変化や募集終了が出たら、応募しない。
-7. 応募の記録：本人はCrowdWorksで応募したあと、Astraに「N件応募した」と報告するだけ。その報告をもとに、AstraがStatus Updatesに `new_status=APPLIED`・`applied_at`・`human_review_minutes`・`updated_by=Astra` を書き、Claude Codeが次の実行で取り込む。
+5. `CW Scout - Application Queue｜<生成日時> JST` をJob Master等と同じ方法で差し替え、`set-drive application_queue_sheet <id>` で新しいIDを記録する。
+6. `READY_TO_APPLY` 以降の案件を、応募準備の対象として再び提示しない。
+7. 応募直前に原文を確認したいときは `app-check --ids <READY_TO_APPLYのid>` を実行する。`recheck_changes` に変化や募集終了が出たら、応募しない。
+8. 応募の記録：本人はCrowdWorksで応募したあと、Astraに「N件応募した」と報告するだけ。その報告をもとに、AstraがStatus Updatesに `new_status=APPLIED`・`applied_at`・`human_review_minutes`・`updated_by=Astra` を書き、Claude Codeが次の実行で取り込む。
    - 報告が来るまで、案件は `READY_TO_APPLY` のまま変えない（Claude側で推測してAPPLIEDにしない）。
    - 応募日時・作業時間は推測しない。本人が伝えていなければ空欄のままにする。
    - 本人が複数件の合計時間だけを伝えた場合は、案件別に割り振らない。`app-batch --ids <id,...> --minutes <合計> --source <出典>` でバッチ実績として記録する。バッチに含まれる案件の `human_review_minutes` を案件別に書いた行は、取り込まずに `errors` に出す。
-8. 実測PoCはStatus Updatesの次の列で記録する（書くのはAstra）。列名は別名でも同じ項目として取り込まれる。足りない列は1.4で自動的に追加される。
+9. 実測PoCはStatus Updatesの次の列で記録する（書くのはAstra）。列名は別名でも同じ項目として取り込まれる。足りない列は1.4で自動的に追加される。
    - `application_preparation_ai_time`（別名 `gen_minutes`）
    - `human_review_minutes`
    - `applied_at` と、応募時の `new_status=APPLIED`
@@ -145,10 +159,13 @@ Scoutの収集・ルール処理・Claude一次評価は行わない。Astra Que
      - ステータスの変化（`new_status_changes`）が1件以上あれば、手順6へ進む。
      - 0件なら、何もせずに終了する。
    - `targets` は、今回の取り込みでASTRA_PASSになり、まだ応募文がない案件だけ。
-5. `targets` について、5.7の手順1〜3（app-check → 応募文 → app-merge）を行う。条件を満たした案件だけが `READY_TO_APPLY` になる。
+5. 5.7の手順1〜4（app-check → app-plan → 応募文 → app-merge）を行う。条件を満たした案件だけが `READY_TO_APPLY` になる。`targets` が空でも、既存の応募文の再判定のために app-check は行う。
 6. テストを実行する：`python3 scout/tests/test_application.py`
 7. 保存する：`git add scout/state && git commit -m "Scout post-QA <date>" && git push -u origin claude/brave-lovelace-7n0flp`
-   - pushが拒否された場合（別の実行が先にpushした場合）は、force pushしない。Driveも更新せずに終了する。未反映の行は、次の実行で取り込まれる。
+   - pushが拒否された場合は、force pushしない。
+     1. `git fetch` を行う。
+     2. 先に入ったコミットが `scout/state/` を変更していなければ（コードやRUNBOOKだけの変更）、`git rebase` して1回だけpushし直す。
+     3. `scout/state/` が変更されていれば、Driveも更新せずに終了する。未反映の行は、次の実行で取り込まれる。
 8. pushできた場合だけ、Driveを更新する。
    - Application QueueとJob Masterを、手順5と同じ方法で差し替える。
    - Astra Queueは差し替えない（Astra QAの対象は06:00の実行が決める）。

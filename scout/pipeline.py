@@ -901,6 +901,8 @@ def cmd_apply_updates(a):
             errs.append(f"{jid}: human_review_minutes はバッチ実績で記録済みのため案件別には保存しない")
             row.pop("human_review_minutes")
         before = job.get("status")
+        if verdict and st in ("ASTRA_PASS", "ASTRA_REJECT", "NEED_USER", "SKIPPED"):
+            job.pop("recheck_flags", None)  # Astra has re-judged: earlier re-check flags are settled
         try:
             if st:
                 set_status(job, st, row.get("updated_by") or "sheet",
@@ -1019,6 +1021,9 @@ def main():
     p = sub.add_parser("app-merge", help="store Claude application drafts (no submission)")
     p.add_argument("--drafts", required=True); p.add_argument("--date", default=today())
     p.set_defaults(fn=application.cmd_app_merge)
+    p = sub.add_parser("app-plan", help="ASTRA_PASS jobs to draft now (after app-check; no LLM)")
+    p.add_argument("--date", default=today()); p.add_argument("--cap", type=int, default=10)
+    p.set_defaults(fn=application.cmd_app_plan)
     p = sub.add_parser("app-batch", help="record a batch-level human time reported by the user")
     p.add_argument("--ids", required=True); p.add_argument("--minutes", type=float, required=True)
     p.add_argument("--source", required=True); p.add_argument("--status"); p.add_argument("--note")

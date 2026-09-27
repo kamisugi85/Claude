@@ -85,21 +85,119 @@ def cmd_app_check(a):
         rc["desc_hash"] = P.hashlib.md5(_norm(src["desc"]).encode()).hexdigest()[:12]
         rc["checked_at"] = P.now_iso()
         rc["listing_gross"] = prev.get("listing_gross", job.get("gross"))
-        changes = [f"{k}: {prev.get(k)} → {rc[k]}" for k in
-                   ("header_reward", "deadline", "closed", "capacity", "body_reward_mentions", "ai_policy", "desc_hash")
-                   if k in prev and prev.get(k) != rc[k]]
-        if rc["closed"]:
-            changes.append("募集終了")
-        if rc["capacity"] and (rc["contracted"] or 0) >= rc["capacity"]:
-            changes.append(f"募集枠充足 {rc['contracted']}/{rc['capacity']}")
-        if rc["ai_policy"] != (job.get("eval") or {}).get("ai_condition"):
-            changes.append(f"AI条件 評価時{(job.get('eval') or {}).get('ai_condition')} → 原文判定{rc['ai_policy']}")
+        rc["key_lines"] = _key_lines(src["desc"])
+        changes, notes = classify_changes(prev, rc, job, src["desc"])
+        rc["notes"] = notes
         rc["changes"] = changes
         job["reward_check"] = rc
+        if job.get("application"):
+            _apply_readiness(job, a.date)
         out.append({"job_id": jid, "title": job["title"][:40], "status": job.get("status"),
                     **{k: rc[k] for k in rc if k not in ("checked_at", "body_reward_mentions")}})
     P.vault_save(v)
     print(json.dumps(out, ensure_ascii=False, indent=1))
+
+
+# ---- re-check: material condition changes vs. mere extraction improvements -----------------
+AI_RANK = {"A": 0, "B": 1, "C": 2, "D": 3}  # higher = more restrictive
+RISK_LINE = re.compile(r"LINE|ライン|Chatwork|チャットワーク|Slack|Zoom|外部|直接(?:連絡|取引|やり取り)|メールアドレス|電話|"
+                       r"応募資格|必須|条件|限定|年齢|性別|在住|本人確認|身分証|顔出し|納期|期限|締切|〆|日以内|"
+                       r"文字数|字以上|字程度|AI|ＡＩ|生成|ChatGPT|報酬|円|単価|テスト|トライアル|無償|研修|振込|手数料|秘密|NDA")
+
+
+def _key_lines(desc):
+    """Lines that carry conditions (reward, deadline, eligibility, AI, contact); kept to diff re-checks."""
+    return sorted({re.sub(r"\s+", "", ln)[:160] for ln in desc.split("\n") if RISK_LINE.search(ln) and ln.strip()})
+
+
+def _amounts(texts):
+    return sorted({_yen(x) for t in texts or [] for x in re.findall(r"([\d,]{2,})\s*円", t) if _yen(x) > 0})
+
+
+def _known_reward(job):
+    """Tax-included reward already established for the job (draft evidence first, else Claude's evaluation)."""
+    return (job.get("application") or {}).get("actual_reward") or job.get("gross")
+
+
+def classify_changes(prev, rc, job, desc):
+    """Split re-check differences into material changes (block READY) and notes (no effect).
+
+    Material: reward decrease, closed, slots filled, deadline brought forward / passed, AI terms stricter
+    than evaluated, reward evidence gone from the body, new condition lines (contact/eligibility/AI/
+    deadline/reward wording) in the body.  A field that was missing before and now matches what is
+    already known (e.g. header "契約金額（目安）440円" for a 400円+tax job) is only a note."""
+    changes, notes = [], []
+    known = _known_reward(job)
+    new_h, old_h = (rc.get("header_reward") or {}).get("min"), (prev.get("header_reward") or {}).get("min")
+    if new_h is not None:
+        if known and new_h < known and round(new_h * 1.1) < known:  # checked every time, not only once
+            src_label = "応募文の実報酬" if job.get("application") else "評価時の想定報酬（Astra QA時の前提）"
+            changes.append(f"実報酬が{src_label}{known:g}円を下回る（原文{new_h}円）→ 再QA")
+        elif old_h is not None and new_h < old_h:
+            changes.append(f"報酬減額（見出し）{old_h}円 → {new_h}円")
+        elif old_h is None and known and new_h > round(known * 1.1) + 1:
+            notes.append(f"見出しの目安額{new_h}円を新たに取得（本文の単価{known:g}円を採用、減額ではない）")
+        elif old_h is None:
+            notes.append(f"見出し報酬を新たに取得 {new_h}円（既知の実報酬{known:g}円と整合）")
+        elif new_h != old_h:
+            notes.append(f"見出し報酬 {old_h}円 → {new_h}円（増額）")
+    elif old_h is not None:
+        notes.append("見出し報酬が取得できず（本文の報酬で判断）")
+    ev = (job.get("application") or {}).get("reward_evidence")
+    if ev and _norm(ev) not in _norm(desc):
+        changes.append("応募文の根拠にした報酬記載が本文から消えた")
+    old_amt, new_amt = _amounts(prev.get("body_reward_mentions")), _amounts(rc.get("body_reward_mentions"))
+    if prev.get("body_reward_mentions") is not None and old_amt and new_amt and max(new_amt) < max(old_amt):
+        changes.append(f"本文の報酬額が減少 {max(old_amt)}円 → {max(new_amt)}円")
+    if rc.get("closed"):
+        changes.append("募集終了")
+    if rc.get("capacity") and (rc.get("contracted") or 0) >= rc["capacity"]:
+        changes.append(f"募集枠充足 {rc['contracted']}/{rc['capacity']}")
+    if rc.get("deadline"):
+        if rc["deadline"] < P.today():
+            changes.append(f"応募期限切れ {rc['deadline']}")
+        elif prev.get("deadline") and rc["deadline"] < prev["deadline"]:
+            changes.append(f"応募期限の前倒し {prev['deadline']} → {rc['deadline']}")
+        elif prev.get("deadline") and rc["deadline"] != prev["deadline"]:
+            notes.append(f"応募期限の延長 {prev['deadline']} → {rc['deadline']}")
+    ev_ai = (job.get("eval") or {}).get("ai_condition")
+    if AI_RANK.get(rc.get("ai_policy"), 2) > AI_RANK.get(ev_ai, 2):
+        changes.append(f"AI条件が厳しくなった 評価時{ev_ai} → 原文判定{rc.get('ai_policy')}")
+    elif rc.get("ai_policy") != ev_ai:
+        notes.append(f"AI条件の判定差 評価時{ev_ai} → 原文判定{rc.get('ai_policy')}（緩和方向）")
+    if prev.get("desc_hash") and prev["desc_hash"] != rc["desc_hash"]:
+        if prev.get("key_lines") is None:
+            changes.append("本文が変更された（比較用の条件行が前回ないため要確認）")
+        else:
+            added = [l for l in rc["key_lines"] if l not in set(prev["key_lines"])]
+            if added:
+                changes.append("本文の条件行が変更: " + " / ".join(x[:60] for x in added[:3]))
+            else:
+                notes.append("本文の軽微な変更（条件行の追加なし）")
+    # relative changes are only visible once (the next check has a new baseline): keep them until
+    # Astra decides again (apply-updates clears recheck_flags on a new Astra verdict)
+    sticky = [c for c in changes if re.search(r"減額|減少|前倒し|条件行|本文が変更|消えた|AI条件", c)]
+    flags = job.setdefault("recheck_flags", [])
+    flags += [c for c in sticky if c not in flags]
+    changes += [c for c in flags if c not in changes]
+    return changes, notes
+
+
+def _apply_readiness(job, date):
+    """After a re-check: ready drafts go READY_TO_APPLY, material changes pull READY back to hold.
+    Never touches APPLIED or later, SKIPPED, or drafts that need the user."""
+    if job.get("status") not in ("ASTRA_PASS", "READY_TO_APPLY"):
+        return
+    app = job["application"]
+    hold = _hold_reasons(job, date)
+    if hold:
+        app["final_qa_status"], app["next_action"] = "HOLD", "応募準備保留：" + " / ".join(hold)
+        if job["status"] == "READY_TO_APPLY":
+            P.set_status(job, "ASTRA_PASS", "claude", "再確認で条件変更を検知: " + " / ".join(hold)[:200])
+    elif job["status"] == "ASTRA_PASS":
+        app["final_qa_status"], app["next_action"] = "CLAUDE_CHECKED", "本人が応募 → Astraへ報告"
+        P.set_status(job, "READY_TO_APPLY", "claude",
+                     "応募準備完了（原文再確認 %s）" % (job.get("reward_check") or {}).get("checked_at"))
 
 
 def _profile_value(profile, ref):
@@ -150,7 +248,11 @@ def _validate(d, job, src, profile):
         except (KeyError, IndexError, TypeError):
             errs.append(f"facts_usedの参照先がプロフィールに無い: {f.get('profile_ref')}")
     # Do not bring up AI use in the cover text; answer it only where the posting asks (answers are exempt)
-    if AI_RE.search(d.get("application_draft", "")) and not any(AI_RE.search(q) for q in qs):
+    # quoting the theme (e.g. 「AIの発展」 from the job title) is not a statement about AI use
+    title = job.get("title", "")
+    draft = re.sub(r"「([^」]*)」", lambda mm: "" if mm.group(1) and mm.group(1) in title else mm.group(0),
+                   d.get("application_draft", ""))
+    if AI_RE.search(draft) and not any(AI_RE.search(q) for q in qs):
         errs.append("応募文でAI利用に自分から言及している（設問で聞かれた場合のみ回答欄で答える）")
     if d.get("unverified_facts") and d.get("user_confirmation_required") != "yes":
         errs.append("unverified_factsがあるのにuser_confirmation_required≠yes")
@@ -165,6 +267,11 @@ def _hold_reasons(job, date):
         why.append("本日の原文再確認なし（app-check未実行）")
     if rc.get("changes"):
         why.append("原文の変化：" + "、".join(rc["changes"]))
+    if rc.get("closed"):
+        why.append("募集終了")
+    if not app.get("application_draft", "").strip() or "【本人記入" in app["application_draft"] + \
+            "".join(app.get("application_answers", [])):
+        why.append("応募文・回答が未完成")
     if app["user_confirmation_required"] == "yes":
         why.append("本人確認が必要な項目あり")
     if app["claim_flags"]:
@@ -215,14 +322,7 @@ def cmd_app_merge(a):
             # measured times come back via Status Updates (application_preparation_ai_time etc.)
             "application_preparation_ai_time": d.get("application_preparation_ai_time"),
         }
-        hold = _hold_reasons(job, a.date)
-        app = job["application"]
-        if hold:
-            app["final_qa_status"], app["next_action"] = "HOLD", "応募準備保留：" + " / ".join(hold)
-        else:  # Claude re-read the live posting today and nothing needs the user → ready
-            app["final_qa_status"], app["next_action"] = "CLAUDE_CHECKED", "本人が応募 → Astraへ報告"
-            P.set_status(job, "READY_TO_APPLY", "claude",
-                         "応募準備完了（原文再確認 %s）" % (job.get("reward_check") or {}).get("checked_at"))
+        _apply_readiness(job, a.date)
         ok.append(jid)
     P.vault_save(v)
     P.export(master, v.get("meta", {}))
@@ -333,10 +433,26 @@ def poc_summary(master):
             "net_per_human_min": round(net / mins, 1) if mins else None}
 
 
+def _undrafted_view(j):
+    """Export-only row for an ASTRA_PASS job without a draft, so every Astra PASS shows up with its reason."""
+    rc = j.get("reward_check") or {}
+    why = "、".join(rc.get("changes") or []) or ("本日の原文再確認待ち" if rc else "原文再確認（app-check）待ち")
+    net = j.get("net_est") or 0
+    stub = {"actual_reward": j.get("gross"), "actual_net": net, "reward_evidence": "", "application_draft": "",
+            "application_questions": [], "application_answers": [], "facts_used": [], "unverified_facts": [],
+            "conflict_risk": "", "claim_flags": [], "final_qa_status": "NO_DRAFT",
+            "user_confirmation_required": "", "next_action": "応募文未作成：" + why, "app_priority": 0,
+            "review_minutes_est": None, "generated_at": None}
+    return {**j, "application": stub}
+
+
 def export_queue(master):
     jobs = [j for j in master.values() if j.get("application") and j.get("status") in QUEUE_VISIBLE]
+    jobs += [_undrafted_view(j) for j in master.values() if j.get("status") == "ASTRA_PASS" and not j.get("application")]
     # app_priority already charges user-confirmation time (net JPY per human minute)
-    jobs.sort(key=lambda j: (j.get("status") in ("SKIPPED", "NOT_SELECTED"), -j["application"]["app_priority"]))
+    order = {"READY_TO_APPLY": 0, "ASTRA_PASS": 1, "APPLIED": 2}
+    jobs.sort(key=lambda j: (order.get(j.get("status"), 3), j["application"]["final_qa_status"] == "NO_DRAFT",
+                             -(j["application"]["app_priority"] or 0)))
     P._write_csv(os.path.join(P.OUT, "application_queue.csv"), APP_COLS, jobs)
     P.save_json(os.path.join(P.OUT, "application_queue.json"),
                 {"generated_at": P.now_iso(), "count": len(jobs),
@@ -439,3 +555,26 @@ def cmd_app_batch(a):
     P.vault_save(v)
     P.export(master, meta)
     print(json.dumps({"batch": bs[-1], "statuses": {x: master[x]["status"] for x in ids}}, ensure_ascii=False))
+
+
+def cmd_app_plan(a):
+    """Which ASTRA_PASS jobs to draft now. Cheap rule step after `app-check` (no LLM):
+    closed / filled / expired / changed postings are excluded and never use the draft cap;
+    the rest are ordered by application deadline, then estimated net per human minute."""
+    master = P.vault_load()["master"]
+    todo, excluded = [], {}
+    for jid, j in master.items():
+        if j.get("status") != "ASTRA_PASS" or j.get("application"):
+            continue
+        rc = j.get("reward_check") or {}
+        if not str(rc.get("checked_at", "")).startswith(a.date):
+            excluded[jid] = "本日のapp-check未実行"
+        elif rc.get("changes"):
+            excluded[jid] = "、".join(rc["changes"])
+        else:
+            todo.append(j)
+    todo.sort(key=lambda j: ((j.get("reward_check") or {}).get("deadline") or "9999",
+                             -((j.get("net_est") or 0) / max(_est_min(j), 1))))
+    ids = [j["job_id"] for j in todo]
+    print(json.dumps({"draft_now": ids[:a.cap], "carry_over": ids[a.cap:], "excluded": excluded},
+                     ensure_ascii=False, indent=1))
