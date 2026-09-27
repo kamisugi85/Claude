@@ -55,6 +55,7 @@ def main():
         setst(tmp, x, "READY_TO_APPLY")
     good = json.load(open(os.path.join(ddir, "app_drafts.json"), encoding="utf-8"))
     base = copy.deepcopy(good[1])  # a 400-char article draft
+    base["application_draft"] = "\n".join(l for l in base["application_draft"].split("\n") if "AI" not in l)
     setst(tmp, base["job_id"], "ASTRA_PASS")  # drafts are only accepted for ASTRA_PASS jobs
     p = os.path.join(tmp, "ok.json")
     json.dump([base], open(p, "w", encoding="utf-8"), ensure_ascii=False)
@@ -83,6 +84,7 @@ def main():
 
     expect_fail("fabricated_profile_ref", lambda d: d["facts_used"].append(
         {"fact": "Webライター経験3年", "profile_ref": "professional.writer_years"}))
+    expect_fail("mentions_ai_unasked", lambda d: d.update(application_draft=d["application_draft"] + "\nAIで下書きします。"))
     expect_fail("listing_reward_not_body", lambda d: d.update(actual_reward=880))
     expect_fail("evidence_not_in_body", lambda d: d.update(reward_evidence="1記事800円"))
     expect_fail("question_not_in_body", lambda d: d.update(

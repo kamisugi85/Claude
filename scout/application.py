@@ -114,6 +114,9 @@ def _profile_value(profile, ref):
     return cur
 
 
+AI_RE = re.compile(r"AI|ＡＩ|人工知能|ChatGPT|Claude|Gemini|生成系?ツール", re.I)
+
+
 def _validate(d, job, src, profile):
     errs = []
     if job.get("status") not in TARGET:
@@ -146,6 +149,9 @@ def _validate(d, job, src, profile):
             f["profile_value"] = _profile_value(profile, f["profile_ref"])
         except (KeyError, IndexError, TypeError):
             errs.append(f"facts_usedの参照先がプロフィールに無い: {f.get('profile_ref')}")
+    # Do not bring up AI use in the cover text; answer it only where the posting asks (answers are exempt)
+    if AI_RE.search(d.get("application_draft", "")) and not any(AI_RE.search(q) for q in qs):
+        errs.append("応募文でAI利用に自分から言及している（設問で聞かれた場合のみ回答欄で答える）")
     if d.get("unverified_facts") and d.get("user_confirmation_required") != "yes":
         errs.append("unverified_factsがあるのにuser_confirmation_required≠yes")
     return errs
