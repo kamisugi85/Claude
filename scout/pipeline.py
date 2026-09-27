@@ -846,6 +846,7 @@ def cmd_apply_updates(a):
     index = load_json(os.path.join(STATE, "index.json"), {})
     applied = set(meta.get("applied_update_rows", []))
     batch_jobs = {j for b in meta.get("review_batches", []) for j in b["job_ids"]}
+    changed = {}  # job_id -> new status, for this import only (drives the post-QA routine)
     text = open(a.csv, encoding="utf-8-sig").read()
     n_ok, errs = 0, []
     tally = {"astra_pass": 0, "astra_reject": 0, "need_user": 0, "skipped": 0, "scout_miss": 0, "other_status": 0}
@@ -921,6 +922,7 @@ def cmd_apply_updates(a):
             if row.get("next_action"):
                 job["application"]["next_action"] = row["next_action"]
         if job.get("status") != before:  # text-only corrections are not new decisions
+            changed[jid] = job["status"]
             key = {"ASTRA_PASS": "astra_pass", "ASTRA_REJECT": "astra_reject", "NEED_USER": "need_user",
                    "SKIPPED": "skipped"}.get(st, "other_status")
             tally[key] += 1
@@ -932,7 +934,27 @@ def cmd_apply_updates(a):
     ddir = os.path.join(ROOT, "data", a.date)
     prev = load_json(os.path.join(ddir, "updates_summary.json"), {})
     save_json(os.path.join(ddir, "updates_summary.json"), {k: prev.get(k, 0) + tally[k] for k in tally})
+    save_json(os.path.join(ddir, "last_updates.json"), {"at": now_iso(), "changed": changed, "errors": errs})
     print(json.dumps({"applied": n_ok, "tally": tally, "errors": errs}, ensure_ascii=False))
+
+
+def cmd_postqa(a):
+    """Post-Astra-QA routine (07:1x): never scouts or evaluates.
+    guard   : proceed only if today's 06:00 Scout run is recorded (it owns the Astra Queue hand-off).
+    targets : ASTRA_PASS jobs whose PASS came in with the last apply-updates and have no draft yet."""
+    runs_path = os.path.join(STATE, "runs.jsonl")
+    runs = [json.loads(l) for l in open(runs_path, encoding="utf-8")] if os.path.exists(runs_path) else []
+    if a.stage == "guard":
+        done = any(r.get("date") == a.date for r in runs)
+        print(json.dumps({"ok": done, "reason": "" if done else f"{a.date} のScout実行記録がないため何もしない"},
+                         ensure_ascii=False))
+        return
+    last = load_json(os.path.join(ROOT, "data", a.date, "last_updates.json"), {"changed": {}})
+    master = vault_load()["master"]
+    targets = [j for j, st in last["changed"].items()
+               if st == "ASTRA_PASS" and master[j].get("status") == "ASTRA_PASS" and not master[j].get("application")]
+    print(json.dumps({"new_status_changes": len(last["changed"]), "targets": targets,
+                      "action": "prepare" if targets else "none"}, ensure_ascii=False))
 
 
 def cmd_metrics(a):
@@ -984,6 +1006,9 @@ def main():
     p = sub.add_parser("su-columns", help="add missing tracking columns to Status Updates (idempotent)")
     p.add_argument("--csv", required=True); p.add_argument("--verify"); p.add_argument("--recheck")
     p.set_defaults(fn=cmd_su_columns)
+    p = sub.add_parser("postqa", help="post-Astra-QA routine helpers (no scouting)")
+    p.add_argument("stage", choices=["guard", "targets"]); p.add_argument("--date", default=today())
+    p.set_defaults(fn=cmd_postqa)
     p = sub.add_parser("metrics"); p.set_defaults(fn=cmd_metrics)
     p = sub.add_parser("export"); p.set_defaults(fn=cmd_export)
     p = sub.add_parser("set-drive"); p.add_argument("key"); p.add_argument("value"); p.set_defaults(fn=cmd_set_meta)

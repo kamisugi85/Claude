@@ -155,6 +155,26 @@ def main():
     assert tables()[1][pend]["status"] == "SKIPPED"
     print("Astra-only verdicts; SKIPPED verdict; no regression of progressed jobs")
 
+    # post-QA routine: only PASS rows new in this import become targets; re-import and non-Astra rows give none
+    pend2 = [j for j, row in tables()[1].items() if row["status"] == "ASTRA_QA_PENDING"][:2]
+    pq = lambda stage: last_json(run(tmp, "postqa", stage, "--date", date).stdout)
+    rows = [{"job_id": pend2[0], "astra_verdict": "PASS", "astra_reason": "t"},
+            {"job_id": pend2[1], "astra_verdict": "PASS", "updated_by": "someone"}]
+    upd(rows)
+    t = pq("targets")
+    assert t["targets"] == [pend2[0]] and t["action"] == "prepare", t
+    upd(rows)  # same sheet again (e.g. the 06:00 run and the 07:1x run both import it)
+    assert pq("targets") == {"new_status_changes": 0, "targets": [], "action": "none"}
+    upd([])  # Astra QA did not run: nothing new
+    assert pq("targets")["action"] == "none" and tables()[1][pend2[1]]["status"] == "ASTRA_QA_PENDING"
+    rp = os.path.join(tmp, "state", "runs.jsonl")
+    keep = open(rp, encoding="utf-8").read()
+    open(rp, "a", encoding="utf-8").write(json.dumps({"date": "2099-01-02"}) + "\n")
+    assert last_json(run(tmp, "postqa", "guard", "--date", "2099-01-02").stdout)["ok"] is True
+    open(rp, "w", encoding="utf-8").write(keep)
+    assert last_json(run(tmp, "postqa", "guard", "--date", "2099-01-02").stdout)["ok"] is False
+    print("post-QA routine: new Astra PASS only, re-import/non-Astra/no-QA give no targets, guard needs today's Scout")
+
     # batch human time: kept as one total, never split per job; per-job minutes for it are ignored
     ids = "13481662,13480694,13481649"
     run(tmp, "app-batch", "--ids", ids, "--minutes", "3", "--source", "本人報告")

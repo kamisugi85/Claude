@@ -130,6 +130,28 @@ git add scout/state && git commit -m "Scout run <date>" && git push -u origin cl
   - `scout/data` と `scout/out` はgitignore済み。
   - Job Masterは `vault.enc` に暗号化して保存する。
 
+## 7. 第2Routine：Astra判定の取り込みと応募準備（毎朝07:17 JST、Astra QAの後）
+Scoutの収集・ルール処理・Claude一次評価は行わない。Astra Queueは作らない。Status Updatesの列追加（1.4）もしない。
+1. `git pull`（手順0と同じ）
+2. `python3 scout/pipeline.py postqa guard`
+   - `ok=false`（当日の06:00 Scoutの記録がまだない＝実行中・未実行・失敗）なら、何もせずに終了する。
+3. Status UpdatesをCSVで取得し、`apply-updates --csv <csv>` を実行する。
+   - Astra名義の新しい行だけが反映される（PASS / REJECT / NEED_USER / SKIPPED / APPLIEDなど）。
+   - 06:00の実行で取り込み済みの行は、行ごとの署名で除外され、二重に反映されない。
+   - Driveが使えない、またはAstra QAが未実行・失敗で新しい行がない場合は、ここで何も生成せずに終了する。
+4. `python3 scout/pipeline.py postqa targets` を実行する。
+   - `action=none` なら、応募準備をしない。
+     - ステータスの変化（`new_status_changes`）が1件以上あれば、手順6へ進む。
+     - 0件なら、何もせずに終了する。
+   - `targets` は、今回の取り込みでASTRA_PASSになり、まだ応募文がない案件だけ。
+5. `targets` について、5.7の手順1〜3（app-check → 応募文 → app-merge）を行う。条件を満たした案件だけが `READY_TO_APPLY` になる。
+6. テストを実行する：`python3 scout/tests/test_application.py`
+7. 保存する：`git add scout/state && git commit -m "Scout post-QA <date>" && git push -u origin claude/brave-lovelace-7n0flp`
+   - pushが拒否された場合（別の実行が先にpushした場合）は、force pushしない。Driveも更新せずに終了する。未反映の行は、次の実行で取り込まれる。
+8. pushできた場合だけ、Driveを更新する。
+   - Application QueueとJob Masterを、手順5と同じ方法で差し替える。
+   - Astra Queueは差し替えない（Astra QAの対象は06:00の実行が決める）。
+
 ## エラー時
 - 収集に失敗した場合：`runs.jsonl` の `errors` に記録し、処理を続ける。
 - Driveに接続できない場合：手順5をスキップして手順6まで進める。次回の実行で最新の状態を同期する。
