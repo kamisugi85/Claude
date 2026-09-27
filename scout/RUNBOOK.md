@@ -16,6 +16,15 @@ git fetch origin claude/brave-lovelace-7n0flp && git checkout claude/brave-lovel
    - 取り込む列：job_id, astra_verdict（PASS / REJECT / 要確認）, astra_reason, new_status, need_user, next_action, updated_at, updated_by, 実測値8項目, note
    - new_statusが空の場合は、astra_verdictとneed_userからステータスを決める。
    - `SCOUT_MISS`（ChatGPT Scoutなどが見つけ、Claudeが取りこぼした案件）は、取りこぼしとして記録する。
+4. 実測用の列の同期（取り込みの後に毎回実行。何度実行しても結果は同じ）
+   - `python3 scout/pipeline.py su-columns --csv <手順2のCSV>` を実行する。
+   - `action=none` なら何もしない。既存の列または別名の列（例：`actual_human_minutes`＝`production_human_minutes`）があれば、足りているとみなす。
+   - `action=replace` の場合だけ、次の順で進める。Drive MCPは既存シートに列を追加できないため、差し替えで対応する。
+     1. `get_file_permissions` で今のシートの共有設定を確認する。フォルダから引き継いだもの以外の共有があれば中止し、報告する。
+     2. `scout/out/status_updates_synced.csv` を、同じフォルダに同じタイトル `CW Scout - Status Updates (記入用)` でアップロードする。中身は既存の全行・全列をそのまま残し、不足列だけを末尾に空欄で足したもの。
+     3. 新しいシートと今のシートの両方を `text/csv` で取得し直し、`su-columns --csv <手順2のCSV> --verify <新> --recheck <今>` を実行する。
+     4. `ok=true` のときだけ、今のシートを `trash_file` でゴミ箱へ移し、`set-drive status_updates_sheet <新ID>` を実行する。
+     5. `ok=false` のとき（既存セルの変化・取り込み後の追記など）は新しいシートをゴミ箱へ移し、今のシートはそのまま残す。次回の実行でやり直す。
 
 ## 2. 収集（Delta Scan）
 ```bash
@@ -64,7 +73,7 @@ python3 scout/pipeline.py merge --evals scout/data/<date>/evals.json
    - Astra Queue
 2. 古いシート（manifestに記録された `job_master_sheet` と `astra_queue_sheet`）を `trash_file` でゴミ箱へ移す。
 3. 新しいIDを記録する：`python3 scout/pipeline.py set-drive job_master_sheet <id>`（`astra_queue_sheet` も同様）
-4. `CW Scout - Status Updates (記入用)` は固定のシートなので、差し替えない。
+4. `CW Scout - Status Updates (記入用)` は差し替えない。例外は1.4の列追加だけ。
 
 ## 5.5 性能測定
 - `python3 scout/pipeline.py metrics` で、累計の取得件数、Claude評価件数、Astra Queue件数、PASS・REJECTの件数、取りこぼし件数、Precision / Recallの目安を確認できる。
@@ -86,7 +95,7 @@ python3 scout/pipeline.py merge --evals scout/data/<date>/evals.json
    - 今回見送り：`new_status=SKIPPED`, `final_qa_status=SKIP`、理由は `note` に書く。条件不一致によるREJECTとは区別する。
 6. 応募直前に `app-check --ids <READY_TO_APPLYのid>` を再実行する。
    - `recheck_changes` に報酬・期限・募集枠・AI条件・本文の変化、または募集終了が出たら、応募しない。
-7. 実測PoCはStatus Updatesの次の列で記録する。列名は別名でも同じ項目として取り込まれる。
+7. 実測PoCはStatus Updatesの次の列で記録する。列名は別名でも同じ項目として取り込まれる。足りない列は1.4で自動的に追加される。
    - `application_preparation_ai_time`（別名 `gen_minutes`）
    - `human_review_minutes`
    - `applied_at` と、応募時の `new_status=APPLIED`

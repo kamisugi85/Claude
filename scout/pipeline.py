@@ -759,6 +759,75 @@ VERDICT_MAP = {"PASS": "ASTRA_PASS", "採用": "ASTRA_PASS", "合格": "ASTRA_PA
                "NEED_USER": "NEED_USER", "要確認": "NEED_USER", "HOLD": "NEED_USER"}
 
 
+# Actual-PoC tracking items the Status Updates sheet must accept (an alias column counts as present)
+TRACK_COLS = ["application_preparation_ai_time", "human_review_minutes", "applied_at", "result",
+              "production_ai_time", "production_human_minutes", "revision_count", "actual_net_reward"]
+
+
+def _su_rows(path):
+    return list(csv.reader(io.StringIO(open(path, encoding="utf-8-sig").read())))
+
+
+def _su_norm(c):
+    c = (c or "").strip()
+    if c in ("True", "TRUE"):
+        return "t"
+    if c in ("False", "FALSE"):
+        return "f"
+    try:
+        return str(float(c))
+    except ValueError:
+        return " ".join(c.split())
+
+
+def _su_same(a, b, ncols):
+    """Rows of a and b hold the same values in the first ncols columns (Sheets pads/trims trailing blanks)."""
+    pad = lambda r: [_su_norm(x) for x in (r + [""] * ncols)[:ncols]]
+    strip = lambda rows: [r for r in rows if any(x.strip() for x in r)]
+    a, b = strip(a), strip(b)
+    return len(a) == len(b) and all(pad(x) == pad(y) for x, y in zip(a, b))
+
+
+def cmd_su_columns(a):
+    """Idempotently add missing tracking columns to Status Updates, never touching existing cells.
+    Plan: --csv <current export> → writes out/status_updates_synced.csv only if columns are missing.
+    Verify: add --verify <re-downloaded new sheet> and --recheck <re-downloaded current sheet>."""
+    rows = _su_rows(a.csv)
+    head = [h.strip() for h in rows[0]]
+    present = set(head)
+    missing = []
+    for c in TRACK_COLS:
+        names = {c, FIELD_ALIASES.get(c)} | {al for al, k in FIELD_ALIASES.items() if k == c}
+        if not present & names:
+            missing.append(c)
+    out = os.path.join(OUT, "status_updates_synced.csv")
+    if not a.verify:
+        res = {"columns": len(head), "rows": len(rows) - 1, "missing": missing,
+               "action": "replace" if missing else "none"}
+        if missing:
+            with open(out, "w", encoding="utf-8", newline="") as f:
+                cw = csv.writer(f)
+                cw.writerow(rows[0][:len(head)] + missing)
+                for r in rows[1:]:
+                    cw.writerow((r + [""] * len(head))[:len(head)] + [""] * len(missing))
+            res["file"] = out
+        print(json.dumps(res, ensure_ascii=False))
+        return
+    new, ok, why = _su_rows(a.verify), True, []
+    if [h.strip() for h in new[0]][:len(head)] != head:
+        ok = False; why.append("existing header changed")
+    if not _su_same(rows, new, len(head)):
+        ok = False; why.append("existing cells differ")
+    if not set(missing) <= {h.strip() for h in new[0]}:
+        ok = False; why.append("columns still missing")
+    if any(any(x.strip() for x in r[len(head):]) for r in new[1:]):
+        ok = False; why.append("new columns not empty")
+    if a.recheck and not _su_same(rows, _su_rows(a.recheck), len(head)):
+        ok = False; why.append("current sheet changed since snapshot (retry next run)")
+    print(json.dumps({"ok": ok, "problems": why}, ensure_ascii=False))
+    sys.exit(0 if ok else 1)
+
+
 def _truthy(x):
     return str(x).strip().lower() in ("yes", "y", "true", "1", "要", "必要", "はい")
 
@@ -890,6 +959,9 @@ def main():
     p.set_defaults(fn=cmd_merge)
     p = sub.add_parser("apply-updates"); p.add_argument("--csv", required=True); p.add_argument("--date", default=today())
     p.set_defaults(fn=cmd_apply_updates)
+    p = sub.add_parser("su-columns", help="add missing tracking columns to Status Updates (idempotent)")
+    p.add_argument("--csv", required=True); p.add_argument("--verify"); p.add_argument("--recheck")
+    p.set_defaults(fn=cmd_su_columns)
     p = sub.add_parser("metrics"); p.set_defaults(fn=cmd_metrics)
     p = sub.add_parser("export"); p.set_defaults(fn=cmd_export)
     p = sub.add_parser("set-drive"); p.add_argument("key"); p.add_argument("value"); p.set_defaults(fn=cmd_set_meta)

@@ -127,6 +127,31 @@ def main():
     s = json.loads(out)["poc_actual"]
     assert s["measured"] == 3 and s["net_jpy"] == 352 and s["human_minutes"] == 14, s
     print("actual Net/Human Minutes:", s["net_per_human_min"], "(352 JPY / 14 min over paid+rejected+skipped)")
+
+    # Status Updates: missing tracking columns are appended; existing cells/columns untouched; idempotent
+    r = last_json(run(tmp, "su-columns", "--csv", su).stdout)
+    assert r["missing"] == ["application_preparation_ai_time", "human_review_minutes", "applied_at"], r
+    synced = r["file"]
+    old, new = list(csv.reader(open(su, encoding="utf-8-sig"))), list(csv.reader(open(synced, encoding="utf-8")))
+    n = len(old[0])
+    assert new[0] == old[0] + r["missing"] and all(b[:n] == a[:n] for a, b in zip(old, new))
+    assert run(tmp, "su-columns", "--csv", su, "--verify", synced, "--recheck", su).returncode == 0
+    assert last_json(run(tmp, "su-columns", "--csv", synced).stdout)["action"] == "none"
+    bad = [row[:] for row in new]
+    bad[1][2] += "x"
+
+    def write_csv_rows(p, rows):
+        with open(p, "w", encoding="utf-8", newline="") as f:
+            csv.writer(f).writerows(rows)
+        return p
+    assert run(tmp, "su-columns", "--csv", su, "--verify", write_csv_rows(os.path.join(tmp, "b.csv"), bad),
+               ok=False).returncode == 1
+    assert run(tmp, "su-columns", "--csv", su, "--verify", synced, "--recheck",
+               write_csv_rows(os.path.join(tmp, "c.csv"), bad), ok=False).returncode == 1
+    before = tables()[1]
+    rr = last_json(run(tmp, "apply-updates", "--csv", synced).stdout)
+    assert tables()[1] == before, rr  # widened sheet re-applies nothing
+    print("Status Updates columns: +%d missing, re-run no-op, tampering rejected" % len(r["missing"]))
     shutil.rmtree(tmp)
     print("OK")
 
