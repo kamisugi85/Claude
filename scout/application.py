@@ -151,6 +151,23 @@ def _validate(d, job, src, profile):
     return errs
 
 
+def _hold_reasons(job, date):
+    """Why a validated draft is not READY_TO_APPLY yet (empty = ready)."""
+    app, rc = job["application"], job.get("reward_check") or {}
+    why = []
+    if not str(rc.get("checked_at", "")).startswith(date):
+        why.append("本日の原文再確認なし（app-check未実行）")
+    if rc.get("changes"):
+        why.append("原文の変化：" + "、".join(rc["changes"]))
+    if app["user_confirmation_required"] == "yes":
+        why.append("本人確認が必要な項目あり")
+    if app["claim_flags"]:
+        why.append("実績の表現を確認：" + "、".join(app["claim_flags"]))
+    if not app["conflict_risk"].startswith("低"):
+        why.append("利益相反リスク：" + (app["conflict_risk"][:40] or "未記載"))
+    return why
+
+
 def cmd_app_merge(a):
     v = P.vault_load()
     master, profile = v["master"], v.get("profile", {})
@@ -192,6 +209,14 @@ def cmd_app_merge(a):
             # measured times come back via Status Updates (application_preparation_ai_time etc.)
             "application_preparation_ai_time": d.get("application_preparation_ai_time"),
         }
+        hold = _hold_reasons(job, a.date)
+        app = job["application"]
+        if hold:
+            app["final_qa_status"], app["next_action"] = "HOLD", "応募準備保留：" + " / ".join(hold)
+        else:  # Claude re-read the live posting today and nothing needs the user → ready
+            app["final_qa_status"], app["next_action"] = "CLAUDE_CHECKED", "本人が応募 → Astraへ報告"
+            P.set_status(job, "READY_TO_APPLY", "claude",
+                         "応募準備完了（原文再確認 %s）" % (job.get("reward_check") or {}).get("checked_at"))
         ok.append(jid)
     P.vault_save(v)
     P.export(master, v.get("meta", {}))
@@ -311,3 +336,100 @@ def export_queue(master):
                 {"generated_at": P.now_iso(), "count": len(jobs),
                  "jobs": [{c: fn(j) for c, fn in APP_COLS} for j in jobs]})
     return len(jobs)
+
+
+# ---- KPI (estimated vs actual, split by lane) -------------------------------------------------
+LANES = {"A": "auto", "B": "auto", "C": "professional"}  # C = Professional / Human Premium
+DONE = ("PAID", "DELIVERED", "NOT_SELECTED", "SKIPPED")
+
+
+def _hist(j):
+    return {h["status"] for h in j.get("status_history", [])}
+
+
+def _est_min(j):
+    """Estimated human minutes: production estimate (upper bound of e.g. "3-5分") + application review estimate."""
+    nums = re.findall(r"\d+(?:\.\d+)?", str((j.get("eval") or {}).get("human_minutes") or ""))
+    return (float(nums[-1]) if nums else 0) + ((j.get("application") or {}).get("review_minutes_est") or 0)
+
+
+def kpi(master, meta, runs):
+    """Funnel rates, estimated and actual net per human minute, per lane (auto / professional)."""
+    batches = meta.get("review_batches", [])
+    in_batch = {jid for b in batches for jid in b["job_ids"]}
+    groups = {"total": list(master.values())}
+    for j in master.values():
+        c = (j.get("eval") or {}).get("classification")
+        if c in LANES:
+            groups.setdefault(LANES[c], []).append(j)
+            groups.setdefault("class_" + c, []).append(j)
+    lane_of = {jid: LANES.get((master.get(jid, {}).get("eval") or {}).get("classification")) for jid in in_batch}
+    rate = lambda n, d: round(n / d, 3) if d else None
+    out = {"discovered": sum(r.get("new") or 0 for r in runs)}
+    for g, jobs in groups.items():
+        ids = {j["job_id"] for j in jobs}
+        ev = [j for j in jobs if j.get("eval")]
+        cand = [j for j in jobs if "CLAUDE_CANDIDATE" in _hist(j)]
+        decided = [j for j in cand if _hist(j) & {"ASTRA_PASS", "ASTRA_REJECT", "NEED_USER", "SKIPPED"}]
+        passed = [j for j in cand if "ASTRA_PASS" in _hist(j)]
+        applied = [j for j in passed if _hist(j) & {"APPLIED"}]
+        acc = [j for j in applied if "ACCEPTED" in _hist(j)]
+        rej = [j for j in applied if "NOT_SELECTED" in _hist(j)]
+        est_net = sum(j.get("net_est") or 0 for j in passed)
+        est_min = sum(_est_min(j) for j in passed)
+        a = {"actual_net_reward": 0.0, "application_preparation_ai_time": 0.0, "production_ai_time": 0.0,
+             "human_review_minutes": 0.0, "production_human_minutes": 0.0, "revision_count": 0.0}
+        done_net = done_min = 0.0
+        for j in {x["job_id"]: x for x in applied + [x for x in passed if x.get("status") == "SKIPPED"]}.values():
+            app, act = j.get("application") or {}, j.get("actual") or {}
+            vals = {"actual_net_reward": _num(act.get("actual_net_reward")),
+                    "application_preparation_ai_time": _num(app.get("application_preparation_ai_time")),
+                    "production_ai_time": _num(act.get("actual_ai_processing")),
+                    "human_review_minutes": _num(app.get("human_review_minutes")),
+                    "production_human_minutes": _num(act.get("actual_human_minutes")),
+                    "revision_count": _num(act.get("revision_count"))}
+            for k, x in vals.items():
+                a[k] += x or 0
+            if j.get("status") in DONE:
+                done_net += vals["actual_net_reward"] or 0
+                done_min += (vals["human_review_minutes"] or 0) + (vals["production_human_minutes"] or 0)
+        for b in batches:  # batch totals are never split per job
+            if g == "total" or ({lane_of.get(x) for x in b["job_ids"]} == {g}) or \
+                    (g.startswith("class_") and all((master[x].get("eval") or {}).get("classification") == g[6:]
+                                                    for x in b["job_ids"])):
+                a["human_review_minutes"] += b["human_review_minutes"]
+                if all(master[x].get("status") in DONE for x in b["job_ids"]):
+                    done_min += b["human_review_minutes"]
+        out[g] = {"jobs": len(ids), "claude_evaluated": len(ev), "claude_candidates": len(cand),
+                  "claude_candidate_rate": rate(len(cand), len(ev)),
+                  "astra_decided": len(decided), "astra_pass": len(passed),
+                  "astra_pass_rate": rate(len(passed), len(decided)),
+                  "applied": len(applied), "application_rate": rate(len(applied), len(passed)),
+                  "accepted": len(acc), "not_selected": len(rej), "acceptance_rate": rate(len(acc), len(acc) + len(rej)),
+                  "estimated": {"net_jpy": est_net, "human_minutes": est_min,
+                                "net_per_human_min": round(est_net / est_min, 1) if est_min else None},
+                  "actual": {**a, "outcome_known_net": done_net, "outcome_known_human_minutes": done_min,
+                             "net_per_human_min": round(done_net / done_min, 1) if done_min else None}}
+    return out
+
+
+def cmd_app_batch(a):
+    """Record a batch-level human time reported by the user (never split per job); optional status."""
+    v = P.vault_load()
+    master, meta = v["master"], v.setdefault("meta", {})
+    ids = sorted({re.sub(r"\D", "", x) for x in a.ids.split(",") if x.strip()})
+    missing = [x for x in ids if x not in master]
+    if missing:
+        raise SystemExit(f"unknown job_id {missing}")
+    bs = [b for b in meta.get("review_batches", []) if b["job_ids"] != ids]
+    bs.append({"job_ids": ids, "human_review_minutes": a.minutes, "source": a.source,
+               "recorded_at": P.now_iso()})
+    meta["review_batches"] = bs
+    for x in ids:
+        if a.status:
+            P.set_status(master[x], a.status, a.source, a.note or "")
+        if master[x].get("application"):
+            master[x]["application"]["next_action"] = a.next_action or master[x]["application"]["next_action"]
+    P.vault_save(v)
+    P.export(master, meta)
+    print(json.dumps({"batch": bs[-1], "statuses": {x: master[x]["status"] for x in ids}}, ensure_ascii=False))

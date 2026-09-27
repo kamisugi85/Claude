@@ -44,15 +44,18 @@ JST = dt.timezone(dt.timedelta(hours=9))
 FEE_RATE = 0.20  # CrowdWorks system fee assumed for contracts up to 100,000 JPY
 
 STATUSES = [
-    "SCOUTED", "RULE_REJECTED", "CLAUDE_CANDIDATE", "CLAUDE_REJECTED", "ASTRA_QUEUE",
+    "SCOUTED", "RULE_REJECTED", "CLAUDE_CANDIDATE", "CLAUDE_REJECTED", "ASTRA_QA_PENDING",
     "ASTRA_PASS", "ASTRA_REJECT", "NEED_USER", "READY_TO_APPLY", "APPLIED",
     "ACCEPTED", "IN_PROGRESS", "READY_FOR_QA", "READY_TO_DELIVER", "DELIVERED",
     "PAID", "CLOSED",
     "SKIPPED",       # user/Astra chose not to apply this time (not a fit/condition rejection)
     "NOT_SELECTED",  # applied but the client did not accept
 ]
+# Past the Astra QA / application step: a (re)sent Astra verdict must not move these back
+PROGRESSED = {"READY_TO_APPLY", "APPLIED", "ACCEPTED", "IN_PROGRESS", "READY_FOR_QA",
+              "READY_TO_DELIVER", "DELIVERED", "PAID", "NOT_SELECTED"}
 # Statuses Claude may overwrite on re-evaluation; later ones belong to Astra/user.
-CLAUDE_OWNED = {"SCOUTED", "CLAUDE_CANDIDATE", "CLAUDE_REJECTED", "ASTRA_QUEUE"}
+CLAUDE_OWNED = {"SCOUTED", "CLAUDE_CANDIDATE", "CLAUDE_REJECTED", "ASTRA_QA_PENDING"}
 ACTUAL_FIELDS = ["actual_human_minutes", "actual_ai_processing", "revision_count",
                  "actual_gross_reward", "actual_net_reward", "result",
                  "client_rating", "repeat_order"]
@@ -100,7 +103,11 @@ def vault_load():
                        capture_output=True, env={**os.environ, "SCOUT_VAULT_KEY": _key()})
     if r.returncode:
         sys.exit("vault decrypt failed: " + r.stderr.decode())
-    return json.loads(r.stdout)
+    v = json.loads(r.stdout)
+    for j in v.get("master", {}).values():  # ASTRA_QUEUE was renamed ASTRA_QA_PENDING
+        if j.get("status") == "ASTRA_QUEUE":
+            j["status"] = "ASTRA_QA_PENDING"
+    return v
 
 
 def vault_save(v):
@@ -584,9 +591,9 @@ def cmd_merge(a):
             rejected += 1
         elif e.get("verdict") in ("候補", "要確認"):
             candidates += e.get("verdict") == "候補"
-            if job.get("status") != "ASTRA_QUEUE":
+            if job.get("status") != "ASTRA_QA_PENDING":
                 set_status(job, "CLAUDE_CANDIDATE", "claude", e.get("verdict"))
-                set_status(job, "ASTRA_QUEUE", "claude")
+                set_status(job, "ASTRA_QA_PENDING", "claude")
             queued += 1
         else:
             set_status(job, "CLAUDE_REJECTED", "claude", e.get("reason", ""))
@@ -609,7 +616,7 @@ def cmd_merge(a):
                 "astra_queue_added": queued, "astra_pass": upd.get("astra_pass", 0),
                 "astra_reject": upd.get("astra_reject", 0), "need_user": upd.get("need_user", 0),
                 "scout_misses_reported": upd.get("scout_miss", 0),
-                "astra_queue_total": sum(1 for j in master.values() if j.get("status") == "ASTRA_QUEUE")})
+                "astra_queue_total": sum(1 for j in master.values() if j.get("status") == "ASTRA_QA_PENDING")})
     save_json(run_path, run)
     runs_path = os.path.join(STATE, "runs.jsonl")
     runs = [json.loads(l) for l in open(runs_path, encoding="utf-8")] if os.path.exists(runs_path) else []
@@ -708,13 +715,13 @@ def _write_csv(path, cols, jobs):
 
 def export(master, meta):
     os.makedirs(OUT, exist_ok=True)
-    order = {s: i for i, s in enumerate(["ASTRA_QUEUE", "NEED_USER", "ASTRA_PASS", "READY_TO_APPLY",
+    order = {s: i for i, s in enumerate(["ASTRA_QA_PENDING", "NEED_USER", "ASTRA_PASS", "READY_TO_APPLY",
                                           "APPLIED", "ACCEPTED", "IN_PROGRESS", "READY_FOR_QA",
                                           "READY_TO_DELIVER", "DELIVERED", "PAID"])}
     jobs = sorted(master.values(), key=lambda j: (order.get(j.get("status"), 99), -(j.get("gross") or 0)))
     active = [j for j in jobs if j.get("status") not in ("CLOSED",)]
     _write_csv(os.path.join(OUT, "job_master.csv"), MASTER_COLS, active)
-    queue = [j for j in jobs if j.get("status") == "ASTRA_QUEUE"]
+    queue = [j for j in jobs if j.get("status") == "ASTRA_QA_PENDING"]
     _write_csv(os.path.join(OUT, "astra_queue.csv"), QUEUE_COLS, queue)
     save_json(os.path.join(OUT, "astra_queue.json"),
               {"generated_at": now_iso(), "count": len(queue),
@@ -755,7 +762,8 @@ UPDATE_COLS = ["job_id", "astra_verdict", "astra_reason", "new_status", "need_us
               ["production_ai_time", "production_human_minutes", "note"]
 ASTRA_FIELDS = ["astra_verdict", "astra_reason", "need_user", "next_action", "updated_at", "updated_by"]
 VERDICT_MAP = {"PASS": "ASTRA_PASS", "採用": "ASTRA_PASS", "合格": "ASTRA_PASS", "応募": "ASTRA_PASS",
-               "REJECT": "ASTRA_REJECT", "不採用": "ASTRA_REJECT", "除外": "ASTRA_REJECT", "見送り": "ASTRA_REJECT",
+               "REJECT": "ASTRA_REJECT", "不採用": "ASTRA_REJECT", "除外": "ASTRA_REJECT",
+               "SKIPPED": "SKIPPED", "SKIP": "SKIPPED", "見送り": "SKIPPED", "今回見送り": "SKIPPED",
                "NEED_USER": "NEED_USER", "要確認": "NEED_USER", "HOLD": "NEED_USER"}
 
 
@@ -837,9 +845,10 @@ def cmd_apply_updates(a):
     master, meta = v["master"], v.setdefault("meta", {})
     index = load_json(os.path.join(STATE, "index.json"), {})
     applied = set(meta.get("applied_update_rows", []))
+    batch_jobs = {j for b in meta.get("review_batches", []) for j in b["job_ids"]}
     text = open(a.csv, encoding="utf-8-sig").read()
     n_ok, errs = 0, []
-    tally = {"astra_pass": 0, "astra_reject": 0, "need_user": 0, "scout_miss": 0, "other_status": 0}
+    tally = {"astra_pass": 0, "astra_reject": 0, "need_user": 0, "skipped": 0, "scout_miss": 0, "other_status": 0}
     for row in csv.DictReader(io.StringIO(text)):
         row = {k.strip(): (val or "").strip() for k, val in row.items() if k}
         for alias, k in FIELD_ALIASES.items():
@@ -873,12 +882,23 @@ def cmd_apply_updates(a):
         if job is None:
             errs.append(f"unknown job_id {row['job_id']}")
             continue
+        # Status Updates is the Astra <-> Claude Code interface: only Astra-signed rows count
+        if "astra" not in row.get("updated_by", "").lower():
+            errs.append(f"{jid}: updated_by={row.get('updated_by') or '(空欄)'} はAstra名義でないため未反映")
+            continue
+        st = {"ASTRA_QUEUE": "ASTRA_QA_PENDING", "SKIP": "SKIPPED"}.get(st, st)
         if not st:
             st = VERDICT_MAP.get(verdict.upper(), VERDICT_MAP.get(verdict, ""))
             if not st and _truthy(row.get("need_user")):
                 st = "NEED_USER"
+            if st and job.get("status") in PROGRESSED:  # e.g. a repeated PASS for an applied job
+                errs.append(f"{jid}: {job['status']} のため判定 {verdict} でステータスを戻さない")
+                st = ""
             if not st and job.get("status") == "APPLIED":
                 st = RESULT_STATUS.get(row.get("result", "").lower(), "")
+        if row.get("human_review_minutes") and jid in batch_jobs:  # batch total kept in meta only
+            errs.append(f"{jid}: human_review_minutes はバッチ実績で記録済みのため案件別には保存しない")
+            row.pop("human_review_minutes")
         before = job.get("status")
         try:
             if st:
@@ -901,7 +921,8 @@ def cmd_apply_updates(a):
             if row.get("next_action"):
                 job["application"]["next_action"] = row["next_action"]
         if job.get("status") != before:  # text-only corrections are not new decisions
-            key = {"ASTRA_PASS": "astra_pass", "ASTRA_REJECT": "astra_reject", "NEED_USER": "need_user"}.get(st, "other_status")
+            key = {"ASTRA_PASS": "astra_pass", "ASTRA_REJECT": "astra_reject", "NEED_USER": "need_user",
+                   "SKIPPED": "skipped"}.get(st, "other_status")
             tally[key] += 1
         applied.add(sig)
         n_ok += 1
@@ -932,6 +953,7 @@ def cmd_metrics(a):
            "scout_misses": misses}
     import application
     out["poc_actual"] = application.poc_summary(master)
+    out["kpi"] = application.kpi(master, vault_load().get("meta", {}), runs)
     print(json.dumps(out, ensure_ascii=False, indent=1))
 
 
@@ -972,6 +994,11 @@ def main():
     p = sub.add_parser("app-merge", help="store Claude application drafts (no submission)")
     p.add_argument("--drafts", required=True); p.add_argument("--date", default=today())
     p.set_defaults(fn=application.cmd_app_merge)
+    p = sub.add_parser("app-batch", help="record a batch-level human time reported by the user")
+    p.add_argument("--ids", required=True); p.add_argument("--minutes", type=float, required=True)
+    p.add_argument("--source", required=True); p.add_argument("--status"); p.add_argument("--note")
+    p.add_argument("--next-action")
+    p.set_defaults(fn=application.cmd_app_batch)
     a = ap.parse_args()
     a.fn(a)
 
