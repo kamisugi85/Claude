@@ -10,6 +10,7 @@ git fetch origin claude/brave-lovelace-7n0flp && git checkout claude/brave-lovel
 - Driveのファイル・フォルダのIDは、`python3 scout/pipeline.py export` の後に `scout/out/sync_manifest.json` の `drive` で確認できる。
 
 ## 1. ステータス更新の取り込み（Sheets → Job Master）
+Status Updatesは本人の入力欄ではない。Astra と Claude Code がステータスを受け渡すためのシートで、書き込むのはAstraだけ。本人はAstraに報告するだけで、このシートは編集しない。
 1. Drive MCPの `download_file_content` で `status_updates_sheet` を `text/csv` として取得する。
 2. 返ってきたbase64を `scout/data/status_updates.b64` に保存し、`base64 -d` でCSVに戻す。
 3. `python3 scout/pipeline.py apply-updates --csv <csv>` を実行する。同じ行は二度反映されない。
@@ -95,7 +96,8 @@ python3 scout/pipeline.py merge --evals scout/data/<date>/evals.json
    - 今回見送り：`new_status=SKIPPED`, `final_qa_status=SKIP`、理由は `note` に書く。条件不一致によるREJECTとは区別する。
 6. 応募直前に `app-check --ids <READY_TO_APPLYのid>` を再実行する。
    - `recheck_changes` に報酬・期限・募集枠・AI条件・本文の変化、または募集終了が出たら、応募しない。
-7. 実測PoCはStatus Updatesの次の列で記録する。列名は別名でも同じ項目として取り込まれる。足りない列は1.4で自動的に追加される。
+7. 応募の記録：本人はCrowdWorksで応募したあと、Astraに「N件応募した」と報告するだけ。その報告をもとに、AstraがStatus Updatesに `new_status=APPLIED`・`applied_at`・`human_review_minutes`・`updated_by=Astra` を書き、Claude Codeが次の実行で取り込む。報告が来るまで、案件は `READY_TO_APPLY` のまま変えない（Claude側で推測してAPPLIEDにしない）。本人が作業時間を伝えていなければ、`human_review_minutes` は空欄のままにする（推定値は書かない）。
+8. 実測PoCはStatus Updatesの次の列で記録する（書くのはAstra）。列名は別名でも同じ項目として取り込まれる。足りない列は1.4で自動的に追加される。
    - `application_preparation_ai_time`（別名 `gen_minutes`）
    - `human_review_minutes`
    - `applied_at` と、応募時の `new_status=APPLIED`
