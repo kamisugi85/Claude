@@ -70,8 +70,24 @@ python3 scout/pipeline.py merge --evals scout/data/<date>/evals.json
 - `python3 scout/pipeline.py metrics` で、累計の取得件数、Claude評価件数、Astra Queue件数、PASS・REJECTの件数、取りこぼし件数、Precision / Recallの目安を確認できる。
 - `runs.jsonl` には実行ごとの値が記録される。
 
+## 5.7 応募準備（Application Queue）※応募・フォーム入力・送信はしない
+対象は `ASTRA_PASS` の案件だけ。少数を選んで実行する（初回PoCは4〜5件）。
+1. `python3 scout/pipeline.py app-check --ids <id,...>` で、案件ページから報酬・応募期限・契約状況をもう一度取得する。
+   - 報酬は一覧の表示額ではなく、募集本文の実額を使う（例：tokyoreve・supersameは本文の200円（税抜）＝税込220円）。
+   - 募集終了・期限切れ・契約が募集人数に達した案件は選ばない。
+2. `scout/data/<date>/app_source/<id>.json` の原文と `show-profile` だけを使い、`scout/data/<date>/app_drafts.json` を作る。
+   - 1件ごとの項目：`job_id`, `actual_reward`（税込）, `reward_evidence`（本文からそのまま引用）, `application_draft`, `application_questions`（本文の設問をそのまま）, `application_answers`, `facts_used`（`fact` と `profile_ref`、例：`professional.qualifications[2]`）, `unverified_facts`, `conflict_risk`, `user_confirmation_required`, `human_review_minutes`, `next_action`
+   - プロフィールにない経験・実績・好みは書かない。必要なら `unverified_facts` に入れ、回答欄は【本人記入】のままにして `user_confirmation_required=yes` にする。
+   - 本Scout・AI運用を、AI案件の受注経験・コンサル経験・CrowdWorksでの実績として書かない。勤務先名は書かない。
+3. `python3 scout/pipeline.py app-merge --drafts scout/data/<date>/app_drafts.json` を実行する。引用・設問・プロフィール参照が原文と一致しない下書きは取り込まれない。
+4. `CW Scout - Application Queue｜<生成日時> JST` をJob Master等と同じ方法で差し替え、`set-drive application_queue_sheet <id>` で新しいIDを記録する。
+5. Astraの最終QA結果と応募後の記録は、Status Updatesシートの列 `final_qa_status`・`user_confirmed`・`applied_at`・`gen_minutes` と、既存の実測値の列から取り込む。
+   - 最終QAの行では `astra_verdict` を空欄にする（ステータスが戻らないように）。
+   - 応募したら `new_status=APPLIED` にする。
+
 ## 6. 保存
 ```bash
+python3 scout/tests/test_application.py   # 応募準備の検証（本物のVaultは変更しない）
 git add scout/state && git commit -m "Scout run <date>" && git push -u origin claude/brave-lovelace-7n0flp
 ```
 - 暗号化されていない状態で個人情報をコミットしないこと。

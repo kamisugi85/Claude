@@ -659,7 +659,13 @@ MASTER_COLS = [
     ("need_user", lambda j: j.get("astra", {}).get("need_user")),
     ("next_action", lambda j: j.get("astra", {}).get("next_action")),
     ("astra_updated_at", lambda j: j.get("astra", {}).get("updated_at")),
-] + [(k, (lambda k: lambda j: j.get("actual", {}).get(k))(k)) for k in ACTUAL_FIELDS]
+] + [(k, (lambda k: lambda j: j.get("actual", {}).get(k))(k)) for k in ACTUAL_FIELDS] + [
+    ("app_final_qa_status", lambda j: (j.get("application") or {}).get("final_qa_status")),
+    ("app_user_confirmation_required", lambda j: (j.get("application") or {}).get("user_confirmation_required")),
+    ("app_gen_minutes", lambda j: (j.get("application") or {}).get("gen_minutes")),
+    ("app_user_confirmed", lambda j: (j.get("application") or {}).get("user_confirmed")),
+    ("app_applied_at", lambda j: (j.get("application") or {}).get("applied_at")),
+]
 
 QUEUE_COLS = [
     ("job_id", lambda j: j["job_id"]), ("url", lambda j: j["url"]), ("title", lambda j: j["title"]),
@@ -710,14 +716,19 @@ def export(master, meta):
     save_json(os.path.join(OUT, "astra_queue.json"),
               {"generated_at": now_iso(), "count": len(queue),
                "jobs": [{c: fn(j) for c, fn in QUEUE_COLS} for j in queue]})
+    import application
+    n_app = application.export_queue(master)
     stamp = dt.datetime.now(JST).strftime("%Y-%m-%d %H:%M JST")
     save_json(os.path.join(OUT, "sync_manifest.json"),
               {"generated_at": now_iso(), "drive": meta.get("drive", {}),
                "titles": {"job_master": f"CW Scout - Job Master｜{stamp}",
-                          "astra_queue": f"CW Scout - Astra Queue｜{stamp}"},
-               "files": {"job_master": "job_master.csv", "astra_queue": "astra_queue.csv"},
-               "counts": {"master_active": len(active), "astra_queue": len(queue)}})
-    print(f"exported: master={len(active)} queue={len(queue)}")
+                          "astra_queue": f"CW Scout - Astra Queue｜{stamp}",
+                          "application_queue": f"CW Scout - Application Queue｜{stamp}"},
+               "files": {"job_master": "job_master.csv", "astra_queue": "astra_queue.csv",
+                         "application_queue": "application_queue.csv"},
+               "counts": {"master_active": len(active), "astra_queue": len(queue),
+                          "application_queue": n_app}})
+    print(f"exported: master={len(active)} queue={len(queue)} applications={n_app}")
 
 
 def cmd_export(a):
@@ -725,8 +736,10 @@ def cmd_export(a):
     export(v["master"], v.get("meta", {}))
 
 
+# Application Queue fields Astra/the user may write back (final QA, confirmation, applied date)
+APP_FIELDS = ["final_qa_status", "user_confirmed", "applied_at", "gen_minutes", "app_note"]
 UPDATE_COLS = ["job_id", "astra_verdict", "astra_reason", "new_status", "need_user", "next_action",
-               "updated_at", "updated_by"] + ACTUAL_FIELDS + ["note"]
+               "updated_at", "updated_by"] + ACTUAL_FIELDS + APP_FIELDS + ["note"]
 ASTRA_FIELDS = ["astra_verdict", "astra_reason", "need_user", "next_action", "updated_at", "updated_by"]
 VERDICT_MAP = {"PASS": "ASTRA_PASS", "採用": "ASTRA_PASS", "合格": "ASTRA_PASS", "応募": "ASTRA_PASS",
                "REJECT": "ASTRA_REJECT", "不採用": "ASTRA_REJECT", "除外": "ASTRA_REJECT", "見送り": "ASTRA_REJECT",
@@ -749,8 +762,13 @@ def cmd_apply_updates(a):
         row = {k.strip(): (val or "").strip() for k, val in row.items() if k}
         if not row.get("job_id"):
             continue
-        sig = hashlib.md5(json.dumps(row, sort_keys=True, ensure_ascii=False).encode()).hexdigest()[:16]
-        if sig in applied:
+        # Signature over non-empty cells, so adding sheet columns does not re-apply old rows;
+        # the legacy all-cells signature is still honoured for rows applied before.
+        legacy = hashlib.md5(json.dumps(row, sort_keys=True, ensure_ascii=False).encode()).hexdigest()[:16]
+        sig = hashlib.md5(json.dumps({k: x for k, x in row.items() if x}, sort_keys=True,
+                                     ensure_ascii=False).encode()).hexdigest()[:16]
+        if sig in applied or legacy in applied:
+            applied.add(sig)
             continue
         jid = re.sub(r"\D", "", row["job_id"])
         st = row.get("new_status", "").upper()
@@ -773,6 +791,7 @@ def cmd_apply_updates(a):
             st = VERDICT_MAP.get(verdict.upper(), VERDICT_MAP.get(verdict, ""))
             if not st and _truthy(row.get("need_user")):
                 st = "NEED_USER"
+        before = job.get("status")
         try:
             if st:
                 set_status(job, st, row.get("updated_by") or "sheet",
@@ -787,8 +806,13 @@ def cmd_apply_updates(a):
         for k in ACTUAL_FIELDS:
             if row.get(k):
                 job.setdefault("actual", {})[k] = row[k]
-        key = {"ASTRA_PASS": "astra_pass", "ASTRA_REJECT": "astra_reject", "NEED_USER": "need_user"}.get(st, "other_status")
-        tally[key] += 1
+        if job.get("application"):
+            for k in APP_FIELDS:
+                if row.get(k):
+                    job["application"][k] = row[k]
+        if job.get("status") != before:  # text-only corrections are not new decisions
+            key = {"ASTRA_PASS": "astra_pass", "ASTRA_REJECT": "astra_reject", "NEED_USER": "need_user"}.get(st, "other_status")
+            tally[key] += 1
         applied.add(sig)
         n_ok += 1
     meta["applied_update_rows"] = sorted(applied)
@@ -846,6 +870,13 @@ def main():
     p = sub.add_parser("metrics"); p.set_defaults(fn=cmd_metrics)
     p = sub.add_parser("export"); p.set_defaults(fn=cmd_export)
     p = sub.add_parser("set-drive"); p.add_argument("key"); p.add_argument("value"); p.set_defaults(fn=cmd_set_meta)
+    import application
+    p = sub.add_parser("app-check", help="re-read reward/deadline/slots from the posting (ASTRA_PASS only)")
+    p.add_argument("--ids", default=""); p.add_argument("--date", default=today())
+    p.set_defaults(fn=application.cmd_app_check)
+    p = sub.add_parser("app-merge", help="store Claude application drafts (no submission)")
+    p.add_argument("--drafts", required=True); p.add_argument("--date", default=today())
+    p.set_defaults(fn=application.cmd_app_merge)
     a = ap.parse_args()
     a.fn(a)
 
