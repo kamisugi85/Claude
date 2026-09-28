@@ -180,6 +180,25 @@ def main():
     assert last_json(run(tmp, "postqa", "guard", "--date", "2099-01-02").stdout)["ok"] is True
     open(rp, "w", encoding="utf-8").write(keep)
     assert last_json(run(tmp, "postqa", "guard", "--date", "2099-01-02").stdout)["ok"] is False
+    # 06:30 routine: only Astra rows written today after the 05:00 Scout run count as today's QA
+    open(rp, "a", encoding="utf-8").write(json.dumps({"date": "2099-01-03", "run_at": "2099-01-03T05:20+09:00"}) + "\n")
+    pend3 = [j for j, row in tables()[1].items() if row["status"] == "ASTRA_QA_PENDING"]
+    def astra(rows):
+        return last_json(run(tmp, "postqa", "astra", "--csv", write_csv(os.path.join(tmp, "su.csv"), rows),
+                             "--date", "2099-01-03").stdout)
+    base_rows = [{"job_id": "1", "astra_verdict": "PASS", "updated_by": "Astra", "updated_at": "2099-01-02 06:00 JST"}]
+    assert astra(base_rows)["ok"] is False  # only yesterday's rows: Astra QA not (yet) run today
+    assert astra([{**base_rows[0], "updated_at": "2099-01-03 04:00 JST"}])["ok"] is False  # before today's Scout
+    assert astra([{**base_rows[0], "updated_at": "2099-01-03 06:05 JST", "updated_by": "本人"}])["ok"] is False
+    r = astra([{"job_id": j, "astra_verdict": "REJECT", "updated_by": "Astra", "updated_at": "2099-01-03 06:00 JST"}
+               for j in pend3[:1]])
+    assert r["ok"] is True and r["complete"] is (len(pend3) == 1), r
+    r = astra([{"job_id": j, "astra_verdict": "REJECT", "updated_by": "Astra", "updated_at": "2099-01-03"}
+               for j in pend3])
+    assert r["ok"] and r["complete"], r
+    open(rp, "w", encoding="utf-8").write(keep)
+    assert last_json(run(tmp, "postqa", "astra", "--csv", os.path.join(tmp, "su.csv"), "--date", "2099-01-03").stdout)["ok"] is False
+    print("06:30 guard: needs Astra rows written today after the Scout run; partial QA reported as incomplete")
     print("post-QA routine: new Astra PASS only, re-import/non-Astra/no-QA give no targets, guard needs today's Scout")
 
     # batch human time: kept as one total, never split per job; per-job minutes for it are ignored

@@ -941,15 +941,44 @@ def cmd_apply_updates(a):
 
 
 def cmd_postqa(a):
-    """Post-Astra-QA routine (07:1x): never scouts or evaluates.
-    guard   : proceed only if today's 06:00 Scout run is recorded (it owns the Astra Queue hand-off).
+    """Post-Astra-QA routine (06:30 JST): never scouts or evaluates.
+    guard   : proceed only if today's 05:00 Scout run is recorded (it owns the Astra Queue hand-off).
+    astra   : proceed only if the Status Updates CSV holds Astra-signed rows written today after that run;
+              complete=false means some queued jobs are still unjudged (they stay ASTRA_QA_PENDING).
     targets : ASTRA_PASS jobs whose PASS came in with the last apply-updates and have no draft yet."""
     runs_path = os.path.join(STATE, "runs.jsonl")
     runs = [json.loads(l) for l in open(runs_path, encoding="utf-8")] if os.path.exists(runs_path) else []
+    today_runs = [r for r in runs if r.get("date") == a.date]
     if a.stage == "guard":
-        done = any(r.get("date") == a.date for r in runs)
+        done = bool(today_runs)
         print(json.dumps({"ok": done, "reason": "" if done else f"{a.date} のScout実行記録がないため何もしない"},
                          ensure_ascii=False))
+        return
+    if a.stage == "astra":
+        # Proceed only on evidence that today's Astra QA ran after today's Scout hand-off:
+        # Astra-signed rows dated today (and not earlier than the Scout run) in the current Status Updates.
+        if not today_runs:
+            print(json.dumps({"ok": False, "reason": f"{a.date} のScout実行記録がない"}, ensure_ascii=False))
+            return
+        scout_at = max(r.get("run_at", "") for r in today_runs)[11:16]  # HH:MM (JST)
+        rows = list(csv.DictReader(io.StringIO(open(a.csv, encoding="utf-8-sig").read())))
+        todays = set()
+        for r in rows:
+            r = {k.strip(): (v or "").strip() for k, v in r.items() if k}
+            if "astra" not in r.get("updated_by", "").lower() or not r.get("job_id"):
+                continue
+            m = re.match(r"(\d{4}-\d{2}-\d{2})(?:[ T](\d{1,2}):(\d{2}))?", r.get("updated_at", ""))
+            if not m or m.group(1) != a.date:
+                continue
+            if m.group(2) and f"{int(m.group(2)):02d}:{m.group(3)}" < scout_at:
+                continue  # written before today's Astra Queue existed
+            todays.add(re.sub(r"\D", "", r["job_id"]))
+        pending = {j for j, x in vault_load()["master"].items() if x.get("status") == "ASTRA_QA_PENDING"}
+        covered = pending & todays
+        res = {"ok": bool(todays), "complete": bool(todays) and covered == pending,
+               "astra_rows_today": len(todays), "pending": len(pending), "covered": len(covered),
+               "reason": "" if todays else f"{a.date} {scout_at}以降のAstra名義の判定がStatus Updatesにないため何もしない"}
+        print(json.dumps(res, ensure_ascii=False))
         return
     last = load_json(os.path.join(ROOT, "data", a.date, "last_updates.json"), {"changed": {}})
     master = vault_load()["master"]
@@ -1009,7 +1038,8 @@ def main():
     p.add_argument("--csv", required=True); p.add_argument("--verify"); p.add_argument("--recheck")
     p.set_defaults(fn=cmd_su_columns)
     p = sub.add_parser("postqa", help="post-Astra-QA routine helpers (no scouting)")
-    p.add_argument("stage", choices=["guard", "targets"]); p.add_argument("--date", default=today())
+    p.add_argument("stage", choices=["guard", "astra", "targets"]); p.add_argument("--date", default=today())
+    p.add_argument("--csv", help="Status Updates CSV (stage astra)")
     p.set_defaults(fn=cmd_postqa)
     p = sub.add_parser("metrics"); p.set_defaults(fn=cmd_metrics)
     p = sub.add_parser("export"); p.set_defaults(fn=cmd_export)
