@@ -62,6 +62,11 @@ def main():
     base = copy.deepcopy(good[1])  # a 400-char article draft
     base["application_draft"] = "\n".join(l for l in base["application_draft"].split("\n") if "AI" not in l)
     setst(tmp, base["job_id"], "ASTRA_PASS")  # drafts are only accepted for ASTRA_PASS jobs
+    # the fixture is past data: keep its application deadline in the future so the test does not age out
+    subprocess.run([sys.executable, "-c", "import pipeline as P; v=P.vault_load(); "
+                    "rc=v['master'][%r].get('reward_check') or {}; "
+                    "rc.get('deadline') and rc.update(deadline='2099-12-31'); P.vault_save(v)" % str(base["job_id"])],
+                   cwd=tmp, check=True)
     p = os.path.join(tmp, "ok.json")
     json.dump([base], open(p, "w", encoding="utf-8"), ensure_ascii=False)
     run(tmp, "app-merge", "--drafts", p, "--date", date)
@@ -235,6 +240,26 @@ def main():
     rr = last_json(run(tmp, "apply-updates", "--csv", synced).stdout)
     assert tables()[1] == before, rr  # widened sheet re-applies nothing
     print("Status Updates columns: +%d missing, re-run no-op, tampering rejected" % len(r["missing"]))
+
+    # Drive copies stay within the upload budget; the full master stays local; drive-status flags stale sheets
+    run(tmp, "export")
+    man = json.load(open(os.path.join(tmp, "out", "sync_manifest.json"), encoding="utf-8"))
+    full = {x["job_id"]: x for x in csv.DictReader(open(os.path.join(tmp, "out", "job_master_full.csv"),
+                                                        encoding="utf-8"))}
+    q, m = tables()
+    assert all(x["status"] not in ("CLAUDE_REJECTED", "RULE_REJECTED", "CLOSED") for x in m.values())
+    assert any(x["status"] == "CLAUDE_REJECTED" for x in full.values()) and set(m) < set(full)
+    assert {"READY_TO_APPLY", "APPLIED", "SKIPPED"} <= {x["status"] for x in m.values()}
+    assert "key_excerpt" not in next(iter(q.values())) and all(
+        x["application_draft"] for x in q.values() if x["status"] == "READY_TO_APPLY")
+    assert all(b <= man["budget_bytes"] for b in man["bytes"].values()), man["bytes"]
+    keys = "job_master,application_queue"
+    assert run(tmp, "drive-status", "--keys", keys, ok=False).returncode == 1
+    run(tmp, "set-drive", "job_master_sheet", "x1")
+    assert last_json(run(tmp, "drive-status", "--keys", keys, ok=False).stdout)["stale"] == ["application_queue"]
+    run(tmp, "set-drive", "application_queue_sheet", "x2")
+    assert last_json(run(tmp, "drive-status", "--keys", keys).stdout)["ok"]
+    print("Drive copies within budget (%s); drive-status catches a skipped upload" % man["bytes"])
     shutil.rmtree(tmp)
     print("OK")
 

@@ -458,6 +458,20 @@ def _undrafted_view(j):
     return {**j, "application": stub}
 
 
+# Drive copy (pasted into one upload call): no posting excerpt (the url has it), and once a job is past
+# the application step its draft/answers stay in the vault and application_queue.json only.
+DRIVE_APP_COLS = [c for c in APP_COLS if c[0] not in ("key_excerpt", "status_reason")]
+DONE_DRAFT_FIELDS = ("application_draft", "application_answers", "facts_used", "reward_evidence")
+
+
+def _drive_row(j):
+    if j.get("status") in ("ASTRA_PASS", "READY_TO_APPLY"):
+        return j
+    app = dict(j["application"], application_draft="（応募済み・見送り等のため省略。application_queue.jsonに保存）",
+               application_answers=[], facts_used=[], reward_evidence="")
+    return {**j, "application": app}
+
+
 def export_queue(master):
     jobs = [j for j in master.values() if j.get("application") and j.get("status") in QUEUE_VISIBLE]
     jobs += [_undrafted_view(j) for j in master.values() if j.get("status") == "ASTRA_PASS" and not j.get("application")]
@@ -465,7 +479,7 @@ def export_queue(master):
     order = {"READY_TO_APPLY": 0, "ASTRA_PASS": 1, "APPLIED": 2}
     jobs.sort(key=lambda j: (order.get(j.get("status"), 3), j["application"]["final_qa_status"] == "NO_DRAFT",
                              -(j["application"]["app_priority"] or 0)))
-    P._write_csv(os.path.join(P.OUT, "application_queue.csv"), APP_COLS, jobs)
+    P._write_csv(os.path.join(P.OUT, "application_queue.csv"), DRIVE_APP_COLS, [_drive_row(j) for j in jobs])
     P.save_json(os.path.join(P.OUT, "application_queue.json"),
                 {"generated_at": P.now_iso(), "count": len(jobs),
                  "jobs": [{c: fn(j) for c, fn in APP_COLS} for j in jobs]})

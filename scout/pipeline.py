@@ -713,6 +713,26 @@ def _write_csv(path, cols, jobs):
             w.writerow(["" if (v := fn(j)) is None else v for _, fn in cols])
 
 
+# Drive copies are uploaded by pasting the CSV into one tool call, so they must stay small.
+# The full master (incl. Claude/rule rejections) stays local in out/job_master_full.csv and in the vault.
+DRIVE_BUDGET = 50000
+DRIVE_FILES = {"job_master": "job_master.csv", "astra_queue": "astra_queue.csv",
+               "application_queue": "application_queue.csv"}
+DRIVE_MASTER_HIDDEN = {"CLOSED", "CLAUDE_REJECTED", "RULE_REJECTED"}
+REJECT_KEEP_DAYS = 1  # today and yesterday
+
+
+def _in_drive_master(j):
+    st = j.get("status")
+    if st in DRIVE_MASTER_HIDDEN:
+        return False
+    if st == "ASTRA_REJECT":  # recent rejections only (older ones: job_master_full.csv)
+        at = ((j.get("status_history") or [{}])[-1].get("at") or "")[:10]
+        cut = (dt.datetime.now(JST).date() - dt.timedelta(days=REJECT_KEEP_DAYS)).isoformat()
+        return at >= cut
+    return True
+
+
 def export(master, meta):
     os.makedirs(OUT, exist_ok=True)
     order = {s: i for i, s in enumerate(["ASTRA_QA_PENDING", "NEED_USER", "ASTRA_PASS", "READY_TO_APPLY",
@@ -720,7 +740,9 @@ def export(master, meta):
                                           "READY_TO_DELIVER", "DELIVERED", "PAID"])}
     jobs = sorted(master.values(), key=lambda j: (order.get(j.get("status"), 99), -(j.get("gross") or 0)))
     active = [j for j in jobs if j.get("status") not in ("CLOSED",)]
-    _write_csv(os.path.join(OUT, "job_master.csv"), MASTER_COLS, active)
+    _write_csv(os.path.join(OUT, "job_master_full.csv"), MASTER_COLS, active)  # local only
+    drive_view = [j for j in active if _in_drive_master(j)]
+    _write_csv(os.path.join(OUT, "job_master.csv"), MASTER_COLS, drive_view)
     queue = [j for j in jobs if j.get("status") == "ASTRA_QA_PENDING"]
     _write_csv(os.path.join(OUT, "astra_queue.csv"), QUEUE_COLS, queue)
     save_json(os.path.join(OUT, "astra_queue.json"),
@@ -736,9 +758,14 @@ def export(master, meta):
                           "application_queue": f"CW Scout - Application Queue｜{stamp}"},
                "files": {"job_master": "job_master.csv", "astra_queue": "astra_queue.csv",
                          "application_queue": "application_queue.csv"},
-               "counts": {"master_active": len(active), "astra_queue": len(queue),
-                          "application_queue": n_app}})
-    print(f"exported: master={len(active)} queue={len(queue)} applications={n_app}")
+               "counts": {"master_active": len(active), "master_drive": len(drive_view),
+                          "astra_queue": len(queue), "application_queue": n_app},
+               "bytes": {k: os.path.getsize(os.path.join(OUT, f)) for k, f in DRIVE_FILES.items()},
+               "budget_bytes": DRIVE_BUDGET})
+    print(f"exported: master={len(active)} (drive {len(drive_view)}) queue={len(queue)} applications={n_app}")
+    for k, f in DRIVE_FILES.items():
+        if os.path.getsize(os.path.join(OUT, f)) > DRIVE_BUDGET:
+            print(f"WARNING: {f} exceeds the Drive upload budget ({DRIVE_BUDGET} bytes)", file=sys.stderr)
 
 
 def cmd_export(a):
@@ -1014,8 +1041,24 @@ def cmd_set_meta(a):
     v = vault_load()
     meta = v.setdefault("meta", {})
     meta.setdefault("drive", {})[a.key] = a.value
+    if a.key.endswith("_sheet"):
+        meta.setdefault("drive_synced", {})[a.key] = now_iso()
     vault_save(v)
     print(json.dumps(meta["drive"], ensure_ascii=False))
+
+
+def cmd_drive_status(a):
+    """Which Drive sheets are older than the latest local export (exit 1 if any)."""
+    man = json.load(open(os.path.join(OUT, "sync_manifest.json"), encoding="utf-8"))
+    synced = vault_load().get("meta", {}).get("drive_synced", {})
+    keys = [k for k in (a.keys.split(",") if a.keys else DRIVE_FILES) if k]
+    stale = [k for k in keys if (synced.get(k + "_sheet") or "") < man["generated_at"]]
+    over = [k for k, b in man.get("bytes", {}).items() if b > man.get("budget_bytes", DRIVE_BUDGET)]
+    print(json.dumps({"ok": not stale, "stale": stale, "over_budget": over, "exported_at": man["generated_at"],
+                      "synced": {k: synced.get(k + "_sheet") for k in keys},
+                      "bytes": man.get("bytes")}, ensure_ascii=False))
+    if stale:
+        sys.exit(1)
 
 
 def main():
@@ -1044,6 +1087,9 @@ def main():
     p = sub.add_parser("metrics"); p.set_defaults(fn=cmd_metrics)
     p = sub.add_parser("export"); p.set_defaults(fn=cmd_export)
     p = sub.add_parser("set-drive"); p.add_argument("key"); p.add_argument("value"); p.set_defaults(fn=cmd_set_meta)
+    p = sub.add_parser("drive-status", help="Drive sheets not yet re-uploaded since the last export (exit 1)")
+    p.add_argument("--keys", default="", help="comma list, e.g. job_master,application_queue")
+    p.set_defaults(fn=cmd_drive_status)
     import application
     p = sub.add_parser("app-check", help="re-read reward/deadline/slots from the posting (ASTRA_PASS only)")
     p.add_argument("--ids", default=""); p.add_argument("--date", default=today())

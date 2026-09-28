@@ -81,6 +81,15 @@ python3 scout/pipeline.py merge --evals scout/data/<date>/evals.json
 2. 古いシート（manifestに記録された `job_master_sheet` と `astra_queue_sheet`）を `trash_file` でゴミ箱へ移す。
 3. 新しいIDを記録する：`python3 scout/pipeline.py set-drive job_master_sheet <id>`（`astra_queue_sheet` も同様）
 4. `CW Scout - Status Updates (記入用)` は差し替えない。例外は1.4の列追加だけ。
+5. Drive反映は省略しない（2026-09-29に、Job MasterとApplication Queueのアップロードが省略されたまま「成功」と報告された）。
+   - アップロードするCSVは、Drive用の軽量版（1ファイル約50KB以内）。
+     - `job_master.csv`：Claude/ルール除外・CLOSED・前日より前のASTRA_REJECTを除く。全件はローカルの `job_master_full.csv` とVaultにある。
+     - `application_queue.csv`：原文抜粋を除く。応募済み・見送りの行は応募文を省略する（`application_queue.json` とVaultに残る）。
+   - `export` が `WARNING: ... exceeds the Drive upload budget` を出した場合も、アップロードは行い、報告に書く。
+   - CSVはファイルの中身をそのまま `textContent` に渡す。要約・省略・行の削除はしない。
+   - アップロード後に `download_file_content`（`text/csv`）で取得し直し、ローカルのCSVと行数・内容が一致することを確認してから、古いシートをゴミ箱へ移す。
+   - 最後に `python3 scout/pipeline.py drive-status --keys <対象>` を実行する。`ok=false` なら、どのシートが未反映かを報告に必ず書く（成功として報告しない）。
+   - `set-drive` はVaultを更新するので、IDの記録後に `git add scout/state && git commit -m "Scout: record Drive sheet IDs <date>" && git push` を行う。
 
 ## 5.5 性能測定
 - `python3 scout/pipeline.py metrics` で、累計の取得件数、Claude評価件数、Astra Queue件数、PASS・REJECTの件数、取りこぼし件数、Precision / Recallの目安を確認できる。
@@ -175,10 +184,13 @@ Scoutの収集・ルール処理・Claude一次評価は行わない。Astra Que
      1. `git fetch` を行う。
      2. 先に入ったコミットが `scout/state/` を変更していなければ（コードやRUNBOOKだけの変更）、`git rebase` して1回だけpushし直す。
      3. `scout/state/` が変更されていれば、Driveも更新せずに終了する。未反映の行は、次の実行で取り込まれる。
-9. pushできた場合だけ、Driveを更新する。07:30のREADY_TO_APPLY通知より前に終える。
-   - Application QueueとJob Masterを、手順5と同じ方法で差し替える。
+9. pushできた場合だけ、Driveを更新する。07:30のREADY_TO_APPLY通知より前に終える。この手順は省略しない。
+   - Application QueueとJob Masterを、手順5と同じ方法で差し替える（手順5の5を含む）。
    - Astra Queueは差し替えない（Astra QAの対象は05:00の実行が決める）。
+   - `python3 scout/pipeline.py drive-status --keys job_master,application_queue` が `ok=true` になるまでが完了。
+   - IDを記録したVaultをcommit・pushする（手順8と同じ規則）。
+10. 報告の最後に、Drive反映の結果（シートごとに「更新済み／未反映と理由」）を必ず書く。
 
 ## エラー時
 - 収集に失敗した場合：`runs.jsonl` の `errors` に記録し、処理を続ける。
-- Driveに接続できない場合：手順5をスキップして手順6まで進める。次回の実行で最新の状態を同期する。
+- Driveに接続できない場合：手順5をスキップして手順6まで進める。次回の実行で最新の状態を同期する。報告には「Drive未反映」と明記し、成功として報告しない。
