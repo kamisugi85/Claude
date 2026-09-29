@@ -156,7 +156,7 @@ def classify_changes(prev, rc, job, desc):
     elif old_h is not None:
         notes.append("見出し報酬が取得できず（本文の報酬で判断）")
     ev = (job.get("application") or {}).get("reward_evidence")
-    if ev and _norm(ev) not in _norm(desc):
+    if ev and not ev.startswith("UNKNOWN") and _norm(ev) not in _norm(desc):
         changes.append("応募文の根拠にした報酬記載が本文から消えた")
     old_amt, new_amt = _amounts(prev.get("body_reward_mentions")), _amounts(rc.get("body_reward_mentions"))
     if prev.get("body_reward_mentions") is not None and old_amt and new_amt and max(new_amt) < max(old_amt):

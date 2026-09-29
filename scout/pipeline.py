@@ -802,6 +802,7 @@ RESULT_STATUS = {"accepted": "ACCEPTED", "受注": "ACCEPTED", "採用": "ACCEPT
 UPDATE_COLS = ["job_id", "astra_verdict", "astra_reason", "new_status", "need_user", "next_action",
                "updated_at", "updated_by"] + ACTUAL_FIELDS + APP_FIELDS + \
               ["production_ai_time", "production_human_minutes", "note"]
+PROXY_RE = re.compile(r"転記|代理|代行|本人経由|チャットで|relay|proxy", re.I)
 ASTRA_FIELDS = ["astra_verdict", "astra_reason", "need_user", "next_action", "updated_at", "updated_by"]
 VERDICT_MAP = {"PASS": "ASTRA_PASS", "採用": "ASTRA_PASS", "合格": "ASTRA_PASS", "応募": "ASTRA_PASS",
                "REJECT": "ASTRA_REJECT", "不採用": "ASTRA_REJECT", "除外": "ASTRA_REJECT",
@@ -940,6 +941,10 @@ def cmd_apply_updates(a):
         # Status Updates is the Astra <-> Claude Code interface: only Astra-signed rows count
         if "astra" not in row.get("updated_by", "").lower():
             errs.append(f"{jid}: updated_by={row.get('updated_by') or '(空欄)'} はAstra名義でないため未反映")
+            continue
+        # a verdict relayed by the user (or written by Claude) is not Astra's own record
+        if PROXY_RE.search(" ".join(row.get(k, "") for k in ("note", "astra_reason", "next_action"))):
+            errs.append(f"{jid}: 転記・代理記録のAstra判定は取り込まない（Status UpdatesにAstra自身が記録した行のみ）")
             continue
         import worker  # accepted jobs: Astra's second-stage (deliverable) QA goes to the worker record
         wnote = worker.apply_astra_row(job, row)

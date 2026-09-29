@@ -95,7 +95,9 @@ Queueへの登録は評価依頼であり、応募指示ではない。応募・
    - ASTRA_PASS以降の既存案件はステータスを変えず、最新情報だけを更新する。
    - Queueは `REVIEWED` になる。状態は `manual-status` で確認できる。
 5. その後は通常どおり：Astraの判定（Status Updates）→ `ASTRA_PASS` → 5.7の応募準備 → `READY_TO_APPLY` → 既存の通知・本人応募。
-   - Astraの判定が、Status Updatesではなく本人経由でチャットに届いた場合：伝えられた判定と理由をそのまま、`updated_by=Astra` の1行としてローカルCSV（`data/<date>/astra_relay_<id>.csv`）に書き、`note` に「本人がチャットで転記（Status Updatesシート未記入）」と残して `apply-updates` で取り込む。判定が明示されていない場合は作らない。
+   - Astra判定のSource of Truthは、Status UpdatesにAstra自身が記録した行だけ。Claudeは判定を推測しない・Astra名義で代理記録しない・本人から転記された判定をAstraの記録として扱わない。`apply-updates` は、noteや理由に「転記・代理・代行・本人経由・チャットで」などを含むAstra名義の行を取り込まず `errors` に出す。
+   - Status UpdatesにAstraの判定がない案件は ASTRA_REVIEW_PENDING（ステータスは既存の `ASTRA_QA_PENDING` のまま）で停止し、応募準備に進めない。
+   - 例外は、本人がそのプロンプトで対象job_idと判定を明示し「移行指示として利用してよい」とした場合だけ。そのときも記録者は `本人（移行指示）`、`astra.source=user_directive` とし、理由の先頭に【移行指示：本人伝達・Astra記録なし】と残す（Astra名義にしない）。
 6. 05:00の実行では、手順1のStatus Updates取り込みの後、手順4（merge）と手順5（Driveへの同期）の間に、この4.5を行う。`PENDING` がなければ何もしない。
 
 ## 5. Google Sheetsへの同期（06:00のAstra QAより前に終える。応募準備より先に行う）

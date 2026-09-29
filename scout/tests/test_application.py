@@ -45,10 +45,13 @@ def last_json(out):
 def main():
     tmp = tempfile.mkdtemp()
     shutil.copytree(SRC, tmp, dirs_exist_ok=True, ignore=shutil.ignore_patterns("tests"))
-    # the latest full drafting run (a day with a single manual draft is not a usable fixture)
-    ddir = max((os.path.join(tmp, "data", d) for d in os.listdir(os.path.join(tmp, "data"))
-                if os.path.exists(os.path.join(tmp, "data", d, "app_drafts.json"))
-                and len(json.load(open(os.path.join(tmp, "data", d, "app_drafts.json"), encoding="utf-8"))) > 1))
+    # the latest drafting run whose 2nd draft is a complete one (days with only manual drafts that wait
+    # for the user are not a usable fixture)
+    def usable(d):
+        f = os.path.join(tmp, "data", d, "app_drafts.json")
+        ds = json.load(open(f, encoding="utf-8")) if os.path.exists(f) else []
+        return len(ds) > 1 and ds[1].get("user_confirmation_required") == "no"
+    ddir = max(os.path.join(tmp, "data", d) for d in os.listdir(os.path.join(tmp, "data")) if usable(d))
     date = os.path.basename(ddir)
     # fixed starting point regardless of the real Vault's progress: 3 jobs ready, no batch record
     subprocess.run([sys.executable, "-c", "import pipeline as P; v=P.vault_load(); "
@@ -260,14 +263,19 @@ def main():
     assert {i for i, x in full.items() if x["status"] in keep} <= set(m)  # in-flight jobs are never hidden
     assert "key_excerpt" not in next(iter(q.values())) and all(
         x["application_draft"] for x in q.values() if x["status"] == "READY_TO_APPLY")
-    assert all(b <= man["budget_bytes"] for b in man["bytes"].values()), man["bytes"]
+    # the Drive copy is the compact one; going over the budget is never silent (RUNBOOK 5: upload anyway
+    # and report it), whatever size the live data has reached
+    assert os.path.getsize(os.path.join(tmp, "out", "job_master.csv")) < \
+        os.path.getsize(os.path.join(tmp, "out", "job_master_full.csv"))
+    over = [k for k, b in man["bytes"].items() if b > man["budget_bytes"]]
+    assert last_json(run(tmp, "drive-status", ok=False).stdout)["over_budget"] == over
     keys = "job_master,application_queue"
     assert run(tmp, "drive-status", "--keys", keys, ok=False).returncode == 1
     run(tmp, "set-drive", "job_master_sheet", "x1")
     assert last_json(run(tmp, "drive-status", "--keys", keys, ok=False).stdout)["stale"] == ["application_queue"]
     run(tmp, "set-drive", "application_queue_sheet", "x2")
     assert last_json(run(tmp, "drive-status", "--keys", keys).stdout)["ok"]
-    print("Drive copies within budget (%s); drive-status catches a skipped upload" % man["bytes"])
+    print("Drive copies compact, over-budget reported (%s); drive-status catches a skipped upload" % man["bytes"])
     shutil.rmtree(tmp)
     print("OK")
 

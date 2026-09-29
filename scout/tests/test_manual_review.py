@@ -94,7 +94,16 @@ def main():
     assert run(tmp, "manual-merge", "--evals", ep, "--date", DATE, ok=False).returncode == 1
     print("first pass: new job -> Astra Queue with lane/triage/net per minute; applied job untouched")
 
-    # Astra's PASS takes it into the existing application flow (no separate notification path)
+    # Astra's PASS takes it into the existing application flow (no separate notification path);
+    # a verdict relayed by the user is not Astra's own record, even when written under Astra's name
+    with open(p, "w", encoding="utf-8", newline="") as f:
+        w = csv.DictWriter(f, ["job_id", "astra_verdict", "updated_by", "updated_at", "note"])
+        w.writeheader()
+        w.writerow({"job_id": NEW, "astra_verdict": "PASS", "updated_by": "Astra", "updated_at": "2026-10-01 07:59 JST",
+                    "note": "本人がチャットでClaudeへ転記"})
+    r = last_json(run(tmp, "apply-updates", "--csv", p, "--date", DATE).stdout)
+    assert any("転記・代理記録" in e for e in r["errors"]), r
+    assert vault(tmp, f"print(json.dumps(v['master'][{NEW!r}]['status']))") == "ASTRA_QA_PENDING"
     with open(p, "w", encoding="utf-8", newline="") as f:
         w = csv.DictWriter(f, ["job_id", "astra_verdict", "updated_by", "updated_at"])
         w.writeheader()
