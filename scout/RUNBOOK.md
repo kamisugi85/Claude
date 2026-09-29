@@ -14,6 +14,7 @@ git fetch origin claude/brave-lovelace-7n0flp && git checkout claude/brave-lovel
 ## 1. ステータス更新の取り込み（Sheets → Job Master）
 Status Updatesは本人の入力欄ではない。Astra と Claude Code がステータスを受け渡すためのシートで、書き込むのはAstraだけ。本人はAstraに報告するだけで、このシートは編集しない。
 - Astraの判定は PASS / REJECT / NEED_USER / SKIPPED の4種類。正式な判定として扱うのは、`updated_by` がAstra名義の行だけ。Astra名義でない行は取り込まず、`errors` に出す。
+- 応募後の辞退は `new_status=WITHDRAWN`（APPLIED以降の状態として扱い、判定の再送で戻さない）。面談が理由なら理由欄に「面談」を書く（4.6）。
 - 反映先：PASS → `ASTRA_PASS`（手順5.7で応募準備）、REJECT → `ASTRA_REJECT`（理由をJob Masterに保存）、NEED_USER → 本人確認待ち、SKIPPED → 今回見送り。
 - Status Updatesに判定がない案件は `ASTRA_QA_PENDING` のままにする。Astra Queueを作った・6時を過ぎた、といった理由で判定済みにしない。Claude CodeがAstraの判定を推測・代行しない。
 - `READY_TO_APPLY` 以降に進んだ案件は、PASSなどの判定が再送されてもステータスを戻さない（`errors` に記録）。
@@ -100,6 +101,18 @@ Queueへの登録は評価依頼であり、応募指示ではない。応募・
    - 例外は、本人がそのプロンプトで対象job_idと判定を明示し「移行指示として利用してよい」とした場合だけ。そのときも記録者は `本人（移行指示）`、`astra.source=user_directive` とし、理由の先頭に【移行指示：本人伝達・Astra記録なし】と残す（Astra名義にしない）。
 6. 05:00の実行では、手順1のStatus Updates取り込みの後、手順4（merge）と手順5（Driveへの同期）の間に、この4.5を行う。`PENDING` がなければ何もしない。
 
+## 4.6 Client Master（クライアント単位の履歴）
+Scout → Job Master → Client Master参照 → Claude一次評価 → Astra → 応募文生成時にClient Masterを再参照、の順で使う。
+- キーはCrowdWorksの発注者ID（`client.userId`）。表示名はキーにしない（表示名が変わっても同じクライアント）。
+- 保存先はVaultの `meta.clients`。Vault保存のたびにJob Masterから作り直すので、Status UpdatesやWorkerで反映した応募・受注・納品・支払・修正回数・辞退は自動で入る。手で足すのは `client_notes` だけ（`python3 scout/pipeline.py client-note --id <client_id> --note "<内容>"`）。
+- 項目：client_id / client_name / first_seen_at / last_seen_at / application_count / accepted_count / delivered_count / paid_count / repeat_order_count / past_job_ids / last_relationship_status / interview_required_history / interview_disclosed_in_posting / post_application_interview_request_count / revision_history / payment_history / client_notes / updated_at。記録から分からない値は `UNKNOWN`（推測しない）。
+- 確認：`python3 scout/pipeline.py client-show --id <client_id>`、案件からは `client-show --job <job_id>`（関係・使う冒頭・履歴の要約）。ローカルに `scout/out/client_master.json` も出る（Driveには上げない）。
+- 面談の扱い：
+  - 募集文に面談必須が明記 → ルールで `面談必須（募集文に明記）` を付け、原則除外（RULE_REJECTED）。
+  - 募集文に記載なし → 通常評価。
+  - 応募後に初めて面談必須と判明して辞退 → AstraがStatus Updatesに `new_status=WITHDRAWN`（理由に「面談」を含める）を書く。取り込むと `post_application_interview_request_count` が増える。
+  - 同じクライアントの次の案件では、Claude一次評価の入力（`pending_eval.json` の `client_history`）とAstra Queueの `client_history` 列に「⚠応募後に面談要求N回」と表示する。これだけで自動REJECTにはしない（Astraが条件と合わせて判断）。
+
 ## 5. Google Sheetsへの同期（06:00のAstra QAより前に終える。応募準備より先に行う）
 現在のDrive MCPは既存ファイルの中身を書き換えられないため、次の手順でシートを差し替える。
 1. フォルダ `CW Scout (ai×cloud works)` に、次の2つを `text/csv` でアップロードし、Googleシートに変換する。タイトルは `scout/out/sync_manifest.json` の `titles` を使う（生成日時入り。例：`CW Scout - Astra Queue｜2026-09-27 06:05 JST`）。
@@ -139,6 +152,11 @@ Queueへの登録は評価依頼であり、応募指示ではない。応募・
    - 1回だけ現れる変更（減額・前倒し・条件行の追加など）は、`recheck_flags` に残す。Astraが改めて判定するまで、HOLDのままにする。
    - 応募文がある案件は、この時点でREADY_TO_APPLYになるか、HOLDに戻るかが再判定される。APPLIED・SKIPPEDは変わらない。
 2. `python3 scout/pipeline.py app-plan --cap 15` を実行し、`draft_now` の案件だけ応募文を作る。
+   - `client` に各案件のクライアントとの関係（NONE / APPLIED / ORDERED / DELIVERED）と、使う冒頭が出る。応募文は必ずこれに合わせる。
+     - NONE（初回）：「はじめまして。」
+     - APPLIED（応募・やり取りのみ）：「はじめまして」を使わない。受注していないので過去の依頼へのお礼も書かない（例：「先日は別のご募集にも応募させていただきました。」）。
+     - ORDERED / DELIVERED（受注・納品あり）：「以前はお仕事をご依頼いただき、ありがとうございました。」など。実際の履歴以上の関係は書かない。
+   - `app-merge` と READY_TO_APPLY の判定は、この関係と冒頭が合わない応募文をFAIL（取り込まない／READYにしない）にする。
    - 除外される案件：募集終了・枠充足・期限切れ・実質的な変更がある案件。上限の件数には数えない。
    - 並び順：応募期限の近い順、次に推定手取額 ÷ 推定本人作業時間の大きい順。
    - 上限（1回15件）を超えた分は `carry_over` に入り、次の実行（05:00または06:30）で処理する。
@@ -262,7 +280,7 @@ Scoutの収集・ルール処理・Claude一次評価は行わない。Astra Que
      - 0件なら、何もせずに終了する。
    - `targets` は、今回の取り込みでASTRA_PASSになり、まだ応募文がない案件だけ。
 6. 5.7の手順1〜4（app-check → app-plan → 応募文 → app-merge）を行う。条件を満たした案件だけが `READY_TO_APPLY` になる。`targets` が空でも、既存の応募文の再判定のために app-check は行う。
-7. テストを実行する：`python3 scout/tests/test_application.py`・`python3 scout/tests/test_recheck.py`・`python3 scout/tests/test_worker.py`・`python3 scout/tests/test_manual.py`・`python3 scout/tests/test_manual_review.py`・`python3 scout/tests/test_drive_view.py`
+7. テストを実行する：`python3 scout/tests/test_application.py`・`python3 scout/tests/test_recheck.py`・`python3 scout/tests/test_worker.py`・`python3 scout/tests/test_manual.py`・`python3 scout/tests/test_manual_review.py`・`python3 scout/tests/test_drive_view.py`・`python3 scout/tests/test_client_master.py`
 8. 保存する：`git add scout/state && git commit -m "Scout post-QA <date>" && git push -u origin claude/brave-lovelace-7n0flp`
    - pushが拒否された場合は、force pushしない。
      1. `git fetch` を行う。

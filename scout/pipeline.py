@@ -50,10 +50,11 @@ STATUSES = [
     "PAID", "CLOSED",
     "SKIPPED",       # user/Astra chose not to apply this time (not a fit/condition rejection)
     "NOT_SELECTED",  # applied but the client did not accept
+    "WITHDRAWN",     # applied, then the user withdrew (e.g. an interview asked for only after applying)
 ]
 # Past the Astra QA / application step: a (re)sent Astra verdict must not move these back
 PROGRESSED = {"READY_TO_APPLY", "APPLIED", "ACCEPTED", "IN_PROGRESS", "READY_FOR_QA",
-              "READY_TO_DELIVER", "DELIVERED", "PAID", "NOT_SELECTED"}
+              "READY_TO_DELIVER", "DELIVERED", "PAID", "NOT_SELECTED", "WITHDRAWN"}
 # Statuses Claude may overwrite on re-evaluation; later ones belong to Astra/user.
 CLAUDE_OWNED = {"SCOUTED", "CLAUDE_CANDIDATE", "CLAUDE_REJECTED", "ASTRA_QA_PENDING"}
 ACTUAL_FIELDS = ["actual_human_minutes", "actual_ai_processing", "revision_count",
@@ -111,6 +112,9 @@ def vault_load():
 
 
 def vault_save(v):
+    if v.get("master") is not None:  # Client Master follows every Job Master change
+        import client_master
+        client_master.refresh(v)
     data = json.dumps(v, ensure_ascii=False, separators=(",", ":")).encode()
     r = subprocess.run(["openssl", "enc", "-aes-256-cbc", "-pbkdf2", "-iter", "200000", "-salt",
                         "-a", "-A", "-out", VAULT + ".tmp", "-pass", "env:SCOUT_VAULT_KEY"],
@@ -141,7 +145,7 @@ HARD_REQ = {
 }
 # phrases that mention a profile word without being about that topic
 NOT_TOPIC = re.compile(r"副業(?:OK|ＯＫ|歓迎|可|の方|として|でも)|在宅副業|投資家の方|英語不要|Excel(?:・|、)?(?:Word|ワード)?(?:が使える|操作)|受験生")
-EXCLUDE_RISK = {"勧誘兆候", "同一文面を複数アカウントが投稿", "購入/費用要求"}
+EXCLUDE_RISK = {"勧誘兆候", "同一文面を複数アカウントが投稿", "購入/費用要求", "面談必須（募集文に明記）"}
 
 
 def rescreen_risk(r):
@@ -497,9 +501,12 @@ def cmd_prepare(a):
         del index[k]
     save_json(backlog_path, backlog)
     carried = list(backlog)
+    import client_master
+    clients = client_master.build(master, v.get("meta", {}).get("clients"))
     out = []
     for score, r, hits, why in chosen:
         out.append({
+            "client_history": client_master.summary(clients, master, {"job_id": r["id"], "client": r["client"]}),
             "job_id": r["id"], "url": r["url"], "title": r["title"], "tiers": r["tiers"],
             "change": why, "priority": score, "profile_hits": hits, "pay": r["pay"],
             "net_est": round(gross_of(r["pay"]) * (1 - FEE_RATE)),
@@ -684,6 +691,8 @@ MASTER_COLS = [
     ("delivery_artifact_type", lambda j: ((j.get("worker") or {}).get("delivery") or {}).get("type_label")),
     ("delivery_deadline", lambda j: ((j.get("worker") or {}).get("delivery") or {}).get("deadline")),
     ("ready_to_deliver_at", lambda j: ((j.get("worker") or {}).get("delivery") or {}).get("verified_at")),
+    ("client_id", lambda j: (j.get("client") or {}).get("userId")),
+    ("client_history", lambda j: _client_history(j)),
 ]
 
 def _lane(j):
@@ -756,7 +765,18 @@ QUEUE_COLS = [
     ("claude_triage", lambda j: j["eval"].get("triage")),
     ("net_per_human_min", lambda j: j["eval"].get("net_per_human_min")),
     ("confirm_items", lambda j: _fmt_list(j["eval"].get("confirm_items"))),
+    ("client_history", lambda j: _client_history(j)),
 ]
+
+
+_CLIENT_CTX = {}  # set by export(): (clients, master) for the client_history column
+
+
+def _client_history(j):
+    import client_master
+    if not _CLIENT_CTX:
+        return ""
+    return client_master.summary(_CLIENT_CTX["clients"], _CLIENT_CTX["master"], j)
 
 
 def _write_csv(path, cols, jobs):
@@ -790,6 +810,10 @@ def _in_drive_master(j):
 
 def export(master, meta):
     os.makedirs(OUT, exist_ok=True)
+    import client_master
+    clients = client_master.build(master, meta.get("clients"))
+    _CLIENT_CTX.update(clients=clients, master=master)
+    save_json(os.path.join(OUT, "client_master.json"), clients)  # local only (personal relationship data)
     order = {s: i for i, s in enumerate(["ASTRA_QA_PENDING", "NEED_USER", "ASTRA_PASS", "READY_TO_APPLY",
                                           "APPLIED", "ACCEPTED", "IN_PROGRESS", "READY_FOR_QA",
                                           "READY_TO_DELIVER", "DELIVERED", "PAID"])}
@@ -851,7 +875,7 @@ FIELD_ALIASES = {"gen_minutes": "application_preparation_ai_time",
                  "production_human_minutes": "actual_human_minutes",
                  "production_ai_time": "actual_ai_processing",
                  "accept_result": "result"}
-RESULT_STATUS = {"accepted": "ACCEPTED", "受注": "ACCEPTED", "採用": "ACCEPTED",
+RESULT_STATUS = {"withdrawn": "WITHDRAWN", "辞退": "WITHDRAWN", "accepted": "ACCEPTED", "受注": "ACCEPTED", "採用": "ACCEPTED",
                  "rejected": "NOT_SELECTED", "不採用": "NOT_SELECTED", "落選": "NOT_SELECTED"}
 UPDATE_COLS = ["job_id", "astra_verdict", "astra_reason", "new_status", "need_user", "next_action",
                "updated_at", "updated_by"] + ACTUAL_FIELDS + APP_FIELDS + \
@@ -1194,6 +1218,13 @@ def main():
     p = sub.add_parser("metrics"); p.set_defaults(fn=cmd_metrics)
     p = sub.add_parser("export"); p.set_defaults(fn=cmd_export)
     p = sub.add_parser("set-drive"); p.add_argument("key"); p.add_argument("value"); p.set_defaults(fn=cmd_set_meta)
+    import client_master
+    p = sub.add_parser("client-show", help="Client Master record (by client id, or for a job: relationship + opening)")
+    p.add_argument("--id", default=""); p.add_argument("--job", default="")
+    p.set_defaults(fn=client_master.cmd_client_show)
+    p = sub.add_parser("client-note", help="add a hand-kept note to a client (kept across rebuilds)")
+    p.add_argument("--id", required=True); p.add_argument("--note", required=True); p.add_argument("--by", default="Astra")
+    p.set_defaults(fn=client_master.cmd_client_note)
     p = sub.add_parser("job-detail", help="full vault record for job ids (Drive Job Master is an index)")
     p.add_argument("--ids", required=True); p.set_defaults(fn=cmd_job_detail)
     p = sub.add_parser("drive-status", help="Drive sheets not yet re-uploaded since the last export (exit 1)")

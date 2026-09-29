@@ -8,6 +8,7 @@ import copy
 import csv
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -66,6 +67,9 @@ def main():
     good = json.load(open(os.path.join(ddir, "app_drafts.json"), encoding="utf-8"))
     base = copy.deepcopy(good[1])  # a 400-char article draft
     base["application_draft"] = "\n".join(l for l in base["application_draft"].split("\n") if "AI" not in l)
+    # open the fixture draft the way the Client Master says (the client may have past applications by now)
+    rel = json.loads(run(tmp, "client-show", "--job", str(base["job_id"])).stdout)
+    base["application_draft"] = re.sub(r"^(はじめまして|初めまして)。?", rel["opening"], base["application_draft"])
     setst(tmp, base["job_id"], "ASTRA_PASS")  # drafts are only accepted for ASTRA_PASS jobs
     # the fixture is past data: keep its application deadline in the future so the test does not age out
     subprocess.run([sys.executable, "-c", "import pipeline as P; v=P.vault_load(); "

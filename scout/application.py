@@ -21,6 +21,24 @@ CLAIM_RE = re.compile(r"実績(?!作り|づくり)|受注|納品経験|ライタ
                       r"AI(?:導入|コンサル|案件|開発)|自動化(?:システム|ツール)|Scout|スカウト|構築|運用して")
 
 
+_CLIENTS = {}  # Client Master of the current command (set by _use_clients)
+
+
+def _use_clients(v):
+    import client_master
+    _CLIENTS.clear()
+    _CLIENTS.update(clients=client_master.refresh(v), master=v["master"])
+
+
+def _opening_errors(job, draft):
+    """The draft's opening must match what we really have with this client (Client Master)."""
+    import client_master
+    if not _CLIENTS:
+        return []
+    lvl = client_master.level(_CLIENTS["clients"], _CLIENTS["master"], job)
+    return client_master.opening_errors(draft, lvl)
+
+
 def designated(job):
     """A job the user picked by hand: Claude's evaluation + the user's own decision stand in for
     the Astra application QA (Astra's verdict is never faked; job["astra"] stays empty)."""
@@ -71,6 +89,7 @@ def cmd_app_check(a):
     """Re-read reward / deadline / open slots / AI terms from the live posting; report changes."""
     import collect
     v = P.vault_load()
+    _use_clients(v)
     master = v["master"]
     sdir = os.path.join(P.ROOT, "data", a.date, "app_source")
     os.makedirs(sdir, exist_ok=True)
@@ -288,6 +307,7 @@ def _validate(d, job, src, profile):
         errs.append("応募文でAI利用に自分から言及している（設問で聞かれた場合のみ回答欄で答える）")
     if d.get("unverified_facts") and d.get("user_confirmation_required") != "yes":
         errs.append("unverified_factsがあるのにuser_confirmation_required≠yes")
+    errs += _opening_errors(job, d.get("application_draft", ""))  # Client Master: relationship QA
     return errs
 
 
@@ -310,6 +330,7 @@ def _hold_reasons(job, date):
         why.append("本人確認が必要な項目あり")
     if app["claim_flags"]:
         why.append("実績の表現を確認：" + "、".join(app["claim_flags"]))
+    why += _opening_errors(job, app.get("application_draft", ""))
     if not app["conflict_risk"].startswith("低"):
         why.append("利益相反リスク：" + (app["conflict_risk"][:40] or "未記載"))
     return why
@@ -317,6 +338,7 @@ def _hold_reasons(job, date):
 
 def cmd_app_merge(a):
     v = P.vault_load()
+    _use_clients(v)
     master, profile = v["master"], v.get("profile", {})
     drafts = P.load_json(a.drafts, [])
     sdir = os.path.join(P.ROOT, "data", a.date, "app_source")
@@ -609,7 +631,10 @@ def cmd_app_plan(a):
     """Which ASTRA_PASS jobs to draft now. Cheap rule step after `app-check` (no LLM):
     closed / filled / expired / changed postings are excluded and never use the draft cap;
     the rest are ordered by application deadline, then estimated net per human minute."""
-    master = P.vault_load()["master"]
+    import client_master
+    v = P.vault_load()
+    master = v["master"]
+    clients = client_master.refresh(v)
     todo, excluded = [], {}
     for jid, j in master.items():
         if not eligible(j, TARGET) or j.get("application"):
@@ -624,8 +649,15 @@ def cmd_app_plan(a):
     todo.sort(key=lambda j: ((j.get("reward_check") or {}).get("deadline") or "9999",
                              -((j.get("net_est") or 0) / max(_est_min(j), 1))))
     ids = [j["job_id"] for j in todo]
-    print(json.dumps({"draft_now": ids[:a.cap], "carry_over": ids[a.cap:], "excluded": excluded},
-                     ensure_ascii=False, indent=1))
+    # the drafts must open according to the real relationship with each client (Client Master)
+    client = {}
+    for j in todo[:a.cap]:
+        lvl = client_master.level(clients, master, j)
+        client[str(j["job_id"])] = {"client_id": client_master.client_id(j), "relationship": lvl,
+                                    "opening": client_master.OPENINGS[lvl],
+                                    "history": client_master.summary(clients, master, j)}
+    print(json.dumps({"draft_now": ids[:a.cap], "carry_over": ids[a.cap:], "excluded": excluded,
+                      "client": client}, ensure_ascii=False, indent=1))
 
 
 def cmd_manual_add(a):
