@@ -1128,6 +1128,10 @@ def main():
     p.add_argument("--source", required=True); p.add_argument("--status"); p.add_argument("--note")
     p.add_argument("--next-action")
     p.set_defaults(fn=application.cmd_app_batch)
+    p = sub.add_parser("manual-add", help="add one job the user picked by hand (evaluated by Claude)")
+    p.add_argument("--id", required=True); p.add_argument("--eval", required=True)
+    p.add_argument("--note", default="本人が応募を希望して手動指定")
+    p.set_defaults(fn=application.cmd_manual_add)
     import worker
     p = sub.add_parser("worker-save", help="store the Worker internal record after self-QA (-> READY_FOR_QA)")
     p.add_argument("--id", required=True); p.add_argument("--record", required=True)

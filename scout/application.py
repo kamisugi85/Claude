@@ -21,6 +21,16 @@ CLAIM_RE = re.compile(r"実績(?!作り|づくり)|受注|納品経験|ライタ
                       r"AI(?:導入|コンサル|案件|開発)|自動化(?:システム|ツール)|Scout|スカウト|構築|運用して")
 
 
+def designated(job):
+    """A job the user picked by hand: Claude's evaluation + the user's own decision stand in for
+    the Astra application QA (Astra's verdict is never faked; job["astra"] stays empty)."""
+    return bool(job.get("designation")) and job.get("status") == "CLAUDE_CANDIDATE"
+
+
+def eligible(job, statuses):
+    return job.get("status") in statuses or designated(job)
+
+
 def _norm(s):
     return re.sub(r"\s+", "", s or "")
 
@@ -65,12 +75,12 @@ def cmd_app_check(a):
     sdir = os.path.join(P.ROOT, "data", a.date, "app_source")
     os.makedirs(sdir, exist_ok=True)
     ids = [x.strip() for x in a.ids.split(",") if x.strip()] if a.ids else \
-        [j for j, job in master.items() if job.get("status") in RECHECK]
+        [j for j, job in master.items() if eligible(job, RECHECK)]
     out = []
     for jid in ids:
         job = master.get(jid)
-        if not job or job.get("status") not in RECHECK:
-            out.append({"job_id": jid, "skip": f"status={job and job.get('status')}（ASTRA_PASS/READY_TO_APPLYのみ対象）"})
+        if not job or not eligible(job, RECHECK):
+            out.append({"job_id": jid, "skip": f"status={job and job.get('status')}（ASTRA_PASS/READY_TO_APPLY/本人指定のみ対象）"})
             continue
         page = collect.curl(f"{collect.BASE}/{jid}")
         if not page:
@@ -186,15 +196,16 @@ def classify_changes(prev, rc, job, desc):
 def _apply_readiness(job, date):
     """After a re-check: ready drafts go READY_TO_APPLY, material changes pull READY back to hold.
     Never touches APPLIED or later, SKIPPED, or drafts that need the user."""
-    if job.get("status") not in ("ASTRA_PASS", "READY_TO_APPLY"):
+    if not eligible(job, ("ASTRA_PASS", "READY_TO_APPLY")):
         return
     app = job["application"]
     hold = _hold_reasons(job, date)
+    back = "CLAUDE_CANDIDATE" if job.get("designation") else "ASTRA_PASS"
     if hold:
         app["final_qa_status"], app["next_action"] = "HOLD", "応募準備保留：" + " / ".join(hold)
         if job["status"] == "READY_TO_APPLY":
-            P.set_status(job, "ASTRA_PASS", "claude", "再確認で条件変更を検知: " + " / ".join(hold)[:200])
-    elif job["status"] == "ASTRA_PASS":
+            P.set_status(job, back, "claude", "再確認で条件変更を検知: " + " / ".join(hold)[:200])
+    elif job["status"] in ("ASTRA_PASS", "CLAUDE_CANDIDATE"):
         app["final_qa_status"], app["next_action"] = "CLAUDE_CHECKED", "本人が応募 → Astraへ報告"
         P.set_status(job, "READY_TO_APPLY", "claude",
                      "応募準備完了（原文再確認 %s）" % (job.get("reward_check") or {}).get("checked_at"))
@@ -224,8 +235,8 @@ AI_RE = re.compile(r"AI|ＡＩ|人工知能|ChatGPT|Claude|Gemini|生成系?ツ�
 
 def _validate(d, job, src, profile):
     errs = []
-    if job.get("status") not in TARGET:
-        errs.append(f"status={job.get('status')}（ASTRA_PASSのみ）")
+    if not eligible(job, TARGET):
+        errs.append(f"status={job.get('status')}（ASTRA_PASSまたは本人指定のみ）")
     rc = job.get("reward_check")
     if not rc or not src:
         errs.append("app-check未実行（報酬を原文で再確認していない）")
@@ -473,7 +484,7 @@ def _drive_row(j):
 
 
 def export_queue(master):
-    jobs = [j for j in master.values() if j.get("application") and j.get("status") in QUEUE_VISIBLE]
+    jobs = [j for j in master.values() if j.get("application") and eligible(j, QUEUE_VISIBLE)]
     jobs += [_undrafted_view(j) for j in master.values() if j.get("status") == "ASTRA_PASS" and not j.get("application")]
     # app_priority already charges user-confirmation time (net JPY per human minute)
     order = {"READY_TO_APPLY": 0, "ASTRA_PASS": 1, "APPLIED": 2}
@@ -590,7 +601,7 @@ def cmd_app_plan(a):
     master = P.vault_load()["master"]
     todo, excluded = [], {}
     for jid, j in master.items():
-        if j.get("status") != "ASTRA_PASS" or j.get("application"):
+        if not eligible(j, TARGET) or j.get("application"):
             continue
         rc = j.get("reward_check") or {}
         if not str(rc.get("checked_at", "")).startswith(a.date):
@@ -604,3 +615,52 @@ def cmd_app_plan(a):
     ids = [j["job_id"] for j in todo]
     print(json.dumps({"draft_now": ids[:a.cap], "carry_over": ids[a.cap:], "excluded": excluded},
                      ensure_ascii=False, indent=1))
+
+
+def cmd_manual_add(a):
+    """Add one job the user picked by hand (not found by the Scout). Claude evaluates it (--eval);
+    it is marked as user-designated and becomes CLAUDE_CANDIDATE, so app-check / app-plan /
+    app-merge treat it like an ASTRA_PASS job. Existing jobs are never duplicated or regressed."""
+    import collect
+    jid = str(a.id)
+    v = P.vault_load()
+    master = v["master"]
+    if jid in master:
+        print(json.dumps({"ok": False, "reason": f"既に登録済み（status={master[jid].get('status')}）"},
+                         ensure_ascii=False))
+        return
+    page = collect.curl(f"{collect.BASE}/{jid}")
+    src = parse_source(page) if page else None
+    if not src or not src["desc"]:
+        raise SystemExit("案件ページを取得できない")
+    e = P.load_json(a.eval, {})
+    title = re.search(r"<h1[^>]*>\s*(.*?)\s*<", page, re.S)
+    hr = src["header_reward"] or {}
+    pay = {"fixed_price_payment": {"min_budget": hr.get("min"), "max_budget": hr.get("max")}} \
+        if hr.get("type") == "固定報酬制" else {"other": hr}
+    jo = {"job_offer": {"title": title.group(1).strip() if title else e.get("title", ""), "category_id": e.get("category_id"),
+                        "expired_on": src["deadline"]}, "payment": pay}
+    f = collect.screen(jo, src["desc"], src["client"])
+    now = P.now_iso()
+    row = {"id": int(jid), "url": f"{collect.BASE}/{jid}", "title": jo["job_offer"]["title"],
+           "category_id": e.get("category_id"), "expired_on": src["deadline"], "tiers": ["manual"],
+           "entry": {"applicants": src["applicants"], "contracted": src["contracted"], "capacity": src["capacity"]},
+           "client": src["client"], "first_seen": now, "desc": src["desc"], "client_open_jobs": None, **f}
+    job = master[jid] = P.job_facts(row)
+    job["first_seen"] = now
+    job["eval"] = {k: e.get(k) for k in P.EVAL_FIELDS}
+    job["eval"]["evaluated_at"] = now
+    if e.get("gross_jpy"):
+        job["gross"], job["net_est"] = e["gross_jpy"], round(e["gross_jpy"] * (1 - P.FEE_RATE))
+    job["actual"] = {k: None for k in P.ACTUAL_FIELDS}
+    job["designation"] = {"by": "本人", "at": now, "note": a.note}
+    P.set_status(job, "SCOUTED", "本人指定", a.note)
+    P.set_status(job, "CLAUDE_CANDIDATE", "claude", "本人指定（Astra一次QAは経ない）：" + (e.get("reason") or ""))
+    index = P.load_json(os.path.join(P.STATE, "index.json"), {})
+    index[jid] = {"first_seen": now, "last_seen": now, "status": "CLAUDE_EVALUATED", "desc_hash": f["desc_hash"],
+                  "client_id": src["client"].get("userId"), "expired_on": src["deadline"], "manual": True}
+    P.save_json(os.path.join(P.STATE, "index.json"), index)
+    P.vault_save(v)
+    P.export(master, v.get("meta", {}))
+    print(json.dumps({"ok": True, "job_id": jid, "status": job["status"], "deadline": src["deadline"],
+                      "entry": row["entry"], "closed": src["closed"]}, ensure_ascii=False))

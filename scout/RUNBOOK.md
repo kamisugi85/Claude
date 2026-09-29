@@ -145,6 +145,15 @@ python3 scout/pipeline.py merge --evals scout/data/<date>/evals.json
    - 案件ごとの実測値は `actual_net_per_human_min` で確認する。バッチ実績は全体と、同じ区分の案件だけのバッチでその区分に入る。
    - 計算方法：実際の手取り ÷（応募確認の分＋制作の分）。見送り・不採用は0円として数える。
 
+### 5.7.1 本人指定案件（手動取り込み）
+Scoutが拾っていない案件を本人が指定した場合、その1件だけを処理する（既存案件の再取得・再分析はしない）。
+1. 公開ページで条件を確認する（報酬・契約金額の指定・源泉徴収・期限・募集状態・AI利用条件・応募条件）。分からない項目は「未確認」とし、推測しない。
+2. Claudeが評価JSON（EVAL_FIELDS、`gross_jpy`＝本文の単価）を作り、`python3 scout/pipeline.py manual-add --id <id> --eval <json>` を実行する。
+   - 登録済みなら何もしない（重複登録・ステータス後退なし）。
+   - 登録されると `designation`（本人指定）付きの `CLAUDE_CANDIDATE` になり、評価理由の先頭に【本人指定】が付く。Astra判定は作らない（Astra欄は空のまま）。
+3. 5.7の手順1〜4と同じく `app-check --ids <id>` → 応募文 → `app-merge`。条件を満たせば `READY_TO_APPLY` になる。条件を外れた場合は `CLAUDE_CANDIDATE` に戻る。
+4. Job Master・Application Queueは、手順5の方法でDriveに反映する。
+
 ## 5.8 受注後（Worker工程）※標準フロー。外部送信・納品はしない
 ACCEPTED → 仮払い確認 → クライアント最新指示確認 → Claude Worker制作 → 自己QA → 内部管理用成果物を保存
 → READY_FOR_QA（Worker state = ASTRA_QA_PENDING）→ Astra第二段階QA →（FIXなら修正して再提出）→ Astra QA PASS
@@ -190,6 +199,7 @@ ACCEPTED → 仮払い確認 → クライアント最新指示確認 → Claude
 python3 scout/tests/test_application.py   # 応募準備の検証（本物のVaultは変更しない）
 python3 scout/tests/test_recheck.py
 python3 scout/tests/test_worker.py
+python3 scout/tests/test_manual.py
 git add scout/state && git commit -m "Scout run <date>" && git push -u origin claude/brave-lovelace-7n0flp
 ```
 - 暗号化されていない状態で個人情報をコミットしないこと。
@@ -220,7 +230,7 @@ Scoutの収集・ルール処理・Claude一次評価は行わない。Astra Que
      - 0件なら、何もせずに終了する。
    - `targets` は、今回の取り込みでASTRA_PASSになり、まだ応募文がない案件だけ。
 6. 5.7の手順1〜4（app-check → app-plan → 応募文 → app-merge）を行う。条件を満たした案件だけが `READY_TO_APPLY` になる。`targets` が空でも、既存の応募文の再判定のために app-check は行う。
-7. テストを実行する：`python3 scout/tests/test_application.py`・`python3 scout/tests/test_recheck.py`・`python3 scout/tests/test_worker.py`
+7. テストを実行する：`python3 scout/tests/test_application.py`・`python3 scout/tests/test_recheck.py`・`python3 scout/tests/test_worker.py`・`python3 scout/tests/test_manual.py`
 8. 保存する：`git add scout/state && git commit -m "Scout post-QA <date>" && git push -u origin claude/brave-lovelace-7n0flp`
    - pushが拒否された場合は、force pushしない。
      1. `git fetch` を行う。

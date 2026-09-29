@@ -41136,5 +41136,14 @@
    "募集枠が埋まっている"
   ],
   "rule_fp": "1e07e8ef879c"
+ },
+ "13454569": {
+  "first_seen": "2026-09-29T21:31+09:00",
+  "last_seen": "2026-09-29T21:31+09:00",
+  "status": "CLAUDE_EVALUATED",
+  "desc_hash": "3d1ed6a1807772dd53046403755efdb2",
+  "client_id": 7206907,
+  "expired_on": "2026-09-29",
+  "manual": true
  }
 }
