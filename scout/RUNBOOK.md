@@ -73,6 +73,27 @@ python3 scout/pipeline.py merge --evals scout/data/<date>/evals.json
   - `scout/out/job_master.csv`
   - `scout/state/runs.jsonl`（実行ログ）
 
+## 4.5 Astra Manual Review Queue（本人がAstraへCrowdWorks URLを手動指定した場合）
+本人 → AstraへURLを貼る → Manual Review Queue（PENDING）→ Claude一次評価 → Astra二次評価 → PASSなら既存のApplication Queue、という流れにする。
+Queueへの登録は評価依頼であり、応募指示ではない。応募・契約・メッセージ・条件提示・納品はしない。
+1. 登録（どちらか一方でよい。同じjob_idは二重登録されない）
+   - Astra：Status Updatesに `job_id`（またはnoteに案件URL）、`new_status=MANUAL_REVIEW`、`updated_by=Astra` の行を書く。`apply-updates` がQueueに `PENDING` で登録する。Astra名義でない行は受け付けない。
+   - URLがClaudeに直接届いた場合：`python3 scout/pipeline.py manual-request <URL…> --by Astra`
+2. 取得：`python3 scout/pipeline.py manual-fetch`
+   - `PENDING` の案件だけ、通常Scoutと同じ取得・解析で最新の募集要項を読む（全件探索はしない）。
+   - 結果は `data/<date>/manual_pending.json` に保存される。取得できない場合は `ERROR` になる。
+3. 一次評価：`manual_pending.json` の各案件を、EVAL_GUIDEの項目に次を加えて評価し、JSON配列に保存する。
+   - 追加する項目：`lane`（Professional / Experience / Auto / Human Premium）、`triage`（応募候補 / PoC応募候補 / 見送り候補）、AI完結率、想定Human Minutes、`gross_jpy`（本文の単価。不明ならnull）、`template_potential`、`repeat_reduction`、`worker_automation`、`paid_tools`、`confirm_items`（本人確認が必要な事項）。
+   - 確認できない項目は推測せず「UNKNOWN」とする。
+   - 低単価だけを理由に見送らない。低単価でもAI完結率が高く、本人作業が数分で、繰り返せる案件はAutoレーンの応募候補として扱う。
+   - 最終的な応募判断はしない（3分類で返すだけ）。
+4. 統合：`python3 scout/pipeline.py manual-merge --evals <json>`
+   - 新規・Claude担当中の案件は `ASTRA_QA_PENDING` になり、既存のAstra Queueに出る。列 `source=manual(Astra)`・`lane`・`claude_triage`・`net_per_human_min`・`confirm_items` が付く。
+   - ASTRA_PASS以降の既存案件はステータスを変えず、最新情報だけを更新する。
+   - Queueは `REVIEWED` になる。状態は `manual-status` で確認できる。
+5. その後は通常どおり：Astraの判定（Status Updates）→ `ASTRA_PASS` → 5.7の応募準備 → `READY_TO_APPLY` → 既存の通知・本人応募。
+6. 05:00の実行では、手順1のStatus Updates取り込みの後、手順4（merge）と手順5（Driveへの同期）の間に、この4.5を行う。`PENDING` がなければ何もしない。
+
 ## 5. Google Sheetsへの同期（06:00のAstra QAより前に終える。応募準備より先に行う）
 現在のDrive MCPは既存ファイルの中身を書き換えられないため、次の手順でシートを差し替える。
 1. フォルダ `CW Scout (ai×cloud works)` に、次の2つを `text/csv` でアップロードし、Googleシートに変換する。タイトルは `scout/out/sync_manifest.json` の `titles` を使う（生成日時入り。例：`CW Scout - Astra Queue｜2026-09-27 06:05 JST`）。
@@ -200,6 +221,7 @@ python3 scout/tests/test_application.py   # 応募準備の検証（本物のVau
 python3 scout/tests/test_recheck.py
 python3 scout/tests/test_worker.py
 python3 scout/tests/test_manual.py
+python3 scout/tests/test_manual_review.py
 git add scout/state && git commit -m "Scout run <date>" && git push -u origin claude/brave-lovelace-7n0flp
 ```
 - 暗号化されていない状態で個人情報をコミットしないこと。
@@ -230,7 +252,7 @@ Scoutの収集・ルール処理・Claude一次評価は行わない。Astra Que
      - 0件なら、何もせずに終了する。
    - `targets` は、今回の取り込みでASTRA_PASSになり、まだ応募文がない案件だけ。
 6. 5.7の手順1〜4（app-check → app-plan → 応募文 → app-merge）を行う。条件を満たした案件だけが `READY_TO_APPLY` になる。`targets` が空でも、既存の応募文の再判定のために app-check は行う。
-7. テストを実行する：`python3 scout/tests/test_application.py`・`python3 scout/tests/test_recheck.py`・`python3 scout/tests/test_worker.py`・`python3 scout/tests/test_manual.py`
+7. テストを実行する：`python3 scout/tests/test_application.py`・`python3 scout/tests/test_recheck.py`・`python3 scout/tests/test_worker.py`・`python3 scout/tests/test_manual.py`・`python3 scout/tests/test_manual_review.py`
 8. 保存する：`git add scout/state && git commit -m "Scout post-QA <date>" && git push -u origin claude/brave-lovelace-7n0flp`
    - pushが拒否された場合は、force pushしない。
      1. `git fetch` を行う。

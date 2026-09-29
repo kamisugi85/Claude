@@ -709,6 +709,12 @@ QUEUE_COLS = [
                                f"AI記載:{_fmt_list(j.get('ai_evidence'))[:120]}"),
     ("key_excerpt", lambda j: j.get("key_excerpt") or j.get("desc_excerpt", "")),
     ("first_seen", lambda j: j.get("first_seen")),
+    # Manual Review Queue (URLs the user gave Astra): Claude's first-pass triage for Astra's second pass
+    ("source", lambda j: "manual(" + j["manual_review"]["requested_by"] + ")" if j.get("manual_review") else "scout"),
+    ("lane", lambda j: j["eval"].get("lane")),
+    ("claude_triage", lambda j: j["eval"].get("triage")),
+    ("net_per_human_min", lambda j: j["eval"].get("net_per_human_min")),
+    ("confirm_items", lambda j: _fmt_list(j["eval"].get("confirm_items"))),
 ]
 
 
@@ -910,6 +916,18 @@ def cmd_apply_updates(a):
                 "scout_state": e.get("status") or ("評価済み" if jid in master else "未取得"),
                 "rule_reasons": e.get("reasons")})
             tally["scout_miss"] += 1
+            applied.add(sig)
+            n_ok += 1
+            continue
+        if st == "MANUAL_REVIEW" or verdict.upper() == "MANUAL_REVIEW":  # Astra hands a URL to Claude
+            import manual_review
+            if "astra" not in row.get("updated_by", "").lower():
+                errs.append(f"{jid}: MANUAL_REVIEW はAstra名義の行のみ受け付ける")
+                continue
+            mid = manual_review.job_id_of(row.get("job_url") or row.get("note") or "") or jid
+            rec, added = manual_review.enqueue(v, mid, None, "Astra", row.get("updated_at") or now_iso(),
+                                               row.get("note") or row.get("astra_reason", ""))
+            tally["other_status"] += added
             applied.add(sig)
             n_ok += 1
             continue
@@ -1132,6 +1150,17 @@ def main():
     p.add_argument("--id", required=True); p.add_argument("--eval", required=True)
     p.add_argument("--note", default="本人が応募を希望して手動指定")
     p.set_defaults(fn=application.cmd_manual_add)
+    import manual_review
+    p = sub.add_parser("manual-request", help="queue CrowdWorks URLs/IDs for Claude's first-pass review")
+    p.add_argument("urls", nargs="+"); p.add_argument("--by", default="Astra"); p.add_argument("--note", default="")
+    p.set_defaults(fn=manual_review.cmd_manual_request)
+    p = sub.add_parser("manual-fetch", help="fetch the postings of PENDING manual review requests")
+    p.add_argument("--date", default=today()); p.set_defaults(fn=manual_review.cmd_manual_fetch)
+    p = sub.add_parser("manual-merge", help="store Claude's first-pass evaluation -> Astra Queue")
+    p.add_argument("--evals", required=True); p.add_argument("--date", default=today())
+    p.set_defaults(fn=manual_review.cmd_manual_merge)
+    p = sub.add_parser("manual-status", help="show the Manual Review Queue")
+    p.set_defaults(fn=manual_review.cmd_manual_status)
     import worker
     p = sub.add_parser("worker-save", help="store the Worker internal record after self-QA (-> READY_FOR_QA)")
     p.add_argument("--id", required=True); p.add_argument("--record", required=True)
