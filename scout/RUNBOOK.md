@@ -79,6 +79,7 @@ Queueへの登録は評価依頼であり、応募指示ではない。応募・
 1. 登録（どちらか一方でよい。同じjob_idは二重登録されない）
    - Astra：Status Updatesに `job_id`（またはnoteに案件URL）、`new_status=MANUAL_REVIEW`、`updated_by=Astra` の行を書く。`apply-updates` がQueueに `PENDING` で登録する。Astra名義でない行は受け付けない。
    - URLがClaudeに直接届いた場合：`python3 scout/pipeline.py manual-request <URL…> --by Astra`
+   - 本人が「応募したい」などの意向を示している場合は `--intent "<本人の言葉>"` で記録する。Astra Queueの `source` に表示されるだけで、Astraの判定の代わりにはならない。
 2. 取得：`python3 scout/pipeline.py manual-fetch`
    - `PENDING` の案件だけ、通常Scoutと同じ取得・解析で最新の募集要項を読む（全件探索はしない）。
    - 結果は `data/<date>/manual_pending.json` に保存される。取得できない場合は `ERROR` になる。
@@ -89,9 +90,12 @@ Queueへの登録は評価依頼であり、応募指示ではない。応募・
    - 最終的な応募判断はしない（3分類で返すだけ）。
 4. 統合：`python3 scout/pipeline.py manual-merge --evals <json>`
    - 新規・Claude担当中の案件は `ASTRA_QA_PENDING` になり、既存のAstra Queueに出る。列 `source=manual(Astra)`・`lane`・`claude_triage`・`net_per_human_min`・`confirm_items` が付く。
+   - 以前にAstra REJECTになった案件も、本人がManual Reviewを依頼した場合は `ASTRA_QA_PENDING` に戻してAstraに再評価を求める。`confirm_items` の先頭に前回のREJECT理由が入る。
+   - 応募期限が処理日当日の案件は `SAME_DAY_DEADLINE`（期限を過ぎていれば期限切れ）として応募対象外にし、Astraには回さない。
    - ASTRA_PASS以降の既存案件はステータスを変えず、最新情報だけを更新する。
    - Queueは `REVIEWED` になる。状態は `manual-status` で確認できる。
 5. その後は通常どおり：Astraの判定（Status Updates）→ `ASTRA_PASS` → 5.7の応募準備 → `READY_TO_APPLY` → 既存の通知・本人応募。
+   - Astraの判定が、Status Updatesではなく本人経由でチャットに届いた場合：伝えられた判定と理由をそのまま、`updated_by=Astra` の1行としてローカルCSV（`data/<date>/astra_relay_<id>.csv`）に書き、`note` に「本人がチャットで転記（Status Updatesシート未記入）」と残して `apply-updates` で取り込む。判定が明示されていない場合は作らない。
 6. 05:00の実行では、手順1のStatus Updates取り込みの後、手順4（merge）と手順5（Driveへの同期）の間に、この4.5を行う。`PENDING` がなければ何もしない。
 
 ## 5. Google Sheetsへの同期（06:00のAstra QAより前に終える。応募準備より先に行う）
@@ -138,6 +142,7 @@ Queueへの登録は評価依頼であり、応募指示ではない。応募・
 3. `scout/data/<date>/app_source/<id>.json` の原文と `show-profile` だけを使い、`scout/data/<date>/app_drafts.json` を作る。
    - 1件ごとの項目：`job_id`, `actual_reward`（税込）, `reward_evidence`（本文からそのまま引用）, `application_draft`, `application_questions`（本文の設問をそのまま）, `application_answers`, `facts_used`（`fact` と `profile_ref`、例：`professional.qualifications[2]`）, `unverified_facts`, `conflict_risk`（「低：」「中：」「高：」で始める）, `user_confirmation_required`, `review_minutes_est`, `next_action`
    - `application_draft` は、CrowdWorksで応募するときに送るメッセージ（挨拶・担当したい旨・どうまとめるか・結び）。記事本文や納品物は書かない。応募メッセージの形になっていない下書きは取り込まれず、READY_TO_APPLYにならない。
+   - 本文に単価の記載がない場合は `actual_reward=null`、`reward_evidence` を「UNKNOWN（…）」とする。見出しの予算額を単価として使わない。
    - プロフィールにない経験・実績・好みは書かない。必要なら `unverified_facts` に入れ、回答欄は【本人記入】のままにして `user_confirmation_required=yes` にする。
    - 本Scout・AI運用を、AI案件の受注経験・コンサル経験・CrowdWorksでの実績として書かない。勤務先名は書かない。
    - 応募文ではAI利用に自分から触れない。募集本文の設問でAI利用を聞かれた場合だけ、回答欄で事実どおり答える（使わないと偽らない）。納品時は募集のAI条件（推敲して提出など）に従う。

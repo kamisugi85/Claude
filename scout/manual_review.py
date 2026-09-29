@@ -20,6 +20,9 @@ import pipeline as P
 TRIAGE = ("応募候補", "PoC応募候補", "見送り候補")
 LANES = ("Professional", "Experience", "Auto", "Human Premium")
 URL_RE = re.compile(r"crowdworks\.jp/public/jobs/(\d+)")
+# statuses a manual request may send back to Astra: Claude-owned, or an earlier Astra REJECT that the
+# user explicitly asks to have re-reviewed (Astra decides again; the earlier REJECT stays in history)
+REVIEWABLE = set(P.CLAUDE_OWNED) | {"ASTRA_REJECT"}
 
 
 def job_id_of(text):
@@ -27,14 +30,14 @@ def job_id_of(text):
     return m.group(1) if m else None
 
 
-def enqueue(v, jid, url, by, at, note=""):
+def enqueue(v, jid, url, by, at, note="", intent=None):
     """Add a PENDING request unless the job is already queued (never duplicates)."""
     q = v.setdefault("meta", {}).setdefault("manual_review", {})
     if jid in q and q[jid]["status"] in ("PENDING", "REVIEWED"):
         return q[jid], False
     q[jid] = {"job_id": jid, "job_url": url or f"https://crowdworks.jp/public/jobs/{jid}",
               "requested_by": by, "requested_at": at, "status": "PENDING", "review_result": None,
-              "reviewed_at": None, "note": note, "existing_status": (v["master"].get(jid) or {}).get("status")}
+              "reviewed_at": None, "note": note, "user_intent": intent, "existing_status": (v["master"].get(jid) or {}).get("status")}
     return q[jid], True
 
 
@@ -46,7 +49,7 @@ def cmd_manual_request(a):
         if not jid:
             out.append({"input": u, "error": "CrowdWorksの案件URL/IDではない"})
             continue
-        rec, added = enqueue(v, jid, u.split("?")[0] if "http" in u else None, a.by, P.now_iso(), a.note)
+        rec, added = enqueue(v, jid, u.split("?")[0] if "http" in u else None, a.by, P.now_iso(), a.note, a.intent)
         out.append({"job_id": jid, "added": added, "status": rec["status"], "existing_status": rec["existing_status"]})
     P.vault_save(v)
     print(json.dumps(out, ensure_ascii=False, indent=1))
@@ -151,9 +154,19 @@ def cmd_manual_merge(a):
         elif "gross_jpy" in e:  # per-unit reward not stated: do not show the listing budget as the reward
             job["gross"] = job["net_est"] = None
         job["eval"]["net_per_human_min"] = per_min(job.get("net_est"), e["human_minutes"])
-        job["manual_review"] = {"requested_by": rec["requested_by"], "requested_at": rec["requested_at"]}
+        job["manual_review"] = {"requested_by": rec["requested_by"], "requested_at": rec["requested_at"],
+                                "user_intent": rec.get("user_intent")}
         st = job.get("status")
-        if st is None or st in P.CLAUDE_OWNED:
+        deadline = r.get("expired_on") or ""
+        if deadline and deadline <= P.today():  # same-day (or passed) deadline: not an application target
+            result = f"{'SAME_DAY_DEADLINE' if deadline == P.today() else '期限切れ'}（応募期限{deadline}・応募対象外）"
+            if st is None:
+                P.set_status(job, "CLAUDE_REJECTED", "claude", result)
+        elif st is None or st in REVIEWABLE:
+            if st == "ASTRA_REJECT":
+                prev = job.get("astra") or {}
+                job["eval"]["confirm_items"].insert(
+                    0, f"前回Astra REJECT（{prev.get('updated_at')}）：{prev.get('astra_reason')} → 本人依頼で再評価")
             P.set_status(job, "CLAUDE_CANDIDATE", "claude", f"Manual Review（{rec['requested_by']}依頼）：{e['triage']}")
             P.set_status(job, "ASTRA_QA_PENDING", "claude", "Astra二次評価待ち")
             result = e["triage"]

@@ -45,8 +45,10 @@ def last_json(out):
 def main():
     tmp = tempfile.mkdtemp()
     shutil.copytree(SRC, tmp, dirs_exist_ok=True, ignore=shutil.ignore_patterns("tests"))
+    # the latest full drafting run (a day with a single manual draft is not a usable fixture)
     ddir = max((os.path.join(tmp, "data", d) for d in os.listdir(os.path.join(tmp, "data"))
-                if os.path.exists(os.path.join(tmp, "data", d, "app_drafts.json"))))
+                if os.path.exists(os.path.join(tmp, "data", d, "app_drafts.json"))
+                and len(json.load(open(os.path.join(tmp, "data", d, "app_drafts.json"), encoding="utf-8"))) > 1))
     date = os.path.basename(ddir)
     # fixed starting point regardless of the real Vault's progress: 3 jobs ready, no batch record
     subprocess.run([sys.executable, "-c", "import pipeline as P; v=P.vault_load(); "
@@ -217,6 +219,15 @@ def main():
     print("batch minutes kept as a batch; KPI split auto/professional, estimated vs actual")
 
     # Status Updates: missing tracking columns are appended; existing cells/columns untouched; idempotent
+    # (fixture = the live sheet as it was before the tracking columns, whatever it has gained since)
+    def write_csv_rows(p, rows):
+        with open(p, "w", encoding="utf-8", newline="") as f:
+            csv.writer(f).writerows(rows)
+        return p
+    track = ("application_preparation_ai_time", "human_review_minutes", "applied_at")
+    grid = list(csv.reader(open(su, encoding="utf-8-sig")))
+    keep = [i for i, c in enumerate(grid[0]) if c not in track]
+    su = write_csv_rows(os.path.join(tmp, "su_old.csv"), [[r[i] for i in keep] for r in grid])
     r = last_json(run(tmp, "su-columns", "--csv", su).stdout)
     assert r["missing"] == ["application_preparation_ai_time", "human_review_minutes", "applied_at"], r
     synced = r["file"]
@@ -228,10 +239,6 @@ def main():
     bad = [row[:] for row in new]
     bad[1][2] += "x"
 
-    def write_csv_rows(p, rows):
-        with open(p, "w", encoding="utf-8", newline="") as f:
-            csv.writer(f).writerows(rows)
-        return p
     assert run(tmp, "su-columns", "--csv", su, "--verify", write_csv_rows(os.path.join(tmp, "b.csv"), bad),
                ok=False).returncode == 1
     assert run(tmp, "su-columns", "--csv", su, "--verify", synced, "--recheck",

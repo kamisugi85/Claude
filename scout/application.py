@@ -147,6 +147,8 @@ def classify_changes(prev, rc, job, desc):
             changes.append(f"報酬減額（見出し）{old_h}円 → {new_h}円")
         elif old_h is None and known and new_h > round(known * 1.1) + 1:
             notes.append(f"見出しの目安額{new_h}円を新たに取得（本文の単価{known:g}円を採用、減額ではない）")
+        elif old_h is None and not known:  # per-unit reward UNKNOWN: the listing budget is not the reward
+            notes.append(f"見出しの目安額{new_h}円を取得（本文の単価は不明のまま。報酬として採用しない）")
         elif old_h is None:
             notes.append(f"見出し報酬を新たに取得 {new_h}円（既知の実報酬{known:g}円と整合）")
         elif new_h != old_h:
@@ -171,7 +173,10 @@ def classify_changes(prev, rc, job, desc):
         elif prev.get("deadline") and rc["deadline"] != prev["deadline"]:
             notes.append(f"応募期限の延長 {prev['deadline']} → {rc['deadline']}")
     ev_ai = (job.get("eval") or {}).get("ai_condition")
-    if AI_RANK.get(rc.get("ai_policy"), 2) > AI_RANK.get(ev_ai, 2):
+    # the rule verdict at evaluation time is the baseline for the rule verdict now: Claude reading
+    # "AI歓迎" where the rule said C is not a change in the posting
+    rule_then = AI_RANK.get(job.get("ai_policy_rule"), AI_RANK.get(ev_ai, 2))
+    if AI_RANK.get(rc.get("ai_policy"), 2) > max(AI_RANK.get(ev_ai, 2), rule_then):
         changes.append(f"AI条件が厳しくなった 評価時{ev_ai} → 原文判定{rc.get('ai_policy')}")
     elif rc.get("ai_policy") != ev_ai:
         notes.append(f"AI条件の判定差 評価時{ev_ai} → 原文判定{rc.get('ai_policy')}（緩和方向）")
@@ -247,7 +252,13 @@ def _validate(d, job, src, profile):
         errs.append(f"応募期限切れ {rc['deadline']}")
     body = _norm(src["desc"])
     ev = d.get("reward_evidence", "")
-    if not ev or _norm(ev) not in body:
+    if d.get("actual_reward") is None:
+        # per-unit reward not stated: recorded as UNKNOWN, never filled in from the listing budget
+        if not ev.startswith("UNKNOWN"):
+            errs.append("actual_rewardがnullならreward_evidenceは「UNKNOWN…」")
+        if _amounts([src["desc"]]):
+            errs.append("本文に金額の記載があるのに報酬をUNKNOWNにしている")
+    elif not ev or _norm(ev) not in body:
         errs.append("reward_evidenceが原文に無い")
     else:
         # actual_reward is tax-included; bodies often state the pre-tax amount
@@ -323,7 +334,7 @@ def cmd_app_merge(a):
             continue
         text = d["application_draft"] + " ".join(d.get("application_answers", []))
         confirm = d.get("user_confirmation_required") == "yes"
-        net = round(d["actual_reward"] * (1 - P.FEE_RATE))
+        net = None if d["actual_reward"] is None else round(d["actual_reward"] * (1 - P.FEE_RATE))
         review = float(d.get("review_minutes_est") or d.get("human_review_minutes") or 3)
         job["gross"], job["net_est"] = d["actual_reward"], net
         job["application"] = {
@@ -337,7 +348,7 @@ def cmd_app_merge(a):
             "conflict_risk": d.get("conflict_risk", ""),
             "user_confirmation_required": "yes" if confirm else "no",
             "review_minutes_est": review,
-            "app_priority": round(net / (review + (CONFIRM_PENALTY_MIN if confirm else 0)), 1),
+            "app_priority": None if net is None else round(net / (review + (CONFIRM_PENALTY_MIN if confirm else 0)), 1),
             "claim_flags": sorted(set(CLAIM_RE.findall(text))),
             "final_qa_status": "PENDING_ASTRA",
             "next_action": d.get("next_action") or "Astra最終QA",

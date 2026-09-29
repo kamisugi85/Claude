@@ -102,6 +102,39 @@ def main():
     run(tmp, "apply-updates", "--csv", p, "--date", DATE)
     assert vault(tmp, f"print(json.dumps(v['master'][{NEW!r}]['status']))") == "ASTRA_PASS"
     print("Astra PASS -> ASTRA_PASS (Application Queue flow as usual)")
+
+    # an earlier Astra REJECT goes back to Astra only on an explicit request, with the old reason shown;
+    # a same-day deadline is not an application target
+    rej = vault(tmp, "print(json.dumps(next(k for k, j in v['master'].items() if j['status'] == 'ASTRA_REJECT'"
+                     " and k not in v['meta']['manual_review'])))")
+    same = "19990003"
+    run(tmp, "manual-request", rej, same, "--intent", "応募したい")
+    today = vault(tmp, "print(json.dumps(P.today()))")
+    rs = [row(rej), dict(row(same), expired_on=today)]
+    json.dump(rs, open(os.path.join(ddir, "manual_pending.json"), "w", encoding="utf-8"))
+    json.dump([ev(rej), ev(same)], open(ep, "w", encoding="utf-8"), ensure_ascii=False)
+    run(tmp, "manual-merge", "--evals", ep, "--date", DATE)
+    st = vault(tmp, f"print(json.dumps({{k: v['master'][k]['status'] for k in ({rej!r}, {same!r})}}))")
+    assert st == {rej: "ASTRA_QA_PENDING", same: "CLAUDE_REJECTED"}, st
+    q = vault(tmp, "print(json.dumps(v['meta']['manual_review']))")
+    assert q[same]["review_result"].startswith("SAME_DAY_DEADLINE")
+    aq = {x["job_id"]: x for x in csv.DictReader(open(os.path.join(tmp, "out", "astra_queue.csv"), encoding="utf-8"))}
+    assert aq[rej]["confirm_items"].startswith("前回Astra REJECT") and "本人応募意向：応募したい" in aq[rej]["source"]
+    assert same not in aq
+    print("re-review: earlier REJECT -> Astra again (reason shown, intent recorded); same-day deadline excluded")
+
+    # UNKNOWN per-unit reward: the listing budget is noted, never used as the reward; a rule verdict that
+    # was already C at evaluation time is not "AI terms got stricter"
+    sys.path.insert(0, tmp)
+    os.chdir(tmp)
+    import application as A
+    job = {"gross": None, "ai_policy_rule": "C", "eval": {"ai_condition": "A"}}
+    rc = {"header_reward": {"min": 30000}, "ai_policy": "C", "desc_hash": "h", "key_lines": []}
+    ch, notes = A.classify_changes({}, rc, job, "本文")
+    assert ch == [] and any("単価は不明" in n for n in notes), (ch, notes)
+    assert A.classify_changes({}, rc, dict(job, ai_policy_rule="A"), "本文")[0]  # rule A -> C is a change
+    print("recheck: UNKNOWN reward noted only; rule baseline for AI terms")
+    os.chdir(SRC)
     shutil.rmtree(tmp)
     print("OK")
 
