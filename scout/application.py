@@ -16,6 +16,17 @@ RECHECK = {"ASTRA_PASS", "READY_TO_APPLY"}  # app-check also re-verifies right b
 QUEUE_VISIBLE = {"ASTRA_PASS", "READY_TO_APPLY", "APPLIED", "SKIPPED", "ACCEPTED", "NOT_SELECTED", "WITHDRAWN",
                  "IN_PROGRESS", "READY_FOR_QA", "READY_TO_DELIVER", "DELIVERED", "PAID"}
 CONFIRM_PENALTY_MIN = 5  # user time for answering a confirmation question
+# Asking the user is worth it only when the job pays for the question: below this net JPY per human
+# minute (review + one confirmation), a draft that waits only on personal / preference questions is
+# not sent to the user but flagged to Astra as a REJECT candidate (RUNBOOK 5.7.2).
+CONFIRM_WORTH_NET_PER_MIN = 100
+# What really needs the user: contract / payment, external sending, unregistered own experience,
+# confidentiality / conflict of interest, final delivery, the name to sign with.
+ESSENTIAL_CONFIRM_RE = re.compile(r"契約|支払|報酬|金額|振込|口座|請求|送信|外部|連絡先|LINE|Chatwork|守秘|秘密|NDA|"
+                                  r"利益相反|勤務先|本業|競業|納品|最終確認|経験|実績|資格|スキル|お名前|氏名|本名")
+# Personal details the posting asks for only to colour a low-priced piece (never worth a round trip)
+PERSONAL_CONFIRM_RE = re.compile(r"好き|好み|嗜好|趣味|おすすめ|お気に入り|将来|目標|夢|なりたい|理想|きっかけ|感想|"
+                                 r"思い出|エピソード|家族|私生活|生活|休日|性格|悩み|価値観|住環境|一人暮らし|動機|理由|年齢|年代")
 # Wording Astra should look at: claims of track record / AI work the profile does not support.
 CLAIM_RE = re.compile(r"実績(?!作り|づくり)|受注|納品経験|ライター(?:経験|として)|執筆経験|SEO|WordPress|"
                       r"AI(?:導入|コンサル|案件|開発)|自動化(?:システム|ツール)|Scout|スカウト|構築|運用して")
@@ -37,6 +48,29 @@ def _opening_errors(job, draft):
         return []
     lvl = client_master.level(_CLIENTS["clients"], _CLIENTS["master"], job)
     return client_master.opening_errors(draft, lvl)
+
+
+def reusable_facts(profile):
+    """Facts the user has confirmed once and that are reused from then on (never asked again).
+    Each has `question_re` (the questions it answers) and optionally `job_re` (only for such jobs)."""
+    return [(i, f) for i, f in enumerate(profile.get("confirmed_facts", [])) if f.get("reuse") and f.get("question_re")]
+
+
+def facts_answering(profile, text, job_text=""):
+    """Confirmed facts that answer `text` (a question or an item the draft wants to ask the user)."""
+    return [(i, f) for i, f in reusable_facts(profile)
+            if re.search(f["question_re"], text or "") and (not f.get("job_re") or re.search(f["job_re"], job_text or ""))]
+
+
+def confirm_cost(app, unverified):
+    """REJECT_CANDIDATE when the only open items are personal / preference details and the job does not
+    pay for asking; None otherwise (essential items always go to the user)."""
+    if app.get("user_confirmation_required") != "yes" or not unverified or app.get("actual_net") is None:
+        return None
+    if any(ESSENTIAL_CONFIRM_RE.search(u) or not PERSONAL_CONFIRM_RE.search(u) for u in unverified):
+        return None
+    worth = app["actual_net"] / (float(app.get("review_minutes_est") or 3) + CONFIRM_PENALTY_MIN)
+    return "REJECT_CANDIDATE" if worth < CONFIRM_WORTH_NET_PER_MIN else None
 
 
 def designated(job):
@@ -307,6 +341,12 @@ def _validate(d, job, src, profile):
         errs.append("応募文でAI利用に自分から言及している（設問で聞かれた場合のみ回答欄で答える）")
     if d.get("unverified_facts") and d.get("user_confirmation_required") != "yes":
         errs.append("unverified_factsがあるのにuser_confirmation_required≠yes")
+    # a fact the user has already confirmed is reused, never asked again
+    job_text = " ".join([job.get("title", ""), src.get("desc", "")])
+    asks = list(d.get("unverified_facts", [])) + [q for q, an in zip(qs, ans) if "【本人記入" in (an or "")]
+    for u in asks:
+        for i, f in facts_answering(profile, u, job_text):
+            errs.append(f"本人確認済みの事実で答えられる項目を再確認している: {u[:30]} → confirmed_facts[{i}].fact（{f['fact'][:30]}）")
     errs += _opening_errors(job, d.get("application_draft", ""))  # Client Master: relationship QA
     return errs
 
@@ -328,6 +368,8 @@ def _hold_reasons(job, date):
         why.append("応募文・回答が未完成")
     if app["user_confirmation_required"] == "yes":
         why.append("本人確認が必要な項目あり")
+    if app.get("confirm_cost") == "REJECT_CANDIDATE":
+        why.append("Astra REJECT候補：確認コストが報酬に見合わない（私的・嗜好の確認のみ。本人確認は求めない）")
     if app["claim_flags"]:
         why.append("実績の表現を確認：" + "、".join(app["claim_flags"]))
     why += _opening_errors(job, app.get("application_draft", ""))
@@ -378,6 +420,9 @@ def cmd_app_merge(a):
             # measured times come back via Status Updates (application_preparation_ai_time etc.)
             "application_preparation_ai_time": d.get("application_preparation_ai_time"),
         }
+        cost = confirm_cost(job["application"], job["application"]["unverified_facts"])
+        if cost:  # not worth a question to the user: Astra decides (REJECT candidate), the user is not asked
+            job["application"].update(confirm_cost=cost, user_confirmation_required="no")
         _apply_readiness(job, a.date)
         ok.append(jid)
     P.vault_save(v)
@@ -516,6 +561,27 @@ def _drive_row(j):
     return {**j, "application": app}
 
 
+def ready_notice(master, ids=None):
+    """07:30 notice body: READY_TO_APPLY jobs only, as `案件URL | 完成した応募文` (+ answers to the posting's
+    questions), so the user can paste and apply from a phone. Nothing else is listed."""
+    out = []
+    for j in master.values():
+        if j.get("status") != "READY_TO_APPLY" or not j.get("application") or (ids and str(j["job_id"]) not in ids):
+            continue
+        app = j["application"]
+        block = f"{j['url']} | {app['application_draft'].strip()}"
+        if app.get("application_questions"):
+            block += "\n【応募時の回答】\n" + _pairs(app)
+        out.append(block)
+    return "\n\n".join(out)
+
+
+def cmd_ready_notice(a):
+    v = P.vault_load()
+    ids = {x.strip() for x in a.ids.split(",") if x.strip()} if a.ids else None
+    print(ready_notice(v["master"], ids) or "（READY_TO_APPLYの案件なし）")
+
+
 def export_queue(master):
     jobs = [j for j in master.values() if j.get("application") and eligible(j, QUEUE_VISIBLE)]
     jobs += [_undrafted_view(j) for j in master.values() if j.get("status") == "ASTRA_PASS" and not j.get("application")]
@@ -524,6 +590,8 @@ def export_queue(master):
     jobs.sort(key=lambda j: (order.get(j.get("status"), 3), j["application"]["final_qa_status"] == "NO_DRAFT",
                              -(j["application"]["app_priority"] or 0)))
     P._write_csv(os.path.join(P.OUT, "application_queue.csv"), DRIVE_APP_COLS, [_drive_row(j) for j in jobs])
+    with open(os.path.join(P.OUT, "ready_notice.txt"), "w", encoding="utf-8") as f:  # local; the 07:30 notice body
+        f.write(ready_notice(master))
     P.save_json(os.path.join(P.OUT, "application_queue.json"),
                 {"generated_at": P.now_iso(), "count": len(jobs),
                  "jobs": [{c: fn(j) for c, fn in APP_COLS} for j in jobs]})
@@ -644,11 +712,15 @@ def cmd_app_plan(a):
             excluded[jid] = "本日のapp-check未実行"
         elif rc.get("changes"):
             excluded[jid] = "、".join(rc["changes"])
+        elif (rc.get("deadline") or j.get("expired_on") or "9999") < a.date:
+            excluded[jid] = "応募期限切れ"
+        elif rc.get("closed"):
+            excluded[jid] = "募集終了"
         else:
             todo.append(j)
     todo.sort(key=lambda j: ((j.get("reward_check") or {}).get("deadline") or "9999",
                              -((j.get("net_est") or 0) / max(_est_min(j), 1))))
-    ids = [j["job_id"] for j in todo]
+    ids = [str(j["job_id"]) for j in todo]
     # the drafts must open according to the real relationship with each client (Client Master)
     client = {}
     for j in todo[:a.cap]:
@@ -656,8 +728,11 @@ def cmd_app_plan(a):
         client[str(j["job_id"])] = {"client_id": client_master.client_id(j), "relationship": lvl,
                                     "opening": client_master.OPENINGS[lvl],
                                     "history": client_master.summary(clients, master, j)}
+    # confirmed facts are reused as they are (refs for facts_used); they are never asked again
+    facts = [{"ref": f"confirmed_facts[{i}].fact", "fact": f["fact"], "only_for_jobs_matching": f.get("job_re")}
+             for i, f in reusable_facts(v.get("profile", {}))]
     print(json.dumps({"draft_now": ids[:a.cap], "carry_over": ids[a.cap:], "excluded": excluded,
-                      "client": client}, ensure_ascii=False, indent=1))
+                      "client": client, "confirmed_facts": facts}, ensure_ascii=False, indent=1))
 
 
 def cmd_manual_add(a):

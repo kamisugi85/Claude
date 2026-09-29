@@ -185,9 +185,15 @@ def main():
     t = pq("targets")
     assert t["targets"] == [pend2[0]] and t["action"] == "prepare", t
     upd(rows)  # same sheet again (e.g. the 06:00 run and the 07:1x run both import it)
-    assert pq("targets") == {"new_status_changes": 0, "targets": [], "action": "none"}
+    # no new status change; the PASS still without a draft stays a (carried-over) target, listed once
+    t = pq("targets")
+    assert t["new_status_changes"] == 0 and t["targets"].count(pend2[0]) == 1, t
     upd([])  # Astra QA did not run: nothing new
-    assert pq("targets")["action"] == "none" and tables()[1][pend2[1]]["status"] == "ASTRA_QA_PENDING"
+    t = pq("targets")
+    assert t["new_status_changes"] == 0 and pend2[1] not in t["targets"] and \
+        tables()[1][pend2[1]]["status"] == "ASTRA_QA_PENDING"
+    setst(tmp, pend2[0], "SKIPPED")  # once it is no longer an undrafted PASS, nothing is left to prepare
+    assert pend2[0] not in pq("targets")["targets"]
     rp = os.path.join(tmp, "state", "runs.jsonl")
     keep = open(rp, encoding="utf-8").read()
     open(rp, "a", encoding="utf-8").write(json.dumps({"date": "2099-01-02"}) + "\n")

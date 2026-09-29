@@ -1,6 +1,6 @@
 # Scout 日次実行手順（毎朝05:00 JST）
 
-日次スケジュール：05:00 Claude Scout・一次評価（Astra Queue）→ 06:00 Astra QA（Status Updates）→ 06:30 Claude 判定取込・応募準備（本書7）→ 07:30 ChatGPTがREADY_TO_APPLYを通知
+日次スケジュール：05:00 Claude Scout・一次評価（Astra Queue）→ 06:00 Astra QA（Status Updates）→ 06:30 Claude 判定取込・応募準備（本書7）→ 07:30 ChatGPTがREADY_TO_APPLYを通知 →（12:30 同じ第2Routineのcatch-up：06:30より後に書かれたAstra判定だけを処理。本書7.1）
 
 Claude Codeのセッションが上から順に実行する。応募・契約・納品・課金・外部公開は行わない。
 
@@ -9,16 +9,17 @@ Claude Codeのセッションが上から順に実行する。応募・契約・
 git fetch origin claude/brave-lovelace-7n0flp && git checkout claude/brave-lovelace-7n0flp && git pull
 # SCOUT_VAULT_KEY は環境の設定で環境変数として渡される（値を表示・ログ出力・コミットしない）
 ```
-- Driveのファイル・フォルダのIDは、`python3 scout/pipeline.py export` の後に `scout/out/sync_manifest.json` の `drive` で確認できる。
+- DriveのシートはIDを固定しない（同期のたびに新しいファイルへ差し替わり、古い版はゴミ箱へ移る）。どのシートを読む・消すかは、毎回フォルダの一覧から決める（5.0）。`sync_manifest.json` の `drive` は前回記録したIDで、「最新版」の根拠にはしない。
 
 ## 1. ステータス更新の取り込み（Sheets → Job Master）
 Status Updatesは本人の入力欄ではない。Astra と Claude Code がステータスを受け渡すためのシートで、書き込むのはAstraだけ。本人はAstraに報告するだけで、このシートは編集しない。
-- Astraの判定は PASS / REJECT / NEED_USER / SKIPPED の4種類。正式な判定として扱うのは、`updated_by` がAstra名義の行だけ。Astra名義でない行は取り込まず、`errors` に出す。
+- Astraの判定は PASS / REJECT / NEED_USER / SKIPPED の4種類。HOLD（保留）はNEED_USERとして扱い、応募準備しない。正式な判定として扱うのは、`updated_by` がAstra名義の行だけ。Astra名義でない行は取り込まず、`errors` に出す。
 - 応募後の辞退は `new_status=WITHDRAWN`（APPLIED以降の状態として扱い、判定の再送で戻さない）。面談が理由なら理由欄に「面談」を書く（4.6）。
 - 反映先：PASS → `ASTRA_PASS`（手順5.7で応募準備）、REJECT → `ASTRA_REJECT`（理由をJob Masterに保存）、NEED_USER → 本人確認待ち、SKIPPED → 今回見送り。
 - Status Updatesに判定がない案件は `ASTRA_QA_PENDING` のままにする。Astra Queueを作った・6時を過ぎた、といった理由で判定済みにしない。Claude CodeがAstraの判定を推測・代行しない。
 - `READY_TO_APPLY` 以降に進んだ案件は、PASSなどの判定が再送されてもステータスを戻さない（`errors` に記録）。
-1. Drive MCPの `download_file_content` で `status_updates_sheet` を `text/csv` として取得する。
+- 同じ案件に複数の行がある場合は、`updated_at` の新しい行が最後に反映される（シート上の並び順に関係なく、最新の判定が残る）。
+1. 5.0の `drive-resolve` が返した `status_updates_sheet` のIDで、Drive MCPの `download_file_content` を使い `text/csv` として取得する。
 2. 返ってきたbase64を `scout/data/status_updates.b64` に保存し、`base64 -d` でCSVに戻す。
 3. `python3 scout/pipeline.py apply-updates --csv <csv>` を実行する。同じ行は二度反映されない。
    - 取り込む列：job_id, astra_verdict（PASS / REJECT / 要確認）, astra_reason, new_status, need_user, next_action, updated_at, updated_by, 実測値8項目, note
@@ -113,12 +114,19 @@ Scout → Job Master → Client Master参照 → Claude一次評価 → Astra �
   - 応募後に初めて面談必須と判明して辞退 → AstraがStatus Updatesに `new_status=WITHDRAWN`（理由に「面談」を含める）を書く。取り込むと `post_application_interview_request_count` が増える。
   - 同じクライアントの次の案件では、Claude一次評価の入力（`pending_eval.json` の `client_history`）とAstra Queueの `client_history` 列に「⚠応募後に面談要求N回」と表示する。これだけで自動REJECTにはしない（Astraが条件と合わせて判断）。
 
+## 5.0 Driveの最新版の特定（Driveを読む・消す前に毎回行う）
+1. Drive MCPの `search_files` で、フォルダ内のシートを一覧する：`parentId = '<folder>' and title contains 'CW Scout' and mimeType = 'application/vnd.google-apps.spreadsheet'`（`excludeContentSnippets=true`。`next_page_token` があれば全ページ）。folderは `sync_manifest.json` の `drive.folder`。
+2. 返ってきたJSONを `scout/data/drive_listing.json` に保存し、`python3 scout/pipeline.py drive-resolve --listing scout/data/drive_listing.json` を実行する。
+   - 種類ごと（Job Master / Astra Queue / Application Queue）の現在の版＝タイトルの生成日時（`｜YYYY-MM-DD HH:MM JST`）が最も新しいもの、同時刻なら作成日時の新しいもの。Status Updatesは、記録済みのシートがフォルダにあればそれ（列追加の差し替えは検証後に正式になるため）、なければ作成日時の最も新しいもの。
+   - フォルダ外・ゴミ箱のファイルは対象外。`recorded_is_current=false` は、記録済みIDが最新版ではないことを示す（読むのは `id` の方）。`others` は同じ種類の古い版（過去の失敗で残ったものを含む）。
+3. アップロードして検証した直後は `drive-resolve --listing <新しい一覧> --keep <key>=<新ID>` を実行し、`trash` に出たIDをすべて `trash_file` する（前回記録したIDだけでなく、残っていた古い版も片付ける）。
+
 ## 5. Google Sheetsへの同期（06:00のAstra QAより前に終える。応募準備より先に行う）
-現在のDrive MCPは既存ファイルの中身を書き換えられないため、次の手順でシートを差し替える。
+現在のDrive MCPは既存ファイルの中身を書き換えられないため、次の手順でシートを差し替える。Driveは表示用で、Job MasterのSource of TruthはVault。
 1. フォルダ `CW Scout (ai×cloud works)` に、次の2つを `text/csv` でアップロードし、Googleシートに変換する。タイトルは `scout/out/sync_manifest.json` の `titles` を使う（生成日時入り。例：`CW Scout - Astra Queue｜2026-09-27 06:05 JST`）。
    - Job Master
    - Astra Queue
-2. 古いシート（manifestに記録された `job_master_sheet` と `astra_queue_sheet`）を `trash_file` でゴミ箱へ移す。
+2. 古いシートを `trash_file` でゴミ箱へ移す。対象は5.0の3（`drive-resolve --keep`）が返す `trash`。
 3. 新しいIDを記録する：`python3 scout/pipeline.py set-drive job_master_sheet <id>`（`astra_queue_sheet` も同様）
 4. `CW Scout - Status Updates (記入用)` は差し替えない。例外は1.4の列追加だけ。
 5. Drive反映は省略しない（2026-09-29に、Job MasterとApplication Queueのアップロードが省略されたまま「成功」と報告された）。
@@ -152,7 +160,8 @@ Scout → Job Master → Client Master参照 → Claude一次評価 → Astra �
    - 1回だけ現れる変更（減額・前倒し・条件行の追加など）は、`recheck_flags` に残す。Astraが改めて判定するまで、HOLDのままにする。
    - 応募文がある案件は、この時点でREADY_TO_APPLYになるか、HOLDに戻るかが再判定される。APPLIED・SKIPPEDは変わらない。
 2. `python3 scout/pipeline.py app-plan --cap 15` を実行し、`draft_now` の案件だけ応募文を作る。
-   - `client` に各案件のクライアントとの関係（NONE / APPLIED / ORDERED / DELIVERED）と、使う冒頭が出る。応募文は必ずこれに合わせる。
+   - `client` に各案件のクライアントとの関係（NONE / APPLIED / ORDERED / DELIVERED）と、使う冒頭が出る。応募文は必ずこれに合わせる。`history` に「⚠応募後に面談要求N回」などが出たクライアントは、応募文には書かず、Astraの判断材料として扱う（それだけで除外しない）。
+   - `confirmed_facts` は本人が一度確認した事実（5.7.2）。設問がこれで答えられる場合はそのまま回答し（`facts_used` の `profile_ref` は `confirmed_facts[i].fact`）、本人確認にしない。
      - NONE（初回）：「はじめまして。」
      - APPLIED（応募・やり取りのみ）：「はじめまして」を使わない。受注していないので過去の依頼へのお礼も書かない（例：「先日は別のご募集にも応募させていただきました。」）。
      - ORDERED / DELIVERED（受注・納品あり）：「以前はお仕事をご依頼いただき、ありがとうございました。」など。実際の履歴以上の関係は書かない。
@@ -193,6 +202,18 @@ Scout → Job Master → Client Master参照 → Claude一次評価 → Astra �
    - `kpi` の項目：discovered, Claude候補率, Astra PASS率, 応募率, 受注率, 実際の手取り, 応募準備AI時間, 制作AI時間, 応募確認の分, 制作の分, 修正回数, Net ÷ Human Minutes（推定・実測）
    - 案件ごとの実測値は `actual_net_per_human_min` で確認する。バッチ実績は全体と、同じ区分の案件だけのバッチでその区分に入る。
    - 計算方法：実際の手取り ÷（応募確認の分＋制作の分）。見送り・不採用は0円として数える。
+
+### 5.7.2 本人確認済み事実の再利用と、本人確認の最小化
+- 本人が一度確認した事実は `profile.confirmed_facts` に `reuse=true` で保存し、以後は同じ質問を本人に確認しない。追加は `python3 scout/pipeline.py profile-fact --fact <事実> --source <確認日・経路> --question-re <その事実で答えられる質問の正規表現> [--job-re <対象案件>] [--ref <プロフィール上の位置>]`（同じ事実は上書き）。
+- 登録済み（2026-09-30 本人指示）：NISAの利用経験 / NISAで投資信託を運用 / 投資用区分マンションの経験 / FP2級 / 簿記2級 / TOEIC 835 / 本業での文字起こし経験 / 文字起こし（1ファイル3,000字程度）の納期は1ファイル3日程度（文字起こし案件の標準回答）。
+- これらから別の経験を推測・創作しない（例：NISA経験から「投資記事の執筆経験」を作らない）。
+- `app-merge` は、確認済み事実で答えられる項目を `unverified_facts` や【本人記入】に回した下書きをFAILにする。
+- 本人確認の対象にするのは、応募・制作に本当に必要なものだけ：契約・支払い・報酬、重要な外部送信・連絡手段、プロフィールにない本人経験・実績・資格、守秘義務・利益相反・勤務先、最終納品、署名に使う名前。
+- 嗜好・将来の希望・私生活などだけが未確認で、手取り ÷（確認分＋本人確認5分）が100円/分未満の案件は、本人に確認しない。`app-merge` が `confirm_cost=REJECT_CANDIDATE`・`user_confirmation_required=no` とし、`next_action` に「Astra REJECT候補」と出す（READYにはしない。判定はAstraがStatus Updatesで行う）。
+
+### 5.7.3 READY通知（07:30）
+- 通知の対象は `READY_TO_APPLY` の案件だけ。本文は `python3 scout/pipeline.py ready-notice`（`scout/out/ready_notice.txt` にも出る）で、1件ごとに `案件URL | 完成した応募文`、設問があれば【応募時の回答】を続ける。
+- READY_TO_APPLYになるのは、【本人記入】が残っていない完成形の応募文だけ（5.7の4）。
 
 ### 5.7.1 本人指定案件（手動取り込み）
 Scoutが拾っていない案件を本人が指定した場合、その1件だけを処理する（既存案件の再取得・再分析はしない）。
@@ -250,6 +271,9 @@ python3 scout/tests/test_recheck.py
 python3 scout/tests/test_worker.py
 python3 scout/tests/test_manual.py
 python3 scout/tests/test_manual_review.py
+python3 scout/tests/test_drive_view.py
+python3 scout/tests/test_client_master.py
+python3 scout/tests/test_daily_ops.py      # 日次運用の通し（PASS/REJECT/HOLD/未判定・冒頭QA・冪等性・catch-up・最新シート）
 git add scout/state && git commit -m "Scout run <date>" && git push -u origin claude/brave-lovelace-7n0flp
 ```
 - 暗号化されていない状態で個人情報をコミットしないこと。
@@ -262,8 +286,9 @@ Scoutの収集・ルール処理・Claude一次評価は行わない。Astra Que
 1. `git pull`（手順0と同じ）
 2. `python3 scout/pipeline.py postqa guard`
    - `ok=false`（当日の05:00 Scoutの記録がまだない＝実行中・未実行・失敗）なら、何もせずに終了する。
-3. Status UpdatesをCSVで取得し、`python3 scout/pipeline.py postqa astra --csv <csv>` を実行する。時刻だけでは処理を始めない。
-   - `ok=false`：当日のScout実行より後に書かれたAstra名義の判定がない（06:00のAstra QAが未実行・失敗・遅延）。取り込みも応募準備もせずに終了する。判定は翌朝05:00の実行で取り込まれる。
+   - `mode=catchup`（09:00以降の実行）なら、手順3の代わりに7.1を行う。
+3. 5.0でStatus Updatesの現在のシートを特定してCSVで取得し、`python3 scout/pipeline.py postqa astra --csv <csv>` を実行する。時刻だけでは処理を始めない。
+   - `ok=false`：当日のScout実行より後に書かれたAstra名義の判定がない（06:00のAstra QAが未実行・失敗・遅延）。取り込みも応募準備もせずに終了する。遅れて書かれた判定は、同じ日の12:30のcatch-up（7.1）で取り込まれる。
    - `ok=true, complete=false`：Astraがまだ書き込み中の可能性がある。テストの実行など他の作業を先に済ませてから、CSVを取得し直してもう一度確認する（1回だけ。sleepで待たない）。それでも未完了なら、判定済みの案件だけを取り込む。未判定の案件は `ASTRA_QA_PENDING` のまま残し、報告に件数を書く。
    - `ok=true, complete=true`：次へ進む。
 4. 同じCSVで `apply-updates --csv <csv>` を実行する。
@@ -278,9 +303,9 @@ Scoutの収集・ルール処理・Claude一次評価は行わない。Astra Que
    - `action=none` なら、応募準備をしない。
      - ステータスの変化（`new_status_changes`）が1件以上あれば、手順7へ進む。
      - 0件なら、何もせずに終了する。
-   - `targets` は、今回の取り込みでASTRA_PASSになり、まだ応募文がない案件だけ。
+   - `targets` は、今回の取り込みでASTRA_PASSになり、まだ応募文がない案件と、前回までに応募文を作れず持ち越したASTRA_PASS（原文に変化なし・期限内）。REJECT / SKIPPED / NEED_USER（HOLD）/ WITHDRAWN / 期限切れは含まない。
 6. 5.7の手順1〜4（app-check → app-plan → 応募文 → app-merge）を行う。条件を満たした案件だけが `READY_TO_APPLY` になる。`targets` が空でも、既存の応募文の再判定のために app-check は行う。
-7. テストを実行する：`python3 scout/tests/test_application.py`・`python3 scout/tests/test_recheck.py`・`python3 scout/tests/test_worker.py`・`python3 scout/tests/test_manual.py`・`python3 scout/tests/test_manual_review.py`・`python3 scout/tests/test_drive_view.py`・`python3 scout/tests/test_client_master.py`
+7. テストを実行する：`python3 scout/tests/test_application.py`・`python3 scout/tests/test_recheck.py`・`python3 scout/tests/test_worker.py`・`python3 scout/tests/test_manual.py`・`python3 scout/tests/test_manual_review.py`・`python3 scout/tests/test_drive_view.py`・`python3 scout/tests/test_client_master.py`・`python3 scout/tests/test_daily_ops.py`
 8. 保存する：`git add scout/state && git commit -m "Scout post-QA <date>" && git push -u origin claude/brave-lovelace-7n0flp`
    - pushが拒否された場合は、force pushしない。
      1. `git fetch` を行う。
@@ -291,7 +316,17 @@ Scoutの収集・ルール処理・Claude一次評価は行わない。Astra Que
    - Astra Queueは差し替えない（Astra QAの対象は05:00の実行が決める）。
    - `python3 scout/pipeline.py drive-status --keys job_master,application_queue` が `ok=true` になるまでが完了。
    - IDを記録したVaultをcommit・pushする（手順8と同じ規則）。
-10. 報告の最後に、Drive反映の結果（シートごとに「更新済み／未反映と理由」）を必ず書く。
+10. 報告の最後に、Drive反映の結果（シートごとに「更新済み／未反映と理由」）を必ず書く。READY_TO_APPLYになった案件があれば、`ready-notice` の本文（`案件URL | 応募文`）を報告に含める。
+
+## 7.1 catch-up（同じ第2Routineの12:30 JSTの実行。新しいRoutineは作らない）
+06:30の時点でAstra QAが終わっていなかった案件を、翌朝05:00まで放置しないための追加パス。06:30の実行と同じRoutineが12:30にも起動し、`postqa guard` の `mode=catchup` でこの手順になる。
+- 12:30を選んだ理由：05:00・06:30の実行（Vaultのpush）と重ならず、07:30の通知処理とも衝突しない。Astraの遅延（06:00のQA遅れ、本人経由の午前中の判定）を同じ日のうちに拾える。Status Updatesに新しいAstra行がなければ何もせずに終わるので、空振りのコストは小さい。
+1. 手順1・2（pull・guard）の後、5.0でStatus Updatesを特定してCSVで取得し、`python3 scout/pipeline.py postqa catchup --csv <csv>` を実行する。
+   - `ok=false`（まだ取り込んでいないAstra名義の行がなく、応募準備の持ち越しもない）なら、何も変更せず・何もpushせずに終了する。
+   - 転記・代理と書かれた行、Astra名義でない行、Job Masterにない案件の行は、新しい行として数えない。
+2. `ok=true` なら、手順4〜10をそのまま行う（`postqa astra` は使わない）。
+3. 二重処理しない仕組み：Status Updatesの行は署名で一度だけ反映される。応募文はjob_idごとに1つで、`app-plan` は応募文のある案件を対象にせず、`app-merge` はASTRA_PASS以外の案件（READY_TO_APPLY以降を含む）を受け付けない。06:30に処理済みの案件は、ステータスも応募文も変わらない。
+4. 12:30にREADY_TO_APPLYになった案件は、Routineの完了通知（本人のスマホへのプッシュ）に `ready-notice` の本文を載せて知らせる。Application Queueにも載るので、翌朝07:30の通知でも再掲される。
 
 ## エラー時
 - 収集に失敗した場合：`runs.jsonl` の `errors` に記録し、処理を続ける。

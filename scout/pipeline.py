@@ -399,6 +399,26 @@ def cmd_show_profile(a):
     print(json.dumps(vault_load()["profile"], ensure_ascii=False, indent=1))
 
 
+def cmd_profile_fact(a):
+    """Add (or update, keyed by the fact text) a user-confirmed fact that is reused without asking again."""
+    re.compile(a.question_re)
+    a.job_re and re.compile(a.job_re)
+    v = vault_load()
+    facts = v.setdefault("profile", {}).setdefault("confirmed_facts", [])
+    rec = next((f for f in facts if f.get("fact") == a.fact), None)
+    if rec is None:
+        rec = {"fact": a.fact}
+        facts.append(rec)
+    rec.update({"source": a.source, "scope": "全案件で再利用（同じ質問を本人に再確認しない）", "reuse": True,
+                "question_re": a.question_re, "confirmed_at": now_iso()})
+    if a.job_re:
+        rec["job_re"] = a.job_re
+    if a.ref:
+        rec["profile_ref"] = a.ref
+    vault_save(v)
+    print(json.dumps({"index": facts.index(rec), **rec}, ensure_ascii=False))
+
+
 def cmd_prepare(a):
     date = a.date
     ddir = os.path.join(ROOT, "data", date)
@@ -961,6 +981,21 @@ def _truthy(x):
     return str(x).strip().lower() in ("yes", "y", "true", "1", "要", "必要", "はい")
 
 
+def su_time(s):
+    """Status Updates `updated_at` as a sortable "YYYY-MM-DD HH:MM" ("" when missing/unparsable)."""
+    m = re.match(r"(\d{4})[-/](\d{1,2})[-/](\d{1,2})(?:[ T](\d{1,2}):(\d{2}))?", s or "")
+    if not m:
+        return ""
+    y, mo, d, h, mi = m.groups()
+    return f"{y}-{int(mo):02d}-{int(d):02d} {int(h or 0):02d}:{mi or '00'}"
+
+
+def row_sig(row):
+    """Signature of a Status Updates row over its non-empty cells (so adding columns does not re-apply it)."""
+    return hashlib.md5(json.dumps({k: x for k, x in row.items() if x}, sort_keys=True,
+                                  ensure_ascii=False).encode()).hexdigest()[:16]
+
+
 def cmd_apply_updates(a):
     v = vault_load()
     master, meta = v["master"], v.setdefault("meta", {})
@@ -971,7 +1006,8 @@ def cmd_apply_updates(a):
     text = open(a.csv, encoding="utf-8-sig").read()
     n_ok, errs = 0, []
     tally = {"astra_pass": 0, "astra_reject": 0, "need_user": 0, "skipped": 0, "scout_miss": 0, "other_status": 0}
-    for row in csv.DictReader(io.StringIO(text)):
+    # oldest first, so the latest Astra verdict for a job is the one that stays (sheet order as tie-break)
+    for row in sorted(csv.DictReader(io.StringIO(text)), key=lambda r: su_time((r.get("updated_at") or "").strip())):
         row = {k.strip(): (val or "").strip() for k, val in row.items() if k}
         for alias, k in FIELD_ALIASES.items():
             if row.get(alias) and not row.get(k):
@@ -982,8 +1018,7 @@ def cmd_apply_updates(a):
         # Signature over non-empty cells, so adding sheet columns does not re-apply old rows;
         # the legacy all-cells signature is still honoured for rows applied before.
         legacy = hashlib.md5(json.dumps(row, sort_keys=True, ensure_ascii=False).encode()).hexdigest()[:16]
-        sig = hashlib.md5(json.dumps({k: x for k, x in row.items() if x}, sort_keys=True,
-                                     ensure_ascii=False).encode()).hexdigest()[:16]
+        sig = row_sig(row)
         if sig in applied or legacy in applied:
             applied.add(sig)
             continue
@@ -1040,7 +1075,12 @@ def cmd_apply_updates(a):
         if st == "READY_TO_DELIVER":  # only set by worker-deliver once the client file is verified
             errs.append(f"{jid}: READY_TO_DELIVER は納品物の検証後にClaudeが設定するため未反映")
             continue
-        st = {"ASTRA_QUEUE": "ASTRA_QA_PENDING", "SKIP": "SKIPPED"}.get(st, st)
+        st = {"ASTRA_QUEUE": "ASTRA_QA_PENDING", "SKIP": "SKIPPED", "HOLD": "NEED_USER"}.get(st, st)
+        # an applied (or later) job never goes back to a pre-application verdict, whoever resends it
+        if st in ("ASTRA_PASS", "ASTRA_REJECT", "NEED_USER", "SKIPPED") and job.get("status") in PROGRESSED - {"READY_TO_APPLY"}:
+            errs.append(f"{jid}: {job['status']} のため {st} でステータスを戻さない")
+            applied.add(sig)
+            continue
         if not st:
             st = VERDICT_MAP.get(verdict.upper(), VERDICT_MAP.get(verdict, ""))
             if not st and _truthy(row.get("need_user")):
@@ -1093,18 +1133,48 @@ def cmd_apply_updates(a):
     print(json.dumps({"applied": n_ok, "tally": tally, "errors": errs}, ensure_ascii=False))
 
 
+CATCHUP_FROM = "09:00"  # a post-QA run at or after this JST time is the catch-up pass (see RUNBOOK 7.1)
+
+
+def _astra_rows(path):
+    """Astra-signed Status Updates rows (normalized like apply-updates), with their signatures."""
+    out = []
+    for r in csv.DictReader(io.StringIO(open(path, encoding="utf-8-sig").read())):
+        r = {k.strip(): (v or "").strip() for k, v in r.items() if k}
+        for alias, k in FIELD_ALIASES.items():
+            if r.get(alias) and not r.get(k):
+                r[k] = r[alias]
+            r.pop(alias, None)
+        if r.get("job_id") and "astra" in r.get("updated_by", "").lower():
+            out.append((r, row_sig(r)))
+    return out
+
+
+def _carry_over(master):
+    """ASTRA_PASS jobs still without a draft whose posting showed no material change (e.g. over the draft cap)."""
+    return sorted(j for j, x in master.items() if x.get("status") == "ASTRA_PASS" and not x.get("application")
+                  and not (x.get("reward_check") or {}).get("changes")
+                  and not ((x.get("reward_check") or {}).get("deadline") or "9999") < today())
+
+
 def cmd_postqa(a):
-    """Post-Astra-QA routine (06:30 JST): never scouts or evaluates.
-    guard   : proceed only if today's 05:00 Scout run is recorded (it owns the Astra Queue hand-off).
+    """Post-Astra-QA routine (06:30 JST, catch-up pass 12:30 JST): never scouts or evaluates.
+    guard   : proceed only if today's 05:00 Scout run is recorded (it owns the Astra Queue hand-off);
+              `mode` says whether this is the 06:30 main pass or the later catch-up pass.
     astra   : proceed only if the Status Updates CSV holds Astra-signed rows written today after that run;
               complete=false means some queued jobs are still unjudged (they stay ASTRA_QA_PENDING).
-    targets : ASTRA_PASS jobs whose PASS came in with the last apply-updates and have no draft yet."""
+    catchup : proceed only if Astra wrote rows not imported yet (e.g. a PASS after 06:30), or drafts were
+              carried over; otherwise stop without touching anything. Idempotent: rows are keyed by signature
+              and jobs by job_id + current status.
+    targets : ASTRA_PASS jobs without a draft: PASSes of the last apply-updates plus carried-over ones."""
     runs_path = os.path.join(STATE, "runs.jsonl")
     runs = [json.loads(l) for l in open(runs_path, encoding="utf-8")] if os.path.exists(runs_path) else []
     today_runs = [r for r in runs if r.get("date") == a.date]
     if a.stage == "guard":
         done = bool(today_runs)
-        print(json.dumps({"ok": done, "reason": "" if done else f"{a.date} のScout実行記録がないため何もしない"},
+        now = a.now or dt.datetime.now(JST).strftime("%H:%M")
+        print(json.dumps({"ok": done, "mode": "catchup" if now >= CATCHUP_FROM else "main",
+                          "reason": "" if done else f"{a.date} のScout実行記録がないため何もしない"},
                          ensure_ascii=False))
         return
     if a.stage == "astra":
@@ -1114,16 +1184,12 @@ def cmd_postqa(a):
             print(json.dumps({"ok": False, "reason": f"{a.date} のScout実行記録がない"}, ensure_ascii=False))
             return
         scout_at = max(r.get("run_at", "") for r in today_runs)[11:16]  # HH:MM (JST)
-        rows = list(csv.DictReader(io.StringIO(open(a.csv, encoding="utf-8-sig").read())))
         todays = set()
-        for r in rows:
-            r = {k.strip(): (v or "").strip() for k, v in r.items() if k}
-            if "astra" not in r.get("updated_by", "").lower() or not r.get("job_id"):
+        for r, _ in _astra_rows(a.csv):
+            t = su_time(r.get("updated_at", ""))
+            if not t.startswith(a.date):
                 continue
-            m = re.match(r"(\d{4}-\d{2}-\d{2})(?:[ T](\d{1,2}):(\d{2}))?", r.get("updated_at", ""))
-            if not m or m.group(1) != a.date:
-                continue
-            if m.group(2) and f"{int(m.group(2)):02d}:{m.group(3)}" < scout_at:
+            if re.search(r"\d{1,2}:\d{2}", r.get("updated_at", "")) and t[11:] < scout_at:
                 continue  # written before today's Astra Queue existed
             todays.add(re.sub(r"\D", "", r["job_id"]))
         pending = {j for j, x in vault_load()["master"].items() if x.get("status") == "ASTRA_QA_PENDING"}
@@ -1133,10 +1199,28 @@ def cmd_postqa(a):
                "reason": "" if todays else f"{a.date} {scout_at}以降のAstra名義の判定がStatus Updatesにないため何もしない"}
         print(json.dumps(res, ensure_ascii=False))
         return
+    v = vault_load()
+    master = v["master"]
+    if a.stage == "catchup":
+        applied = set(v.get("meta", {}).get("applied_update_rows", []))
+        # rows apply-updates would really take: not yet imported, Astra's own (no relayed/proxy verdict), known job
+        new = sorted({re.sub(r"\D", "", r["job_id"]) for r, sig in _astra_rows(a.csv) if sig not in applied
+                      and not PROXY_RE.search(" ".join(r.get(k, "") for k in ("note", "astra_reason", "next_action")))
+                      and (re.sub(r"\D", "", r["job_id"]) in master
+                           or "MANUAL_REVIEW" in (r.get("new_status", "") + r.get("astra_verdict", "")).upper())})
+        carry = _carry_over(master)
+        ok = bool(new or carry)
+        print(json.dumps({"ok": ok, "new_astra_rows_for": new, "carry_over": carry,
+                          "pending": sum(x.get("status") == "ASTRA_QA_PENDING" for x in master.values()),
+                          "reason": "" if ok else "06:30以降に新しいAstra判定がなく、応募準備の持ち越しもないため何もしない"},
+                         ensure_ascii=False))
+        return
     last = load_json(os.path.join(ROOT, "data", a.date, "last_updates.json"), {"changed": {}})
-    master = vault_load()["master"]
-    targets = [j for j, st in last["changed"].items()
-               if st == "ASTRA_PASS" and master[j].get("status") == "ASTRA_PASS" and not master[j].get("application")]
+    expired = lambda j: ((master[j].get("reward_check") or {}).get("deadline") or master[j].get("expired_on")
+                         or "9999") < today()
+    targets = [j for j, st in last["changed"].items() if st == "ASTRA_PASS" and master[j].get("status") == "ASTRA_PASS"
+               and not master[j].get("application") and not expired(j)]
+    targets += [j for j in _carry_over(master) if j not in targets]
     print(json.dumps({"new_status_changes": len(last["changed"]), "targets": targets,
                       "action": "prepare" if targets else "none"}, ensure_ascii=False))
 
@@ -1192,6 +1276,67 @@ def cmd_drive_status(a):
         sys.exit(1)
 
 
+DRIVE_KINDS = {  # Drive sheet key -> title prefix in the CW Scout folder
+    "job_master_sheet": "CW Scout - Job Master｜",
+    "astra_queue_sheet": "CW Scout - Astra Queue｜",
+    "application_queue_sheet": "CW Scout - Application Queue｜",
+    "status_updates_sheet": "CW Scout - Status Updates (記入用)",
+}
+SHEET_MIME = "application/vnd.google-apps.spreadsheet"
+
+
+def drive_resolve(files, folder, recorded, keep=None):
+    """The current sheet of each kind in the CW Scout folder, from a Drive file listing.
+
+    Sheets are replaced on every sync (new file, old one trashed), so a remembered ID is never
+    taken as "the latest" by itself:
+    - dated kinds (Job Master / Astra Queue / Application Queue): the newest generation time in
+      the title ("｜YYYY-MM-DD HH:MM JST"), then the newest createdTime;
+    - Status Updates (one fixed title): the recorded sheet while it is still in the folder (a column
+      replacement becomes official only after its verification), else the newest createdTime.
+    `keep` = {key: id} of a sheet just uploaded and verified: every other sheet of that kind is
+    listed under `trash` (leftovers from failed runs included)."""
+    keep = keep or {}
+    out = {}
+    for key, prefix in DRIVE_KINDS.items():
+        cand = [f for f in files if f.get("title", "").startswith(prefix) and f.get("mimeType", SHEET_MIME) == SHEET_MIME
+                and (not folder or f.get("parentId") in (None, folder)) and not f.get("trashed")]
+        stamp = lambda f: (re.search(r"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}) JST", f["title"]) or [None, ""])[1]
+        if key == "status_updates_sheet":
+            rec = [f for f in cand if f["id"] == recorded.get(key)]
+            order = sorted(cand, key=lambda f: f.get("createdTime", ""))
+            latest = keep.get(key) and next((f for f in cand if f["id"] == keep[key]), None) \
+                or (rec[0] if rec else (order[-1] if order else None))
+        else:
+            order = sorted(cand, key=lambda f: (stamp(f), f.get("createdTime", "")))
+            latest = next((f for f in cand if f["id"] == keep.get(key)), None) or (order[-1] if order else None)
+        out[key] = {
+            "id": latest and latest["id"], "title": latest and latest["title"],
+            "generated": latest and (stamp(latest) or latest.get("createdTime")),
+            "recorded": recorded.get(key), "recorded_is_current": bool(latest) and recorded.get(key) == latest["id"],
+            "others": [{"id": f["id"], "title": f["title"]} for f in cand if not latest or f["id"] != latest["id"]],
+            "trash": [f["id"] for f in cand if key in keep and f["id"] != keep[key]],
+            "missing": latest is None}
+    return out
+
+
+def cmd_drive_resolve(a):
+    """Resolve the current Drive sheets from `search_files` output (JSON saved to files)."""
+    files = []
+    for path in a.listing:
+        d = json.load(open(path, encoding="utf-8"))
+        files += d.get("files", []) if isinstance(d, dict) else d
+    meta = vault_load().get("meta", {})
+    drive = meta.get("drive", {})
+    keep = dict(x.split("=", 1) for x in (a.keep or []))
+    bad = [k for k in keep if k not in DRIVE_KINDS]
+    if bad:
+        raise SystemExit(f"unknown sheet key {bad}")
+    res = drive_resolve(files, drive.get("folder"), drive, keep)
+    print(json.dumps({"folder": drive.get("folder"), "sheets": res,
+                      "missing": [k for k, r in res.items() if r["missing"]]}, ensure_ascii=False, indent=1))
+
+
 def main():
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -1212,12 +1357,17 @@ def main():
     p.add_argument("--csv", required=True); p.add_argument("--verify"); p.add_argument("--recheck")
     p.set_defaults(fn=cmd_su_columns)
     p = sub.add_parser("postqa", help="post-Astra-QA routine helpers (no scouting)")
-    p.add_argument("stage", choices=["guard", "astra", "targets"]); p.add_argument("--date", default=today())
-    p.add_argument("--csv", help="Status Updates CSV (stage astra)")
+    p.add_argument("stage", choices=["guard", "astra", "catchup", "targets"]); p.add_argument("--date", default=today())
+    p.add_argument("--csv", help="Status Updates CSV (stages astra / catchup)")
+    p.add_argument("--now", help="HH:MM JST override (tests)")
     p.set_defaults(fn=cmd_postqa)
     p = sub.add_parser("metrics"); p.set_defaults(fn=cmd_metrics)
     p = sub.add_parser("export"); p.set_defaults(fn=cmd_export)
     p = sub.add_parser("set-drive"); p.add_argument("key"); p.add_argument("value"); p.set_defaults(fn=cmd_set_meta)
+    p = sub.add_parser("drive-resolve", help="current Drive sheet of each kind from a folder listing (never a fixed ID)")
+    p.add_argument("--listing", nargs="+", required=True, help="search_files JSON output(s) of the CW Scout folder")
+    p.add_argument("--keep", nargs="*", help="key=id of a sheet just uploaded and verified; others of that kind -> trash")
+    p.set_defaults(fn=cmd_drive_resolve)
     import client_master
     p = sub.add_parser("client-show", help="Client Master record (by client id, or for a job: relationship + opening)")
     p.add_argument("--id", default=""); p.add_argument("--job", default="")
@@ -1240,6 +1390,14 @@ def main():
     p = sub.add_parser("app-plan", help="ASTRA_PASS jobs to draft now (after app-check; no LLM)")
     p.add_argument("--date", default=today()); p.add_argument("--cap", type=int, default=10)
     p.set_defaults(fn=application.cmd_app_plan)
+    p = sub.add_parser("ready-notice", help="07:30 notice body: READY_TO_APPLY only, `URL | 応募文`")
+    p.add_argument("--ids", default=""); p.set_defaults(fn=application.cmd_ready_notice)
+    p = sub.add_parser("profile-fact", help="record a fact the user confirmed, reused from then on")
+    p.add_argument("--fact", required=True); p.add_argument("--source", required=True)
+    p.add_argument("--question-re", required=True, help="regex of the questions this fact answers")
+    p.add_argument("--job-re", default="", help="only for jobs whose title/posting matches")
+    p.add_argument("--ref", default="", help="where it already sits in the profile, e.g. professional.qualifications[2]")
+    p.set_defaults(fn=cmd_profile_fact)
     p = sub.add_parser("app-batch", help="record a batch-level human time reported by the user")
     p.add_argument("--ids", required=True); p.add_argument("--minutes", type=float, required=True)
     p.add_argument("--source", required=True); p.add_argument("--status"); p.add_argument("--note")
