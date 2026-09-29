@@ -13,7 +13,7 @@ import pipeline as P
 TARGET = {"ASTRA_PASS"}
 RECHECK = {"ASTRA_PASS", "READY_TO_APPLY"}  # app-check also re-verifies right before applying
 # Statuses that keep a draft visible, so actual results stay traceable through to payment.
-QUEUE_VISIBLE = {"ASTRA_PASS", "READY_TO_APPLY", "APPLIED", "SKIPPED", "ACCEPTED", "NOT_SELECTED",
+QUEUE_VISIBLE = {"ASTRA_PASS", "READY_TO_APPLY", "APPLIED", "SKIPPED", "ACCEPTED", "NOT_SELECTED", "WITHDRAWN",
                  "IN_PROGRESS", "READY_FOR_QA", "READY_TO_DELIVER", "DELIVERED", "PAID"}
 CONFIRM_PENALTY_MIN = 5  # user time for answering a confirmation question
 # Wording Astra should look at: claims of track record / AI work the profile does not support.
@@ -532,7 +532,7 @@ def export_queue(master):
 
 # ---- KPI (estimated vs actual, split by lane) -------------------------------------------------
 LANES = {"A": "auto", "B": "auto", "C": "professional"}  # C = Professional / Human Premium
-DONE = ("PAID", "DELIVERED", "NOT_SELECTED", "SKIPPED")
+DONE = ("PAID", "DELIVERED", "NOT_SELECTED", "SKIPPED", "WITHDRAWN")
 
 
 def _hist(j):
