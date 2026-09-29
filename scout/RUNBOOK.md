@@ -2,6 +2,8 @@
 
 日次スケジュール：05:00 Claude Scout・一次評価（Astra Queue）→ 06:00 Astra QA（Status Updates）→ 06:30 Claude 判定取込・応募準備（本書7）→ 07:30 ChatGPTがREADY_TO_APPLYを通知 →（12:30 同じ第2Routineのcatch-up：06:30より後に書かれたAstra判定だけを処理。本書7.1）
 
+**通知経路は一本化する**：本人への案件通知（READY_TO_APPLYの案件・応募文、納品準備完了など）は ChatGPT / Astra 側だけが行う。Claude の05:00 / 06:30 / 12:30 Routineはバックエンド処理（Scout、Astra判定の取込、catch-up、応募文生成、QA、READY_TO_APPLYへの更新、Vault / Drive同期）だけを行い、正常終了時は案件URL・案件名・応募文・納品リンクを報告に書かない（Routineの完了報告は本人のスマホにプッシュされるため、書くと二重通知になる）。Claude から本人に知らせてよいのは、本人対応が必要な異常だけ：Routineの失敗、Drive同期の失敗・未反映、データ不整合（push競合で未反映、Vault/Status Updatesの矛盾など）、SCOUT_VAULT_KEY未設定など。その場合は報告の1行目を【要対応】で始める。
+
 Claude Codeのセッションが上から順に実行する。応募・契約・納品・課金・外部公開は行わない。
 
 ## 0. 準備
@@ -211,8 +213,9 @@ Scout → Job Master → Client Master参照 → Claude一次評価 → Astra �
 - 本人確認の対象にするのは、応募・制作に本当に必要なものだけ：契約・支払い・報酬、重要な外部送信・連絡手段、プロフィールにない本人経験・実績・資格、守秘義務・利益相反・勤務先、最終納品、署名に使う名前。
 - 嗜好・将来の希望・私生活などだけが未確認で、手取り ÷（確認分＋本人確認5分）が100円/分未満の案件は、本人に確認しない。`app-merge` が `confirm_cost=REJECT_CANDIDATE`・`user_confirmation_required=no` とし、`next_action` に「Astra REJECT候補」と出す（READYにはしない。判定はAstraがStatus Updatesで行う）。
 
-### 5.7.3 READY通知（07:30）
-- 通知の対象は `READY_TO_APPLY` の案件だけ。本文は `python3 scout/pipeline.py ready-notice`（`scout/out/ready_notice.txt` にも出る）で、1件ごとに `案件URL | 完成した応募文`、設問があれば【応募時の回答】を続ける。
+### 5.7.3 READY通知（07:30。通知するのはChatGPT / Astraだけ）
+- 本人への通知の対象は `READY_TO_APPLY` の案件だけで、ChatGPT / AstraがDriveのApplication Queueから取得して通知する（唯一の通知経路）。Claude のRoutineは通知しない（冒頭の「通知経路は一本化する」）。
+- `python3 scout/pipeline.py ready-notice`（`scout/out/ready_notice.txt` にも出る）は、通知と同じ形（1件ごとに `案件URL | 完成した応募文`、設問があれば【応募時の回答】）をローカルで確認するためのもの。Routineの報告には載せない。
 - READY_TO_APPLYになるのは、【本人記入】が残っていない完成形の応募文だけ（5.7の4）。
 
 ### 5.7.1 本人指定案件（手動取り込み）
@@ -260,7 +263,7 @@ ACCEPTED → 仮払い確認 → クライアント最新指示確認 → Claude
    - 次のすべてを満たしたときだけ `READY_TO_DELIVER` になる：受注済み、仮払い確認済み、自己QA完了、Astra QA PASS（その最終稿に対するもの）、クライアント指定の形式、内部情報なし、本文がPASS版と一致、ファイルそのものを開く直接URL（フォルダURL不可・内部管理用ドキュメント不可・検証したファイルIDと一致）。
    - どれかが欠ければ、理由を出してステータスは変えない。
 8. 引き継ぎ：Job Masterの `worker_status`・`worker_astra_qa`・`delivery_artifact_url`・`delivery_artifact_type`・`delivery_deadline`・`ready_to_deliver_at` に出る（報酬は `gross_jpy`／`net_est_jpy`）。Driveへの反映は手順5と同じにする。Status Updatesの列は変えない。
-9. 通知：`python3 scout/pipeline.py worker-notice --id <id>` の文面だけを本人に出す（【納品準備完了】、案件名、job_id、報酬、納品期限、納品物の直接URL、形式、Astra QA、ステータス、「上記リンクを開いて最終確認 → 問題なければCrowdWorksで納品」）。内部管理用ドキュメントのリンクやQAの詳細は、本人から求められたときだけ出す。
+9. 通知：本人への通知は ChatGPT / Astra が行う（Job Masterの `worker_status=READY_TO_DELIVER`・`delivery_artifact_url` を参照）。Claude のRoutineは通知文を報告に載せない。`python3 scout/pipeline.py worker-notice --id <id>` は通知文の確認用（構成：【納品準備完了】、案件名、job_id、報酬、納品期限、納品物の直接URL、形式、Astra QA、ステータス、「上記リンクを開いて最終確認 → 問題なければCrowdWorksで納品」）。内部管理用ドキュメントのリンクやQAの詳細は、本人から求められたときだけ出す。
 10. 納品後：本人の報告を受けたAstraが、Status Updatesに `DELIVERED` / `PAID` などを書く。
 - 禁止：CrowdWorksへの納品・メッセージ送信、Chatworkなどクライアントへの送信。自己QAだけで納品可能とすること。Astra QA PASS前に納品物を最終版として確定すること。
 
@@ -296,7 +299,7 @@ Scoutの収集・ルール処理・Claude一次評価は行わない。Astra Que
    - 05:00の実行で取り込み済みの行は、行ごとの署名で除外され、二重に反映されない。
    - Driveが使えない、またはAstra QAが未実行・失敗で新しい行がない場合は、ここで何も生成せずに終了する。
 4.5 受注案件：`python3 scout/pipeline.py worker-status` を実行する（手順5の終了判定より先に行う）。
-   - `worker_status=ASTRA_QA_PASS` の案件：5.8の手順6〜9（納品物の生成 → 検証 → READY_TO_DELIVER → 通知文）を行う。
+   - `worker_status=ASTRA_QA_PASS` の案件：5.8の手順6〜9（納品物の生成 → 検証 → READY_TO_DELIVER）を行う。本人への通知はしない（Astra側がJob Masterから取得する）。
    - `REVISE` の案件：Astraの指摘を反映して修正し、5.8の手順4で再提出する。
    - それ以外は何もしない（仮払い確認待ち・Astra QA待ち・HOLD）。
 5. `python3 scout/pipeline.py postqa targets` を実行する。
@@ -316,7 +319,7 @@ Scoutの収集・ルール処理・Claude一次評価は行わない。Astra Que
    - Astra Queueは差し替えない（Astra QAの対象は05:00の実行が決める）。
    - `python3 scout/pipeline.py drive-status --keys job_master,application_queue` が `ok=true` になるまでが完了。
    - IDを記録したVaultをcommit・pushする（手順8と同じ規則）。
-10. 報告の最後に、Drive反映の結果（シートごとに「更新済み／未反映と理由」）を必ず書く。READY_TO_APPLYになった案件があれば、`ready-notice` の本文（`案件URL | 応募文`）を報告に含める。
+10. 報告は冒頭の「通知経路は一本化する」に従う。正常終了時は件数とDrive反映の結果（シートごとに「更新済み／未反映と理由」）だけを書き、案件URL・案件名・応募文は書かない。Drive未反映・push失敗・データ不整合などがあれば、1行目を【要対応】で始めて内容を書く。
 
 ## 7.1 catch-up（同じ第2Routineの12:30 JSTの実行。新しいRoutineは作らない）
 06:30の時点でAstra QAが終わっていなかった案件を、翌朝05:00まで放置しないための追加パス。06:30の実行と同じRoutineが12:30にも起動し、`postqa guard` の `mode=catchup` でこの手順になる。
@@ -326,7 +329,7 @@ Scoutの収集・ルール処理・Claude一次評価は行わない。Astra Que
    - 転記・代理と書かれた行、Astra名義でない行、Job Masterにない案件の行は、新しい行として数えない。
 2. `ok=true` なら、手順4〜10をそのまま行う（`postqa astra` は使わない）。
 3. 二重処理しない仕組み：Status Updatesの行は署名で一度だけ反映される。応募文はjob_idごとに1つで、`app-plan` は応募文のある案件を対象にせず、`app-merge` はASTRA_PASS以外の案件（READY_TO_APPLY以降を含む）を受け付けない。06:30に処理済みの案件は、ステータスも応募文も変わらない。
-4. 12:30にREADY_TO_APPLYになった案件は、Routineの完了通知（本人のスマホへのプッシュ）に `ready-notice` の本文を載せて知らせる。Application Queueにも載るので、翌朝07:30の通知でも再掲される。
+4. 12:30にREADY_TO_APPLYになった案件も、Claudeからは通知しない。Application QueueとJob MasterをDriveに反映し、Astra側が取得できる状態にするまでで終える（通知はChatGPT / Astra側）。
 
 ## エラー時
 - 収集に失敗した場合：`runs.jsonl` の `errors` に記録し、処理を続ける。
