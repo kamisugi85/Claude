@@ -111,6 +111,9 @@ Queueへの登録は評価依頼であり、応募指示ではない。応募・
 5. Drive反映は省略しない（2026-09-29に、Job MasterとApplication Queueのアップロードが省略されたまま「成功」と報告された）。
    - アップロードするCSVは、Drive用の軽量版（1ファイル約50KB以内）。
      - `job_master.csv`：Claude/ルール除外・CLOSED・前日より前のASTRA_REJECTを除く。全件はローカルの `job_master_full.csv` とVaultにある。
+     - Drive版Job Masterは日常確認用の索引（26列）。status・lane・報酬・手取り見込み・期限・Claude/Astra判定・need_user・next_action・AI完結率・想定Human Minutes・手取り/分・応募状態・Worker/納品リンクだけを載せる。理由文・発注者リスク・実測ログなどの長文は載せない（Vaultと `job_master_full.csv` に全列が残る）。
+     - Source of TruthはVault。Drive版の行から詳細を見るときは `python3 scout/pipeline.py job-detail --ids <job_id,...>`。内部処理はDriveのCSVを読まない。
+     - 容量は `drive-status` の `bytes`（今回）・`delta_bytes`（前回exportからの増減）・`near_budget`（予算の80%超）・`over_budget`（50KB超）で確認する。
      - `application_queue.csv`：原文抜粋を除く。応募済み・見送りの行は応募文を省略する（`application_queue.json` とVaultに残る）。
    - `export` が `WARNING: ... exceeds the Drive upload budget` を出した場合も、アップロードは行い、報告に書く。
    - CSVはファイルの中身をそのまま `textContent` に渡す。要約・省略・行の削除はしない。
@@ -259,7 +262,7 @@ Scoutの収集・ルール処理・Claude一次評価は行わない。Astra Que
      - 0件なら、何もせずに終了する。
    - `targets` は、今回の取り込みでASTRA_PASSになり、まだ応募文がない案件だけ。
 6. 5.7の手順1〜4（app-check → app-plan → 応募文 → app-merge）を行う。条件を満たした案件だけが `READY_TO_APPLY` になる。`targets` が空でも、既存の応募文の再判定のために app-check は行う。
-7. テストを実行する：`python3 scout/tests/test_application.py`・`python3 scout/tests/test_recheck.py`・`python3 scout/tests/test_worker.py`・`python3 scout/tests/test_manual.py`・`python3 scout/tests/test_manual_review.py`
+7. テストを実行する：`python3 scout/tests/test_application.py`・`python3 scout/tests/test_recheck.py`・`python3 scout/tests/test_worker.py`・`python3 scout/tests/test_manual.py`・`python3 scout/tests/test_manual_review.py`・`python3 scout/tests/test_drive_view.py`
 8. 保存する：`git add scout/state && git commit -m "Scout post-QA <date>" && git push -u origin claude/brave-lovelace-7n0flp`
    - pushが拒否された場合は、force pushしない。
      1. `git fetch` を行う。

@@ -647,6 +647,7 @@ MASTER_COLS = [
     ("job_id", lambda j: j["job_id"]), ("status", lambda j: j.get("status")),
     ("verdict", lambda j: j.get("eval", {}).get("verdict")),
     ("classification", lambda j: j.get("eval", {}).get("classification")),
+    ("lane", lambda j: _lane(j)),
     ("title", lambda j: j["title"]), ("url", lambda j: j["url"]),
     ("claude_reason", lambda j: j.get("eval", {}).get("reason")),
     ("gross_jpy", lambda j: j.get("gross")), ("net_est_jpy", lambda j: j.get("net_est")),
@@ -655,6 +656,7 @@ MASTER_COLS = [
     ("fit", lambda j: j.get("eval", {}).get("fit")),
     ("ai_completion", lambda j: j.get("eval", {}).get("ai_completion")),
     ("human_minutes_est", lambda j: j.get("eval", {}).get("human_minutes")),
+    ("net_per_human_min", lambda j: _net_per_min(j)),
     ("hourly_est", lambda j: j.get("eval", {}).get("est_hourly")),
     ("repeatability", lambda j: j.get("eval", {}).get("repeatability")),
     ("client_risk", lambda j: j.get("eval", {}).get("client_risk")),
@@ -683,6 +685,43 @@ MASTER_COLS = [
     ("delivery_deadline", lambda j: ((j.get("worker") or {}).get("delivery") or {}).get("deadline")),
     ("ready_to_deliver_at", lambda j: ((j.get("worker") or {}).get("delivery") or {}).get("verified_at")),
 ]
+
+def _lane(j):
+    e = j.get("eval") or {}
+    return e.get("lane") or {"A": "Auto", "B": "Auto", "C": "Professional"}.get(e.get("classification"))
+
+
+def _net_per_min(j):
+    """Expected net JPY per human minute (evaluation estimate; the Manual Review value when present)."""
+    e = j.get("eval") or {}
+    if e.get("net_per_human_min") is not None:
+        return e["net_per_human_min"]
+    nums = [float(x) for x in re.findall(r"\d+(?:\.\d+)?", str(e.get("human_minutes") or ""))]
+    return round(j["net_est"] / max(nums), 1) if j.get("net_est") and nums and max(nums) > 0 else None
+
+
+def _clip(n):
+    return lambda v: v if not isinstance(v, str) or len(v) <= n else v[:n - 1] + "…"
+
+
+# Drive Job Master = operational index (what Astra and the user check day to day). The source of truth
+# is the vault; every column of MASTER_COLS stays in out/job_master_full.csv and `job-detail --id` shows
+# the whole vault record. Long texts (reasons, client notes, drafts, actual logs) are not on Drive.
+DRIVE_MASTER_COLS = {  # column -> display transform (None = as is)
+    "job_id": None, "status": None, "lane": None, "classification": None, "title": _clip(60), "url": None,
+    "gross_jpy": None, "net_est_jpy": None, "expired_on": None, "verdict": None,
+    "ai_completion": _clip(30), "human_minutes_est": _clip(30), "net_per_human_min": None,
+    "astra_verdict": None, "need_user": None, "next_action": _clip(60), "status_updated": None,
+    "app_final_qa_status": None, "app_user_confirmation_required": None, "app_actual_net_per_human_min": None,
+    "worker_status": None, "worker_astra_qa": None, "delivery_artifact_url": None,
+    "delivery_artifact_type": None, "delivery_deadline": None, "ready_to_deliver_at": None,
+}
+
+
+def drive_master_cols():
+    by = dict(MASTER_COLS)
+    return [(c, (lambda fn, t: (lambda j: t(fn(j))) if t else fn)(by[c], t)) for c, t in DRIVE_MASTER_COLS.items()]
+
 
 QUEUE_COLS = [
     ("job_id", lambda j: j["job_id"]), ("url", lambda j: j["url"]), ("title", lambda j: j["title"]),
@@ -731,6 +770,7 @@ def _write_csv(path, cols, jobs):
 # Drive copies are uploaded by pasting the CSV into one tool call, so they must stay small.
 # The full master (incl. Claude/rule rejections) stays local in out/job_master_full.csv and in the vault.
 DRIVE_BUDGET = 50000
+DRIVE_WARN_RATIO = 0.8  # drive-status flags a file as near_budget above this share
 DRIVE_FILES = {"job_master": "job_master.csv", "astra_queue": "astra_queue.csv",
                "application_queue": "application_queue.csv"}
 DRIVE_MASTER_HIDDEN = {"CLOSED", "CLAUDE_REJECTED", "RULE_REJECTED"}
@@ -757,7 +797,7 @@ def export(master, meta):
     active = [j for j in jobs if j.get("status") not in ("CLOSED",)]
     _write_csv(os.path.join(OUT, "job_master_full.csv"), MASTER_COLS, active)  # local only
     drive_view = [j for j in active if _in_drive_master(j)]
-    _write_csv(os.path.join(OUT, "job_master.csv"), MASTER_COLS, drive_view)
+    _write_csv(os.path.join(OUT, "job_master.csv"), drive_master_cols(), drive_view)  # operational index
     queue = [j for j in jobs if j.get("status") == "ASTRA_QA_PENDING"]
     _write_csv(os.path.join(OUT, "astra_queue.csv"), QUEUE_COLS, queue)
     save_json(os.path.join(OUT, "astra_queue.json"),
@@ -766,6 +806,7 @@ def export(master, meta):
     import application
     n_app = application.export_queue(master)
     stamp = dt.datetime.now(JST).strftime("%Y-%m-%d %H:%M JST")
+    prev = load_json(os.path.join(OUT, "sync_manifest.json"), {})
     save_json(os.path.join(OUT, "sync_manifest.json"),
               {"generated_at": now_iso(), "drive": meta.get("drive", {}),
                "titles": {"job_master": f"CW Scout - Job Master｜{stamp}",
@@ -776,16 +817,29 @@ def export(master, meta):
                "counts": {"master_active": len(active), "master_drive": len(drive_view),
                           "astra_queue": len(queue), "application_queue": n_app},
                "bytes": {k: os.path.getsize(os.path.join(OUT, f)) for k, f in DRIVE_FILES.items()},
-               "budget_bytes": DRIVE_BUDGET})
+               "budget_bytes": DRIVE_BUDGET,
+               "prev_bytes": prev.get("bytes", {}), "prev_generated_at": prev.get("generated_at")})
     print(f"exported: master={len(active)} (drive {len(drive_view)}) queue={len(queue)} applications={n_app}")
     for k, f in DRIVE_FILES.items():
-        if os.path.getsize(os.path.join(OUT, f)) > DRIVE_BUDGET:
+        size = os.path.getsize(os.path.join(OUT, f))
+        if size > DRIVE_BUDGET:
             print(f"WARNING: {f} exceeds the Drive upload budget ({DRIVE_BUDGET} bytes)", file=sys.stderr)
+        elif size > DRIVE_BUDGET * DRIVE_WARN_RATIO:
+            print(f"NOTICE: {f} is {size} bytes (over {DRIVE_WARN_RATIO:.0%} of the Drive budget)", file=sys.stderr)
 
 
 def cmd_export(a):
     v = vault_load()
     export(v["master"], v.get("meta", {}))
+
+
+def cmd_job_detail(a):
+    """The full vault record for job ids seen in the Drive index (Drive Job Master -> source of truth)."""
+    master = vault_load()["master"]
+    out = {i: master.get(re.sub(r"\D", "", i)) for i in a.ids.split(",") if i}
+    print(json.dumps(out, ensure_ascii=False, indent=1))
+    if any(x is None for x in out.values()):
+        sys.exit(1)
 
 
 # Application Queue fields Astra/the user may write back (final QA, confirmation, applied date)
@@ -1101,8 +1155,13 @@ def cmd_drive_status(a):
     synced = vault_load().get("meta", {}).get("drive_synced", {})
     keys = [k for k in (a.keys.split(",") if a.keys else DRIVE_FILES) if k]
     stale = [k for k in keys if (synced.get(k + "_sheet") or "") < man["generated_at"]]
-    over = [k for k, b in man.get("bytes", {}).items() if b > man.get("budget_bytes", DRIVE_BUDGET)]
-    print(json.dumps({"ok": not stale, "stale": stale, "over_budget": over, "exported_at": man["generated_at"],
+    budget = man.get("budget_bytes", DRIVE_BUDGET)
+    size, prev = man.get("bytes", {}), man.get("prev_bytes", {})
+    over = [k for k, b in size.items() if b > budget]
+    near = [k for k, b in size.items() if budget * DRIVE_WARN_RATIO < b <= budget]
+    print(json.dumps({"ok": not stale, "stale": stale, "over_budget": over, "near_budget": near,
+                      "budget_bytes": budget, "exported_at": man["generated_at"],
+                      "delta_bytes": {k: b - prev[k] for k, b in size.items() if k in prev},
                       "synced": {k: synced.get(k + "_sheet") for k in keys},
                       "bytes": man.get("bytes")}, ensure_ascii=False))
     if stale:
@@ -1135,6 +1194,8 @@ def main():
     p = sub.add_parser("metrics"); p.set_defaults(fn=cmd_metrics)
     p = sub.add_parser("export"); p.set_defaults(fn=cmd_export)
     p = sub.add_parser("set-drive"); p.add_argument("key"); p.add_argument("value"); p.set_defaults(fn=cmd_set_meta)
+    p = sub.add_parser("job-detail", help="full vault record for job ids (Drive Job Master is an index)")
+    p.add_argument("--ids", required=True); p.set_defaults(fn=cmd_job_detail)
     p = sub.add_parser("drive-status", help="Drive sheets not yet re-uploaded since the last export (exit 1)")
     p.add_argument("--keys", default="", help="comma list, e.g. job_master,application_queue")
     p.set_defaults(fn=cmd_drive_status)
