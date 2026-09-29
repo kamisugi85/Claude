@@ -145,8 +145,14 @@ python3 scout/pipeline.py merge --evals scout/data/<date>/evals.json
    - 案件ごとの実測値は `actual_net_per_human_min` で確認する。バッチ実績は全体と、同じ区分の案件だけのバッチでその区分に入る。
    - 計算方法：実際の手取り ÷（応募確認の分＋制作の分）。見送り・不採用は0円として数える。
 
-## 5.8 受注後（Worker工程）※未実装
-ACCEPTED → Claude Worker → 初稿 → Claudeセルフチェック → Astra QA → 必要なら修正 → 本人最終確認 → 本人が納品、を想定している。現時点で自動化していないため、ACCEPTEDの案件は報告に出すだけにする。
+## 5.8 受注後（Worker工程）※手動PoC（2026-09-29 初回：13481649）
+ACCEPTED → Claude Worker → 一次成果物 → 自己QA → Astra QA → 必要なら修正 → 本人最終確認 → 本人が納品。自動実行はしない（本人またはAstraの指示で開始）。
+1. Status Updates（Astra名義のACCEPTED行）とVaultで同じjob_idであることを確認する。不整合があれば制作しない。
+2. クライアントの最新指示を制作要件として記録し、切り口を3つ以上検討して1つ選ぶ。
+3. 一次成果物 → 文字数確認 → 自己QA（14項目 PASS/FIX）→ FIXを修正 → 改善は1回だけ。
+4. 記録：Vaultの `master[<id>].worker`（指示・切り口・v1・修正・最終稿・文字数・QA）と、Driveフォルダの `CW Worker <id>｜<テーマ>｜ASTRA_QA_PENDING`（Googleドキュメント）。
+5. ステータスは `READY_FOR_QA`、`worker.status=ASTRA_QA_PENDING`（Astra QA待ち）。`ASTRA_QA_PENDING` 自体には戻さない（応募前のAstra Queueに再掲されるため）。
+6. CrowdWorks・Chatworkへの送信・納品はしない。本人経験は登録済みの事実だけを使い、保有商品・運用年数・損益などは書かない。
 
 ## 6. 保存
 ```bash

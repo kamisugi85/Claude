@@ -249,7 +249,8 @@ def main():
     q, m = tables()
     assert all(x["status"] not in ("CLAUDE_REJECTED", "RULE_REJECTED", "CLOSED") for x in m.values())
     assert any(x["status"] == "CLAUDE_REJECTED" for x in full.values()) and set(m) < set(full)
-    assert {"READY_TO_APPLY", "APPLIED", "SKIPPED"} <= {x["status"] for x in m.values()}
+    keep = {"READY_TO_APPLY", "APPLIED", "SKIPPED", "ACCEPTED", "IN_PROGRESS", "READY_FOR_QA"}
+    assert {i for i, x in full.items() if x["status"] in keep} <= set(m)  # in-flight jobs are never hidden
     assert "key_excerpt" not in next(iter(q.values())) and all(
         x["application_draft"] for x in q.values() if x["status"] == "READY_TO_APPLY")
     assert all(b <= man["budget_bytes"] for b in man["bytes"].values()), man["bytes"]
