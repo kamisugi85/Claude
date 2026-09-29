@@ -675,6 +675,13 @@ MASTER_COLS = [
     ("app_user_confirmed", lambda j: (j.get("application") or {}).get("user_confirmed")),
     ("app_applied_at", lambda j: (j.get("application") or {}).get("applied_at")),
     ("app_actual_net_per_human_min", lambda j: __import__("application").realized(j).get("net_per_min")),
+    # Worker (accepted jobs): Astra reads the deliverable link here, no Drive search needed
+    ("worker_status", lambda j: (j.get("worker") or {}).get("status")),
+    ("worker_astra_qa", lambda j: ((j.get("worker") or {}).get("astra_qa") or {}).get("result")),
+    ("delivery_artifact_url", lambda j: ((j.get("worker") or {}).get("delivery") or {}).get("url")),
+    ("delivery_artifact_type", lambda j: ((j.get("worker") or {}).get("delivery") or {}).get("type_label")),
+    ("delivery_deadline", lambda j: ((j.get("worker") or {}).get("delivery") or {}).get("deadline")),
+    ("ready_to_deliver_at", lambda j: ((j.get("worker") or {}).get("delivery") or {}).get("verified_at")),
 ]
 
 QUEUE_COLS = [
@@ -914,6 +921,22 @@ def cmd_apply_updates(a):
         if "astra" not in row.get("updated_by", "").lower():
             errs.append(f"{jid}: updated_by={row.get('updated_by') or '(空欄)'} はAstra名義でないため未反映")
             continue
+        import worker  # accepted jobs: Astra's second-stage (deliverable) QA goes to the worker record
+        wnote = worker.apply_astra_row(job, row)
+        if wnote is not None:
+            before = job.get("status")
+            job.setdefault("worker", {}).setdefault("astra_rows", []).append(
+                {k: row[k] for k in ("astra_verdict", "astra_reason", "new_status", "next_action", "updated_at", "note")
+                 if row.get(k)})
+            if job.get("status") != before:
+                changed[jid] = job["status"]
+            tally["other_status"] += 1
+            applied.add(sig)
+            n_ok += 1
+            continue
+        if st == "READY_TO_DELIVER":  # only set by worker-deliver once the client file is verified
+            errs.append(f"{jid}: READY_TO_DELIVER は納品物の検証後にClaudeが設定するため未反映")
+            continue
         st = {"ASTRA_QUEUE": "ASTRA_QA_PENDING", "SKIP": "SKIPPED"}.get(st, st)
         if not st:
             st = VERDICT_MAP.get(verdict.upper(), VERDICT_MAP.get(verdict, ""))
@@ -1105,6 +1128,21 @@ def main():
     p.add_argument("--source", required=True); p.add_argument("--status"); p.add_argument("--note")
     p.add_argument("--next-action")
     p.set_defaults(fn=application.cmd_app_batch)
+    import worker
+    p = sub.add_parser("worker-save", help="store the Worker internal record after self-QA (-> READY_FOR_QA)")
+    p.add_argument("--id", required=True); p.add_argument("--record", required=True)
+    p.set_defaults(fn=worker.cmd_worker_save)
+    p = sub.add_parser("worker-deliver", help="verify the client deliverable after Astra QA PASS (-> READY_TO_DELIVER)")
+    p.add_argument("--id", required=True); p.add_argument("--title", required=True)
+    p.add_argument("--url", required=True); p.add_argument("--file-id", required=True)
+    p.add_argument("--type", required=True, choices=sorted(worker.FORMATS))
+    p.add_argument("--exported", required=True, help="the file's content as downloaded back from Drive")
+    p.add_argument("--deadline"); p.add_argument("--deadline-basis")
+    p.set_defaults(fn=worker.cmd_worker_deliver)
+    p = sub.add_parser("worker-status", help="accepted jobs and their next Worker step")
+    p.set_defaults(fn=worker.cmd_worker_status)
+    p = sub.add_parser("worker-notice", help="print the delivery-ready notice (direct link only)")
+    p.add_argument("--id", required=True); p.set_defaults(fn=worker.cmd_worker_notice)
     a = ap.parse_args()
     a.fn(a)
 

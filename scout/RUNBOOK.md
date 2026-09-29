@@ -145,19 +145,51 @@ python3 scout/pipeline.py merge --evals scout/data/<date>/evals.json
    - 案件ごとの実測値は `actual_net_per_human_min` で確認する。バッチ実績は全体と、同じ区分の案件だけのバッチでその区分に入る。
    - 計算方法：実際の手取り ÷（応募確認の分＋制作の分）。見送り・不採用は0円として数える。
 
-## 5.8 受注後（Worker工程）※手動PoC（2026-09-29 初回：13481649）
-ACCEPTED → Claude Worker → 一次成果物 → 自己QA → Astra QA → 必要なら修正 → 本人最終確認 → 本人が納品。自動実行はしない（本人またはAstraの指示で開始）。
-1. Status Updates（Astra名義のACCEPTED行）とVaultで同じjob_idであることを確認する。不整合があれば制作しない。
-2. クライアントの最新指示を制作要件として記録し、切り口を3つ以上検討して1つ選ぶ。
-3. 一次成果物 → 文字数確認 → 自己QA（14項目 PASS/FIX）→ FIXを修正 → 改善は1回だけ。
-4. 記録：Vaultの `master[<id>].worker`（指示・切り口・v1・修正・最終稿・文字数・QA）と、Driveフォルダの `CW Worker <id>｜<テーマ>｜ASTRA_QA_PENDING`（Googleドキュメント）。
-5. ステータスは `READY_FOR_QA`、`worker.status=ASTRA_QA_PENDING`（Astra QA待ち）。`ASTRA_QA_PENDING` 自体には戻さない（応募前のAstra Queueに再掲されるため）。
-6. CrowdWorks・Chatworkへの送信・納品はしない。本人経験は登録済みの事実だけを使い、保有商品・運用年数・損益などは書かない。
+## 5.8 受注後（Worker工程）※標準フロー。外部送信・納品はしない
+ACCEPTED → 仮払い確認 → クライアント最新指示確認 → Claude Worker制作 → 自己QA → 内部管理用成果物を保存
+→ READY_FOR_QA（Worker state = ASTRA_QA_PENDING）→ Astra第二段階QA →（FIXなら修正して再提出）→ Astra QA PASS
+→ クライアント納品用成果物を生成 → 直接URLを取得・検証 → READY_TO_DELIVER → 本人へ納品準備完了通知
+→ 本人がリンクを開いて最終確認 → 本人がCrowdWorksで納品。
+`python3 scout/pipeline.py worker-status` で、受注案件ごとの次の工程が分かる。
+
+### 成果物は2種類。混ぜない
+- **内部管理用成果物**（AIチーム内だけ。クライアントには渡さない）
+  - Vaultの `master[<id>].worker`：job_id・案件名・クライアント指示・制作条件・使用した本人事実・切り口・下書き・最終稿・文字数・自己QA・修正履歴・Astra QA結果・ステータス。
+  - Astra確認用に、Driveに `CW Worker <id>｜<テーマ>｜…` のGoogleドキュメントを置いてよい（内部用。納品には使わない）。
+- **クライアント納品用成果物**（Astra QA PASSの後にだけ作る）
+  - 中身は、求められた成果物と最低限のタイトルだけ。
+  - Claude・Astra・AIチーム・QA・プロンプト・修正履歴・内部ステータス・Job Master・Status Updates・Vault・処理ログ・内部メモ・プロフィール管理情報・求められていない説明は入れない。
+  - ファイル名はテーマや内容から自然に付ける（例：`投資信託について`）。`CW Worker`・job_id・`ASTRA_QA_PENDING`・`Final`・`Draft`・`QA PASS` などは使わない。
+
+### 手順
+1. 受注の確認：Status UpdatesのAstra名義の `ACCEPTED` 行とVaultの案件が同じjob_idであること。不整合があれば制作しない。
+2. 仮払いの確認：Astra名義の行に「仮払い完了」または `new_status=IN_PROGRESS` があること（`apply-updates` が `worker.escrow_confirmed` に記録）。なければ制作しない。
+3. 制作：クライアントの最新指示を制作要件にする。切り口を3つ以上検討して1つ選ぶ。一次成果物 → 文字数確認 → 自己QA（PASS/FIX）→ FIXを修正 → 改善は1回だけ。本人経験は登録済みの事実と、Astra/本人が確認した事実だけを使う。
+4. 保存：内部記録をJSONにして `python3 scout/pipeline.py worker-save --id <id> --record <json>` を実行する。
+   - 必須：`client_instructions`・`angle`・`profile_facts_used`・`draft_v1`・`self_qa_final`（全PASS）・`final`。
+   - 結果は `READY_FOR_QA`、Worker stateは `ASTRA_QA_PENDING`。案件ステータスを `ASTRA_QA_PENDING` にはしない（応募前のAstra Queueに戻ってしまうため）。
+5. Astra QA：Status UpdatesのAstra名義の行を `apply-updates` で取り込む。
+   - `PASS`（または `new_status=READY_TO_DELIVER`）：そのとき提出済みの最終稿に対するPASSとして記録する。ステータスはClaudeが納品物を検証するまで `READY_FOR_QA` のまま。
+   - `FIX` / `REVISE` / `修正`：`IN_PROGRESS` に戻り、Worker stateは `REVISE`。修正して手順4からやり直す。最終稿が変わるとPASSは無効になり、Astra QAがもう一度必要になる。
+   - `HOLD` / `保留`：停止する。
+6. 納品物の生成：クライアント指定の形式で作る。
+   - 「WordまたはGoogleドキュメント」ならGoogleドキュメント。Word指定ならWord、Excel指定ならExcel。
+   - 複数の形式を選べる場合は、追加費用ゼロ・本人作業が最少・クライアントが確認しやすいものを選ぶ。判断できないときだけAstraに確認する。
+   - Googleドキュメントは、Drive MCPの `create_file`（`text/plain`、タイトル＝ファイル名、本文＝タイトル行＋最終稿）で作る。
+7. 検証：作ったファイルを `download_file_content` で取得し直して保存する。そのうえで次を実行する。
+   `python3 scout/pipeline.py worker-deliver --id <id> --title <ファイル名> --type gdoc --file-id <ID> --url https://docs.google.com/document/d/<ID>/edit --exported <取得した本文> --deadline <納期> --deadline-basis <根拠>`
+   - 次のすべてを満たしたときだけ `READY_TO_DELIVER` になる：受注済み、仮払い確認済み、自己QA完了、Astra QA PASS（その最終稿に対するもの）、クライアント指定の形式、内部情報なし、本文がPASS版と一致、ファイルそのものを開く直接URL（フォルダURL不可・内部管理用ドキュメント不可・検証したファイルIDと一致）。
+   - どれかが欠ければ、理由を出してステータスは変えない。
+8. 引き継ぎ：Job Masterの `worker_status`・`worker_astra_qa`・`delivery_artifact_url`・`delivery_artifact_type`・`delivery_deadline`・`ready_to_deliver_at` に出る（報酬は `gross_jpy`／`net_est_jpy`）。Driveへの反映は手順5と同じにする。Status Updatesの列は変えない。
+9. 通知：`python3 scout/pipeline.py worker-notice --id <id>` の文面だけを本人に出す（【納品準備完了】、案件名、job_id、報酬、納品期限、納品物の直接URL、形式、Astra QA、ステータス、「上記リンクを開いて最終確認 → 問題なければCrowdWorksで納品」）。内部管理用ドキュメントのリンクやQAの詳細は、本人から求められたときだけ出す。
+10. 納品後：本人の報告を受けたAstraが、Status Updatesに `DELIVERED` / `PAID` などを書く。
+- 禁止：CrowdWorksへの納品・メッセージ送信、Chatworkなどクライアントへの送信。自己QAだけで納品可能とすること。Astra QA PASS前に納品物を最終版として確定すること。
 
 ## 6. 保存
 ```bash
 python3 scout/tests/test_application.py   # 応募準備の検証（本物のVaultは変更しない）
 python3 scout/tests/test_recheck.py
+python3 scout/tests/test_worker.py
 git add scout/state && git commit -m "Scout run <date>" && git push -u origin claude/brave-lovelace-7n0flp
 ```
 - 暗号化されていない状態で個人情報をコミットしないこと。
@@ -178,13 +210,17 @@ Scoutの収集・ルール処理・Claude一次評価は行わない。Astra Que
    - Astra名義の新しい行だけが反映される（PASS / REJECT / NEED_USER / SKIPPED / APPLIEDなど）。
    - 05:00の実行で取り込み済みの行は、行ごとの署名で除外され、二重に反映されない。
    - Driveが使えない、またはAstra QAが未実行・失敗で新しい行がない場合は、ここで何も生成せずに終了する。
+4.5 受注案件：`python3 scout/pipeline.py worker-status` を実行する（手順5の終了判定より先に行う）。
+   - `worker_status=ASTRA_QA_PASS` の案件：5.8の手順6〜9（納品物の生成 → 検証 → READY_TO_DELIVER → 通知文）を行う。
+   - `REVISE` の案件：Astraの指摘を反映して修正し、5.8の手順4で再提出する。
+   - それ以外は何もしない（仮払い確認待ち・Astra QA待ち・HOLD）。
 5. `python3 scout/pipeline.py postqa targets` を実行する。
    - `action=none` なら、応募準備をしない。
      - ステータスの変化（`new_status_changes`）が1件以上あれば、手順7へ進む。
      - 0件なら、何もせずに終了する。
    - `targets` は、今回の取り込みでASTRA_PASSになり、まだ応募文がない案件だけ。
 6. 5.7の手順1〜4（app-check → app-plan → 応募文 → app-merge）を行う。条件を満たした案件だけが `READY_TO_APPLY` になる。`targets` が空でも、既存の応募文の再判定のために app-check は行う。
-7. テストを実行する：`python3 scout/tests/test_application.py` と `python3 scout/tests/test_recheck.py`
+7. テストを実行する：`python3 scout/tests/test_application.py`・`python3 scout/tests/test_recheck.py`・`python3 scout/tests/test_worker.py`
 8. 保存する：`git add scout/state && git commit -m "Scout post-QA <date>" && git push -u origin claude/brave-lovelace-7n0flp`
    - pushが拒否された場合は、force pushしない。
      1. `git fetch` を行う。
