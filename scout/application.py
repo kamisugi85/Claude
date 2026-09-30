@@ -12,6 +12,12 @@ import pipeline as P
 
 TARGET = {"ASTRA_PASS"}
 RECHECK = {"ASTRA_PASS", "READY_TO_APPLY"}  # app-check also re-verifies right before applying
+# Daily flow (RUNBOOK 5.7): every job Claude sends to Astra (ASTRA_QA_PENDING) is drafted *before* Astra's
+# second QA. Such a draft is only a draft for Astra to review: it never becomes READY_TO_APPLY here and
+# nothing is read back from Astra. `pre_draft_due` (set by merge when a job newly enters the Astra Queue)
+# scopes this to today's queue, so jobs queued before this flow existed are never re-evaluated.
+PRE_STAGE = "ASTRA_QA_PENDING"
+PRE_FINAL_OK, PRE_FINAL_FLAGGED = "CLAUDE_QA_PASSED", "CLAUDE_QA_FLAGGED"
 # Statuses that keep a draft visible, so actual results stay traceable through to payment.
 QUEUE_VISIBLE = {"ASTRA_PASS", "READY_TO_APPLY", "APPLIED", "SKIPPED", "ACCEPTED", "NOT_SELECTED", "WITHDRAWN",
                  "IN_PROGRESS", "READY_FOR_QA", "READY_TO_DELIVER", "DELIVERED", "PAID"}
@@ -23,7 +29,10 @@ CONFIRM_WORTH_NET_PER_MIN = 100
 # What really needs the user: contract / payment, external sending, unregistered own experience,
 # confidentiality / conflict of interest, final delivery, the name to sign with.
 ESSENTIAL_CONFIRM_RE = re.compile(r"契約|支払|報酬|金額|振込|口座|請求|送信|外部|連絡先|LINE|Chatwork|守秘|秘密|NDA|"
-                                  r"利益相反|勤務先|本業|競業|納品|最終確認|経験|実績|資格|スキル|お名前|氏名|本名")
+                                  r"利益相反|勤務先|本業|競業|納品|最終確認|経験|実績|資格|スキル")
+# Typed by the user on the CrowdWorks screen (profile name, nickname ...): never a reason to hold or ask.
+DIRECT_ENTRY_RE = re.compile(r"お名前|氏名|本名|ニックネーム|ユーザー名|表示名|署名")
+ESSENTIAL_NOT_NAME_RE = ESSENTIAL_CONFIRM_RE
 # Personal details the posting asks for only to colour a low-priced piece (never worth a round trip)
 PERSONAL_CONFIRM_RE = re.compile(r"好き|好み|嗜好|趣味|おすすめ|お気に入り|将来|目標|夢|なりたい|理想|きっかけ|感想|"
                                  r"思い出|エピソード|家族|私生活|生活|休日|性格|悩み|価値観|住環境|一人暮らし|動機|理由|年齢|年代")
@@ -79,8 +88,21 @@ def designated(job):
     return bool(job.get("designation")) and job.get("status") == "CLAUDE_CANDIDATE"
 
 
+def pre_stage(job):
+    return job.get("status") == PRE_STAGE and bool(job.get("pre_draft_due") or job.get("application"))
+
+
 def eligible(job, statuses):
     return job.get("status") in statuses or designated(job)
+
+
+def drafting_target(job):
+    """Jobs an application draft may be attached to: ASTRA_PASS (legacy), designated, or today's Astra Queue."""
+    return eligible(job, TARGET) or (job.get("status") == PRE_STAGE and bool(job.get("pre_draft_due")))
+
+
+def recheck_target(job):
+    return eligible(job, RECHECK) or pre_stage(job)
 
 
 def _norm(s):
@@ -128,12 +150,12 @@ def cmd_app_check(a):
     sdir = os.path.join(P.ROOT, "data", a.date, "app_source")
     os.makedirs(sdir, exist_ok=True)
     ids = [x.strip() for x in a.ids.split(",") if x.strip()] if a.ids else \
-        [j for j, job in master.items() if eligible(job, RECHECK)]
+        [j for j, job in master.items() if recheck_target(job)]
     out = []
     for jid in ids:
         job = master.get(jid)
-        if not job or not eligible(job, RECHECK):
-            out.append({"job_id": jid, "skip": f"status={job and job.get('status')}（ASTRA_PASS/READY_TO_APPLY/本人指定のみ対象）"})
+        if not job or not recheck_target(job):
+            out.append({"job_id": jid, "skip": f"status={job and job.get('status')}（Astra Queue当日分/ASTRA_PASS/READY_TO_APPLY/本人指定のみ対象）"})
             continue
         page = collect.curl(f"{collect.BASE}/{jid}")
         if not page:
@@ -254,9 +276,14 @@ def classify_changes(prev, rc, job, desc):
 def _apply_readiness(job, date):
     """After a re-check: ready drafts go READY_TO_APPLY, material changes pull READY back to hold.
     Never touches APPLIED or later, SKIPPED, or drafts that need the user."""
+    app = job["application"]
+    if pre_stage(job):  # draft for Astra's QA: flagged for Astra, never READY_TO_APPLY
+        hold = _hold_reasons(job, date)
+        app["final_qa_status"] = PRE_FINAL_FLAGGED if hold else PRE_FINAL_OK
+        app["next_action"] = "Astra二次QA（応募文・設問回答を含む）" + ("。確認事項：" + " / ".join(hold) if hold else "")
+        return
     if not eligible(job, ("ASTRA_PASS", "READY_TO_APPLY")):
         return
-    app = job["application"]
     hold = _hold_reasons(job, date)
     back = "CLAUDE_CANDIDATE" if job.get("designation") else "ASTRA_PASS"
     if hold:
@@ -293,8 +320,8 @@ AI_RE = re.compile(r"AI|ＡＩ|人工知能|ChatGPT|Claude|Gemini|生成系?ツ�
 
 def _validate(d, job, src, profile):
     errs = []
-    if not eligible(job, TARGET):
-        errs.append(f"status={job.get('status')}（ASTRA_PASSまたは本人指定のみ）")
+    if not drafting_target(job):
+        errs.append(f"status={job.get('status')}（当日のAstra Queue・ASTRA_PASS・本人指定のみ）")
     rc = job.get("reward_check")
     if not rc or not src:
         errs.append("app-check未実行（報酬を原文で再確認していない）")
@@ -347,6 +374,10 @@ def _validate(d, job, src, profile):
     for u in asks:
         for i, f in facts_answering(profile, u, job_text):
             errs.append(f"本人確認済みの事実で答えられる項目を再確認している: {u[:30]} → confirmed_facts[{i}].fact（{f['fact'][:30]}）")
+    # what the user types on the CrowdWorks screen himself (name etc.) is no reason to hold the draft
+    for u in asks:
+        if DIRECT_ENTRY_RE.search(u) and not ESSENTIAL_NOT_NAME_RE.search(u):
+            errs.append(f"CrowdWorks画面で本人が直接入力する情報は確認事項にしない: {u[:30]}")
     errs += _opening_errors(job, d.get("application_draft", ""))  # Client Master: relationship QA
     return errs
 
@@ -384,12 +415,15 @@ def cmd_app_merge(a):
     master, profile = v["master"], v.get("profile", {})
     drafts = P.load_json(a.drafts, [])
     sdir = os.path.join(P.ROOT, "data", a.date, "app_source")
-    ok, failed = [], {}
+    ok, failed, skipped = [], {}, []
     for d in drafts:
         jid = str(d["job_id"])
         job = master.get(jid)
         if job is None:
             failed[jid] = ["Job Masterに無い"]
+            continue
+        if job.get("status") == PRE_STAGE and job.get("application"):
+            skipped.append(jid)  # a draft is never rebuilt (same job_id twice = no change)
             continue
         src = P.load_json(os.path.join(sdir, f"{jid}.json"), None)
         errs = _validate(d, job, src, profile)
@@ -423,11 +457,14 @@ def cmd_app_merge(a):
         cost = confirm_cost(job["application"], job["application"]["unverified_facts"])
         if cost:  # not worth a question to the user: Astra decides (REJECT candidate), the user is not asked
             job["application"].update(confirm_cost=cost, user_confirmation_required="no")
+        if job.get("status") == PRE_STAGE:
+            job["application"]["stage"] = "PRE_ASTRA"
+            job.pop("pre_draft_due", None)
         _apply_readiness(job, a.date)
         ok.append(jid)
     P.vault_save(v)
     P.export(master, v.get("meta", {}))
-    print(json.dumps({"merged": ok, "failed": failed}, ensure_ascii=False, indent=1))
+    print(json.dumps({"merged": ok, "already_drafted": skipped, "failed": failed}, ensure_ascii=False, indent=1))
     if failed:
         raise SystemExit(1)
 
@@ -522,6 +559,7 @@ def realized(j):
 
 
 def poc_summary(master):
+    master = {k: j for k, j in master.items() if j.get("status") != PRE_STAGE}  # pre-Astra drafts are not applications
     rows = [realized(j) for j in master.values() if j.get("application")]
     done = [r for r in rows if r.get("complete")]
     net, mins = sum(r["net"] for r in done), sum(r["human_min"] for r in done)
@@ -705,7 +743,7 @@ def cmd_app_plan(a):
     clients = client_master.refresh(v)
     todo, excluded = [], {}
     for jid, j in master.items():
-        if not eligible(j, TARGET) or j.get("application"):
+        if not drafting_target(j) or j.get("application"):
             continue
         rc = j.get("reward_check") or {}
         if not str(rc.get("checked_at", "")).startswith(a.date):

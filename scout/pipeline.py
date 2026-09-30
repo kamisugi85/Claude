@@ -621,6 +621,8 @@ def cmd_merge(a):
             if job.get("status") != "ASTRA_QA_PENDING":
                 set_status(job, "CLAUDE_CANDIDATE", "claude", e.get("verdict"))
                 set_status(job, "ASTRA_QA_PENDING", "claude")
+                if not job.get("application"):
+                    job["pre_draft_due"] = True  # application.py drafts it before Astra's QA (RUNBOOK 5.7)
             queued += 1
         else:
             set_status(job, "CLAUDE_REJECTED", "claude", e.get("reason", ""))
@@ -786,7 +788,29 @@ QUEUE_COLS = [
     ("net_per_human_min", lambda j: j["eval"].get("net_per_human_min")),
     ("confirm_items", lambda j: _fmt_list(j["eval"].get("confirm_items"))),
     ("client_history", lambda j: _client_history(j)),
+    # Application draft made before Astra's QA (no Astra verdict needed; never READY_TO_APPLY at this stage)
+    ("application_draft", lambda j: _app_field(j, "application_draft")),
+    ("application_questions", lambda j: _app_field(j, "application_questions")),
+    ("application_answers", lambda j: _app_field(j, "application_answers")),
+    ("facts_used", lambda j: _app_field(j, "facts_used")),
+    ("unverified_facts", lambda j: _app_field(j, "unverified_facts")),
+    ("final_qa_status", lambda j: _app_field(j, "final_qa_status")),
+    ("user_confirmation_required", lambda j: _app_field(j, "user_confirmation_required")),
+    ("draft_next_action", lambda j: _app_field(j, "next_action")),
 ]
+
+
+def _app_field(j, k):
+    app = j.get("application")
+    if not app:
+        return "NO_DRAFT" if k == "final_qa_status" else ""
+    import application
+    if k == "application_answers":
+        return application._pairs(app)
+    if k == "facts_used":
+        return application._facts(app)
+    v = app.get(k)
+    return _fmt_list(v) if isinstance(v, list) else ("" if v is None else v)
 
 
 _CLIENT_CTX = {}  # set by export(): (clients, master) for the client_history column
@@ -810,6 +834,8 @@ def _write_csv(path, cols, jobs):
 # Drive copies are uploaded by pasting the CSV into one tool call, so they must stay small.
 # The full master (incl. Claude/rule rejections) stays local in out/job_master_full.csv and in the vault.
 DRIVE_BUDGET = 50000
+# The Astra Queue also carries each job's application draft (RUNBOOK 5), so it gets a larger budget.
+DRIVE_BUDGET_BY_FILE = {"astra_queue": 80000}
 DRIVE_WARN_RATIO = 0.8  # drive-status flags a file as near_budget above this share
 DRIVE_FILES = {"job_master": "job_master.csv", "astra_queue": "astra_queue.csv",
                "application_queue": "application_queue.csv"}
@@ -861,14 +887,15 @@ def export(master, meta):
                "counts": {"master_active": len(active), "master_drive": len(drive_view),
                           "astra_queue": len(queue), "application_queue": n_app},
                "bytes": {k: os.path.getsize(os.path.join(OUT, f)) for k, f in DRIVE_FILES.items()},
-               "budget_bytes": DRIVE_BUDGET,
+               "budget_bytes": DRIVE_BUDGET, "budget_by_file": DRIVE_BUDGET_BY_FILE,
                "prev_bytes": prev.get("bytes", {}), "prev_generated_at": prev.get("generated_at")})
     print(f"exported: master={len(active)} (drive {len(drive_view)}) queue={len(queue)} applications={n_app}")
     for k, f in DRIVE_FILES.items():
         size = os.path.getsize(os.path.join(OUT, f))
-        if size > DRIVE_BUDGET:
-            print(f"WARNING: {f} exceeds the Drive upload budget ({DRIVE_BUDGET} bytes)", file=sys.stderr)
-        elif size > DRIVE_BUDGET * DRIVE_WARN_RATIO:
+        budget = DRIVE_BUDGET_BY_FILE.get(k, DRIVE_BUDGET)
+        if size > budget:
+            print(f"WARNING: {f} exceeds the Drive upload budget ({budget} bytes)", file=sys.stderr)
+        elif size > budget * DRIVE_WARN_RATIO:
             print(f"NOTICE: {f} is {size} bytes (over {DRIVE_WARN_RATIO:.0%} of the Drive budget)", file=sys.stderr)
 
 
@@ -1170,6 +1197,12 @@ def cmd_postqa(a):
     runs_path = os.path.join(STATE, "runs.jsonl")
     runs = [json.loads(l) for l in open(runs_path, encoding="utf-8")] if os.path.exists(runs_path) else []
     today_runs = [r for r in runs if r.get("date") == a.date]
+    cfg = load_json(os.path.join(ROOT, "routine.json"), {})
+    if a.stage in ("guard", "astra", "catchup") and cfg.get("postqa_import") == "retired":
+        # Astra->Claude verdict import is retired (drafts are made at 05:00, before Astra's QA): stop, touch nothing
+        print(json.dumps({"ok": False, "mode": "retired", "reason": cfg.get("reason", "postqa import retired")},
+                         ensure_ascii=False))
+        return
     if a.stage == "guard":
         done = bool(today_runs)
         now = a.now or dt.datetime.now(JST).strftime("%H:%M")
@@ -1265,8 +1298,10 @@ def cmd_drive_status(a):
     stale = [k for k in keys if (synced.get(k + "_sheet") or "") < man["generated_at"]]
     budget = man.get("budget_bytes", DRIVE_BUDGET)
     size, prev = man.get("bytes", {}), man.get("prev_bytes", {})
-    over = [k for k, b in size.items() if b > budget]
-    near = [k for k, b in size.items() if budget * DRIVE_WARN_RATIO < b <= budget]
+    per = man.get("budget_by_file", {})
+    bud = lambda k: per.get(k, budget)
+    over = [k for k, b in size.items() if b > bud(k)]
+    near = [k for k, b in size.items() if bud(k) * DRIVE_WARN_RATIO < b <= bud(k)]
     print(json.dumps({"ok": not stale, "stale": stale, "over_budget": over, "near_budget": near,
                       "budget_bytes": budget, "exported_at": man["generated_at"],
                       "delta_bytes": {k: b - prev[k] for k, b in size.items() if k in prev},

@@ -1,0 +1,5 @@
+{
+  "postqa_import": "retired",
+  "reason": "06:30/12:30 のAstra判定取込は廃止（応募準備は05:00でAstra QA前に完了する。RUNBOOK 5・7）。Status Updatesは監査・履歴用",
+  "since": "2026-09-30"
+}

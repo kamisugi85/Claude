@@ -169,6 +169,8 @@ def cmd_manual_merge(a):
                     0, f"前回Astra REJECT（{prev.get('updated_at')}）：{prev.get('astra_reason')} → 本人依頼で再評価")
             P.set_status(job, "CLAUDE_CANDIDATE", "claude", f"Manual Review（{rec['requested_by']}依頼）：{e['triage']}")
             P.set_status(job, "ASTRA_QA_PENDING", "claude", "Astra二次評価待ち")
+            if not job.get("application"):
+                job["pre_draft_due"] = True  # drafted before Astra's QA like every Astra Queue job
             result = e["triage"]
         else:
             result = f"{e['triage']}（既存ステータス{st}のため変更なし・最新情報のみ更新）"

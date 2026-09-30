@@ -96,6 +96,7 @@ def merge(tmp, drafts, ok=True):
 def main():
     tmp = tempfile.mkdtemp()
     shutil.copytree(SRC, tmp, dirs_exist_ok=True, ignore=shutil.ignore_patterns("tests"))
+    os.remove(os.path.join(tmp, "routine.json"))  # this test covers the legacy 06:30 / 12:30 import path itself
     py(tmp, "DESC=%r\nTRANSCRIBE=%r\nCID_NEW=%r\nCID_PAST=%r\n" % (DESC, TRANSCRIBE, CID_NEW, CID_PAST) + SETUP)
     date = json.loads(py(tmp, "import pipeline as P, json; print(json.dumps(P.today()))"))
     at = lambda hm: f"{date} {hm}"
