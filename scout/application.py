@@ -133,6 +133,8 @@ def parse_source(page):
                 if "円" in ln and re.search(r"報酬|記事|1本|１本|金額|単価|税込|税抜|謝礼|固定|入力|合計|テスト|トライアル", ln)]
     return {
         "desc": desc, "client": client,
+        # the description ran up to one of the page's end markers (otherwise it may be cut)
+        "desc_complete": bool(desc) and any(k in t[t.find("仕事の詳細"):] for k in ("この仕事の特徴", "クライアント情報")),
         "header_reward": header_reward,
         "deadline": f"{d.group(1)}-{d.group(2)}-{d.group(3)}" if d else None,
         "applicants": num("応募した人"), "contracted": num("契約した人"), "capacity": num("募集人数"),
@@ -159,6 +161,7 @@ def cmd_app_check(a):
             continue
         page = collect.curl(f"{collect.BASE}/{jid}")
         if not page:
+            _record_source(job, None)  # questions / reward stay FETCH_FAILED, never "none"
             out.append({"job_id": jid, "skip": "取得失敗"})
             continue
         src = parse_source(page)
@@ -175,12 +178,117 @@ def cmd_app_check(a):
         rc["notes"] = notes
         rc["changes"] = changes
         job["reward_check"] = rc
+        _record_source(job, src)
         if job.get("application"):
             _apply_readiness(job, a.date)
         out.append({"job_id": jid, "title": job["title"][:40], "status": job.get("status"),
                     **{k: rc[k] for k in rc if k not in ("checked_at", "body_reward_mentions")}})
     P.vault_save(v)
     print(json.dumps(out, ensure_ascii=False, indent=1))
+
+
+def _record_source(job, src):
+    """Source-backed facts of the posting (source_facts.py) on the job, with where they came from.
+    `src` None = the posting could not be fetched."""
+    import source_facts as SF
+    rc = job.setdefault("reward_check", {})
+    fetched = src is not None
+    desc = src["desc"] if fetched else None
+    complete = bool(src and src.get("desc_complete", True))
+    rc["questions"] = SF.questions(desc, complete, fetched)
+    rc["reward_struct"] = SF.rewards(desc, complete, fetched)
+    rc["source_state"] = SF.source_state(desc, complete, fetched)
+    prov = job.setdefault("provenance", {})
+    prov["fetch"] = {"at": P.now_iso(), "status": rc["source_state"], "desc_chars": len(desc or ""),
+                     "source": "CrowdWorks募集ページ（app-check）"}
+    prov["questions"] = {"source": "募集原文", "extraction_status": rc["questions"]["status"],
+                         "n_source": len(rc["questions"]["lines"]), "reason": rc["questions"]["reason"]}
+    rs = rc["reward_struct"]
+    prov["reward"] = {"source": "募集原文", "extraction_status": rs["reward_status"],
+                      "initial": rs["initial_reward"], "ongoing": rs["ongoing_reward"],
+                      "applicable": rs["applicable_reward"], "listing_gross": job.get("gross"),
+                      "source_excerpt": rs["reward_source_excerpt"]}
+
+
+def _near(x, y):
+    return x is not None and y is not None and x in {y, round(y * 1.1), round(y / 1.1)}
+
+
+def _source_errors(d, job):
+    """Hard errors (the draft is not stored; fix and merge again): questions dropped, the regular reward used
+    as this application's reward, client counts claimed that the records do not support."""
+    import source_facts as SF
+    rc = job.get("reward_check") or {}
+    errs = []
+    q = rc.get("questions") or {}
+    if q.get("status") == "VERIFIED" and not d.get("application_questions"):
+        errs.append(f"募集原文に応募時の設問・記載事項が{len(q['lines'])}行あるのに application_questions が空"
+                    f"（例：{q['lines'][0][:40]}）")
+    rs = rc.get("reward_struct") or {}
+    ar = d.get("actual_reward")
+    if ar is not None and rs.get("ongoing_reward") and _near(ar, rs["ongoing_reward"]) and not _near(ar, rs.get("initial_reward")):
+        if rs.get("initial_reward") is not None:
+            errs.append(f"継続報酬{rs['ongoing_reward']}円を今回の報酬にしている（今回適用＝初回{rs['initial_reward']}円）")
+        elif rs.get("reward_status") == "AMBIGUOUS":
+            errs.append(f"今回適用報酬が確定できない（{rs['reward_basis']}）のに継続報酬{rs['ongoing_reward']}円を今回報酬にしている"
+                        "→ actual_reward=null・reward_evidence=「UNKNOWN（…）」")
+    text = d.get("application_draft", "") + " ".join(d.get("application_answers", []))
+    errs += SF.client_claim_errors(text, _client_facts(job))
+    return errs
+
+
+def _client_facts(job):
+    import client_master
+    import source_facts as SF
+    cm = (_CLIENTS.get("clients") or {}).get(client_master.client_id(job)) if _CLIENTS else None
+    return SF.client_facts(job, cm)
+
+
+def _qa_flags(job, d):
+    """Soft findings for Astra (the draft is stored, Claude QA = FLAGGED with the reason)."""
+    import source_facts as SF
+    rc = job.get("reward_check") or {}
+    flags = []
+    q = rc.get("questions") or {}
+    if q.get("status") in ("SOURCE_INCOMPLETE", "FETCH_FAILED"):
+        flags.append(f"応募設問 {q['status']}：{q.get('reason')}")
+    elif q.get("status") == "VERIFIED":
+        dq = [_norm(x) for x in d.get("application_questions", [])]
+        items = [l for l in q["lines"] if re.match(r"^\s*(?:[・\-‐－*●○]|[①-⑳]|\(?\d{1,2}[).．、])", l)]
+        miss = [l for l in items if not any(_norm(re.sub(r"^\s*(?:[・\-‐－*●○]|[①-⑳]|\(?\d{1,2}[).．、])\s*", "", l))[:12] in x
+                                            or x[:12] in _norm(l) for x in dq if x)]
+        if miss:
+            flags.append(f"原文の設問・記載事項{len(items)}件中{len(miss)}件がdraftにない：" + " / ".join(m[:30] for m in miss[:4]))
+        if len(d.get("application_answers", [])) != len(d.get("application_questions", [])):
+            flags.append("設問と回答の数が一致しない")
+    elif not q and job.get("status") == PRE_STAGE:
+        flags.append("応募設問：原文の確認記録なし（app-check未実行）")
+    rs = rc.get("reward_struct") or {}
+    if rs.get("reward_status") and rs["reward_status"] != "CONFIRMED":
+        flags.append(f"今回適用報酬：不明（{rs['reward_status']}：{rs.get('reward_basis')}）")
+    elif rs.get("initial_reward") is not None and rs.get("ongoing_reward"):
+        flags.append(f"報酬：今回（初回）{rs['initial_reward']}円／継続{rs['ongoing_reward']}円（継続分は今回の期待利益に含めない）")
+    ev = job.get("eval") or {}
+    for e in SF.client_claim_errors(" ".join(str(ev.get(k) or "") for k in ("client_risk", "reason")), _client_facts(job)):
+        flags.append("一次評価の" + e)
+    return [f for f in flags if not f.startswith("報酬：今回（初回）")] + [f for f in flags if f.startswith("報酬：今回（初回）")]
+
+
+def _record_draft(job, d):
+    """What happened to the source facts on the way into the stored draft (app-merge)."""
+    rc = job.get("reward_check") or {}
+    prov = job.setdefault("provenance", {})
+    q = rc.get("questions") or {}
+    rs = rc.get("reward_struct") or {}
+    prov["draft"] = {
+        "at": P.now_iso(), "stage": "app-merge",
+        "questions": f"原文{len(q.get('lines', []))}行（{q.get('status', '未確認')}）→ draft設問{len(d.get('application_questions', []))}件・"
+                     f"回答{len(d.get('application_answers', []))}件",
+        "reward": f"原文 今回{rs.get('applicable_reward')}／初回{rs.get('initial_reward')}／継続{rs.get('ongoing_reward')}"
+                  f"（{rs.get('reward_status', '未確認')}）→ draft {d.get('actual_reward')}",
+        "facts_used": [f.get("profile_ref") for f in d.get("facts_used", [])],
+        "client_facts_source": "Client Master（当方記録）＋CrowdWorks公開値（項目ごとに区別）",
+    }
 
 
 # ---- re-check: material condition changes vs. mere extraction improvements -----------------
@@ -336,7 +444,8 @@ def _validate(d, job, src, profile):
         # per-unit reward not stated: recorded as UNKNOWN, never filled in from the listing budget
         if not ev.startswith("UNKNOWN"):
             errs.append("actual_rewardがnullならreward_evidenceは「UNKNOWN…」")
-        if _amounts([src["desc"]]):
+        if _amounts([src["desc"]]) and ((job.get("reward_check") or {}).get("reward_struct") or {}).get("reward_status") \
+                not in ("AMBIGUOUS", "SOURCE_INCOMPLETE"):
             errs.append("本文に金額の記載があるのに報酬をUNKNOWNにしている")
     elif not ev or _norm(ev) not in body:
         errs.append("reward_evidenceが原文に無い")
@@ -379,6 +488,7 @@ def _validate(d, job, src, profile):
         if DIRECT_ENTRY_RE.search(u) and not ESSENTIAL_NOT_NAME_RE.search(u):
             errs.append(f"CrowdWorks画面で本人が直接入力する情報は確認事項にしない: {u[:30]}")
     errs += _opening_errors(job, d.get("application_draft", ""))  # Client Master: relationship QA
+    errs += _source_errors(d, job)  # source-backed questions / this application's reward / client counts
     return errs
 
 
@@ -403,6 +513,7 @@ def _hold_reasons(job, date):
         why.append("Astra REJECT候補：確認コストが報酬に見合わない（私的・嗜好の確認のみ。本人確認は求めない）")
     if app["claim_flags"]:
         why.append("実績の表現を確認：" + "、".join(app["claim_flags"]))
+    why += [f for f in app.get("qa_flags", []) if not f.startswith("報酬：今回（初回）")]
     why += _opening_errors(job, app.get("application_draft", ""))
     if not app["conflict_risk"].startswith("低"):
         why.append("利益相反リスク：" + (app["conflict_risk"][:40] or "未記載"))
@@ -460,6 +571,8 @@ def cmd_app_merge(a):
         if job.get("status") == PRE_STAGE:
             job["application"]["stage"] = "PRE_ASTRA"
             job.pop("pre_draft_due", None)
+        job["application"]["qa_flags"] = _qa_flags(job, d)
+        _record_draft(job, d)
         _apply_readiness(job, a.date)
         ok.append(jid)
     P.vault_save(v)
@@ -709,6 +822,48 @@ def kpi(master, meta, runs):
                   "actual": {**a, "outcome_known_net": done_net, "outcome_known_human_minutes": done_min,
                              "net_per_human_min": round(done_net / done_min, 1) if done_min else None}}
     return out
+
+
+def cmd_repair_source(a):
+    """Backfill the source-backed facts (questions, initial/ongoing reward, fetch state) of already queued jobs
+    from their posting, and re-run Claude QA on the stored draft. Never re-evaluates, never rewrites a draft,
+    never changes a status or anything Astra wrote; a posting that cannot be fetched stays FETCH_FAILED."""
+    import collect
+    v = P.vault_load()
+    _use_clients(v)
+    master = v["master"]
+    sdir = os.path.join(P.ROOT, "data", a.date, "app_source")
+    os.makedirs(sdir, exist_ok=True)
+    out = []
+    for jid in [x.strip() for x in a.ids.split(",") if x.strip()]:
+        job = master.get(jid)
+        if not job or job.get("status") != PRE_STAGE:
+            out.append({"job_id": jid, "skip": f"status={job and job.get('status')}（Astra Queueの案件のみ）"})
+            continue
+        page = collect.curl(f"{collect.BASE}/{jid}")
+        src = parse_source(page) if page else None
+        if src:
+            P.save_json(os.path.join(sdir, f"{jid}.json"), src)
+        _record_source(job, src)
+        rc = job["reward_check"]
+        res = {"job_id": jid, "source_state": rc["source_state"], "questions": rc["questions"]["status"],
+               "n_questions": len(rc["questions"]["lines"]), "reward_status": rc["reward_struct"]["reward_status"],
+               "initial": rc["reward_struct"]["initial_reward"], "ongoing": rc["reward_struct"]["ongoing_reward"]}
+        app = job.get("application")
+        if app:
+            d = {k: app.get(k) for k in ("application_draft", "application_questions", "application_answers", "actual_reward")}
+            flags = ["修復前のdraftの問題：" + e for e in _source_errors(d, job)] + _qa_flags(job, d)
+            app["qa_flags"] = flags
+            day = str(rc.get("checked_at", ""))[:10] or a.date
+            _apply_readiness(job, day)  # pre-Astra: FLAGGED / PASSED only, never READY_TO_APPLY
+            app["repaired_at"] = P.now_iso()
+            res.update(claude_qa=app["final_qa_status"], flags=len([f for f in flags if not f.startswith("報酬：今回（初回）")]))
+        job.setdefault("provenance", {})["repair"] = {"at": P.now_iso(), "stage": "repair-source",
+                                                      "note": "原文から設問・報酬構造を補完（draft・ステータス・Astra判定は変更なし）"}
+        out.append(res)
+    P.vault_save(v)
+    P.export(master, v.get("meta", {}))
+    print(json.dumps(out, ensure_ascii=False, indent=1))
 
 
 def cmd_app_batch(a):

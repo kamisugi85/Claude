@@ -353,9 +353,10 @@ def key_excerpt(desc, limit=700):
         line = line.strip()
         if len(line) < 4 or not KEY_LINE.search(line):
             continue
-        out.append(line[:160])
+        out.append(line[:160] + ("…" if len(line) > 160 else ""))
         n += len(out[-1]) + 3
         if n >= limit:
+            out.append("（truncated=true：抜粋のみ。全文は募集ページ・reward_source_excerpt・source_questions）")
             break
     return " / ".join(out)
 
@@ -739,18 +740,62 @@ MICRO_NPM_MIN = 30      # ... and expected net JPY per human minute
 def job_tier(j):
     """主力 (net >= 1,000 JPY) / マイクロ (under 1,000 JPY but high AI completion and net per human minute)."""
     app = j.get("application") or {}
+    rs = (j.get("reward_check") or {}).get("reward_struct") or {}
+    if rs.get("reward_status") in ("AMBIGUOUS", "SOURCE_INCOMPLETE"):
+        return "UNKNOWN（今回適用報酬が不明）"
     if app and app.get("actual_reward") is None and str(app.get("reward_evidence", "")).startswith("UNKNOWN"):
         return "UNKNOWN（報酬不明）"
     net = app.get("actual_net") if app.get("actual_reward") is not None else j.get("net_est")
+    if rs.get("applicable_reward") is not None:  # this application's (initial) reward, not the later one
+        net = round(rs["applicable_reward"] * (1 - FEE_RATE))
     if net is None:
         return "UNKNOWN（報酬不明）"
     if net >= MAIN_NET_MIN:
         return "主力"
     ai = re.findall(r"\d+", str((j.get("eval") or {}).get("ai_completion") or ""))
-    npm = _net_per_min(j)
+    npm = _applicable_net_per_min(j)
     if ai and int(ai[0]) >= MICRO_AI_MIN and npm is not None and npm >= MICRO_NPM_MIN:
         return "マイクロ"
     return "基準外（1,000円未満・AI完結率または手取り/分が基準未満）"
+
+
+def _applicable_net_per_min(j):
+    """Expected net per human minute on this application's reward (initial / trial when the posting has one)."""
+    rs = (j.get("reward_check") or {}).get("reward_struct") or {}
+    if rs.get("applicable_reward") is None:
+        return None if rs.get("reward_status") in ("AMBIGUOUS", "SOURCE_INCOMPLETE") else _net_per_min(j)
+    nums = [float(x) for x in re.findall(r"\d+(?:\.\d+)?", str((j.get("eval") or {}).get("human_minutes") or ""))]
+    return round(rs["applicable_reward"] * (1 - FEE_RATE) / max(nums), 1) if nums and max(nums) > 0 else None
+
+
+def _rs(j, k):
+    rs = (j.get("reward_check") or {}).get("reward_struct")
+    return "（原文未確認）" if rs is None and k == "reward_status" else (rs or {}).get(k)
+
+
+def _source_questions(j):
+    q = (j.get("reward_check") or {}).get("questions")
+    return "\n".join(q["lines"]) if q else ""
+
+
+def _questions_status(j):
+    q = (j.get("reward_check") or {}).get("questions")
+    if not q:
+        return "UNCHECKED（原文未確認：設問の有無は不明）"
+    return q["status"] + (f"：{q['reason']}" if q.get("reason") else "")
+
+
+def _client_facts_col(j):
+    import client_master
+    import source_facts as SF
+    clients = _CLIENT_CTX.get("clients") or {}
+    return SF.client_facts_text(SF.client_facts(j, clients.get(client_master.client_id(j))))
+
+
+def _provenance(j):
+    p = dict(j.get("provenance") or {})
+    p.pop("drive", None)
+    return json.dumps(p, ensure_ascii=False, separators=(",", ":")) if p else ""
 
 
 def _clip(n):
@@ -821,7 +866,24 @@ QUEUE_COLS = [
     ("draft_next_action", lambda j: _app_field(j, "next_action")),
     ("claude_qa_result", lambda j: _qa_result(j)),
     ("tier", lambda j: job_tier(j)),
+    # source-backed facts (RUNBOOK 4.7): questions and rewards as the posting states them, with their status
+    ("application_questions_status", _questions_status),
+    ("source_questions", _source_questions),
+    ("reward_status", lambda j: _rs(j, "reward_status")),
+    ("applicable_reward", lambda j: _rs(j, "applicable_reward")),
+    ("initial_reward", lambda j: _rs(j, "initial_reward")),
+    ("ongoing_reward", lambda j: _rs(j, "ongoing_reward")),
+    ("reward_basis", lambda j: _rs(j, "reward_basis")),
+    ("reward_source_excerpt", lambda j: _rs(j, "reward_source_excerpt")),
+    ("applicable_net_per_human_min", _applicable_net_per_min),
+    ("client_facts", _client_facts_col),
+    ("provenance", _provenance),
+    ("truncated", lambda j: ""),  # filled by export when the Drive copy had to drop low-priority text
 ]
+# Dropped first (blanked, and named in `truncated`) when the Astra Queue exceeds its Drive budget; the
+# questions, this application's reward and unverified facts are never among them.
+QUEUE_LOW_PRIORITY = ["ai_steps", "human_steps", "hourly_est", "repeatability", "source_check", "pay_detail",
+                      "user_questions", "profile_link", "key_excerpt", "claude_reason", "requirements", "provenance"]
 
 
 def _qa_result(j):
@@ -865,6 +927,46 @@ def _write_csv(path, cols, jobs):
             w.writerow(["" if (v := fn(j)) is None else v for _, fn in cols])
 
 
+QUEUE_CRITICAL = ["application_questions", "application_answers", "application_questions_status", "source_questions",
+                  "applicable_reward", "initial_reward", "ongoing_reward", "reward_status", "reward_source_excerpt",
+                  "unverified_facts", "user_confirmation_required", "claude_qa_result", "application_draft"]
+
+
+def write_astra_queue(path, queue, budget=None):
+    """Astra Queue CSV within its Drive budget. When too large, whole low-priority columns are blanked (never
+    cut mid-text) and named in `truncated`; the critical columns are checked to be complete afterwards."""
+    budget = budget or DRIVE_BUDGET_BY_FILE.get("astra_queue", DRIVE_BUDGET)
+    cols = [c for c, _ in QUEUE_COLS]
+    rows = [{c: ("" if (v := fn(j)) is None else v) for c, fn in QUEUE_COLS} for j in queue]
+    full = [dict(r) for r in rows]
+    dropped = []
+
+    def dump():
+        buf = io.StringIO()
+        w = csv.writer(buf)
+        w.writerow(cols)
+        for r in rows:
+            w.writerow([r[c] for c in cols])
+        return buf.getvalue()
+    text = dump()
+    for c in QUEUE_LOW_PRIORITY:
+        if len(text.encode("utf-8")) <= budget:
+            break
+        dropped.append(c)
+        for r in rows:
+            r[c] = ""
+            r["truncated"] = "truncated=true：Drive容量のため省略した列＝" + ",".join(dropped) + "（全文はVault / job-detail）"
+        text = dump()
+    lost = sorted({c for r, f in zip(rows, full) for c in QUEUE_CRITICAL if str(r[c]) != str(f[c])})
+    for j in queue:
+        j.setdefault("provenance", {})["drive"] = {"at": now_iso(), "dropped_columns": dropped,
+                                                   "critical_intact": not lost, "bytes": len(text.encode("utf-8"))}
+    if lost:
+        print(f"WARNING: astra_queue.csv lost critical columns {lost}", file=sys.stderr)
+    open(path, "w", encoding="utf-8", newline="").write(text)
+    return dropped
+
+
 # Drive copies are uploaded by pasting the CSV into one tool call, so they must stay small.
 # The full master (incl. Claude/rule rejections) stays local in out/job_master_full.csv and in the vault.
 DRIVE_BUDGET = 50000
@@ -903,7 +1005,7 @@ def export(master, meta):
     drive_view = [j for j in active if _in_drive_master(j)]
     _write_csv(os.path.join(OUT, "job_master.csv"), drive_master_cols(), drive_view)  # operational index
     queue = [j for j in jobs if j.get("status") == "ASTRA_QA_PENDING"]
-    _write_csv(os.path.join(OUT, "astra_queue.csv"), QUEUE_COLS, queue)
+    write_astra_queue(os.path.join(OUT, "astra_queue.csv"), queue)
     save_json(os.path.join(OUT, "astra_queue.json"),
               {"generated_at": now_iso(), "count": len(queue),
                "jobs": [{c: fn(j) for c, fn in QUEUE_COLS} for j in queue]})
@@ -1467,6 +1569,9 @@ def main():
     p.add_argument("--job-re", default="", help="only for jobs whose title/posting matches")
     p.add_argument("--ref", default="", help="where it already sits in the profile, e.g. professional.qualifications[2]")
     p.set_defaults(fn=cmd_profile_fact)
+    p = sub.add_parser("repair-source", help="backfill source-backed questions / rewards of queued jobs (no re-evaluation)")
+    p.add_argument("--ids", required=True); p.add_argument("--date", default=today())
+    p.set_defaults(fn=application.cmd_repair_source)
     p = sub.add_parser("app-batch", help="record a batch-level human time reported by the user")
     p.add_argument("--ids", required=True); p.add_argument("--minutes", type=float, required=True)
     p.add_argument("--source", required=True); p.add_argument("--status"); p.add_argument("--note")

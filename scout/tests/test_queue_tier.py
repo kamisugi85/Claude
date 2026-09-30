@@ -25,7 +25,9 @@ def job(jid, gross, ai, mins):
               "status_history": [{"status": "ASTRA_QA_PENDING", "at": d + "T05:10+09:00", "by": "test", "note": ""}],
               "reward_check": {"checked_at": d + "T05:31+09:00", "changes": [], "deadline": "2099-12-31", "closed": False}}
     os.makedirs(os.path.join(P.ROOT, "data", d, "app_source"), exist_ok=True)
-    P.save_json(os.path.join(P.ROOT, "data", d, "app_source", jid + ".json"), {"desc": DESC})
+    desc = DESC.replace("2,000円", f"{round(gross / 1.1):,}円")  # each posting states its own reward
+    P.save_json(os.path.join(P.ROOT, "data", d, "app_source", jid + ".json"), {"desc": desc})
+    __import__("application")._record_source(m[jid], {"desc": desc, "desc_complete": True})  # as app-check does
 job("99600001", 2200, "85-90%", "4-6分")    # net 1,760 -> 主力
 job("99600002", 440, "85-90%", "4-6分")     # net 352, 58.7 JPY/min, AI 85% -> マイクロ
 job("99600003", 220, "50-60%", "10-15分")   # net 176, AI 50% -> 基準外

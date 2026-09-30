@@ -30,7 +30,12 @@ def job(jid, cid, status, hist, due=True, gross=2200):
         if due:
             m[jid]["pre_draft_due"] = True
         os.makedirs(os.path.join(P.ROOT, "data", d, "app_source"), exist_ok=True)
-        P.save_json(os.path.join(P.ROOT, "data", d, "app_source", jid + ".json"), {"desc": DESC})
+        # 99400001's posting asks only the NISA question (its draft answers everything the posting asks)
+        # each draft below answers what its own posting asks: 99400001 only the NISA question, 99400002-04 none
+        desc = DESC.replace("・好きな旅行先を教えてください\n", "").replace("・お名前を教えてください\n", "") \
+            if jid == "99400001" else DESC.split("【応募時の質問】")[0] if jid in ("99400002", "99400003", "99400004") else DESC
+        P.save_json(os.path.join(P.ROOT, "data", d, "app_source", jid + ".json"), {"desc": desc})
+        __import__("application")._record_source(m[jid], {"desc": desc, "desc_complete": True})  # as app-check does
 PEND = ["CLAUDE_CANDIDATE", "ASTRA_QA_PENDING"]
 job("99400001", CID_NEW, "ASTRA_QA_PENDING", PEND)          # new client
 job("99400002", CID_APPLIED, "ASTRA_QA_PENDING", PEND)      # applied before

@@ -101,6 +101,15 @@ python3 scout/pipeline.py merge --evals scout/data/<date>/evals.json
    - 取り込まれた下書きは、案件ステータスが `ASTRA_QA_PENDING` のまま。`READY_TO_APPLY` には**ならない**。`final_qa_status` は `CLAUDE_QA_PASSED`（確認事項なし）または `CLAUDE_QA_FLAGGED`（確認事項あり。`next_action` に内容）。`stage=PRE_ASTRA`。
    - 同じjob_idの下書きは作り直さない（`already_drafted`）。同じ入力を何度実行しても結果は変わらない。
 5. Astra Queueに追加した応募準備情報：`application_draft` / `application_questions` / `application_answers` / `facts_used` / `unverified_facts` / `client_history` / `final_qa_status` / `user_confirmation_required` / `draft_next_action`。応募文がない案件は `final_qa_status=NO_DRAFT`。
+   - 原文由来の列（2026-10-02〜。`source_facts.py`、AIは使わない。`app-check` が原文から作る）：
+     - `application_questions_status`：`VERIFIED`（設問・応募時記載事項あり。`source_questions` に全文）／`NONE_VERIFIED`（原文を最後まで取得し、設問なしを確認）／`SOURCE_INCOMPLETE`（原文が途中まで。設問の有無は不明）／`FETCH_FAILED`（取得失敗）／`UNCHECKED`（app-check前）。取得できないものを「設問なし」にしない。
+     - `reward_status`（CONFIRMED / AMBIGUOUS / UNKNOWN / FETCH_FAILED / SOURCE_INCOMPLETE）・`applicable_reward`（今回の応募に適用される報酬。初回テスト等があればその額）・`initial_reward`・`ongoing_reward`・`reward_basis`・`reward_source_excerpt`（原文の報酬行を全文）。`tier` と `applicable_net_per_human_min` は今回適用報酬で計算する（継続報酬を今回の期待利益にしない）。今回適用報酬が確定できなければ `UNKNOWN（今回適用報酬が不明）`。
+     - `client_facts`：クライアントの数値を意味ごとに分けたもの（CW公開の募集実績・評価平均／Scout検知の他募集／当方の応募・受注・納品・支払・リピート）。ある項目の数を別の項目として扱わない。記録のない値は出さない（UNKNOWN）。
+     - `provenance`：取得（fetch：状態・字数）→ 抽出（questions / reward の extraction_status）→ draft（app-merge：原文の設問N行→draft設問・回答数、原文報酬→draft報酬、facts_usedの参照先）→ Drive（省略した列・重要列が無傷か）→ repair の記録。どこで欠けたかをここで判別する。
+     - `truncated`：Driveの容量（80KB）を超えたときだけ、低重要度の列（ai_steps・human_steps・hourly_est・repeatability・source_check・pay_detail・user_questions・profile_link・key_excerpt・claude_reason・requirements・provenance の順）を列ごと空にし、その列名を `truncated=true：…` で示す。設問・今回適用報酬・未確認本人事実・応募文は削らない（削られていないことを export が確認する）。`key_excerpt` の抜粋が上限で切れた場合も `truncated=true` を付ける。全文はVault（`job-detail`）。
+   - `app-merge` が取り込まない（直して再merge）：原文に設問があるのに `application_questions` が空／継続報酬を今回の報酬にしている（初回報酬がある、または今回分が確定できない）／応募文・回答にクライアント記録と合わない実績数（例：「27件納品」）。
+   - Claude QAの指摘（取り込んだうえで `CLAUDE_QA_FLAGGED`。案件はREJECTしない）：原文の設問のうちdraftにないもの、設問と回答の数の不一致、`SOURCE_INCOMPLETE` / `FETCH_FAILED`、今回適用報酬が不明、一次評価（client_risk・reason）の実績数の誤変換。
+   - 既にAstra Queueにある案件の補完：`python3 scout/pipeline.py repair-source --ids <id,...>`。原文を取り直して設問・報酬構造・取得状態だけを補い、保存済みのdraftにClaude QAをかけ直す（draft・ステータス・Astraの判定は変えない。取得できなければ `FETCH_FAILED` のまま）。
    - `claude_qa_result`：Claude QAの結果を1セルで（`PASS` / `FLAGGED：<Astraに見てほしい点>` / `NO_DRAFT`）。
    - `tier`：主力＝手取り見込み1,000円以上／マイクロ＝1,000円未満でも、AI完結率80%以上かつ手取り÷本人作業分が30円/分以上／基準外＝それ以外／UNKNOWN＝報酬不明（本文に単価なし）。報酬は応募文作成時の本文の実額、なければ評価時の見込み。
 6. Application Queue・READY通知（ready-notice）にはPre-Astraのdraftは出ない（READY_TO_APPLY以降だけ）。応募文の修正・本人への最終通知はAstra側が行う。
@@ -307,6 +316,7 @@ python3 scout/tests/test_drive_view.py
 python3 scout/tests/test_client_master.py
 python3 scout/tests/test_predraft.py       # 05:00のAstra QA前の応募準備draft（新クライアント/過去応募/過去納品・確認済み事実・冪等性・READYにしない）
 python3 scout/tests/test_queue_tier.py      # Astra Queueのtier（主力・マイクロ）とclaude_qa_result
+python3 scout/tests/test_source_facts.py    # 10/1の実障害の再現（設問欠落・初回/継続報酬・実績数の誤変換）とDrive軽量化
 python3 scout/tests/test_daily_ops.py      # 旧フロー（休止中）の通し（PASS/REJECT/HOLD/未判定・冒頭QA・冪等性・catch-up・最新シート）
 git add scout/state && git commit -m "Scout run <date>" && git push -u origin claude/brave-lovelace-7n0flp
 ```

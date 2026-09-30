@@ -278,7 +278,7 @@ def main():
     # and report it), whatever size the live data has reached
     assert os.path.getsize(os.path.join(tmp, "out", "job_master.csv")) < \
         os.path.getsize(os.path.join(tmp, "out", "job_master_full.csv"))
-    over = [k for k, b in man["bytes"].items() if b > man["budget_bytes"]]
+    over = [k for k, b in man["bytes"].items() if b > man.get("budget_by_file", {}).get(k, man["budget_bytes"])]
     assert last_json(run(tmp, "drive-status", ok=False).stdout)["over_budget"] == over
     keys = "job_master,application_queue"
     assert run(tmp, "drive-status", "--keys", keys, ok=False).returncode == 1

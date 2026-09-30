@@ -151,8 +151,10 @@ def summary(clients, master, job):
     if not c:
         return "初回（過去の接点なし）"
     lvl = level(clients, master, job)
-    parts = [f"関係:{lvl}", f"過去案件{len(past)}件", f"応募{c['application_count']}・受注{c['accepted_count']}"
-             f"・納品{c['delivered_count']}・支払{c['paid_count']}"]
+    # every count names what it counts: postings Scout saw are not deals (a "27" must never become "納品27件")
+    parts = [f"関係:{lvl}", f"Scout検知の同発注者の他募集{len(past)}件（当方の取引数ではない）",
+             f"当方の応募{c['application_count']}件・受注{c['accepted_count']}件・納品{c['delivered_count']}件"
+             f"・支払{c['paid_count']}件"]
     if c["post_application_interview_request_count"]:
         ids = ",".join(e["job_id"] for e in c["interview_required_history"] if e["found_after_application"])
         parts.append(f"⚠応募後に面談要求{c['post_application_interview_request_count']}回（{ids}・辞退）")
