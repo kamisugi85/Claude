@@ -46,6 +46,7 @@ def last_json(out):
 def main():
     tmp = tempfile.mkdtemp()
     shutil.copytree(SRC, tmp, dirs_exist_ok=True, ignore=shutil.ignore_patterns("tests"))
+    os.remove(os.path.join(tmp, "routine.json"))  # the post-QA checks below cover the legacy (retired) import code
     # the latest drafting run whose 2nd draft is a complete one (days with only manual drafts that wait
     # for the user are not a usable fixture)
     def usable(d):

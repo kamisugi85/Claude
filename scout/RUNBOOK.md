@@ -101,6 +101,8 @@ python3 scout/pipeline.py merge --evals scout/data/<date>/evals.json
    - 取り込まれた下書きは、案件ステータスが `ASTRA_QA_PENDING` のまま。`READY_TO_APPLY` には**ならない**。`final_qa_status` は `CLAUDE_QA_PASSED`（確認事項なし）または `CLAUDE_QA_FLAGGED`（確認事項あり。`next_action` に内容）。`stage=PRE_ASTRA`。
    - 同じjob_idの下書きは作り直さない（`already_drafted`）。同じ入力を何度実行しても結果は変わらない。
 5. Astra Queueに追加した応募準備情報：`application_draft` / `application_questions` / `application_answers` / `facts_used` / `unverified_facts` / `client_history` / `final_qa_status` / `user_confirmation_required` / `draft_next_action`。応募文がない案件は `final_qa_status=NO_DRAFT`。
+   - `claude_qa_result`：Claude QAの結果を1セルで（`PASS` / `FLAGGED：<Astraに見てほしい点>` / `NO_DRAFT`）。
+   - `tier`：主力＝手取り見込み1,000円以上／マイクロ＝1,000円未満でも、AI完結率80%以上かつ手取り÷本人作業分が30円/分以上／基準外＝それ以外／UNKNOWN＝報酬不明（本文に単価なし）。報酬は応募文作成時の本文の実額、なければ評価時の見込み。
 6. Application Queue・READY通知（ready-notice）にはPre-Astraのdraftは出ない（READY_TO_APPLY以降だけ）。応募文の修正・本人への最終通知はAstra側が行う。
 
 ## 4.5 Astra Manual Review Queue（本人がAstraへCrowdWorks URLを手動指定した場合）
@@ -304,6 +306,7 @@ python3 scout/tests/test_manual_review.py
 python3 scout/tests/test_drive_view.py
 python3 scout/tests/test_client_master.py
 python3 scout/tests/test_predraft.py       # 05:00のAstra QA前の応募準備draft（新クライアント/過去応募/過去納品・確認済み事実・冪等性・READYにしない）
+python3 scout/tests/test_queue_tier.py      # Astra Queueのtier（主力・マイクロ）とclaude_qa_result
 python3 scout/tests/test_daily_ops.py      # 旧フロー（休止中）の通し（PASS/REJECT/HOLD/未判定・冒頭QA・冪等性・catch-up・最新シート）
 git add scout/state && git commit -m "Scout run <date>" && git push -u origin claude/brave-lovelace-7n0flp
 ```

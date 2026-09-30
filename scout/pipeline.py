@@ -731,6 +731,28 @@ def _net_per_min(j):
     return round(j["net_est"] / max(nums), 1) if j.get("net_est") and nums and max(nums) > 0 else None
 
 
+MAIN_NET_MIN = 1000     # 主力: expected net JPY per job
+MICRO_AI_MIN = 80       # マイクロ: AI completion (%, lower bound of the estimate) ...
+MICRO_NPM_MIN = 30      # ... and expected net JPY per human minute
+
+
+def job_tier(j):
+    """主力 (net >= 1,000 JPY) / マイクロ (under 1,000 JPY but high AI completion and net per human minute)."""
+    app = j.get("application") or {}
+    if app and app.get("actual_reward") is None and str(app.get("reward_evidence", "")).startswith("UNKNOWN"):
+        return "UNKNOWN（報酬不明）"
+    net = app.get("actual_net") if app.get("actual_reward") is not None else j.get("net_est")
+    if net is None:
+        return "UNKNOWN（報酬不明）"
+    if net >= MAIN_NET_MIN:
+        return "主力"
+    ai = re.findall(r"\d+", str((j.get("eval") or {}).get("ai_completion") or ""))
+    npm = _net_per_min(j)
+    if ai and int(ai[0]) >= MICRO_AI_MIN and npm is not None and npm >= MICRO_NPM_MIN:
+        return "マイクロ"
+    return "基準外（1,000円未満・AI完結率または手取り/分が基準未満）"
+
+
 def _clip(n):
     return lambda v: v if not isinstance(v, str) or len(v) <= n else v[:n - 1] + "…"
 
@@ -797,7 +819,19 @@ QUEUE_COLS = [
     ("final_qa_status", lambda j: _app_field(j, "final_qa_status")),
     ("user_confirmation_required", lambda j: _app_field(j, "user_confirmation_required")),
     ("draft_next_action", lambda j: _app_field(j, "next_action")),
+    ("claude_qa_result", lambda j: _qa_result(j)),
+    ("tier", lambda j: job_tier(j)),
 ]
+
+
+def _qa_result(j):
+    """Claude QA of the pre-Astra draft in one cell: PASS / FLAGGED：<what Astra should look at> / NO_DRAFT."""
+    app = j.get("application")
+    if not app:
+        return "NO_DRAFT"
+    if app.get("final_qa_status") == "CLAUDE_QA_PASSED":
+        return "PASS"
+    return "FLAGGED：" + str(app.get("next_action", "")).split("確認事項：", 1)[-1]
 
 
 def _app_field(j, k):
