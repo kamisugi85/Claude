@@ -25,6 +25,7 @@ export                           rebuild scout/out/* from the master
 show-profile                     print the decrypted profile (for the eval step)
 """
 import argparse
+import collections
 import csv
 import datetime as dt
 import hashlib
@@ -63,7 +64,8 @@ ACTUAL_FIELDS = ["actual_human_minutes", "actual_ai_processing", "revision_count
 EVAL_FIELDS = ["classification", "ai_condition", "requirements", "fit", "profile_link",
                "ai_steps", "human_steps", "ai_completion", "human_minutes",
                "est_hourly", "repeatability", "client_risk", "user_questions",
-               "verdict", "reason", "source_notes", "gross_jpy"]
+               "verdict", "reason", "source_notes", "gross_jpy", "lane"]
+LANES = ["Professional", "Experience", "Auto", "Human Premium"]
 
 
 def now_iso():
@@ -172,6 +174,32 @@ TIED_DOWN = re.compile(r"即レス|常時(?:連絡|対応|稼働)|リアルタ�
                        r"日中(?:の|に)?(?:連絡|対応|稼働)|毎日(?:の)?(?:定例|ミーティング|朝会)|定例(?:会議|ミーティング)|長時間の?(?:Zoom|通話|会議)")
 ADDITIONAL_HIRING = re.compile(r"追加募集|継続募集|随時募集|複数名(?:採用|契約|募集)|人数(?:に)?(?:関わらず|を超えて|制限なし)|"
                                r"上限(?:なし|はありません)|何名でも|定員(?:なし|に達しても)|募集人数(?:以上|を超えて)")
+# AI-assisted production (images, slides, simple creatives, AI-drafted content): Auto when the posting is in the
+# AI-BPO group (tier E) or explicitly allows AI generation - not limited to text work
+AI_CREATIVE = re.compile(r"画像生成|AI画像|AIイラスト|生成AI|AI(?:で|を(?:使|活用|用い|利用))|AIツール|ChatGPT|Gemini|Claude|"
+                         r"Canva|キャンバ|Midjourney|Stable\s?Diffusion|Firefly|動画生成|AI動画|サムネイル|バナー|"
+                         r"スライド|投稿画像|インスタ(?:投稿|画像)|LP(?:作成|制作)|ノーコード|"
+                         r"投稿(?:作成|文)|ポスト(?:作成|文)|記事(?:作成|執筆)|原稿|台本|文章作成|ライティング|"
+                         r"コンテンツ(?:作成|制作)|画像(?:作成|制作)|動画(?:作成|制作|編集)|議事録|翻訳|文字起こし")
+CREATIVE_OUT = re.compile(r"画像|イラスト|Canva|キャンバ|スライド|バナー|サムネ|動画|図解|インフォグラフィック")
+# exclusions for AI-assisted production (tiers D / E): the user would have to pay, appear, or do it by hand
+PAID_TOOL = re.compile(r"(?:Canva\s?Pro|Midjourney|Adobe|Photoshop|Illustrator|Premiere|After\s?Effects|有料(?:版|プラン|ツール|アカウント))"
+                       r"[^。\n]{0,15}(?:必須|が必要|をお持ち|契約(?:して|が必要|済み)|ご用意|加入)")
+SELF_APPEARANCE = re.compile(r"顔出し(?!(?:は)?(?:不要|なし|無し|NG|ＮＧ|しない|不可|一切))|"
+                             r"出演(?:していただ|をお願い|者(?:を)?募集|いただける|が必要|できる方)|自撮り|声出し|音声収録|"
+                             r"ナレーション(?:収録|録音)|ライブ配信(?:していただ|をお願い|に出演|を行って)|"
+                             r"ご自身(?:で|の)?(?:撮影|写真|動画|声)|(?:撮影|収録)(?:していただ|をお願い|が必要|できる方)")
+MEETING = re.compile(r"面談|面接|打ち合わせ|打合せ|ミーティング|ZOOM|Zoom|zoom|お話|説明")
+
+
+def self_appearance(text):
+    """The user must appear / take photos / record their voice for the deliverable (a face-on video meeting is
+    the existing interview risk, not this)."""
+    return any(not MEETING.search(text[max(0, m.start() - 20):m.end() + 20]) for m in SELF_APPEARANCE.finditer(text))
+
+
+AI_GEN_BAN = re.compile(r"(?:AI|生成AI)(?:生成|画像|イラスト|で(?:の)?(?:生成|作成))[^。\n]{0,8}(?:禁止|不可|NG|ＮＧ|お断り|不可能)|"
+                        r"手描き(?:のみ|限定)|AI(?:の)?(?:使用|利用)(?:は)?(?:禁止|不可|NG)")
 
 
 def auto_able(r):
@@ -180,8 +208,11 @@ def auto_able(r):
     if "desc" not in r:
         return bool(r.get("auto_able"))
     text = r["title"] + "\n" + r["desc"][:3000]
-    return bool(AUTO_RE.search(text)) and not MANUAL_ONLY.search(text) and not TOS_SCRAPE.search(text) \
-        and not SNS_OUTREACH.search(text) \
+    # outside AI-BPO, only a non-text deliverable made with explicitly allowed AI counts (AI writing is unchanged)
+    creative = bool(AI_CREATIVE.search(text)) and (
+        "E" in r.get("tiers", []) or (r.get("ai_policy") == "A" and bool(CREATIVE_OUT.search(text))))
+    return bool(AUTO_RE.search(text) or creative) and not MANUAL_ONLY.search(text) and not TOS_SCRAPE.search(text) \
+        and not SNS_OUTREACH.search(text) and not AI_GEN_BAN.search(text) \
         and r.get("ai_policy") != "D"
 
 
@@ -248,14 +279,23 @@ def rule_filter(r, profile):
         reasons.append("専門キーワードのみ一致・プロフィール接点なし")
     if "D" in tiers and tiers <= {"C", "D"} and not hits and not auto:
         reasons.append("データ・調査系だがAuto処理の手掛かりなし・プロフィール接点なし")
+    if "E" in tiers and tiers <= {"C", "D", "E"} and not hits and not auto:
+        reasons.append("AI-BPOだがAI・自動処理で本人作業を減らせる手掛かりなし・プロフィール接点なし")
+    added = tiers & {"D", "E"}  # search entries added 2026-10-03: data / research and AI-BPO
     if PHONE_WORK.search(text):
         reasons.append("電話対応・架電あり（本人拘束）")
-    if "D" in tiers and MANUAL_ONLY.search(text):
+    if added and MANUAL_ONLY.search(text):
         reasons.append("手作業指定・ツール使用不可（Auto不可）")
     if TOS_SCRAPE.search(text):
         reasons.append("規約上許されない自動取得")
-    if "D" in tiers and SNS_OUTREACH.search(text):
+    if added and SNS_OUTREACH.search(text):
         reasons.append("SNS・フォーム経由の送信作業（自動化は規約違反・手作業の反復）")
+    if added and AI_GEN_BAN.search(text):
+        reasons.append("AI生成禁止")
+    if added and PAID_TOOL.search(text):
+        reasons.append("有料ツールの追加契約が必要")
+    if added and self_appearance(text):
+        reasons.append("本人の撮影・出演・音声が必要")
     if "B" in tiers and r["ai_policy"] == "C" and not hits and pay_type != "task":
         reasons.append("AI利用条件不明・プロフィール接点なし")
     if COMMISSION.search(r["title"]):
@@ -292,7 +332,7 @@ def est_human_minutes(r):
         return {"A": 3 + 3 * k, "B": 10 + 20 * k}.get(pol, 15 + 25 * k)
     if pay["type"] == "hourly":
         return 600.0  # hourly pay does not reward AI speed-up
-    if auto_able(r) and ("D" in r.get("tiers", []) or AUTO_RE.search(r["title"])) and not r.get("role_like") \
+    if auto_able(r) and ({"D", "E"} & set(r.get("tiers", [])) or AUTO_RE.search(r["title"])) and not r.get("role_like") \
             and not ("desc" in r and ROLE_RE.search(r["title"] + r["desc"][:1500])):
         # Auto: the user's minutes are the check after AI / script processing, not the manual work
         return max(15.0, gross_of(pay) / 3000 * 60 * 0.15)
@@ -342,7 +382,7 @@ def priority(r, n_hits, date, change=None):
     urgency = 1.6 if d <= 2 else 1.25 if d <= 5 else 1.0
     tiers = set(r.get("tiers", []))
     auto = auto_able(r)
-    tier_f = 1.25 if "C" in tiers and n_hits else 1.1 if "B" in tiers or ("D" in tiers and auto) else 0.8
+    tier_f = 1.25 if "C" in tiers and n_hits else 1.1 if "B" in tiers or ({"D", "E"} & tiers and auto) else 0.8
     ai_f = {"A": 1.3, "B": 1.0, "C": 1.0 if auto else 0.8}.get(r.get("ai_policy"), 0.5)
     repeat_f = 1 + 0.05 * min(r.get("client_open_jobs") or 1, 10)
     c = r.get("client") or {}
@@ -352,7 +392,7 @@ def priority(r, n_hits, date, change=None):
         s *= 0.3  # aimed at a demographic / owners the profile does not confirm
     if r.get("tied_down") if "desc" not in r else TIED_DOWN.search(r["title"] + r["desc"][:3000]):
         s *= 0.4  # needs the user's attention during the day
-    if "D" in tiers and EASY_BAIT.search(r.get("title", "")) and gross_of(r["pay"]) >= 50000:
+    if {"D", "E"} & tiers and EASY_BAIT.search(r.get("title", "")) and gross_of(r["pay"]) >= 50000:
         s *= 0.3  # "easy / no experience" + a large budget: typical recruitment bait, ranked low (not excluded)
     if change and change != ["バックログ"]:
         s *= 1.5  # new / changed first
@@ -446,7 +486,7 @@ def job_facts(r):
     gross = gross_of(r["pay"])
     return {
         "job_id": r["id"], "url": r["url"], "title": r["title"], "tiers": r["tiers"],
-        "category_id": r["category_id"], "pay": r["pay"], "gross": gross,
+        "category_id": r["category_id"], "released_at": r.get("released_at"), "pay": r["pay"], "gross": gross,
         "net_est": round(gross * (1 - FEE_RATE)) if gross else None,
         "expired_on": r["expired_on"], "entry": r.get("entry"),
         "client": {k: c.get(k) for k in ("userId", "userDisplayName", "isIdentityVerified",
@@ -500,9 +540,59 @@ def cmd_profile_fact(a):
     print(json.dumps({"index": facts.index(rec), **rec}, ensure_ascii=False))
 
 
+# Two runs a day (RUNBOOK 2.1): 05:00 morning_full (unchanged) and 17:00 evening_delta, a light run over what
+# appeared or changed since 05:00 only. Its outputs live under data/<date>/evening/ so the morning files stay.
+RUN_TYPES = {"morning": "morning_full", "evening": "evening_delta"}
+RUN_LIMITS = {"morning": {"cap": 60, "budget_chars": 70000},
+              # sized on real data (RUNBOOK 2.1): 2026-10-03 05:19-17:00 had 32 rule-passed new postings (1,295 chars
+              # each on average; the top 15 by priority = 17,416 chars); 9/30-10/3 had ~7 candidates/day posted then
+              "evening": {"cap": 15, "budget_chars": 20000}}
+IMPORTANT_CHANGES = {"報酬変更", "募集条件変更", "AI利用条件変更"}  # re-evaluated at 17:00; others wait for 05:00
+CONTINUING = re.compile(r"継続(?:的|して|案件|依頼|発注)|長期|定期(?:的|発注)|毎月|毎週")
+
+
+def run_dir(date, run="morning"):
+    d = os.path.join(ROOT, "data", date)
+    return d if run == "morning" else os.path.join(d, run)
+
+
+def _hours(later, earlier):
+    try:
+        return (dt.datetime.fromisoformat(later) - dt.datetime.fromisoformat(earlier)).total_seconds() / 3600
+    except (TypeError, ValueError):
+        return None
+
+
+def delay_stats(hours):
+    """n / mean / median / max of release -> Scout hours (negative or unknown values are left out)."""
+    h = sorted(x for x in hours if x is not None and x >= 0)
+    if not h:
+        return {"n": 0}
+    mid = len(h) // 2
+    med = h[mid] if len(h) % 2 else (h[mid - 1] + h[mid]) / 2
+    return {"n": len(h), "mean": round(sum(h) / len(h), 1), "median": round(med, 1), "max": round(h[-1], 1)}
+
+
+def speed_factor(r, now):
+    """17:00 ranking only: applying early matters while the posting is fresh and the slots are still open,
+    and repeat work is worth more than a one-off."""
+    f = 1.0
+    h = _hours(now, r.get("released_at"))
+    if h is not None and h <= 12 and accept_prob(r) >= 0.5:
+        f *= 1.2
+    if "desc" in r and CONTINUING.search(r["desc"][:3000]):
+        f *= 1.1
+    return f
+
+
 def cmd_prepare(a):
     date = a.date
-    ddir = os.path.join(ROOT, "data", date)
+    run = getattr(a, "run", "morning")
+    evening = run == "evening"
+    for k, v in RUN_LIMITS[run].items():
+        if getattr(a, k, None) is None:
+            setattr(a, k, v)
+    ddir = run_dir(date, run)
     rows = [json.loads(l) for l in open(os.path.join(ddir, "jobs.jsonl"), encoding="utf-8")]
     listed = load_json(os.path.join(ddir, "listed.json"), {})
     summ = load_json(os.path.join(ddir, "summary.json"), {})
@@ -513,12 +603,18 @@ def cmd_prepare(a):
     for jid in listed:
         if jid in index:
             index[jid]["last_seen"] = ts
-    counts = {"rule_rejected": 0, "unchanged_evaluated": 0, "delta": 0, "new_pass": 0}
+    counts = {"rule_rejected": 0, "unchanged_evaluated": 0, "delta": 0, "new_pass": 0, "deferred_to_morning": 0}
     pending = []
+    before = {}  # index entries as they were before this run (17:00: restored for what it leaves to 05:00)
+    new_hours, new_ids = [], set()
     for r in rows:
         jid = str(r["id"])
         status, reasons, hits = rule_filter(r, profile)
         prev_status = (index.get(jid) or {}).get("status")
+        before[jid] = json.loads(json.dumps(index[jid])) if jid in index else None
+        if before[jid] is None and jid not in master:
+            new_ids.add(jid)
+            new_hours.append(_hours(ts, r.get("released_at")))
         ent = index.setdefault(jid, {"first_seen": r.get("first_seen", ts)})
         ent.update({"last_seen": ts, "listing_fp": r.get("listing_fp"), "desc_hash": r["desc_hash"],
                     "client_id": r["client"].get("userId"), "expired_on": r["expired_on"]})
@@ -529,6 +625,13 @@ def cmd_prepare(a):
                 counts["unchanged_evaluated"] += 1
                 continue
             why = change_reasons(old, r)
+            if evening and (old.get("status") == "ASTRA_QA_PENDING" or not IMPORTANT_CHANGES & set(why)):
+                # already handed to Astra (its 06:00 QA may have used it), or a minor change: noted on the job,
+                # re-evaluated by the 05:00 run as before (the index is restored below)
+                old.setdefault("change_log", []).append({"at": ts, "changes": why, "run": RUN_TYPES[run],
+                                                         "note": "17:00で検知・05:00で再評価"})
+                counts["deferred_to_morning"] += 1
+                continue
             master[jid].update({k: val for k, val in job_facts(r).items() if k != "detail_fp"})
             if old.get("status") not in CLAUDE_OWNED:
                 old.setdefault("change_log", []).append({"at": ts, "changes": why})
@@ -542,18 +645,27 @@ def cmd_prepare(a):
             counts["delta"] += 1
             pending.append((prescore(r, hits, date, why), r, hits, why or ["詳細変更"]))
             continue
+        if evening and before[jid] is not None and before[jid].get("rule_fp") == fp:
+            counts["unchanged_evaluated"] += 1  # handled at 05:00 and unchanged since
+            continue
         if status == "RULE_REJECTED":
             ent.update({"status": "RULE_REJECTED", "reasons": reasons, "rule_fp": fp})
             counts["rule_rejected"] += 1
             continue
         ent.update({"status": "SCOUTED", "rule_fp": fp})
-        label = ["バックログ"] if prev_status == "SCOUTED" else ["新規"]
+        if evening:
+            label = ["新規"] if before[jid] is None else ["条件変更"]
+        else:
+            label = ["バックログ"] if prev_status == "SCOUTED" else ["新規"]
         counts["new_pass"] += label == ["新規"]
-        pending.append((prescore(r, hits, date, label), r, hits, label))
+        score = prescore(r, hits, date, label)
+        if evening:
+            score = round(score * speed_factor(r, ts), 3)
+        pending.append((score, r, hits, label))
     # backlog: rule-passed jobs not yet evaluated (public-safe, no personal data)
     backlog_path = os.path.join(STATE, "backlog.json")
     backlog = load_json(backlog_path, {})
-    for score, r, hits, why in pending:
+    for score, r, hits, why in ([] if evening else pending):  # 17:00 leaves what it does not send to 05:00
         if str(r["id"]) not in master:
             backlog[str(r["id"])] = {**{k: r.get(k) for k in BACKLOG_KEYS}, "prescore": score,
                                      "fit_n": min(len(hits), 3), **_text_flags(r)}
@@ -572,7 +684,7 @@ def cmd_prepare(a):
         used += cost
     new_selected = sum(1 for c in chosen if c[3] != ["バックログ"])
     chosen_ids = {str(c[1]["id"]) for c in chosen}
-    if len(chosen) < a.cap and used < budget:
+    if not evening and len(chosen) < a.cap and used < budget:  # backlog refill: 05:00 only
         for b in backlog.values():  # re-rank with today's urgency
             b["prescore"] = priority(b, b.get("fit_n", 0), date)
         extra = sorted((b for k, b in backlog.items() if k not in chosen_ids and k not in master
@@ -591,6 +703,24 @@ def cmd_prepare(a):
                 continue
             chosen.append((b["prescore"], r, hits, ["バックログ"]))
             used += min(len(r["desc"]), a.desc_chars) + 600
+    if evening:
+        # what 17:00 does not send to Claude goes back to the 05:00 run exactly as if 17:00 had not seen it:
+        # the index entry is restored (or removed), so the 05:00 delta scan lists it as new / changed again
+        sent = {str(c[1]["id"]) for c in chosen}
+        for _, r, _, _ in pending:
+            jid = str(r["id"])
+            if jid in sent:
+                continue
+            counts["deferred_to_morning"] += 1
+            if before.get(jid) is None:
+                index.pop(jid, None)
+            else:
+                index[jid] = before[jid]
+        for r in rows:  # changes noted for 05:00 (Astra Queue jobs / minor changes)
+            jid = str(r["id"])
+            if jid in master and jid not in sent and before.get(jid) is not None \
+                    and master[jid].get("detail_fp") != detail_fp(r):
+                index[jid] = before[jid]
     for c in chosen:  # keep until merged, so an interrupted run does not lose them
         r = c[1]
         backlog.setdefault(str(r["id"]), {**{k: r.get(k) for k in BACKLOG_KEYS}, "prescore": c[0],
@@ -618,7 +748,7 @@ def cmd_prepare(a):
             "needs_experience": r.get("needs_experience"), "desc": r["desc"][:a.desc_chars],
         })
     save_json(os.path.join(ddir, "pending_eval.json"),
-              {"date": date, "calibration": calibration(master), "jobs": out})
+              {"date": date, "run_type": RUN_TYPES[run], "calibration": calibration(master), "jobs": out})
     # keep the full rows for jobs sent to Claude so merge can build master entries
     with open(os.path.join(ddir, "pending_rows.jsonl"), "w", encoding="utf-8") as fo:
         for _, r, _, _ in chosen:
@@ -632,7 +762,9 @@ def cmd_prepare(a):
     save_json(os.path.join(STATE, "index.json"), index)
     v["master"] = master
     vault_save(v)
-    run = {"run_at": ts, "date": date, "mode": summ.get("mode"), "listed": summ.get("listed"),
+    new_entry = lambda r: set(r.get("tiers", [])) <= {"D", "E"}  # reached only via the 2026-10-03 entries
+    run = {"run_at": ts, "date": date, "run_type": RUN_TYPES[run], "mode": summ.get("mode"),
+           "limits": {"cap": a.cap, "budget_chars": a.budget_chars}, "listed": summ.get("listed"),
            "processed_details": summ.get("processed"), "new": summ.get("new"),
            "dedupe_skipped": (summ.get("unchanged_skipped") or 0) + counts["unchanged_evaluated"],
            "rule_rejected": counts["rule_rejected"], "delta_reeval": counts["delta"],
@@ -643,7 +775,14 @@ def cmd_prepare(a):
            "est_ai_usage": {"eval_jobs": len(out),
                             "eval_input_chars": sum(len(x["desc"]) + 600 for x in out)},
            # pre-Claude mix of what was sent (rule estimates; Claude decides the real lane / tier)
-           "candidate_mix": candidate_mix(chosen)}
+           "candidate_mix": candidate_mix(chosen),
+           "deferred_to_morning": counts["deferred_to_morning"],
+           # posting (last_released_at) -> this run, for postings first seen by this run
+           "detect_delay_h": delay_stats(new_hours),
+           "new_entry": {"listed_only": summ.get("listed_new_entry_only"), "listed_ai_bpo_only": summ.get("listed_ai_bpo_only"),
+                         "new": sum(1 for r in rows if str(r["id"]) in new_ids and new_entry(r)),
+                         "sent_to_claude": sum(1 for c in chosen if new_entry(c[1])),
+                         "ai_bpo_sent": sum(1 for c in chosen if "E" in c[1].get("tiers", []))}}
     save_json(os.path.join(ddir, "run.json"), run)
     print(json.dumps(run, ensure_ascii=False))
 
@@ -676,7 +815,9 @@ def calibration(master):
 
 
 def cmd_merge(a):
-    ddir = os.path.join(ROOT, "data", a.date)
+    run_slot = getattr(a, "run", "morning")
+    ddir = run_dir(a.date, run_slot)
+    run_type = RUN_TYPES[run_slot]
     evals = load_json(a.evals, [])
     rows = {str(json.loads(l)["id"]): json.loads(l)
             for l in open(os.path.join(ddir, "pending_rows.jsonl"), encoding="utf-8")}
@@ -684,6 +825,7 @@ def cmd_merge(a):
     v = vault_load()
     master = v["master"]
     queued = rejected = candidates = 0
+    added_ids, lanes = [], collections.Counter()
     for e in evals:
         jid = str(e["job_id"])
         r = rows.get(jid)
@@ -701,6 +843,8 @@ def cmd_merge(a):
             job["gross"] = e["gross_jpy"]
             job["net_est"] = round(e["gross_jpy"] * (1 - FEE_RATE))
         job["eval"]["evaluated_at"] = now_iso()
+        job["eval"]["run_type"] = run_type
+        lanes[e.get("lane") if e.get("lane") in LANES else "未記入"] += 1
         job.setdefault("actual", {k: None for k in ACTUAL_FIELDS})
         if job.get("status") not in CLAUDE_OWNED and job.get("status") is not None:
             continue
@@ -712,9 +856,13 @@ def cmd_merge(a):
             candidates += e.get("verdict") == "候補"
             if job.get("status") != "ASTRA_QA_PENDING":
                 set_status(job, "CLAUDE_CANDIDATE", "claude", e.get("verdict"))
-                set_status(job, "ASTRA_QA_PENDING", "claude")
+                set_status(job, "ASTRA_QA_PENDING", "claude", run_type)
                 if not job.get("application"):
                     job["pre_draft_due"] = True  # application.py drafts it before Astra's QA (RUNBOOK 5.7)
+                # which run put it in the Astra Queue (Astra's same-day QA of the 17:00 additions keys on this)
+                job["queued_run"] = f"{a.date} {run_type}"
+                job["queued_at"] = now_iso()
+                added_ids.append(jid)
             queued += 1
         else:
             set_status(job, "CLAUDE_REJECTED", "claude", e.get("reason", ""))
@@ -732,9 +880,15 @@ def cmd_merge(a):
     run_path = os.path.join(ddir, "run.json")
     run = load_json(run_path, {"date": a.date})
     upd = load_json(os.path.join(ddir, "updates_summary.json"), {})
-    run.update({"claude_evaluated": len(evals), "claude_candidates": candidates,
+    added = [master[j] for j in added_ids]
+    tiers = collections.Counter(job_tier(j).split("（")[0] for j in added)
+    run.update({"run_type": run_type, "claude_evaluated": len(evals), "claude_candidates": candidates,
                 "claude_needs_check": queued - candidates, "claude_rejected": rejected,
-                "astra_queue_added": queued, "astra_pass": upd.get("astra_pass", 0),
+                "astra_queue_added": len(added), "astra_queue_requeued": queued - len(added),
+                "lane_mix": dict(lanes), "tier_mix": {k: tiers.get(k, 0) for k in ("主力", "マイクロ", "基準外", "UNKNOWN")},
+                # posting -> entering the Astra Queue (what decides how early Astra can QA it)
+                "queue_delay_h": delay_stats([_hours(j["queued_at"], j.get("released_at")) for j in added]),
+                "astra_queue_added_new_entry": sum(1 for j in added if set(j.get("tiers") or []) <= {"D", "E"}), "astra_pass": upd.get("astra_pass", 0),
                 "astra_reject": upd.get("astra_reject", 0), "need_user": upd.get("need_user", 0),
                 "scout_misses_reported": upd.get("scout_miss", 0),
                 "astra_queue_total": sum(1 for j in master.values() if j.get("status") == "ASTRA_QA_PENDING")})
@@ -969,8 +1123,33 @@ QUEUE_COLS = [
     ("applicable_net_per_human_min", _applicable_net_per_min),
     ("client_facts", _client_facts_col),
     ("provenance", _provenance),
+    # which Scout run queued it (05:00 morning_full / 17:00 evening_delta) and when: Astra's same-day QA of the
+    # 17:00 additions selects `scout_run` = "<today> evening_delta"; rows already in the Queue keep their run
+    ("scout_run", lambda j: _queued(j)[0]),
+    ("queued_at", lambda j: _queued(j)[1]),
+    ("released_at", lambda j: j.get("released_at") or ""),
+    ("condition_change", lambda j: _condition_change(j)),
     ("truncated", lambda j: ""),  # filled by export when the Drive copy had to drop low-priority text
 ]
+
+
+def _queued(j):
+    """(run, time) the job entered the Astra Queue; jobs queued before 2026-10-03 carry no run tag and were all
+    queued by the 05:00 run (the only Scout run then)."""
+    if j.get("queued_run"):
+        return j["queued_run"], j.get("queued_at", "")
+    at = next((h["at"] for h in reversed(j.get("status_history", [])) if h["status"] == "ASTRA_QA_PENDING"), "")
+    return (f"{at[:10]} morning_full" if at else ""), at
+
+
+def _condition_change(j):
+    """Changes Scout saw after the job entered the Astra Queue (not re-evaluated until the next 05:00 run)."""
+    since = _queued(j)[1]
+    ch = [c for c in j.get("change_log", []) if c.get("at", "") >= since]
+    if not ch:
+        return ""
+    c = ch[-1]
+    return f"{c['at']} {'/'.join(c.get('changes') or ['詳細変更'])}（{c.get('note', '')}）"
 # Dropped first (blanked, and named in `truncated`) when the Astra Queue exceeds its Drive budget; the
 # questions, this application's reward and unverified facts are never among them.
 QUEUE_LOW_PRIORITY = ["ai_steps", "human_steps", "hourly_est", "repeatability", "source_check", "pay_detail",
@@ -1507,6 +1686,49 @@ def cmd_metrics(a):
     print(json.dumps(out, ensure_ascii=False, indent=1))
 
 
+def daily_metrics(date, runs, master):
+    """One day of the 05:00 + 17:00 schedule vs the 05:00-only schedule (no personal data)."""
+    day = [r for r in runs if r.get("date") == date]
+    morning = next((r for r in day if r.get("run_type", "morning_full") == "morning_full"), {})
+    evening = next((r for r in day if r.get("run_type") == "evening_delta"), {})
+    # 05:00-only: a job queued at 17:00 would have entered the Queue with the next morning's run, at the same
+    # time of day as today's (estimate; it assumes that run would have had room for it)
+    m_at = morning.get("run_at") or f"{date}T05:15+09:00"
+    next_morning = (dt.datetime.fromisoformat(m_at) + dt.timedelta(days=1)).isoformat(timespec="minutes")
+    actual, only05, ev_only = [], [], collections.Counter()
+    for j in master.values():
+        run, at = _queued(j)
+        if not run.startswith(date) or not at:
+            continue
+        h = _hours(at, j.get("released_at"))
+        actual.append(h)
+        if run.endswith("evening_delta"):
+            only05.append(_hours(next_morning, j.get("released_at")))
+            ev_only[job_tier(j).split("（")[0]] += 1
+        else:
+            only05.append(h)
+    use = lambda r: (r.get("est_ai_usage") or {})
+    return {"date": date, "runs": [r.get("run_type", "morning_full") for r in day],
+            "queue_delay_h_actual": delay_stats(actual),
+            "queue_delay_h_if_0500_only": delay_stats(only05),
+            "evening_only_added": sum(ev_only.values()),
+            "evening_only_high_value": {"主力": ev_only.get("主力", 0), "マイクロ": ev_only.get("マイクロ", 0)},
+            "claude_usage": {"morning": {"jobs": use(morning).get("eval_jobs", 0), "chars": use(morning).get("eval_input_chars", 0)},
+                             "evening_extra": {"jobs": use(evening).get("eval_jobs", 0), "chars": use(evening).get("eval_input_chars", 0)}}}
+
+
+def cmd_daily_metrics(a):
+    runs_path = os.path.join(STATE, "runs.jsonl")
+    runs = [json.loads(l) for l in open(runs_path, encoding="utf-8")] if os.path.exists(runs_path) else []
+    rec = daily_metrics(a.date, runs, vault_load()["master"])
+    path = os.path.join(STATE, "daily_metrics.jsonl")
+    rows = [json.loads(l) for l in open(path, encoding="utf-8")] if os.path.exists(path) else []
+    rows = [x for x in rows if x.get("date") != a.date] + [rec]
+    with open(path, "w", encoding="utf-8") as fo:
+        fo.writelines(json.dumps(x, ensure_ascii=False) + "\n" for x in sorted(rows, key=lambda x: x["date"]))
+    print(json.dumps(rec, ensure_ascii=False))
+
+
 def cmd_set_meta(a):
     v = vault_load()
     meta = v.setdefault("meta", {})
@@ -1606,13 +1828,17 @@ def main():
     p.set_defaults(fn=cmd_init_vault)
     p = sub.add_parser("show-profile"); p.set_defaults(fn=cmd_show_profile)
     p = sub.add_parser("prepare"); p.add_argument("--date", default=today())
-    p.add_argument("--cap", type=int, default=60, help="max jobs sent to Claude")
-    p.add_argument("--budget-chars", type=int, default=70000, help="max eval input chars per run")
+    p.add_argument("--run", choices=list(RUN_TYPES), default="morning", help="evening: 17:00 light delta run")
+    p.add_argument("--cap", type=int, default=None, help="max jobs sent to Claude (default: RUN_LIMITS by run)")
+    p.add_argument("--budget-chars", type=int, default=None, help="max eval input chars per run (default: RUN_LIMITS)")
     p.add_argument("--min-priority", type=float, default=3.0, help="backlog floor (priority units)")
     p.add_argument("--desc-chars", type=int, default=1800)
     p.set_defaults(fn=cmd_prepare)
     p = sub.add_parser("merge"); p.add_argument("--date", default=today()); p.add_argument("--evals", required=True)
+    p.add_argument("--run", choices=list(RUN_TYPES), default="morning")
     p.set_defaults(fn=cmd_merge)
+    p = sub.add_parser("daily-metrics", help="05:00+17:00 vs 05:00-only for one day -> state/daily_metrics.jsonl")
+    p.add_argument("--date", default=today()); p.set_defaults(fn=cmd_daily_metrics)
     p = sub.add_parser("apply-updates"); p.add_argument("--csv", required=True); p.add_argument("--date", default=today())
     p.set_defaults(fn=cmd_apply_updates)
     p = sub.add_parser("su-columns", help="add missing tracking columns to Status Updates (idempotent)")

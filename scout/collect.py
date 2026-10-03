@@ -8,9 +8,9 @@ repeatability). The output is a shortlist that Claude reviews by hand before
 writing the daily hand-off report for Astra.
 
 Usage:
-    python3 scout/collect.py [--date YYYY-MM-DD]
+    python3 scout/collect.py [--date YYYY-MM-DD] [--mode full|delta] [--run morning|evening]
 
-Outputs (under scout/data/<date>/):
+Outputs (under scout/data/<date>/, or scout/data/<date>/evening/ for the 17:00 run):
     jobs.jsonl        every collected posting with parsed fields and flags
     summary.json      counts per tier / flag
 State (committed):
@@ -66,6 +66,24 @@ for cid, name in DATA_CATEGORIES.items():
 # 2026-10-03, mostly postings that only name the delivery format -> noise; "財務分析": 0 hits)
 for kw in ["営業リスト", "企業リスト", "転記", "データ整理", "競合分析"]:
     QUERIES.append((f"kw:{kw}", "search%5Bkeywords%5D=" + urllib.parse.quote(kw), "D"))
+# AI-BPO group (tier "E": AI-assisted production / operations, not limited to text). Checked on 2026-10-03:
+# /public/jobs/category/367 is the group page "AI-BPO（AI活用の業務改善）" and its search returns exactly the
+# category_ids 368-372; each id's page title gives the name below and its own search returns only that id.
+# (13502286, AI image generation with Canva, is category 371.)
+AI_BPO_CATEGORIES = {
+    368: "AI営業・マーケティング支援", 369: "AIバックオフィス支援", 370: "AIシステム開発・導入・自動化支援",
+    371: "AIメディア・コンテンツ構築支援", 372: "その他業務AI化支援",
+}
+for cid, name in AI_BPO_CATEGORIES.items():
+    QUERIES.append((f"cat:{cid}:{name}", f"category_id={cid}", "E"))
+# tiers reached only through the search entries added on 2026-10-03 (run metrics: "new entry" share)
+NEW_ENTRY_TIERS = {"D", "E"}
+RUNS = ("morning", "evening")  # 05:00 run (data/<date>/) and 17:00 light delta run (data/<date>/evening/)
+
+
+def run_dir(date, run="morning"):
+    d = os.path.join(ROOT, "data", date)
+    return d if run == "morning" else os.path.join(d, run)
 
 
 def curl(url, retries=4):
@@ -251,8 +269,12 @@ def main():
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--mode", choices=["full", "delta"], default="full",
                     help="delta: only new or listing-changed jobs vs scout/state/index.json")
+    ap.add_argument("--run", choices=RUNS, default="morning",
+                    help="evening: 17:00 light delta run (always delta; output under data/<date>/evening/)")
     args = ap.parse_args()
-    out_dir = os.path.join(ROOT, "data", args.date)
+    if args.run == "evening":
+        args.mode = "delta"
+    out_dir = run_dir(args.date, args.run)
     cache = os.path.join(ROOT, "data", "cache")
     os.makedirs(out_dir, exist_ok=True)
     os.makedirs(cache, exist_ok=True)
@@ -330,9 +352,12 @@ def main():
             fo.write(json.dumps(r, ensure_ascii=False) + "\n")
     json.dump(listed, open(os.path.join(out_dir, "listed.json"), "w"))
     summ = {
-        "date": args.date, "mode": args.mode, "listed": len(jobs),
+        "date": args.date, "mode": args.mode, "run": args.run, "listed": len(jobs),
         "processed": len(rows), "new": sum(r["is_new"] for r in rows),
         "unchanged_skipped": len(jobs) - len(todo), "errors": errors,
+        # search population reached only through the entries added on 2026-10-03 (data / research, AI-BPO)
+        "listed_new_entry_only": sum(1 for t in sources.values() if t <= NEW_ENTRY_TIERS),
+        "listed_ai_bpo_only": sum(1 for t in sources.values() if t == {"E"}),
         "tiers": collections.Counter(t for r in rows for t in r["tiers"]),
         "ai_policy": collections.Counter(r["ai_policy"] for r in rows),
     }

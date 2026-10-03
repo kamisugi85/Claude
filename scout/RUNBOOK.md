@@ -1,4 +1,4 @@
-# Scout 日次実行手順（毎朝05:00 JST）
+# Scout 日次実行手順（毎朝05:00 JST ＋ 17:00 軽量Delta Scan）
 
 日次スケジュール（2026-09-30改定）：05:00 Claude Scout・一次評価・**応募準備draftまで完了**（Astra Queueに応募文・設問回答を載せる）→ 06:00 Astra QA（案件の評価と応募文・設問回答をまとめて二次QA。必要なら応募文も修正）→ Astraが本人へ最終通知。
 
@@ -62,6 +62,9 @@ python3 scout/pipeline.py prepare          # 既定：最大60件、評価入力
   - `writing_all`（category_id=228）・`task_all`（payment_type=task）・専門キーワード（tier C）は従来どおり。
   - データ・調査系カテゴリ（tier D。2026-10-03にCrowdWorks公開ページの category id と名称、各カテゴリページのタイトル・検索結果の category_id で確認）：54 データ検索・データ収集／52 データ入力／282 スクレイピング・データ収集／146 資料作成・マニュアル作成／100 市場調査・マーケットリサーチ／86 調査・リサーチ／201 リスト作成／103 データ分類・カテゴリ分け／66 データ分析・統計解析。カテゴリIDは推測で足さない（追加するときは同じ方法で確認する）。
   - Auto系キーワード（tier D）：営業リスト・企業リスト・転記・データ整理・競合分析。
+  - AI-BPOグループ（tier E。2026-10-03に確認：`/public/jobs/category/367` が「AI-BPO（AI活用の業務改善）」のグループページで、その検索結果の category_id は368〜372だけ。各IDのページタイトルで名称、各IDの検索結果がそのIDだけであることを確認）：368 AI営業・マーケティング支援／369 AIバックオフィス支援／370 AIシステム開発・導入・自動化支援／371 AIメディア・コンテンツ構築支援／372 その他業務AI化支援。13502286（AI画像生成＋Canvaの投稿画像制作）は371。
+  - Autoはテキストに限らない：tier E（AI-BPO）では、生成AI・AI画像生成・Canva・AI動画・資料・投稿/記事/台本などのAI補助制作も Auto の手掛かりにする。AI-BPO以外では、AI生成が明示的に許可され（AI条件A）、成果物が画像・Canva・スライド・動画などのときだけ（AIライティングの扱いは従来どおり）。
+  - tier D / E で Claude前に除外：有料ツールの追加契約が必須（Canva Pro・Adobe・Midjourney等の契約・用意が必須）、本人の撮影・出演・音声（顔出しでの掲載、ご自身で撮影した写真、音声収録など。「顔出し不要」やZoom面談での顔出しは対象外）、AI生成禁止・AI使用禁止、手作業指定、SNSのDM・フォーム送信作業。AI・自動処理で本人作業を減らせる手掛かりもプロフィール接点もないAI-BPO案件（営業・エンジニア常駐・相談役など）も除外。継続的な本人拘束（稼働条件が重い）は従来どおり除外、即レス等は減点。
   - tier D は、プロフィールのキーワードに一致しなくても Auto 処理の手掛かり（データ入力・収集・転記・Excel/スプレッドシート・PDF/Word・分類・要約・リライト・調査・資料作成など）があれば残す。手掛かりもプロフィール接点もない案件（アンケート・モニター・視聴・現地作業など）はClaude前に除外する。
   - Auto案件の推定本人作業時間（Claude前の順位付け用）は、手作業の時間ではなく自動処理後の確認時間（予算相当時間の15%、最低15分）。スタッフ・アシスタント・秘書など時間で働く募集には適用しない。
   - 検索母集団が増えても、Claudeに送る件数は従来の上限（`prepare` の `--cap 60`・`--budget-chars 70000`）のまま。順位は 推定手取額 × 受注確率 ÷ 推定本人作業時間 に係数を掛けたもの。`runs.jsonl` の `candidate_mix` に、Claudeへ送った案件の内訳（Professional / Auto / Other、手取り1,000円以上 / 未満、データ系カテゴリ由来）が残る。
@@ -79,6 +82,29 @@ python3 scout/pipeline.py prepare          # 既定：最大60件、評価入力
   - 差分の再評価対象の抽出：報酬、条件、AI条件、募集状態、発注者の変化
   - バックログからの補充
 - 出力：`scout/data/<date>/pending_eval.json`
+
+## 2.1 17:00 軽量Delta Scan（evening_delta）
+05:00（morning_full）は従来どおり。17:00は、05:00以降に新しく掲載された案件・重要条件が変わった案件・05:00で取れなかった案件だけを見る軽量の実行。
+```bash
+python3 scout/collect.py --run evening            # 常にdelta。出力は scout/data/<date>/evening/
+python3 scout/pipeline.py prepare --run evening   # 既定：最大15件・評価入力20,000字（RUN_LIMITS["evening"]）
+# Claude一次評価（EVAL_GUIDE。pending_eval.json は scout/data/<date>/evening/）→ evals.json も同じ場所
+python3 scout/pipeline.py merge --run evening --evals scout/data/<date>/evening/evals.json
+# 応募準備（4.7：app-check → app-plan --cap 40 → app_drafts.json → app-merge）、Drive同期（5.0・5）、
+python3 scout/pipeline.py daily-metrics           # 05:00だけの場合との比較を state/daily_metrics.jsonl へ
+```
+- 対象：
+  - 05:00で処理済み（Claude評価済み、またはルール判定済み）で変化のない案件は、Claudeに再送しない。
+  - 05:00以降の新着（indexにない案件）、ルール判定済みの案件で詳細が変わったもの（`条件変更`）、Claude評価済み・未キューの案件の重要な変更（報酬変更・募集条件変更・AI利用条件変更）。
+  - Astra Queueに入っている案件（06:00のAstra QAが使った可能性がある）の変更は、17:00では再評価せず、案件の `change_log` と Astra Queue の `condition_change` 列に記録して、翌05:00の通常処理に回す。期限の延長など重要でない変更も05:00に回す。
+- 検索・ルール処理は対象の新着全件に行う。Claudeに送るのはルール通過後の上位だけ。順位は05:00と同じ式（推定手取額×受注確率÷推定本人作業時間×AI条件・適合度・分類・同発注者の案件数・緊急度）に、17:00だけ応募速度（掲載12時間以内で募集枠に余裕：×1.2）と継続性（継続・長期・定期：×1.1）を掛ける。
+- 17:00で枠に入らなかった案件（`deferred_to_morning`）は、index を17:00前の状態に戻す（新着はindexから外す）。翌05:00のDelta Scanが、17:00が無かった場合と同じく新着・変更として扱う（バックログに埋もれない）。
+- Claude利用量の上限（2026-10-03の実データで決定。`RUN_LIMITS`）：
+  - 05:00：最大60件・70,000字（変更なし）。
+  - 17:00：最大15件・20,000字（05:00の約29%）。根拠：10/3の05:19〜17:00に掲載され、検索・ルールを通った新着は32件（処理133件）。1件あたり平均1,295字。優先度上位15件で17,416字で、上位には手取り1,000円以上の案件が集まる（上位6件はすべて手取り1,000円以上）。9/30〜10/3の候補（Astra Queue入り）のうち、前日05:15〜17:00の掲載は1日あたり約7件で、評価件数に対する候補率（約40%）から15件でほぼ拾える。
+  - 実利用量は `runs.jsonl` の `est_ai_usage`（`run_type` ごと）と `daily_metrics.jsonl` の `claude_usage.evening_extra` に残る。17:00で枠外が毎回多い（`deferred_to_morning`）、または17:00の候補がほとんど出ない場合は、`prepare --run evening --cap/--budget-chars` または `RUN_LIMITS` を見直す。
+- Astra Queue：17:00で一次評価を通過した案件は、同じ Astra Queue に追加する（job_id単位で1行。05:00分と重複しない）。`scout_run` 列が `<date> evening_delta`、`queued_at` がキュー投入時刻。05:00分は `<date> morning_full`（2026-10-03以前の行も同じ。当時は05:00だけ）。Astraの同日中の二次QAは `scout_run` = 当日の `evening_delta` の行だけを見ればよく、06:00に処理済みの05:00分を再通知しない（Astra側の設定は本Routineから変更しない）。`released_at` は掲載日時（CrowdWorksの公開日時。再掲載ではその時刻）。
+- 状態遷移：05:00（新着・変更→ルール→上位60件をClaude→Astra Queue `morning_full`→応募draft→Drive）→ 06:00 Astra QA → 17:00（05:00以降の新着・重要変更→ルール→上位15件をClaude→Astra Queue `evening_delta`→応募draft→Drive。枠外とキュー済み案件の変更は翌05:00へ）→ 翌05:00（17:00の枠外は新着として、Astra Queue案件の変更は変更として通常処理。17:00で評価済みの案件は再評価しない）。
 
 ## 3. Claude一次評価
 1. `python3 scout/pipeline.py show-profile` で本人プロフィールを確認する。
@@ -192,7 +218,12 @@ Scout → Job Master → Client Master参照 → Claude一次評価 → Astra �
 
 ## 5.5 性能測定
 - `python3 scout/pipeline.py metrics` で、累計の取得件数、Claude評価件数、Astra Queue件数、PASS・REJECTの件数、取りこぼし件数、Precision / Recallの目安を確認できる。
-- `runs.jsonl` には実行ごとの値が記録される。
+- `runs.jsonl` には実行ごとの値が記録される（`run_type`：`morning_full` / `evening_delta`）。
+  - 検索母集団 `listed`、新規 `new`、ルール除外 `rule_rejected`、Claude評価件数・入力字数 `est_ai_usage`、Claude前の内訳 `candidate_mix`、`limits`（その実行の上限）、`deferred_to_morning`。
+  - Claude一次評価の lane 内訳 `lane_mix`（Professional / Experience / Auto / Human Premium、未記入）、Astra Queueに新しく入った案件の `tier_mix`（主力 / マイクロ / 基準外 / UNKNOWN）と `astra_queue_added`（同じ実行で再評価したキュー済み案件は `astra_queue_requeued`）。
+  - 公開→Scout検知 `detect_delay_h`（その実行で初めて見た案件。CrowdWorksの公開日時から）、公開→Astra Queue投入 `queue_delay_h`。
+  - 新しい検索入口（データ・調査系 tier D、AI-BPO tier E）だけで見つかった件数 `new_entry`（検索母集団・新規・Claudeへ送付・AI-BPO）、`astra_queue_added_new_entry`。
+- `python3 scout/pipeline.py daily-metrics --date <date>`（17:00の最後に実行）：`state/daily_metrics.jsonl` に、その日のAstra Queue投入分について、公開→キュー投入の実際の遅延（05:00＋17:00）と、05:00だけだった場合の推定遅延（17:00分を翌05:00の投入とみなす）の平均・中央値、17:00でだけ見つかった案件数（主力・マイクロ）、05:00と17:00のClaude利用量を残す。
 
 ## 5.7 応募準備（Application Queue・旧フロー：Astra PASS後）※応募・フォーム入力・送信はしない
 【現行は4.7。以下は、Astra判定をStatus Updatesから取り込む旧フロー（休止中）の記録。5.7.1〜5.7.3の規則（Client Master・確認済み事実・確認コスト）は4.7でも同じ。】
@@ -326,6 +357,7 @@ python3 scout/tests/test_client_master.py
 python3 scout/tests/test_predraft.py       # 05:00のAstra QA前の応募準備draft（新クライアント/過去応募/過去納品・確認済み事実・冪等性・READYにしない）
 python3 scout/tests/test_queue_tier.py      # Astra Queueのtier（主力・マイクロ）とclaude_qa_result
 python3 scout/tests/test_scout_scope.py     # 検索入口（データ・調査系カテゴリ）とClaude前のルール（Auto・拘束・FILLED_CAPACITY）
+python3 scout/tests/test_scout_evening.py   # AI-BPO入口（13502286相当）・AI補助制作のAuto/除外・05:00→17:00→翌05:00・17:00上限・Queue重複なし
 python3 scout/tests/test_source_facts.py    # 10/1の実障害の再現（設問欠落・初回/継続報酬・実績数の誤変換）とDrive軽量化
 python3 scout/tests/test_daily_ops.py      # 旧フロー（休止中）の通し（PASS/REJECT/HOLD/未判定・冒頭QA・冪等性・catch-up・最新シート）
 git add scout/state && git commit -m "Scout run <date>" && git push -u origin claude/brave-lovelace-7n0flp
