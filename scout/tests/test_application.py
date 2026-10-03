@@ -178,7 +178,16 @@ def main():
     print("Astra-only verdicts; SKIPPED verdict; no regression of progressed jobs")
 
     # post-QA routine: only PASS rows new in this import become targets; re-import and non-Astra rows give none
-    pend2 = [j for j, row in tables()[1].items() if row["status"] == "ASTRA_QA_PENDING"][:2]
+    # still open: an expired PASS is never a target, and the live queue ages day by day
+    today = subprocess.run([sys.executable, "-c", "import pipeline as P; print(P.today())"], cwd=tmp,
+                           capture_output=True, text=True, check=True).stdout.strip()
+    eligible = json.loads(subprocess.run([sys.executable, "-c", (
+        "import pipeline as P, json; m=P.vault_load()['master']; print(json.dumps([j for j, x in m.items() "
+        "if x.get('status')=='ASTRA_QA_PENDING' and not x.get('application') "
+        "and not (x.get('reward_check') or {}).get('changes') "
+        "and ((x.get('reward_check') or {}).get('deadline') or x.get('expired_on') or '9999') >= %r]))" % today)],
+        cwd=tmp, capture_output=True, text=True, check=True).stdout)
+    pend2 = [j for j in tables()[1] if j in eligible][:2]
     pq = lambda stage: last_json(run(tmp, "postqa", stage, "--date", date).stdout)
     rows = [{"job_id": pend2[0], "astra_verdict": "PASS", "astra_reason": "t"},
             {"job_id": pend2[1], "astra_verdict": "PASS", "updated_by": "someone"}]

@@ -134,7 +134,7 @@ AGE_LIMIT = re.compile(r"(\d)0代(?:限定|の方限定|のみ|女性|男性|独
 CONSUMER_SURVEY = re.compile(
     r"利用(?:経験)?者限定|使っている方|使っていた方|利用した方|利用したことがある方|経験者限定|"
     r"お持ちの方|飼って|購入(?:経験|した)|契約した方|加入している方|受けている方|行ったことがある方")
-COMMISSION = re.compile(r"成約|フルコミ|成果報酬|営業代行|テレアポ|インサイドセールス|アポ(?:獲得|取り)|紹介(?:料|報酬)")
+COMMISSION = re.compile(r"成約|フルコミ|成果報酬|営業代行|営業パートナー|テレアポ|インサイドセールス|アポ(?:獲得|取り)|紹介(?:料|報酬)")
 HEAVY_COMMIT = re.compile(r"\d{2,3}%(?:稼働|/|／)|稼働率|週\s*[3-5]日|週\s*(?:[2-9]\d|1[5-9])\s*時間|常駐|出社|フルタイム|1日\s*[4-9]\s*時間")
 HARD_REQ = {
     "WordPress": r"(?:WordPress|ワードプレス)[^。\n]{0,25}(?:必須|できる方|直接入稿|入稿できる|経験(?:者|が)必要)",
@@ -145,6 +145,62 @@ HARD_REQ = {
 }
 # phrases that mention a profile word without being about that topic
 NOT_TOPIC = re.compile(r"副業(?:OK|ＯＫ|歓迎|可|の方|として|でも)|在宅副業|投資家の方|英語不要|Excel(?:・|、)?(?:Word|ワード)?(?:が使える|操作)|受験生")
+# Auto work: AI / scripts / rule processing can do it; the user only checks the result.
+AUTO_RE = re.compile(r"データ(?:入力|収集|整理|作成|抽出|分類|クレンジング)|リスト(?:作成|アップ)|営業リスト|企業(?:情報|リスト)|"
+                     r"情報収集|収集作業|スクレイピング|転記|Excel|エクセル|スプレッドシート|Google\s?(?:Sheets|シート)|CSV|"
+                     r"PDF|Word(?:ファイル|形式|へ)|分類|仕分け|タグ付け|要約|リライト|集計|Web調査|ネット(?:で)?(?:検索|調査)|"
+                     r"リサーチ|市場調査|競合(?:調査|分析)|業界(?:調査|分析)|企業分析|財務分析|資料作成|PowerPoint|パワポ|スライド")
+# Professional work that the profile (finance / sales / analysis) can back
+PRO_RE = re.compile(r"市場調査|競合(?:調査|分析)|業界(?:調査|分析)|企業分析|財務(?:分析)?|決算|事業計画|資金調達|金融|M&A|融資|資料作成|PowerPoint|パワポ")
+# Work that ties the user down whatever the pay (excluded before Claude)
+PHONE_WORK = re.compile(r"電話(?:営業|対応|での(?:ヒアリング|営業|対応)|をかけ|かけ)|架電|テレアポ|コールセンター|インバウンド対応")
+MANUAL_ONLY = re.compile(r"(?:ツール|自動化|プログラム|マクロ|AI)(?:の)?(?:使用|利用)?(?:は)?(?:禁止|不可|NG|厳禁)|手入力(?:のみ|で(?:お願い|行って))|"
+                         r"目視(?:のみ|で(?:全て|すべて))|コピー(?:&|＆|・)?ペースト(?:禁止|不可|NG)")
+TOS_SCRAPE = re.compile(r"(?:スクレイピング|自動取得|クローリング)[^。\n]{0,20}(?:禁止|不可|規約違反)|"
+                        r"ログイン(?:が必要な|して)[^。\n]{0,20}(?:取得|収集|スクレイピング)")
+# SNS outreach by hand (DM / follow / like / comment sending): automating it breaks the SNS's terms of use,
+# doing it by hand is pure manual repetition -> never Auto
+SNS_OUTREACH = re.compile(r"(?:DM|ダイレクトメッセージ)(?:の)?(?:送信|送付|配信|作業)|(?:フォロー|いいね|コメント)(?:周り|回り|作業|送信|返し)|"
+                          r"(?:Instagram|インスタ|TikTok|Twitter|X|Threads|SNS)[^。\n]{0,15}(?:DM|フォロー|いいね)|"
+                          r"(?:問い合わせ|お問合せ|お問い合わせ)フォーム(?:から|へ|に)[^。\n]{0,10}(?:営業|送信)|フォーム営業")
+# Open-ended roles (staff / assistant / secretary, hours per week or month): paid for time, not a deliverable,
+# so the Auto "check only" minutes do not apply
+ROLE_RE = re.compile(r"スタッフ募集|アシスタント|秘書|サポート(?:募集|スタッフ|メンバー)|メンバー募集|パートナー募集|"
+                     r"事務(?:作業|サポート|スタッフ|担当)|週\s*\d+\s*(?:〜|~|-)?\s*\d*\s*時間|月\s*\d+\s*時間|新メンバー")
+# Work that needs the user's attention during the day (penalised in priority, not excluded)
+TIED_DOWN = re.compile(r"即レス|常時(?:連絡|対応|稼働)|リアルタイム(?:で)?(?:対応|連絡)|即日(?:返信|対応)|平日\s*\d+\s*時|"
+                       r"日中(?:の|に)?(?:連絡|対応|稼働)|毎日(?:の)?(?:定例|ミーティング|朝会)|定例(?:会議|ミーティング)|長時間の?(?:Zoom|通話|会議)")
+ADDITIONAL_HIRING = re.compile(r"追加募集|継続募集|随時募集|複数名(?:採用|契約|募集)|人数(?:に)?(?:関わらず|を超えて|制限なし)|"
+                               r"上限(?:なし|はありません)|何名でも|定員(?:なし|に達しても)|募集人数(?:以上|を超えて)")
+
+
+def auto_able(r):
+    """Deterministic Auto signal: the work type can be done by AI / scripts / rules with a final check.
+    Backlog rows carry no text: their flag was stored when they were scouted."""
+    if "desc" not in r:
+        return bool(r.get("auto_able"))
+    text = r["title"] + "\n" + r["desc"][:3000]
+    return bool(AUTO_RE.search(text)) and not MANUAL_ONLY.search(text) and not TOS_SCRAPE.search(text) \
+        and not SNS_OUTREACH.search(text) \
+        and r.get("ai_policy") != "D"
+
+
+def _text_flags(r):
+    """Text-derived ranking flags kept on backlog rows (which do not store the posting text)."""
+    if "desc" not in r:
+        return {"auto_able": bool(r.get("auto_able")), "tied_down": bool(r.get("tied_down")),
+                "role_like": bool(r.get("role_like"))}
+    return {"auto_able": auto_able(r), "tied_down": bool(TIED_DOWN.search(r["title"] + r["desc"][:3000])),
+            "role_like": bool(ROLE_RE.search(r["title"] + r["desc"][:1500]))}
+
+
+def lane_guess(r, hits):
+    """Pre-Claude lane (only for ranking and run metrics; Claude's first pass decides the real lane)."""
+    if hits and PRO_RE.search(r["title"] + r["desc"][:3000]):
+        return "Professional"
+    return "Auto" if auto_able(r) else ("Professional" if hits else "Other")
+
+
 EXCLUDE_RISK = {"勧誘兆候", "同一文面を複数アカウントが投稿", "購入/費用要求", "面談必須（募集文に明記）"}
 
 
@@ -187,8 +243,19 @@ def rule_filter(r, profile):
     if r.get("needs_experience") and not hits:
         reasons.append("本人体験が必要（プロフィール外）")
     tiers = set(r["tiers"])
-    if "C" in tiers and tiers <= {"C"} and not hits:
+    auto = auto_able(r)
+    if "C" in tiers and tiers <= {"C"} and not hits and not auto:
         reasons.append("専門キーワードのみ一致・プロフィール接点なし")
+    if "D" in tiers and tiers <= {"C", "D"} and not hits and not auto:
+        reasons.append("データ・調査系だがAuto処理の手掛かりなし・プロフィール接点なし")
+    if PHONE_WORK.search(text):
+        reasons.append("電話対応・架電あり（本人拘束）")
+    if "D" in tiers and MANUAL_ONLY.search(text):
+        reasons.append("手作業指定・ツール使用不可（Auto不可）")
+    if TOS_SCRAPE.search(text):
+        reasons.append("規約上許されない自動取得")
+    if "D" in tiers and SNS_OUTREACH.search(text):
+        reasons.append("SNS・フォーム経由の送信作業（自動化は規約違反・手作業の反復）")
     if "B" in tiers and r["ai_policy"] == "C" and not hits and pay_type != "task":
         reasons.append("AI利用条件不明・プロフィール接点なし")
     if COMMISSION.search(r["title"]):
@@ -198,7 +265,7 @@ def rule_filter(r, profile):
     if (r.get("expired_on") or "9999") < today():
         reasons.append("募集期限切れ")
     if fill_risk(r):
-        reasons.append("募集枠が埋まっている")
+        reasons.append("FILLED_CAPACITY（契約済み人数が募集人数以上）")
     if not reasons and low_value(r, len(hits)):
         reasons.append("低価値（推定手取/本人分が基準未満）")
     return ("RULE_REJECTED" if reasons else "PASS"), reasons, hits
@@ -225,6 +292,10 @@ def est_human_minutes(r):
         return {"A": 3 + 3 * k, "B": 10 + 20 * k}.get(pol, 15 + 25 * k)
     if pay["type"] == "hourly":
         return 600.0  # hourly pay does not reward AI speed-up
+    if auto_able(r) and ("D" in r.get("tiers", []) or AUTO_RE.search(r["title"])) and not r.get("role_like") \
+            and not ("desc" in r and ROLE_RE.search(r["title"] + r["desc"][:1500])):
+        # Auto: the user's minutes are the check after AI / script processing, not the manual work
+        return max(15.0, gross_of(pay) / 3000 * 60 * 0.15)
     # fixed budget: assume the client prices ~3,000 JPY per human-equivalent hour,
     # then apply the AI reduction expected from the AI condition
     base = max(45.0, gross_of(pay) / 3000 * 60)
@@ -257,8 +328,11 @@ def fill_risk(r):
         t = e["task_entry"]
         return (t.get("num_tasks") or 0) > 0 and (t.get("num_completed_tasks") or 0) >= t["num_tasks"] * 0.97
     pe = e.get("project_entry") or {}
-    hope = pe.get("project_contract_hope_number") or 0
-    return hope > 0 and (pe.get("num_contracts") or 0) >= hope
+    hope = pe.get("project_contract_hope_number") or 0  # 0 / missing = unknown -> never excluded
+    if not (hope > 0 and (pe.get("num_contracts") or 0) >= hope):
+        return False
+    # the posting says it keeps hiring beyond the stated number: not filled
+    return not ADDITIONAL_HIRING.search((r.get("title") or "") + "\n" + (r.get("desc") or ""))
 
 
 def priority(r, n_hits, date, change=None):
@@ -267,19 +341,25 @@ def priority(r, n_hits, date, change=None):
     d = _days_left(r, date)
     urgency = 1.6 if d <= 2 else 1.25 if d <= 5 else 1.0
     tiers = set(r.get("tiers", []))
-    tier_f = 1.25 if "C" in tiers and n_hits else 1.1 if "B" in tiers else 0.8
-    ai_f = {"A": 1.3, "B": 1.0, "C": 0.8}.get(r.get("ai_policy"), 0.5)
+    auto = auto_able(r)
+    tier_f = 1.25 if "C" in tiers and n_hits else 1.1 if "B" in tiers or ("D" in tiers and auto) else 0.8
+    ai_f = {"A": 1.3, "B": 1.0, "C": 1.0 if auto else 0.8}.get(r.get("ai_policy"), 0.5)
     repeat_f = 1 + 0.05 * min(r.get("client_open_jobs") or 1, 10)
     c = r.get("client") or {}
     risk_f = 0.7 if (c.get("averageScore") or 0) == 0 else 1.0
     s = ev * urgency * tier_f * ai_f * repeat_f * risk_f * (1 + 0.35 * min(n_hits, 3))
     if not n_hits and TARGETED.search(r.get("title", "")):
         s *= 0.3  # aimed at a demographic / owners the profile does not confirm
+    if r.get("tied_down") if "desc" not in r else TIED_DOWN.search(r["title"] + r["desc"][:3000]):
+        s *= 0.4  # needs the user's attention during the day
+    if "D" in tiers and EASY_BAIT.search(r.get("title", "")) and gross_of(r["pay"]) >= 50000:
+        s *= 0.3  # "easy / no experience" + a large budget: typical recruitment bait, ranked low (not excluded)
     if change and change != ["バックログ"]:
         s *= 1.5  # new / changed first
     return round(s, 3)
 
 
+EASY_BAIT = re.compile(r"未経験|初心者|かんたん|簡単|カンタン|スキマ|隙間|誰でも|スマホ(?:だけ|で)")
 TARGETED = re.compile(r"[1-2]0代|学生|主婦|ママ|女性|オーナー|お持ちの方|住んでいる|在住|看護|保育|介護")
 LOW_VALUE_EV = 8.0  # JPY per human minute (~480 JPY/h) after fee, before fit bonuses
 
@@ -476,7 +556,7 @@ def cmd_prepare(a):
     for score, r, hits, why in pending:
         if str(r["id"]) not in master:
             backlog[str(r["id"])] = {**{k: r.get(k) for k in BACKLOG_KEYS}, "prescore": score,
-                                     "fit_n": min(len(hits), 3)}
+                                     "fit_n": min(len(hits), 3), **_text_flags(r)}
     # 1) new / changed jobs first (by priority), 2) backlog by re-computed priority,
     # both limited by the AI budget (input chars) and the job cap.
     pending.sort(key=lambda x: -x[0])
@@ -514,7 +594,7 @@ def cmd_prepare(a):
     for c in chosen:  # keep until merged, so an interrupted run does not lose them
         r = c[1]
         backlog.setdefault(str(r["id"]), {**{k: r.get(k) for k in BACKLOG_KEYS}, "prescore": c[0],
-                                          "fit_n": min(len(c[2]), 3)})
+                                          "fit_n": min(len(c[2]), 3), **_text_flags(r)})
     backlog = {k: b for k, b in backlog.items()
                if (b.get("expired_on") or "") >= date and k not in master and not fill_risk(b)}
     # prune expired, non-evaluated index entries (closed postings never reappear in search)
@@ -561,9 +641,20 @@ def cmd_prepare(a):
            "eval_from_backlog": len(out) - new_selected, "backlog_scouted": len(carried),
            "closed": closed, "errors": summ.get("errors", []),
            "est_ai_usage": {"eval_jobs": len(out),
-                            "eval_input_chars": sum(len(x["desc"]) + 600 for x in out)}}
+                            "eval_input_chars": sum(len(x["desc"]) + 600 for x in out)},
+           # pre-Claude mix of what was sent (rule estimates; Claude decides the real lane / tier)
+           "candidate_mix": candidate_mix(chosen)}
     save_json(os.path.join(ddir, "run.json"), run)
     print(json.dumps(run, ensure_ascii=False))
+
+
+def candidate_mix(chosen):
+    mix = {"Professional": 0, "Auto": 0, "Other": 0, "main_net_1000": 0, "micro": 0, "from_data_categories": 0}
+    for _, r, hits, _ in chosen:
+        mix[lane_guess(r, hits)] += 1
+        mix["main_net_1000" if est_net(r) >= 1000 else "micro"] += 1
+        mix["from_data_categories"] += "D" in r.get("tiers", [])
+    return mix
 
 
 def calibration(master):

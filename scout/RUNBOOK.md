@@ -58,9 +58,18 @@ python3 scout/pipeline.py prepare          # 既定：最大60件、評価入力
   - 同じ発注者の案件数
   - 新着・条件変更を優先
 - 評価の順序：新着・変更案件を先に評価し、枠が余ればバックログを優先度順に補充する。
+- 検索入口（`collect.py` の `QUERIES`）：
+  - `writing_all`（category_id=228）・`task_all`（payment_type=task）・専門キーワード（tier C）は従来どおり。
+  - データ・調査系カテゴリ（tier D。2026-10-03にCrowdWorks公開ページの category id と名称、各カテゴリページのタイトル・検索結果の category_id で確認）：54 データ検索・データ収集／52 データ入力／282 スクレイピング・データ収集／146 資料作成・マニュアル作成／100 市場調査・マーケットリサーチ／86 調査・リサーチ／201 リスト作成／103 データ分類・カテゴリ分け／66 データ分析・統計解析。カテゴリIDは推測で足さない（追加するときは同じ方法で確認する）。
+  - Auto系キーワード（tier D）：営業リスト・企業リスト・転記・データ整理・競合分析。
+  - tier D は、プロフィールのキーワードに一致しなくても Auto 処理の手掛かり（データ入力・収集・転記・Excel/スプレッドシート・PDF/Word・分類・要約・リライト・調査・資料作成など）があれば残す。手掛かりもプロフィール接点もない案件（アンケート・モニター・視聴・現地作業など）はClaude前に除外する。
+  - Auto案件の推定本人作業時間（Claude前の順位付け用）は、手作業の時間ではなく自動処理後の確認時間（予算相当時間の15%、最低15分）。スタッフ・アシスタント・秘書など時間で働く募集には適用しない。
+  - 検索母集団が増えても、Claudeに送る件数は従来の上限（`prepare` の `--cap 60`・`--budget-chars 70000`）のまま。順位は 推定手取額 × 受注確率 ÷ 推定本人作業時間 に係数を掛けたもの。`runs.jsonl` の `candidate_mix` に、Claudeへ送った案件の内訳（Professional / Auto / Other、手取り1,000円以上 / 未満、データ系カテゴリ由来）が残る。
 - Claude評価の前に除外する案件：
+  - 募集枠の充足（`FILLED_CAPACITY`）：検索結果の契約済み人数 ≥ 募集人数のとき。本文に追加募集・継続募集・募集人数を超えての採用が明記されていれば除外しない。人数が取得できない・意味が曖昧なときも除外しない。
+  - 電話対応・架電、ツール使用禁止・手入力指定（tier D）、規約上許されない自動取得（会員ログイン後の取得・スクレイピング禁止）、SNSのDM・フォロー・問い合わせフォーム営業の送信作業（tier D）、営業パートナー（成果報酬型）。
+  - 即レス・平日日中の常時対応・定例会議など拘束の大きい案件、「未経験・簡単」で高額なtier Dの募集は除外せず、順位を下げる。
   - 期限切れ
-  - 募集枠が埋まっている
   - 低価値（推定で1分あたり8円未満）
   - 成果報酬型の営業
 - 件数と字数の測定：評価件数と入力字数は `runs.jsonl` の `est_ai_usage` に記録される。PoC期間中はこれを見て `--cap` と `--budget-chars` を調整する。
@@ -316,6 +325,7 @@ python3 scout/tests/test_drive_view.py
 python3 scout/tests/test_client_master.py
 python3 scout/tests/test_predraft.py       # 05:00のAstra QA前の応募準備draft（新クライアント/過去応募/過去納品・確認済み事実・冪等性・READYにしない）
 python3 scout/tests/test_queue_tier.py      # Astra Queueのtier（主力・マイクロ）とclaude_qa_result
+python3 scout/tests/test_scout_scope.py     # 検索入口（データ・調査系カテゴリ）とClaude前のルール（Auto・拘束・FILLED_CAPACITY）
 python3 scout/tests/test_source_facts.py    # 10/1の実障害の再現（設問欠落・初回/継続報酬・実績数の誤変換）とDrive軽量化
 python3 scout/tests/test_daily_ops.py      # 旧フロー（休止中）の通し（PASS/REJECT/HOLD/未判定・冒頭QA・冪等性・catch-up・最新シート）
 git add scout/state && git commit -m "Scout run <date>" && git push -u origin claude/brave-lovelace-7n0flp

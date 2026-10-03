@@ -49,6 +49,23 @@ PRO_KEYWORDS = [
 ]
 for kw in PRO_KEYWORDS:
     QUERIES.append((f"kw:{kw}", "search%5Bkeywords%5D=" + urllib.parse.quote(kw), "C"))
+# Data / research categories (tier "D": Auto or Professional work outside writing and tasks).
+# IDs are not guessed: each id -> name pair comes from CrowdWorks' own public pages (the job_categories
+# list on /public/employees) and was checked on 2026-10-03 against /public/jobs/category/<id> (page title)
+# and /public/jobs/search?category_id=<id> (every returned job carries that category_id).
+# Not added: 203 エクセル作成 / 104 データクレンジング / 307 競合分析 (no open jobs when checked),
+# 40 / 101 (writing sub-categories already inside category 228).
+DATA_CATEGORIES = {
+    54: "データ検索・データ収集", 52: "データ入力", 282: "スクレイピング・データ収集",
+    146: "資料作成・マニュアル作成", 100: "市場調査・マーケットリサーチ", 86: "調査・リサーチ",
+    201: "リスト作成", 103: "データ分類・カテゴリ分け", 66: "データ分析・統計解析",
+}
+for cid, name in DATA_CATEGORIES.items():
+    QUERIES.append((f"cat:{cid}:{name}", f"category_id={cid}", "D"))
+# Auto-type work that is often filed under other categories ("スプレッドシート" was tried: 494 hits on
+# 2026-10-03, mostly postings that only name the delivery format -> noise; "財務分析": 0 hits)
+for kw in ["営業リスト", "企業リスト", "転記", "データ整理", "競合分析"]:
+    QUERIES.append((f"kw:{kw}", "search%5Bkeywords%5D=" + urllib.parse.quote(kw), "D"))
 
 
 def curl(url, retries=4):
