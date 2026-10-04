@@ -95,7 +95,8 @@ def main():
     # 5. an interview asked for only after applying is shown to the next evaluation (never an auto-reject)
     py(tmp, SETUP.replace("__CID__", CID))
     subprocess.run([sys.executable, "pipeline.py", "export"], cwd=tmp, capture_output=True, text=True, check=True)
-    aq = {x["job_id"]: x for x in csv.DictReader(open(os.path.join(tmp, "out", "astra_queue.csv"), encoding="utf-8"))}
+    # queued on 2026-09-2x: outside the Drive window (today / yesterday), so it is in the full local queue
+    aq = {x["job_id"]: x for x in csv.DictReader(open(os.path.join(tmp, "out", "astra_queue_full.csv"), encoding="utf-8"))}
     assert "応募後に面談要求1回（99100001" in aq["99100002"]["client_history"], aq["99100002"]["client_history"]
     st = json.loads(py(tmp, "import pipeline as P, json; print(json.dumps(P.vault_load()['master']['99100002']['status']))"))
     assert st == "ASTRA_QA_PENDING"

@@ -34,7 +34,7 @@ ESSENTIAL_CONFIRM_RE = re.compile(r"契約|支払|報酬|金額|振込|口座|�
 DIRECT_ENTRY_RE = re.compile(r"お名前|氏名|本名|ニックネーム|ユーザー名|表示名|署名")
 ESSENTIAL_NOT_NAME_RE = ESSENTIAL_CONFIRM_RE
 # Personal details the posting asks for only to colour a low-priced piece (never worth a round trip)
-PERSONAL_CONFIRM_RE = re.compile(r"好き|好み|嗜好|趣味|おすすめ|お気に入り|将来|目標|夢|なりたい|理想|きっかけ|感想|"
+PERSONAL_CONFIRM_RE = re.compile(r"好き|好み|嗜好|趣味|おすすめ|お気に入り|将来|目標|夢|なりたい|理想|きっかけ|感想|希望|行きたい|旅行先|"
                                  r"思い出|エピソード|家族|私生活|生活|休日|性格|悩み|価値観|住環境|一人暮らし|動機|理由|年齢|年代")
 # Wording Astra should look at: claims of track record / AI work the profile does not support.
 CLAIM_RE = re.compile(r"実績(?!作り|づくり)|受注|納品経験|ライター(?:経験|として)|執筆経験|SEO|WordPress|"
@@ -42,12 +42,15 @@ CLAIM_RE = re.compile(r"実績(?!作り|づくり)|受注|納品経験|ライタ
 
 
 _CLIENTS = {}  # Client Master of the current command (set by _use_clients)
+_PROFILE = {}  # profile of the current command (requirement checks the profile already answers)
 
 
 def _use_clients(v):
     import client_master
     _CLIENTS.clear()
     _CLIENTS.update(clients=client_master.refresh(v), master=v["master"])
+    _PROFILE.clear()
+    _PROFILE.update(v.get("profile") or {})
 
 
 def _opening_errors(job, draft):
@@ -198,9 +201,22 @@ def _record_source(job, src):
     rc["questions"] = SF.questions(desc, complete, fetched)
     rc["reward_struct"] = SF.rewards(desc, complete, fetched)
     rc["source_state"] = SF.source_state(desc, complete, fetched)
+    rc["ai_condition"] = SF.ai_condition(desc, complete, fetched)
+    rc["work_facts"] = SF.work_facts(desc, complete, fetched)
+    # the client id as the posting page shows it (Client Master matches on this id, never on the display name)
+    page_client = (src or {}).get("client") or {}
+    rc["client_id"] = str(page_client.get("userId") or "") or None
+    if rc["client_id"] and not (job.get("client") or {}).get("userId"):
+        job.setdefault("client", {})["userId"] = page_client["userId"]
+    rc["requirement_checks"] = SF.requirement_checks((rc["work_facts"].get("requirements") or {}).get("lines"),
+                                                     _PROFILE, P.today()[:4]) if _PROFILE else []
+    rc["completeness"] = SF.completeness(rc, rc["client_id"] or (job.get("client") or {}).get("userId"),
+                                         {k: rc.get(k) if rc.get(k) is not None else (src or {}).get(k)
+                                          for k in ("capacity", "contracted", "applicants")})
     prov = job.setdefault("provenance", {})
     prov["fetch"] = {"at": P.now_iso(), "status": rc["source_state"], "desc_chars": len(desc or ""),
                      "source": "CrowdWorks募集ページ（app-check）"}
+    prov["completeness"] = {"at": P.now_iso(), **rc["completeness"]}
     prov["questions"] = {"source": "募集原文", "extraction_status": rc["questions"]["status"],
                          "n_source": len(rc["questions"]["lines"]), "reason": rc["questions"]["reason"]}
     rs = rc["reward_struct"]
@@ -232,6 +248,12 @@ def _source_errors(d, job):
         elif rs.get("reward_status") == "AMBIGUOUS":
             errs.append(f"今回適用報酬が確定できない（{rs['reward_basis']}）のに継続報酬{rs['ongoing_reward']}円を今回報酬にしている"
                         "→ actual_reward=null・reward_evidence=「UNKNOWN（…）」")
+    if rs.get("reward_status") == "QUOTE_REQUIRED" and ar is not None:
+        errs.append(f"見積依頼の案件に固定報酬{ar}円を設定している（{rs.get('reward_basis')}）→ actual_reward=null・"
+                    "reward_evidence=「UNKNOWN（見積依頼…）」")
+    if rs.get("reward_status") == "CONFIRMED" and ar is not None and rs.get("applicable_reward") is not None \
+            and not _near(ar, rs["applicable_reward"]):
+        errs.append(f"今回報酬{ar}円が原文の今回適用報酬{rs['applicable_reward']}円（{rs.get('reward_basis')}）と一致しない")
     text = d.get("application_draft", "") + " ".join(d.get("application_answers", []))
     errs += SF.client_claim_errors(text, _client_facts(job))
     return errs
@@ -244,34 +266,89 @@ def _client_facts(job):
     return SF.client_facts(job, cm)
 
 
+LEAD_RE = re.compile(r"^\s*(?:[・\-‐－*●○※]|[①-⑳]|\(?\d{1,2}[).．、])\s*")
+
+
+def _qkey(x):
+    return _norm(LEAD_RE.sub("", x or ""))
+
+
+def question_check(job, d):
+    """Draft questions vs. the posting, both ways: asks of the posting the draft leaves out, and draft
+    questions that are not in the posting (Claude must not invent questions)."""
+    q = (job.get("reward_check") or {}).get("questions") or {}
+    items = q.get("items") if q.get("items") is not None else q.get("lines", [])
+    dq = [_qkey(x) for x in d.get("application_questions") or [] if x]
+    covered = lambda it: any(_qkey(it)[:12] in x or x[:12] in _qkey(it) for x in dq)
+    missing = [it for it in items if not covered(it)]
+    src = _norm(" ".join(q.get("lines", [])))
+    # a stored draft question is always in the posting body (app-merge refuses one that is not); one the
+    # extractor did not list is an extraction gap closed from the body, not a question Claude made up
+    body_only = [x for x in d.get("application_questions") or [] if x and _qkey(x)[:12] not in src]
+    status = "OK" if not missing else "MISMATCH"
+    if q.get("status") in ("SOURCE_INCOMPLETE", "FETCH_FAILED", None):
+        status = q.get("status") or "UNCHECKED"
+    return {"status": status, "source_items": len(items), "draft_questions": len(dq),
+            "missing_in_draft": missing, "body_only": body_only}
+
+
 def _qa_flags(job, d):
-    """Soft findings for Astra (the draft is stored, Claude QA = FLAGGED with the reason)."""
+    """Soft findings for Astra (the draft is stored, Claude QA = FLAGGED with the reason). Only what Astra has
+    to look at: an AI condition that is simply not stated (C) is recorded, never flagged."""
     import source_facts as SF
     rc = job.get("reward_check") or {}
     flags = []
     q = rc.get("questions") or {}
     if q.get("status") in ("SOURCE_INCOMPLETE", "FETCH_FAILED"):
         flags.append(f"応募設問 {q['status']}：{q.get('reason')}")
-    elif q.get("status") == "VERIFIED":
-        dq = [_norm(x) for x in d.get("application_questions", [])]
-        items = [l for l in q["lines"] if re.match(r"^\s*(?:[・\-‐－*●○]|[①-⑳]|\(?\d{1,2}[).．、])", l)]
-        miss = [l for l in items if not any(_norm(re.sub(r"^\s*(?:[・\-‐－*●○]|[①-⑳]|\(?\d{1,2}[).．、])\s*", "", l))[:12] in x
-                                            or x[:12] in _norm(l) for x in dq if x)]
-        if miss:
-            flags.append(f"原文の設問・記載事項{len(items)}件中{len(miss)}件がdraftにない：" + " / ".join(m[:30] for m in miss[:4]))
+    elif q.get("status") in ("VERIFIED", "NONE_VERIFIED"):
+        qc = question_check(job, d)
+        if qc["missing_in_draft"]:
+            flags.append(f"原文の設問・記載事項{qc['source_items']}件中{len(qc['missing_in_draft'])}件がdraftにない："
+                         + " / ".join(m[:30] for m in qc["missing_in_draft"][:4]))
         if len(d.get("application_answers", [])) != len(d.get("application_questions", [])):
             flags.append("設問と回答の数が一致しない")
     elif not q and job.get("status") == PRE_STAGE:
         flags.append("応募設問：原文の確認記録なし（app-check未実行）")
     rs = rc.get("reward_struct") or {}
-    if rs.get("reward_status") and rs["reward_status"] != "CONFIRMED":
+    if rs.get("reward_status") == "QUOTE_REQUIRED":
+        flags.append(f"今回報酬：見積依頼（{rs.get('reward_basis')}）→ 見積額は本人判断")
+    elif rs.get("reward_status") and rs["reward_status"] != "CONFIRMED":
         flags.append(f"今回適用報酬：不明（{rs['reward_status']}：{rs.get('reward_basis')}）")
     elif rs.get("initial_reward") is not None and rs.get("ongoing_reward"):
         flags.append(f"報酬：今回（初回）{rs['initial_reward']}円／継続{rs['ongoing_reward']}円（継続分は今回の期待利益に含めない）")
+    if (rc.get("ai_condition") or {}).get("code") == "D":
+        flags.append("AI条件：原文取得不足で確認不能（repair-sourceで再取得）")
+    comp = rc.get("completeness") or {}
+    # a gap Claude can still close (fetch / parse failure; the client id every posting page shows); a count the
+    # fetched page simply does not show (NOT_FOUND) is recorded in source_completeness, not flagged
+    gaps = [g for g in comp.get("gaps", []) if g not in ("questions", "applicable_reward", "reward_basis", "ai_condition")
+            and (comp["fields"][g] != "NOT_FOUND" or g == "client_id")]
+    if gaps:
+        flags.append("原文で未確認の項目：" + "、".join(f"{g}={comp['fields'][g]}" for g in gaps))
     ev = job.get("eval") or {}
     for e in SF.client_claim_errors(" ".join(str(ev.get(k) or "") for k in ("client_risk", "reason")), _client_facts(job)):
         flags.append("一次評価の" + e)
     return [f for f in flags if not f.startswith("報酬：今回（初回）")] + [f for f in flags if f.startswith("報酬：今回（初回）")]
+
+
+# What only the user can answer (facts / experience / availability / opinions / money decisions) vs. what Claude
+# could have resolved from the posting and the records. Astra's HOLD should be the first kind only.
+USER_ONLY_RE = re.compile(r"本人確認が必要|応募文・回答が未完成|見積額は本人判断|利益相反|実績の表現")
+ASTRA_DECIDES_RE = re.compile(r"REJECT候補|原文の変化|募集終了|冒頭|はじめまして|関係")
+
+
+def hold_split(job):
+    """(user_only, ai_resolvable, astra) parts of the reasons a pre-Astra draft is not clean."""
+    app = job.get("application") or {}
+    reasons = _hold_reasons(job, str((job.get("reward_check") or {}).get("checked_at", ""))[:10] or P.today())
+    user = [r for r in reasons if USER_ONLY_RE.search(r)]
+    astra = [r for r in reasons if r not in user and ASTRA_DECIDES_RE.search(r)]
+    data = [r for r in reasons if r not in user and r not in astra and not r.startswith("報酬：今回（初回）")]
+    if app.get("user_confirmation_required") == "yes":
+        user = [r for r in user if r != "本人確認が必要な項目あり"] + \
+            ["本人のみ回答可：" + " / ".join(app.get("unverified_facts") or ["【本人記入】の回答"])]
+    return user, data, astra
 
 
 def _record_draft(job, d):
@@ -445,7 +522,7 @@ def _validate(d, job, src, profile):
         if not ev.startswith("UNKNOWN"):
             errs.append("actual_rewardがnullならreward_evidenceは「UNKNOWN…」")
         if _amounts([src["desc"]]) and ((job.get("reward_check") or {}).get("reward_struct") or {}).get("reward_status") \
-                not in ("AMBIGUOUS", "SOURCE_INCOMPLETE"):
+                not in ("AMBIGUOUS", "SOURCE_INCOMPLETE", "QUOTE_REQUIRED"):
             errs.append("本文に金額の記載があるのに報酬をUNKNOWNにしている")
     elif not ev or _norm(ev) not in body:
         errs.append("reward_evidenceが原文に無い")
@@ -533,12 +610,19 @@ def cmd_app_merge(a):
         if job is None:
             failed[jid] = ["Job Masterに無い"]
             continue
+        prev = None
         if job.get("status") == PRE_STAGE and job.get("application"):
-            skipped.append(jid)  # a draft is never rebuilt (same job_id twice = no change)
-            continue
+            if not getattr(a, "replace", False) or job["application"].get("stage") != "PRE_ASTRA":
+                skipped.append(jid)  # a draft is never rebuilt (same job_id twice = no change)
+                continue
+            # --replace: a corrected pre-Astra draft (data repair before Astra's verdict); the old one is kept
+            prev = job["application"]
+            job["pre_draft_due"] = True
         src = P.load_json(os.path.join(sdir, f"{jid}.json"), None)
         errs = _validate(d, job, src, profile)
         if errs:
+            if prev is not None:
+                job.pop("pre_draft_due", None)
             failed[jid] = errs
             continue
         text = d["application_draft"] + " ".join(d.get("application_answers", []))
@@ -565,6 +649,15 @@ def cmd_app_merge(a):
             # measured times come back via Status Updates (application_preparation_ai_time etc.)
             "application_preparation_ai_time": d.get("application_preparation_ai_time"),
         }
+        if prev is not None:
+            job["application"]["history"] = prev.get("history", []) + [
+                {"replaced_at": P.now_iso(), "reason": d.get("replace_reason") or "pre-Astra data repair",
+                 **{k: prev.get(k) for k in ("actual_reward", "reward_evidence", "application_draft",
+                                             "application_questions", "application_answers", "unverified_facts",
+                                             "final_qa_status", "next_action", "generated_at")}}]
+        total = P.human_minutes_total(job)["total"]  # expected total human minutes, not only the review
+        if net is not None and total:
+            job["application"]["app_priority"] = round(net / total, 1)
         cost = confirm_cost(job["application"], job["application"]["unverified_facts"])
         if cost:  # not worth a question to the user: Astra decides (REJECT candidate), the user is not asked
             job["application"].update(confirm_cost=cost, user_confirmation_required="no")

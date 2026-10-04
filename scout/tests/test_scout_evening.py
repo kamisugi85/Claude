@@ -180,7 +180,8 @@ def test_runs(tmp):
     M1c = (dict(M1[0], payment={"fixed_price_payment": {"min_budget": 30000, "max_budget": 40000}}),
            M1[1] + "報酬を1ファイル3,000円に変更しました。")
     R1c = (R1[0], R1[1].replace("AIの使用は禁止です。", "AIツールの利用も可です。"))
-    news = [auto_job(99810000 + i, f"{d}T{9 + i % 8:02d}:{i:02d}+09:00", title=f"企業リストのデータ入力{i}",
+    # released early today so the release -> run delay is positive whatever time the test runs
+    news = [auto_job(99810000 + i, f"{d}T00:{i:02d}+09:00", title=f"企業リストのデータ入力{i}",
                      pay=(20000 + 1000 * i, 30000 + 1000 * i)) for i in range(18)]
     evening = [row(j, t, ["D"], e_at) for j, t in [M2, M1c, R1c] + news]
     for r in evening[:3]:
@@ -195,7 +196,7 @@ def test_runs(tmp):
     assert sent.get(99800003) == ["条件変更"], sent
     assert len(sent) == P.RUN_LIMITS["evening"]["cap"] == 15 and pre["est_ai_usage"]["eval_input_chars"] <= 20000
     assert sum(1 for k in sent if k >= 99810000) == 14 and pre["deferred_to_morning"] == 4 + 1  # 4 new + M1
-    assert pre["detect_delay_h"]["n"] == 18 and pre["new_entry"]["new"] == 18
+    assert pre["detect_delay_h"]["n"] == 18 and pre["new_entry"]["new"] == 18, (pre["detect_delay_h"], pre["new_entry"])
     idx = json.load(open(os.path.join(tmp, "state", "index.json")))
     left = [k for k in (str(99810000 + i) for i in range(18)) if int(k) not in sent]
     assert len(left) == 4 and not any(k in idx for k in left), "left for 05:00: the delta scan sees them as new"

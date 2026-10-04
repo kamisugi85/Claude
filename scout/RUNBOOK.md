@@ -146,6 +146,19 @@ python3 scout/pipeline.py merge --evals scout/data/<date>/evals.json
    - Claude QAの指摘（取り込んだうえで `CLAUDE_QA_FLAGGED`。案件はREJECTしない）：原文の設問のうちdraftにないもの、設問と回答の数の不一致、`SOURCE_INCOMPLETE` / `FETCH_FAILED`、今回適用報酬が不明、一次評価（client_risk・reason）の実績数の誤変換。
    - 既にAstra Queueにある案件の補完：`python3 scout/pipeline.py repair-source --ids <id,...>`。原文を取り直して設問・報酬構造・取得状態だけを補い、保存済みのdraftにClaude QAをかけ直す（draft・ステータス・Astraの判定は変えない。取得できなければ `FETCH_FAILED` のまま）。
    - `claude_qa_result`：Claude QAの結果を1セルで（`PASS` / `FLAGGED：<Astraに見てほしい点>` / `NO_DRAFT`）。
+   - 原文由来の確認列（2026-10-04〜。app-check / repair-source が原文から作る。AIは使わない）。「記載がない」（`NONE_VERIFIED`）と「取得できていない」（`SOURCE_INCOMPLETE` / `FETCH_FAILED`）を必ず分ける：
+     - `client_id`：発注者ID（募集ページのuserId）。Client Masterの照合はこのIDで行い、表示名では判定しない。
+     - `ai_condition_source`：A=AI利用明示可／B=AI禁止・制限あり／C=AI記載なし（AI禁止記載なし／利用条件不明）／D=原文取得不足で確認不能。Cは利用可とも不可とも推測しない。Cだけでは保留理由にしない（機密・個人情報を外部AIに入れずに遂行できるかで判断）。repairが必要なのはDだけ。
+     - `requirements_source`：応募条件の原文行と、プロフィールで答えられる条件の照合（年齢範囲・学生不可など）。`work_conditions`：仕事内容・件数/分量・納期・継続条件・ツール・外部処理/守秘の原文行（各[状態]付き）。
+     - `entry_counts`：募集人数・契約済人数・応募人数（app-check時点）。`reward_tax`：税込／税抜→税込換算／税区分の記載なし。
+     - `reward_status` に `QUOTE_REQUIRED`（見積依頼：今回報酬は応募者の見積額。時給などの目安額を固定報酬として扱わない。tier=UNKNOWN）を追加。初回テストの小見出し（「① 初回（テスト）」）配下の金額は初回報酬、「契約金額の欄」などの入力指示の金額は報酬とせず `entry_amount` に分ける。「200円（入力金額）＋消費税」は税込220円。
+     - `source_completeness`：応募設問・今回適用報酬・報酬basis・仕事内容・応募必須条件・AI条件・発注者ID・募集/契約人数の状態（COMPLETE / INCOMPLETE と、VERIFIED以外の項目）。取得失敗・解析失敗（と発注者IDの欠落）はClaude QAでFLAGGED、原文に表示がないだけ（NOT_FOUND）は記録のみ。
+     - `question_check`：原文の設問（`source_questions` のうち実際に尋ねている行）とdraftの設問の突合。原文にありdraftにない設問はFLAGGED。draftの設問は必ず原文本文にある（app-mergeが検証）。抽出漏れで原文本文にだけあった設問は「原文本文で確認済み」と表示する。
+     - `human_minutes_total` / `human_minutes_basis`：期待本人総時間（ENP÷Human Minutesの分母）＝応募3分＋本人入力・判断5分×件数＋契約手続2分＋成果物確認（一次評価のhuman_minutesの中央値・今回契約1単位分）＋修正対応期待値（確認の30%・最低2分）＋納品操作3分。AI処理時間は含めない。タスク形式は応募1分＋確認＋提出1分。一次評価に数値がなければUNKNOWN（作業量を推測しない）。`tier`・`applicable_net_per_human_min`・`app_priority`、Claude前の順位（固定分10分、タスク2分を加算）もこの総時間で計算する。
+     - `hold_user_only`（本人にしか答えられない事実・経験・稼働の約束・見積額などの判断）／`hold_ai_resolvable`（Claudeが原文・記録で解消すべきもの。残っていれば05:00の不備）／`hold_astra_decides`（REJECT候補・原文変化など、Astraの判断事項）。AstraのHOLDは原則 `hold_user_only` に限る。
+     - `search_tier`・`source_entrypoint`（その案件を見つけた検索入口。「新入口のみ」付きはデータ・調査系／AI-BPOだけで見つかった案件）・`scout_run`。
+   - Drive版で80KBを超えるときに空にする列は低重要度の順（ai_steps … provenance、human_minutes_basis、work_conditions、hold_astra_decides、hold_ai_resolvable、facts_used、client_risk、draft_next_action、client_history、client_facts）。今回報酬・応募設問・必須条件・AI条件・発注者ID・募集/契約人数・source状態・応募文・回答・本人確認項目・総Human Minutes・検索入口は削らない（exportが確認し、削れたらWARNING）。
+   - 既にAstra Queueにある案件のdraftの修正（Astra判定前のみ）：`python3 scout/pipeline.py app-merge --replace --drafts <file>`。検証は通常のapp-mergeと同じ。前のdraftは `application.history` に残り、`replace_reason` を記録する。
    - `tier`：主力＝手取り見込み1,000円以上／マイクロ＝1,000円未満でも、AI完結率80%以上かつ手取り÷本人作業分が30円/分以上／基準外＝それ以外／UNKNOWN＝報酬不明（本文に単価なし）。報酬は応募文作成時の本文の実額、なければ評価時の見込み。
 6. Application Queue・READY通知（ready-notice）にはPre-Astraのdraftは出ない（READY_TO_APPLY以降だけ）。応募文の修正・本人への最終通知はAstra側が行う。
 
@@ -197,11 +210,12 @@ Scout → Job Master → Client Master参照 → Claude一次評価 → Astra �
 
 ## 5. Google Sheetsへの同期（06:00のAstra QAより前に終える。手順4.7の応募準備draftの後に行う）
 現在のDrive MCPは既存ファイルの中身を書き換えられないため、次の手順でシートを差し替える。Driveは表示用で、Job MasterのSource of TruthはVault。
-1. フォルダ `CW Scout (ai×cloud works)` に、次の2つを `text/csv` でアップロードし、Googleシートに変換する。タイトルは `scout/out/sync_manifest.json` の `titles` を使う（生成日時入り。例：`CW Scout - Astra Queue｜2026-09-27 06:05 JST`）。
+1. フォルダ `CW Scout (ai×cloud works)` に、次の3つを `text/csv` でアップロードし、Googleシートに変換する。タイトルは `scout/out/sync_manifest.json` の `titles` を使う（生成日時入り。例：`CW Scout - Astra Queue｜2026-09-27 06:05 JST`）。
    - Job Master
-   - Astra Queue（応募準備draft入り。容量は80KBまで）
+   - Astra Queue（応募準備draft入り。容量は80KBまで）。載せる行は「Astraが今見るべき行」だけ：当日にキュー投入・repair・条件変更された行と、前日17:00（evening_delta）の行（Work側に18:00 QAが無い間は翌06:00でQAされるため）。それより前の `ASTRA_QA_PENDING` は各日のAstra QAで処理済みで、毎日載せ直すと80KBを超えて原文由来の列が削られていた（2026-10-04）。全行は `astra_queue.json`・ローカルの `astra_queue_full.csv`・Vault・Job Master（status=ASTRA_QA_PENDING）に残る。
+   - Run Log（`run_log.csv`。2026-10-04〜）：直近14回のScout実行のKPI。`run_type`（morning_full / evening_delta）・検索母集団・新規・ルール除外・Claude評価件数・入力字数・上限・`deferred_to_morning`・未評価バックログ・Claudeへ送った内訳（Auto / Professional / Other・データ系）と送らなかった内訳（`unsent_*`：AutoがProfessionalを押し出したかの確認）・新入口のみ由来の件数・lane・tier・Astra Queue追加数・検知遅延。全履歴は `state/runs.jsonl`。
 2. 古いシートを `trash_file` でゴミ箱へ移す。対象は5.0の3（`drive-resolve --keep`）が返す `trash`。
-3. 新しいIDを記録する：`python3 scout/pipeline.py set-drive job_master_sheet <id>`（`astra_queue_sheet` も同様）
+3. 新しいIDを記録する：`python3 scout/pipeline.py set-drive job_master_sheet <id>`（`astra_queue_sheet`・`run_log_sheet` も同様）
 4. `CW Scout - Status Updates (記入用)` は差し替えない・読まない・列追加もしない（監査・履歴用。日次フローの対象外）。
 5. Drive反映は省略しない（2026-09-29に、Job MasterとApplication Queueのアップロードが省略されたまま「成功」と報告された）。
    - アップロードするCSVは、Drive用の軽量版（1ファイル約50KB以内）。

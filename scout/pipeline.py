@@ -322,8 +322,17 @@ def _days_left(r, date):
         return 30
 
 
+PRECLAUDE_OVERHEAD_MIN = {"task": 2}  # applying / contract / delivery / expected revision on top of the work
+PRECLAUDE_OVERHEAD_DEFAULT = 10
+
+
 def est_human_minutes(r):
-    """Rough human-minutes proxy used only for pre-LLM ranking (not reported as an estimate)."""
+    """Rough human-minutes proxy used only for pre-LLM ranking (not reported as an estimate): the work itself
+    plus the user's fixed steps of an application (the same total human minutes as human_minutes_total)."""
+    return _work_minutes(r) + PRECLAUDE_OVERHEAD_MIN.get(r["pay"]["type"], PRECLAUDE_OVERHEAD_DEFAULT)
+
+
+def _work_minutes(r):
     pay, pol = r["pay"], r.get("ai_policy")
     if pay["type"] == "task":
         return max(float(pay.get("minutes") or 5), 1.0)
@@ -413,7 +422,7 @@ def prescore(r, hits, date=None, change=None):
     return priority(r, len(hits), date or today(), change)
 
 
-BACKLOG_KEYS = ["id", "url", "title", "tiers", "category_id", "expired_on", "released_at", "entry",
+BACKLOG_KEYS = ["id", "url", "title", "tiers", "entries", "category_id", "expired_on", "released_at", "entry",
                 "client", "pay", "ai_policy", "requirements", "risk", "needs_experience",
                 "client_open_jobs", "same_text_count", "first_seen", "listing_fp", "desc_hash",
                 "price_mentions"]
@@ -486,7 +495,8 @@ def job_facts(r):
     gross = gross_of(r["pay"])
     return {
         "job_id": r["id"], "url": r["url"], "title": r["title"], "tiers": r["tiers"],
-        "category_id": r["category_id"], "released_at": r.get("released_at"), "pay": r["pay"], "gross": gross,
+        "category_id": r["category_id"], "released_at": r.get("released_at"), "entries": r.get("entries"),
+        "pay": r["pay"], "gross": gross,
         "net_est": round(gross * (1 - FEE_RATE)) if gross else None,
         "expired_on": r["expired_on"], "entry": r.get("entry"),
         "client": {k: c.get(k) for k in ("userId", "userDisplayName", "isIdentityVerified",
@@ -776,6 +786,8 @@ def cmd_prepare(a):
                             "eval_input_chars": sum(len(x["desc"]) + 600 for x in out)},
            # pre-Claude mix of what was sent (rule estimates; Claude decides the real lane / tier)
            "candidate_mix": candidate_mix(chosen),
+           # rule-passed new / changed jobs NOT sent (left to the backlog / next 05:00): did Auto push out Professional?
+           "unsent_mix": candidate_mix([p for p in pending if str(p[1]["id"]) not in {str(c[1]["id"]) for c in chosen}]),
            "deferred_to_morning": counts["deferred_to_morning"],
            # posting (last_released_at) -> this run, for postings first seen by this run
            "detect_delay_h": delay_stats(new_hours),
@@ -968,15 +980,50 @@ def _lane(j):
     return e.get("lane") or {"A": "Auto", "B": "Auto", "C": "Professional"}.get(e.get("classification"))
 
 
+# Expected human minutes = everything only the user can do for this application, not AI processing time:
+# applying, typing / deciding answers only the user has, contract screen, checking the deliverable (Claude's
+# estimate), expected revision handling, delivery. Assumed per-step minutes (RUNBOOK 4.7, EVAL_GUIDE):
+HM_STEPS = {"apply": 3, "user_input": 5, "contract": 2, "delivery": 3, "revision_rate": 0.3, "revision_min": 2}
+HM_TASK = {"apply": 1, "delivery": 1}  # task-type work: no application message, no contract / delivery step
+UNIT_RE = re.compile(r"/\s*(ファイル|件|本|記事|月|枚|回)")
+
+
+def human_minutes_total(j):
+    """Expected total human minutes of this application (the denominator of ENP / Human Minutes).
+    Claude's `human_minutes` is only the check of the AI output; the user's other steps are added here.
+    UNKNOWN when Claude gave no number (the work volume is not guessed)."""
+    e, app = j.get("eval") or {}, j.get("application") or {}
+    hm = str(e.get("human_minutes") or "")
+    nums = [float(x) for x in re.findall(r"\d+(?:\.\d+)?", hm)]
+    if not nums:
+        return {"total": None, "status": "UNKNOWN", "basis": "成果物確認時間の見積なし（一次評価に数値なし。作業量は推測しない）"}
+    review = sum(nums[:2]) / len(nums[:2])  # "8-12分" -> 10
+    unit = UNIT_RE.search(hm)
+    if (j.get("pay") or {}).get("type") == "task":
+        comp = {"応募・開始": HM_TASK["apply"], "成果物確認": review, "提出": HM_TASK["delivery"]}
+    else:
+        own = sum(1 for x in app.get("application_answers") or [] if "【本人記入" in str(x))
+        user_n = max(own, len(app.get("unverified_facts") or []))
+        comp = {"応募": HM_STEPS["apply"], "本人入力・判断": HM_STEPS["user_input"] * user_n,
+                "契約手続": HM_STEPS["contract"], "成果物確認": review,
+                "修正対応期待値": max(HM_STEPS["revision_min"], round(review * HM_STEPS["revision_rate"], 1)),
+                "納品操作": HM_STEPS["delivery"]}
+    total = round(sum(comp.values()))
+    basis = "＋".join(f"{k}{v:g}" for k, v in comp.items() if v) + f"＝{total}分（AI処理時間は含めない。成果物確認は一次評価「{hm}」"
+    basis += f"の中央値・今回契約1{unit.group(1)}分）" if unit else "の中央値）"
+    return {"total": total, "status": "ESTIMATED", "components": comp, "basis": basis}
+
+
 def _net_per_min(j):
-    """Expected net JPY per human minute (evaluation estimate; the Manual Review value when present)."""
+    """Expected net JPY per expected total human minute (the Manual Review value when present)."""
     e = j.get("eval") or {}
     if e.get("net_per_human_min") is not None:
         return e["net_per_human_min"]
-    nums = [float(x) for x in re.findall(r"\d+(?:\.\d+)?", str(e.get("human_minutes") or ""))]
-    return round(j["net_est"] / max(nums), 1) if j.get("net_est") and nums and max(nums) > 0 else None
+    t = human_minutes_total(j)["total"]
+    return round(j["net_est"] / t, 1) if j.get("net_est") and t else None
 
 
+UNKNOWN_REWARD = ("AMBIGUOUS", "SOURCE_INCOMPLETE", "QUOTE_REQUIRED", "FETCH_FAILED")
 MAIN_NET_MIN = 1000     # 主力: expected net JPY per job
 MICRO_AI_MIN = 80       # マイクロ: AI completion (%, lower bound of the estimate) ...
 MICRO_NPM_MIN = 30      # ... and expected net JPY per human minute
@@ -986,8 +1033,8 @@ def job_tier(j):
     """主力 (net >= 1,000 JPY) / マイクロ (under 1,000 JPY but high AI completion and net per human minute)."""
     app = j.get("application") or {}
     rs = (j.get("reward_check") or {}).get("reward_struct") or {}
-    if rs.get("reward_status") in ("AMBIGUOUS", "SOURCE_INCOMPLETE"):
-        return "UNKNOWN（今回適用報酬が不明）"
+    if rs.get("reward_status") in UNKNOWN_REWARD:
+        return "UNKNOWN（今回適用報酬が不明" + ("・見積依頼" if rs["reward_status"] == "QUOTE_REQUIRED" else "") + "）"
     if app and app.get("actual_reward") is None and str(app.get("reward_evidence", "")).startswith("UNKNOWN"):
         return "UNKNOWN（報酬不明）"
     net = app.get("actual_net") if app.get("actual_reward") is not None else j.get("net_est")
@@ -1008,9 +1055,9 @@ def _applicable_net_per_min(j):
     """Expected net per human minute on this application's reward (initial / trial when the posting has one)."""
     rs = (j.get("reward_check") or {}).get("reward_struct") or {}
     if rs.get("applicable_reward") is None:
-        return None if rs.get("reward_status") in ("AMBIGUOUS", "SOURCE_INCOMPLETE") else _net_per_min(j)
-    nums = [float(x) for x in re.findall(r"\d+(?:\.\d+)?", str((j.get("eval") or {}).get("human_minutes") or ""))]
-    return round(rs["applicable_reward"] * (1 - FEE_RATE) / max(nums), 1) if nums and max(nums) > 0 else None
+        return None if rs.get("reward_status") in UNKNOWN_REWARD else _net_per_min(j)
+    t = human_minutes_total(j)["total"]
+    return round(rs["applicable_reward"] * (1 - FEE_RATE) / t, 1) if t else None
 
 
 def _rs(j, k):
@@ -1125,12 +1172,109 @@ QUEUE_COLS = [
     ("provenance", _provenance),
     # which Scout run queued it (05:00 morning_full / 17:00 evening_delta) and when: Astra's same-day QA of the
     # 17:00 additions selects `scout_run` = "<today> evening_delta"; rows already in the Queue keep their run
+    # source-backed facts Astra needs to QA without a source trip (RUNBOOK 4.7): each with its own status
+    ("client_id", lambda j: str((j.get("client") or {}).get("userId") or (j.get("reward_check") or {}).get("client_id") or "")
+     or "NOT_FOUND"),
+    ("ai_condition_source", lambda j: _ai_condition_col(j)),
+    ("requirements_source", lambda j: _work_col(j, ["requirements"], checks=True)),
+    ("work_conditions", lambda j: _work_col(j, ["work", "volume", "deadline", "continuity", "tools", "external"])),
+    ("entry_counts", lambda j: _entry_counts(j)),
+    ("reward_tax", lambda j: _rs(j, "reward_tax")),
+    ("source_completeness", lambda j: _completeness_col(j)),
+    ("question_check", lambda j: _question_check_col(j)),
+    ("human_minutes_total", lambda j: human_minutes_total(j)["total"]),
+    ("human_minutes_basis", lambda j: human_minutes_total(j)["basis"]),
+    ("hold_user_only", lambda j: _hold_col(j, 0)),
+    ("hold_ai_resolvable", lambda j: _hold_col(j, 1)),
+    ("hold_astra_decides", lambda j: _hold_col(j, 2)),
+    ("search_tier", lambda j: "/".join(j.get("tiers") or [])),
+    ("source_entrypoint", lambda j: _entrypoint(j)),
     ("scout_run", lambda j: _queued(j)[0]),
     ("queued_at", lambda j: _queued(j)[1]),
     ("released_at", lambda j: j.get("released_at") or ""),
     ("condition_change", lambda j: _condition_change(j)),
     ("truncated", lambda j: ""),  # filled by export when the Drive copy had to drop low-priority text
 ]
+
+
+TIER_ENTRY = {"A": "task_all（タスク）", "B": "writing_all（ライティング）", "C": "専門キーワード", "D": "データ・調査系（2026-10-03追加）",
+              "E": "AI-BPO（2026-10-03追加）"}
+
+
+def _entrypoint(j):
+    """Search entries that listed the job; jobs scouted before entries were recorded show their tier family."""
+    if j.get("entries"):
+        return " / ".join(j["entries"]) + ("（新入口のみ）" if set(j.get("tiers") or []) <= {"D", "E"} else "")
+    t = j.get("tiers") or []
+    return " / ".join(TIER_ENTRY.get(x, x) for x in t) + ("（新入口のみ）" if t and set(t) <= {"D", "E"} else "")
+
+
+def _ai_condition_col(j):
+    ac = (j.get("reward_check") or {}).get("ai_condition")
+    if not ac:
+        return "UNCHECKED（app-check前）"
+    out = ac["label"] + ("：" + " / ".join(x[:80] for x in ac["lines"][:2]) if ac.get("lines") else "")
+    return out + ("→これだけで保留にしない" if ac["code"] == "C" else "")
+
+
+def _work_col(j, keys, checks=False):
+    wf = (j.get("reward_check") or {}).get("work_facts")
+    if not wf:
+        return "UNCHECKED（app-check前）"
+    names = {"work": "仕事内容", "volume": "件数・分量", "deadline": "納期", "continuity": "継続条件", "tools": "ツール",
+             "external": "外部処理・守秘", "requirements": "応募条件"}
+    parts = []
+    for k in keys:
+        f = wf.get(k) or {}
+        parts.append(f"{names[k]}[{f.get('status', 'UNCHECKED')}]" + ("：" + " / ".join(x[:80] for x in f.get("lines", [])[:3])
+                                                                  if f.get("lines") else ""))
+    if checks and (j.get("reward_check") or {}).get("requirement_checks"):
+        parts.append("プロフィール照合：" + " / ".join(j["reward_check"]["requirement_checks"]))
+    return "｜".join(parts)
+
+
+def _entry_counts(j):
+    rc = j.get("reward_check") or {}
+    if rc.get("capacity") is None and rc.get("contracted") is None:
+        return "NOT_FOUND（app-check前または原文に表示なし）"
+    return f"募集{rc.get('capacity')}/契約済{rc.get('contracted')}/応募{rc.get('applicants')}（{str(rc.get('checked_at', ''))[5:16]}）"
+
+
+def _completeness_col(j):
+    c = (j.get("reward_check") or {}).get("completeness")
+    if not c:
+        return "UNCHECKED（app-check前）"
+    odd = [f"{k}={v}" for k, v in c["fields"].items() if v != "VERIFIED"]
+    return c["status"] + ("（" + " / ".join(odd) + "）" if odd else "")
+
+
+def _question_check_col(j):
+    app = j.get("application")
+    if not app:
+        return "NO_DRAFT"
+    import application
+    qc = application.question_check(j, app)
+    extra = f"・抽出漏れ{len(qc['body_only'])}件は原文本文で確認済み" if qc["body_only"] else ""
+    if qc["status"] == "OK":
+        return f"OK（原文{qc['source_items']}件／draft{qc['draft_questions']}件{extra}）"
+    return f"{qc['status']}：原文にありdraftにない{len(qc['missing_in_draft'])}件" + extra
+
+
+def _hold_col(j, i):
+    if not j.get("application"):
+        return ""
+    import application
+    return " / ".join(application.hold_split(j)[i])
+
+
+def in_astra_window(j, today_=None):
+    """Rows for Astra now: queued today, queued by yesterday's 17:00 run (QA'd at 18:00, or at 06:00 while
+    the Work side has no 18:00 step), or repaired / changed today. Earlier rows were QA'd on their day."""
+    d = today_ or today()
+    yday = (dt.date.fromisoformat(d) - dt.timedelta(days=1)).isoformat()
+    run, at = _queued(j)
+    touched = [at, (j.get("application") or {}).get("repaired_at") or "", *[c.get("at", "") for c in j.get("change_log", [])]]
+    return any(str(t)[:10] >= d for t in touched if t) or run == f"{yday} evening_delta"
 
 
 def _queued(j):
@@ -1153,7 +1297,10 @@ def _condition_change(j):
 # Dropped first (blanked, and named in `truncated`) when the Astra Queue exceeds its Drive budget; the
 # questions, this application's reward and unverified facts are never among them.
 QUEUE_LOW_PRIORITY = ["ai_steps", "human_steps", "hourly_est", "repeatability", "source_check", "pay_detail",
-                      "user_questions", "profile_link", "key_excerpt", "claude_reason", "requirements", "provenance"]
+                      "user_questions", "profile_link", "key_excerpt", "claude_reason", "requirements", "provenance",
+                      "human_minutes_basis", "work_conditions", "hold_astra_decides",
+                      "hold_ai_resolvable", "facts_used", "client_risk", "draft_next_action", "client_history",
+                      "client_facts"]
 
 
 def _qa_result(j):
@@ -1198,8 +1345,11 @@ def _write_csv(path, cols, jobs):
 
 
 QUEUE_CRITICAL = ["application_questions", "application_answers", "application_questions_status", "source_questions",
-                  "applicable_reward", "initial_reward", "ongoing_reward", "reward_status", "reward_source_excerpt",
-                  "unverified_facts", "user_confirmation_required", "claude_qa_result", "application_draft"]
+                  "applicable_reward", "initial_reward", "ongoing_reward", "reward_status", "reward_basis",
+                  "reward_source_excerpt", "reward_tax", "unverified_facts", "user_confirmation_required", "claude_qa_result",
+                  "application_draft", "client_id", "ai_condition_source", "requirements_source", "entry_counts",
+                  "source_completeness", "question_check", "hold_user_only", "human_minutes_total",
+                  "search_tier", "source_entrypoint", "scout_run"]
 
 
 def write_astra_queue(path, queue, budget=None):
@@ -1244,7 +1394,44 @@ DRIVE_BUDGET = 50000
 DRIVE_BUDGET_BY_FILE = {"astra_queue": 80000}
 DRIVE_WARN_RATIO = 0.8  # drive-status flags a file as near_budget above this share
 DRIVE_FILES = {"job_master": "job_master.csv", "astra_queue": "astra_queue.csv",
-               "application_queue": "application_queue.csv"}
+               "application_queue": "application_queue.csv", "run_log": "run_log.csv"}
+RUN_LOG_RUNS = 14  # the run log on Drive keeps the last N runs (the full log is state/runs.jsonl)
+RUN_LOG_COLS = [  # (column, path in a runs.jsonl record)
+    ("run_at", "run_at"), ("date", "date"), ("run_type", "run_type"), ("mode", "mode"),
+    ("listed", "listed"), ("new", "new"), ("rule_rejected", "rule_rejected"), ("new_rule_passed", "new_rule_passed"),
+    ("claude_eval", "claude_eval_requested"), ("claude_input_chars", "est_ai_usage.eval_input_chars"),
+    ("cap", "limits.cap"), ("budget_chars", "limits.budget_chars"),
+    ("deferred_to_morning", "deferred_to_morning"), ("unevaluated_backlog", "backlog_scouted"),
+    ("sent_auto", "candidate_mix.Auto"), ("sent_professional", "candidate_mix.Professional"),
+    ("sent_other", "candidate_mix.Other"), ("sent_from_data_categories", "candidate_mix.from_data_categories"),
+    ("unsent_auto", "unsent_mix.Auto"), ("unsent_professional", "unsent_mix.Professional"), ("unsent_other", "unsent_mix.Other"),
+    ("new_entry_listed_only", "new_entry.listed_only"), ("new_entry_new", "new_entry.new"),
+    ("new_entry_sent", "new_entry.sent_to_claude"), ("ai_bpo_sent", "new_entry.ai_bpo_sent"),
+    ("lane_auto", "lane_mix.Auto"), ("lane_professional", "lane_mix.Professional"), ("lane_experience", "lane_mix.Experience"),
+    ("lane_human_premium", "lane_mix.Human Premium"), ("lane_unset", "lane_mix.未記入"),
+    ("claude_candidates", "claude_candidates"), ("claude_needs_check", "claude_needs_check"),
+    ("astra_queue_added", "astra_queue_added"), ("astra_queue_added_new_entry_only", "astra_queue_added_new_entry"),
+    ("tier_main", "tier_mix.主力"), ("tier_micro", "tier_mix.マイクロ"), ("tier_below", "tier_mix.基準外"),
+    ("tier_unknown", "tier_mix.UNKNOWN"), ("detect_delay_median_h", "detect_delay_h.median"),
+    ("queue_delay_median_h", "queue_delay_h.median"), ("astra_queue_total", "astra_queue_total"),
+]
+
+
+def _dig(d, path):
+    for k in path.split("."):
+        d = d.get(k) if isinstance(d, dict) else None
+    return d
+
+
+def write_run_log(path):
+    """KPI of the recent Scout runs for Astra (Drive "Run Log"): run type, search population, Claude usage,
+    lanes / tiers, what was deferred or left unevaluated, and what came only from the new search entries."""
+    rp = os.path.join(STATE, "runs.jsonl")
+    runs = [json.loads(l) for l in open(rp, encoding="utf-8")] if os.path.exists(rp) else []
+    for r in runs:
+        r.setdefault("run_type", "morning_full")  # runs before 2026-10-03 were all the 05:00 run
+    _write_csv(path, [(c, (lambda r, p=pth: _dig(r, p))) for c, pth in RUN_LOG_COLS], runs[-RUN_LOG_RUNS:][::-1])
+    return len(runs[-RUN_LOG_RUNS:])
 DRIVE_MASTER_HIDDEN = {"CLOSED", "CLAUDE_REJECTED", "RULE_REJECTED"}
 REJECT_KEEP_DAYS = 1  # today and yesterday
 
@@ -1275,23 +1462,29 @@ def export(master, meta):
     drive_view = [j for j in active if _in_drive_master(j)]
     _write_csv(os.path.join(OUT, "job_master.csv"), drive_master_cols(), drive_view)  # operational index
     queue = [j for j in jobs if j.get("status") == "ASTRA_QA_PENDING"]
-    write_astra_queue(os.path.join(OUT, "astra_queue.csv"), queue)
+    # Drive copy: the rows Astra has to look at now (queued, repaired or changed in the last
+    # ASTRA_QUEUE_WINDOW_DAYS days). Older pending rows stay in astra_queue.json / astra_queue_full.csv, the Vault
+    # and the Job Master: re-sending them every day pushed the source facts out of the 80KB Drive budget.
+    _write_csv(os.path.join(OUT, "astra_queue_full.csv"), QUEUE_COLS, queue)  # local only
+    write_astra_queue(os.path.join(OUT, "astra_queue.csv"), [j for j in queue if in_astra_window(j)])
     save_json(os.path.join(OUT, "astra_queue.json"),
               {"generated_at": now_iso(), "count": len(queue),
                "jobs": [{c: fn(j) for c, fn in QUEUE_COLS} for j in queue]})
     import application
     n_app = application.export_queue(master)
+    n_runs = write_run_log(os.path.join(OUT, "run_log.csv"))
     stamp = dt.datetime.now(JST).strftime("%Y-%m-%d %H:%M JST")
     prev = load_json(os.path.join(OUT, "sync_manifest.json"), {})
     save_json(os.path.join(OUT, "sync_manifest.json"),
               {"generated_at": now_iso(), "drive": meta.get("drive", {}),
                "titles": {"job_master": f"CW Scout - Job Master｜{stamp}",
                           "astra_queue": f"CW Scout - Astra Queue｜{stamp}",
-                          "application_queue": f"CW Scout - Application Queue｜{stamp}"},
-               "files": {"job_master": "job_master.csv", "astra_queue": "astra_queue.csv",
-                         "application_queue": "application_queue.csv"},
+                          "application_queue": f"CW Scout - Application Queue｜{stamp}",
+                          "run_log": f"CW Scout - Run Log｜{stamp}"},
+               "files": dict(DRIVE_FILES),
                "counts": {"master_active": len(active), "master_drive": len(drive_view),
-                          "astra_queue": len(queue), "application_queue": n_app},
+                          "astra_queue": len(queue), "astra_queue_drive": sum(1 for j in queue if in_astra_window(j)),
+                          "application_queue": n_app, "run_log": n_runs},
                "bytes": {k: os.path.getsize(os.path.join(OUT, f)) for k, f in DRIVE_FILES.items()},
                "budget_bytes": DRIVE_BUDGET, "budget_by_file": DRIVE_BUDGET_BY_FILE,
                "prev_bytes": prev.get("bytes", {}), "prev_generated_at": prev.get("generated_at")})
@@ -1764,6 +1957,7 @@ DRIVE_KINDS = {  # Drive sheet key -> title prefix in the CW Scout folder
     "job_master_sheet": "CW Scout - Job Master｜",
     "astra_queue_sheet": "CW Scout - Astra Queue｜",
     "application_queue_sheet": "CW Scout - Application Queue｜",
+    "run_log_sheet": "CW Scout - Run Log｜",
     "status_updates_sheet": "CW Scout - Status Updates (記入用)",
 }
 SHEET_MIME = "application/vnd.google-apps.spreadsheet"
@@ -1874,6 +2068,8 @@ def main():
     p.set_defaults(fn=application.cmd_app_check)
     p = sub.add_parser("app-merge", help="store Claude application drafts (no submission)")
     p.add_argument("--drafts", required=True); p.add_argument("--date", default=today())
+    p.add_argument("--replace", action="store_true",
+                   help="replace a pre-Astra draft (ASTRA_QA_PENDING only; the previous draft is kept in history)")
     p.set_defaults(fn=application.cmd_app_merge)
     p = sub.add_parser("app-plan", help="ASTRA_PASS jobs to draft now (after app-check; no LLM)")
     p.add_argument("--date", default=today()); p.add_argument("--cap", type=int, default=10)

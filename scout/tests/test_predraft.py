@@ -115,7 +115,7 @@ def main():
     j = job(tmp, "99400001")
     assert j["status"] == "ASTRA_QA_PENDING", j["status"]  # a draft only: never READY, no Astra verdict needed
     app = j["application"]
-    assert app["final_qa_status"] == "CLAUDE_QA_PASSED" and app["stage"] == "PRE_ASTRA"
+    assert app["final_qa_status"] == "CLAUDE_QA_PASSED" and app["stage"] == "PRE_ASTRA", app.get("qa_flags")
     assert app["user_confirmation_required"] == "no" and app["unverified_facts"] == [] and not j.get("pre_draft_due")
     assert not j.get("astra")  # Astra's verdict is neither read nor invented
     print("new client, known profile only: draft complete, CLAUDE_QA_PASSED, still ASTRA_QA_PENDING (never READY)")
@@ -154,9 +154,10 @@ def main():
     # a 220-yen job waiting only on a personal preference: not sent to the user, Astra REJECT candidate
     cheap = draft("99400005", "はじめまして。", questions=["・好きな旅行先を教えてください"], answers=["【本人記入】"],
                   unverified=["好きな旅行先（本人の好み）"], reward=220, ev="1記事あたり200円（税抜）")
-    open(os.path.join(tmp, "data", py(tmp, "import pipeline as P; print(P.today())").strip(), "app_source",
-                      "99400005.json"), "w", encoding="utf-8").write(json.dumps({"desc": DESC.replace("2,000円", "200円")},
-                                                                                ensure_ascii=False))
+    # the posting says 200円 (税抜): saved and recorded the way app-check does
+    py(tmp, "import os, application as A, pipeline as P; v = P.vault_load(); src = {'desc': %r, 'desc_complete': True}; "
+            "P.save_json(os.path.join(P.ROOT, 'data', P.today(), 'app_source', '99400005.json'), src); "
+            "A._record_source(v['master']['99400005'], src); P.vault_save(v)" % DESC.replace("2,000円", "200円"))
     merge(tmp, [cheap])
     a5 = job(tmp, "99400005")["application"]
     assert a5["confirm_cost"] == "REJECT_CANDIDATE" and a5["user_confirmation_required"] == "no"

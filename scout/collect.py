@@ -286,6 +286,7 @@ def main():
     now = dt.datetime.now(JST).isoformat(timespec="minutes")
 
     jobs, sources, errors = {}, collections.defaultdict(set), []
+    entries = collections.defaultdict(set)  # search entries (QUERIES labels) that listed each job
     for label, qs, tier in QUERIES:
         try:
             res = collect_search(qs, known)
@@ -297,6 +298,7 @@ def main():
             jid = jo["job_offer"]["id"]
             jobs.setdefault(jid, jo)
             sources[jid].add(tier)
+            entries[jid].add(label)
     listed = {str(jid): listing_fp(jo) for jid, jo in jobs.items()}
     todo = [jid for jid in jobs if args.mode == "full" or known.get(str(jid)) != listed[str(jid)]]
 
@@ -334,7 +336,7 @@ def main():
         rows.append({
             "id": jid, "url": f"{BASE}/{jid}", "title": j["title"].strip(),
             "category_id": j["category_id"], "expired_on": j["expired_on"],
-            "released_at": j["last_released_at"], "tiers": sorted(sources[jid]),
+            "released_at": j["last_released_at"], "tiers": sorted(sources[jid]), "entries": sorted(entries[jid]),
             "entry": entry, "client": client, "first_seen": seen.get(str(jid), now),
             "is_new": str(jid) not in seen, "listing_fp": listed[str(jid)],
             "desc": desc, **f,
