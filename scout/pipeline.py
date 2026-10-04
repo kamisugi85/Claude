@@ -232,13 +232,17 @@ def lane_guess(r, hits):
     return "Auto" if auto_able(r) else ("Professional" if hits else "Other")
 
 
-EXCLUDE_RISK = {"勧誘兆候", "同一文面を複数アカウントが投稿", "購入/費用要求", "面談必須（募集文に明記）"}
+# The old single-word "勧誘兆候" (ライフスタイル / 一人暮らし / 実家 / 月収 ... anywhere in the text) is gone: it
+# rejected postings whose THEME used those words. Recruitment risk is now source_facts.recruit_signals():
+# hard reject only for combined strong signals, a flag for Claude / Astra otherwise (RUNBOOK 2).
+EXCLUDE_RISK = {"同一文面を複数アカウントが投稿", "購入/費用要求", "面談必須（募集文に明記）"}
+LEGACY_RISK = {"勧誘兆候"}
 
 
 def rescreen_risk(r):
     """Re-apply the current text risk patterns so rule changes take effect on stored rows."""
     import collect
-    keep = [x for x in r["risk"] if x not in collect.RISK_PATTERNS]
+    keep = [x for x in r["risk"] if x not in collect.RISK_PATTERNS and x not in LEGACY_RISK]
     r["risk"] = keep + [k for k, p in collect.RISK_PATTERNS.items() if re.search(p, r["desc"])]
 
 
@@ -256,6 +260,11 @@ def rule_filter(r, profile):
     bad = EXCLUDE_RISK & set(r["risk"])
     if bad:
         reasons.append("リスク:" + "/".join(sorted(bad)))
+    import source_facts as SF
+    sig = SF.recruit_signals(r["title"] + "\n" + r["desc"])
+    r["recruit_risk"] = {"decision": SF.recruit_decision(sig), "signals": sig, "summary": SF.recruit_summary(sig)}
+    if r["recruit_risk"]["decision"] == "REJECT":
+        reasons.append("勧誘リスク（複合）：" + r["recruit_risk"]["summary"])
     if RESTRICTED.search(r["title"]):
         reasons.append("属性・地域限定（本人未確認）")
     m = AGE_LIMIT.search(r["title"])
@@ -503,10 +512,22 @@ def job_facts(r):
                                          "averageScore", "jobOfferAchievementCount")},
         "client_open_jobs": r.get("client_open_jobs"), "ai_policy_rule": r["ai_policy"],
         "ai_evidence": r.get("ai_evidence", []), "requirements_rule": r["requirements"],
-        "risk_rule": r["risk"], "desc_hash": r["desc_hash"], "detail_fp": detail_fp(r),
+        "risk_rule": r["risk"], "recruit_risk": _recruit_note(r), "desc_hash": r["desc_hash"], "detail_fp": detail_fp(r),
         "desc_excerpt": re.sub(r"\s+", " ", r["desc"])[:300],
         "key_excerpt": key_excerpt(r["desc"]),
     }
+
+
+def _recruit_note(r):
+    """One line for Claude / Astra: the recruitment-signal decision and any interview / call mention."""
+    rr = r.get("recruit_risk")
+    if not rr:
+        return ""
+    out = "" if rr["decision"] == "NONE" else f"{rr['decision']}：{rr['summary']}"
+    iv = rr["signals"].get("interview") or []
+    if iv:
+        out += ("｜" if out else "") + "面談・通話の記載（拘束時間・選考コスト・報酬との釣り合いで判断）：" + " / ".join(iv[:2])
+    return out
 
 
 def set_status(job, status, by, note=""):
@@ -552,11 +573,13 @@ def cmd_profile_fact(a):
 
 # Two runs a day (RUNBOOK 2.1): 05:00 morning_full (unchanged) and 17:00 evening_delta, a light run over what
 # appeared or changed since 05:00 only. Its outputs live under data/<date>/evening/ so the morning files stay.
-RUN_TYPES = {"morning": "morning_full", "evening": "evening_delta"}
+RUN_TYPES = {"morning": "morning_full", "evening": "evening_delta", "rescreen": "rescreen"}
 RUN_LIMITS = {"morning": {"cap": 60, "budget_chars": 70000},
               # sized on real data (RUNBOOK 2.1): 2026-10-03 05:19-17:00 had 32 rule-passed new postings (1,295 chars
               # each on average; the top 15 by priority = 17,416 chars); 9/30-10/3 had ~7 candidates/day posted then
-              "evening": {"cap": 15, "budget_chars": 20000}}
+              "evening": {"cap": 15, "budget_chars": 20000},
+              # one-off: jobs an old rule rejected, re-checked with the current rules (same small limit as 17:00)
+              "rescreen": {"cap": 15, "budget_chars": 20000}}
 IMPORTANT_CHANGES = {"報酬変更", "募集条件変更", "AI利用条件変更"}  # re-evaluated at 17:00; others wait for 05:00
 CONTINUING = re.compile(r"継続(?:的|して|案件|依頼|発注)|長期|定期(?:的|発注)|毎月|毎週")
 
@@ -626,7 +649,7 @@ def cmd_prepare(a):
             new_ids.add(jid)
             new_hours.append(_hours(ts, r.get("released_at")))
         ent = index.setdefault(jid, {"first_seen": r.get("first_seen", ts)})
-        ent.update({"last_seen": ts, "listing_fp": r.get("listing_fp"), "desc_hash": r["desc_hash"],
+        ent.update({"last_seen": ts, "listing_fp": r.get("listing_fp") or ent.get("listing_fp"), "desc_hash": r["desc_hash"],
                     "client_id": r["client"].get("userId"), "expired_on": r["expired_on"]})
         fp = detail_fp(r)
         if jid in master:
@@ -694,7 +717,7 @@ def cmd_prepare(a):
         used += cost
     new_selected = sum(1 for c in chosen if c[3] != ["バックログ"])
     chosen_ids = {str(c[1]["id"]) for c in chosen}
-    if not evening and len(chosen) < a.cap and used < budget:  # backlog refill: 05:00 only
+    if run == "morning" and len(chosen) < a.cap and used < budget:  # backlog refill: 05:00 only
         for b in backlog.values():  # re-rank with today's urgency
             b["prescore"] = priority(b, b.get("fit_n", 0), date)
         extra = sorted((b for k, b in backlog.items() if k not in chosen_ids and k not in master
@@ -755,7 +778,10 @@ def cmd_prepare(a):
             "client": r["client"], "client_open_jobs": r.get("client_open_jobs"),
             "ai_policy_rule": r["ai_policy"], "ai_evidence": r.get("ai_evidence", []),
             "requirements_rule": r["requirements"], "risk_rule": r["risk"],
-            "needs_experience": r.get("needs_experience"), "desc": r["desc"][:a.desc_chars],
+            "needs_experience": r.get("needs_experience"),
+            # recruitment-funnel signals and interview mentions to judge (EVAL_GUIDE); FLAG never means reject
+            "recruit_risk": _recruit_note(r),
+            "desc": r["desc"][:a.desc_chars],
         })
     save_json(os.path.join(ddir, "pending_eval.json"),
               {"date": date, "run_type": RUN_TYPES[run], "calibration": calibration(master), "jobs": out})
@@ -1176,6 +1202,7 @@ QUEUE_COLS = [
     ("client_id", lambda j: str((j.get("client") or {}).get("userId") or (j.get("reward_check") or {}).get("client_id") or "")
      or "NOT_FOUND"),
     ("ai_condition_source", lambda j: _ai_condition_col(j)),
+    ("recruit_risk", lambda j: j.get("recruit_risk") or ""),
     ("requirements_source", lambda j: _work_col(j, ["requirements"], checks=True)),
     ("work_conditions", lambda j: _work_col(j, ["work", "volume", "deadline", "continuity", "tools", "external"])),
     ("entry_counts", lambda j: _entry_counts(j)),
@@ -1273,7 +1300,9 @@ def in_astra_window(j, today_=None):
     d = today_ or today()
     yday = (dt.date.fromisoformat(d) - dt.timedelta(days=1)).isoformat()
     run, at = _queued(j)
-    touched = [at, (j.get("application") or {}).get("repaired_at") or "", *[c.get("at", "") for c in j.get("change_log", [])]]
+    app = j.get("application") or {}
+    touched = [at, app.get("repaired_at") or "", app.get("generated_at") or "",  # a draft made today needs Astra
+               *[c.get("at", "") for c in j.get("change_log", [])]]
     return any(str(t)[:10] >= d for t in touched if t) or run == f"{yday} evening_delta"
 
 
@@ -1815,7 +1844,9 @@ def cmd_postqa(a):
         if not today_runs:
             print(json.dumps({"ok": False, "reason": f"{a.date} のScout実行記録がない"}, ensure_ascii=False))
             return
-        scout_at = max(r.get("run_at", "") for r in today_runs)[11:16]  # HH:MM (JST)
+        # the 06:00 Astra QA follows the 05:00 run: later runs the same day (17:00 / rescreen) do not move it
+        morning = [r for r in today_runs if r.get("run_type", "morning_full") == "morning_full"] or today_runs
+        scout_at = max(r.get("run_at", "") for r in morning)[11:16]  # HH:MM (JST)
         todays = set()
         for r, _ in _astra_rows(a.csv):
             t = su_time(r.get("updated_at", ""))

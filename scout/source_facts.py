@@ -318,6 +318,73 @@ def completeness(rc, client_id, entry):
     return {"fields": f, "status": "COMPLETE" if not gaps else "INCOMPLETE", "gaps": gaps}
 
 
+# ---- recruitment-funnel risk: combined signals, never one word -----------------------------------------
+# What is counted is what the posting ASKS of the applicant (application questions / form lines) and what it
+# requires of them; words that are only the theme of the work ("一人暮らしの節約術", "ライフスタイルメディア",
+# "実家の片付けアンケート", "ライフスタイルに合わせて働けます") are not signals.
+ASK_LINE_RE = re.compile(r"[：:？?]\s*$|教えて|お聞かせ|ご記入|ご記載|お知らせ|ご回答|^\s*(?:[①-⑳]|\(?\d{1,2}[).．、])")
+RECRUIT_S1 = {  # S1: the applicant's personal situation, asked without being needed for the work
+    "住まい": r"一人暮らし\s*[・／/、]|実家暮らし|同棲|お住まいの状況|生活スタイル|ライフスタイル\s*[（(]|家族構成",
+    "家族": r"配偶者|お子さん|子ども(?:さん)?の有無|家族構成|既婚・未婚|未婚・既婚",
+    "本業時間": r"本業の?[^。\n]{0,6}(?:時間|労働)|週合計労働|勤務時間・曜日",
+    "雇用形態": r"雇用形態|就業形態",
+    "収入": r"月収|年収|収入(?:面|状況|額)",
+}
+# S2: the applicant's aspirations / ideal future, asked in the application
+RECRUIT_S2 = re.compile(r"理想|目指(?:し|す)(?:て)?(?:みたい|たい)?働き方|働き方[^。\n]{0,10}(?:興味|目指|理想)|3年後|5年後|将来|"
+                        r"今後[^。\n]{0,15}(?:活か|挑戦|目標|身につけ|どのように)|目標|フリーランス|稼げるように|副業[^。\n]{0,10}きっかけ")
+# S3: leading the applicant off the platform (an online interview alone is NOT this: see INTERVIEW_RE)
+RECRUIT_S3 = re.compile(r"(?<!オン)(?:LINE|ライン)\s*(?:で|へ|に|登録|追加|@|ID|を交換)|公式LINE|(?:個別|無料|オンライン)?説明会|"
+                        r"(?:コミュニティ|サロン|スクール|講座)[^。\n]{0,10}(?:へ|に)?(?:ご?招待|ご?参加|ご?案内|入会)|"
+                        r"外部(?:サイト|サービス|ツール)[^。\n]{0,8}(?:登録|連絡|やり取り)|(?:メール|電話番号)を(?:送|教え)")
+# S4: money flowing from the worker
+RECRUIT_S4 = re.compile(r"受講|入会金?|教材|有料(?:講座|プラン|会員|サポート|コミュニティ)|自己負担|初期費用|登録料(?![^。\n]{0,8}無料)|"
+                        r"(?:スクール|講座|サロン|コンサル)[^。\n]{0,10}(?:費|料金|代)")
+# S5: the posting targets aspiration itself ("future freelancer", "side job alongside your main job")
+RECRUIT_S5 = re.compile(r"将来的にフリーランス|フリーランス志向|本業を続けながら副業に挑戦|自分で仕事をしていく働き方|"
+                        r"場所や時間にとらわれず働|自由な働き方を(?:実現|手に入れ)")
+# not S3 by itself: an online / video interview is also a normal selection step -> a flag for Claude / Astra
+INTERVIEW_RE = re.compile(r"(?:Zoom|ZOOM|Google\s?Meet|オンライン|ビデオ|Web)[^。\n]{0,6}(?:面談|面接|通話|打ち合わせ|ミーティング)|"
+                          r"(?<!不要の)(?:面談|面接)(?![^。\n]{0,6}(?:なし|不要|ありません|無し|しません))")
+
+
+def recruit_signals(desc):
+    """S1-S5 found in what the posting asks / requires, plus an interview flag (never S3 on its own)."""
+    text = _lines_of(desc)
+    q = questions(text)
+    asks = [l.strip() for l in text.split("\n") if l.strip() and (ASK_LINE_RE.search(l.strip()) or l.strip() in q["lines"])]
+    ask_text = "\n".join(asks)
+    s1 = [k for k, pat in RECRUIT_S1.items() if re.search(pat, ask_text)]
+    s2 = sorted(set(RECRUIT_S2.findall(ask_text)))
+    s3 = sorted(set(RECRUIT_S3.findall(text)))
+    s4 = sorted(set(RECRUIT_S4.findall(text)))
+    s5 = sorted(set(RECRUIT_S5.findall(text)))
+    iv = [l.strip()[:80] for l in text.split("\n") if INTERVIEW_RE.search(l)]
+    return {"S1": s1, "S2": s2[:4], "S3": s3[:4], "S4": s4[:4], "S5": s5[:3], "interview": iv[:3]}
+
+
+def recruit_decision(sig):
+    """REJECT only on several strong signals together; anything else is a flag for Claude / Astra.
+    - off-platform lead or money from the worker (S3 / S4), together with personal / aspiration questions
+    - questions about where / with whom the applicant lives, with another personal item, plus aspiration
+      questions or aspiration targeting (the beginner side-job funnel intake)"""
+    living = bool({"住まい", "家族"} & set(sig["S1"]))
+    if (sig["S3"] or sig["S4"]) and (sig["S1"] or sig["S2"]):
+        return "REJECT"
+    if living and len(sig["S1"]) >= 2 and (sig["S2"] or sig["S5"]):
+        return "REJECT"
+    if sig["S1"] or sig["S2"] or sig["S3"] or sig["S4"] or sig["S5"]:
+        return "FLAG"
+    return "NONE"
+
+
+def recruit_summary(sig):
+    parts = [f"S1個人状況:{'/'.join(sig['S1'])}" if sig["S1"] else "", f"S2将来像:{'/'.join(sig['S2'])}" if sig["S2"] else "",
+             f"S3外部誘導:{'/'.join(sig['S3'])}" if sig["S3"] else "", f"S4金銭負担:{'/'.join(sig['S4'])}" if sig["S4"] else "",
+             f"S5願望ターゲティング:{'/'.join(sig['S5'])}" if sig["S5"] else ""]
+    return " ".join(p for p in parts if p)
+
+
 # ---- client numbers: each value with its own meaning and source ---------------------------------------
 def client_facts(job, cm):
     """Labelled client values. `cm` = Client Master record (or None). Nothing is derived from another field."""

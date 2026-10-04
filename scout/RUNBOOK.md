@@ -72,6 +72,12 @@ python3 scout/pipeline.py prepare          # 既定：最大60件、評価入力
   - 募集枠の充足（`FILLED_CAPACITY`）：検索結果の契約済み人数 ≥ 募集人数のとき。本文に追加募集・継続募集・募集人数を超えての採用が明記されていれば除外しない。人数が取得できない・意味が曖昧なときも除外しない。
   - 電話対応・架電、ツール使用禁止・手入力指定（tier D）、規約上許されない自動取得（会員ログイン後の取得・スクレイピング禁止）、SNSのDM・フォロー・問い合わせフォーム営業の送信作業（tier D）、営業パートナー（成果報酬型）。
   - 即レス・平日日中の常時対応・定例会議など拘束の大きい案件、「未経験・簡単」で高額なtier Dの募集は除外せず、順位を下げる。
+  - 勧誘リスク（2026-10-04改定）：単一の語（ライフスタイル・一人暮らし・実家・月収など）では除外しない。本文のテーマや定型文（「一人暮らしの節約術」「ライフスタイルメディア」「ライフスタイルに合わせて働けます」）は数えない。応募設問・募集条件の文脈から5種類の兆候を取る（`source_facts.recruit_signals`）：S1 個人状況の聴取（住まい・家族・本業の時間・雇用形態・収入）／S2 将来像・願望の聴取／S3 外部誘導（LINE等の外部連絡先・説明会・スクールやコミュニティへの誘導）／S4 金銭負担（受講・教材・入会・自己負担・初期費用）／S5 願望ターゲティング（将来的にフリーランス、本業を続けながら副業に挑戦など）。
+    - pre-Claudeで除外（`勧誘リスク（複合）`）するのは強い兆候の組み合わせだけ：S3またはS4にS1またはS2が重なる／住まい・家族の聴取を含むS1が2項目以上あり、S2またはS5もある。
+    - それ以外の兆候は `recruit_risk` の `FLAG：…` としてClaude一次評価とAstra Queue（`recruit_risk` 列）に渡し、意味で判断する（EVAL_GUIDE）。
+    - Zoom・オンライン面談はS3（外部誘導）に数えない。`recruit_risk` に「面談・通話の記載」として載せ、本人拘束時間・選考コスト・報酬との釣り合い・他の兆候との組み合わせでClaude/Astraが評価する（募集文に面談必須と明記された案件の既存の除外ルールは変更していない）。
+    - 他の安全ルール（AI禁止、購入・費用要求、規約違反につながる自動化、電話対応など）はそのまま。
+  - 旧ルールなどで除外済みの案件の再判定：`python3 scout/collect.py --run rescreen --ids-file <ids> [--cache-dir <dir>]` → `python3 scout/pipeline.py prepare --run rescreen`（上限15件・20,000字、バックログ補充なし。上限外のルール通過案件はバックログへ）→ Claude一次評価 → `merge --run rescreen`。行は募集ページから作り直す（tierはページのカテゴリから推定、文字単価×文字数の報酬も読む）。
   - 期限切れ
   - 低価値（推定で1分あたり8円未満）
   - 成果報酬型の営業
@@ -371,6 +377,7 @@ python3 scout/tests/test_client_master.py
 python3 scout/tests/test_predraft.py       # 05:00のAstra QA前の応募準備draft（新クライアント/過去応募/過去納品・確認済み事実・冪等性・READYにしない）
 python3 scout/tests/test_queue_tier.py      # Astra Queueのtier（主力・マイクロ）とclaude_qa_result
 python3 scout/tests/test_scout_scope.py     # 検索入口（データ・調査系カテゴリ）とClaude前のルール（Auto・拘束・FILLED_CAPACITY）
+python3 scout/tests/test_recruit_signals.py # 勧誘リスク：単一語では除外しない・複合兆候のみ除外・Zoom面談は外部誘導に数えない・rescreen行
 python3 scout/tests/test_scout_evening.py   # AI-BPO入口（13502286相当）・AI補助制作のAuto/除外・05:00→17:00→翌05:00・17:00上限・Queue重複なし
 python3 scout/tests/test_source_facts.py    # 10/1の実障害の再現（設問欠落・初回/継続報酬・実績数の誤変換）とDrive軽量化
 python3 scout/tests/test_daily_ops.py      # 旧フロー（休止中）の通し（PASS/REJECT/HOLD/未判定・冒頭QA・冪等性・catch-up・最新シート）

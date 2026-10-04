@@ -28,7 +28,8 @@ PROFILE = {"birth_year": 1993, "keywords_strong": ["簿記", "財務", "市場�
 RECIPE = ("おうち時短レシピの紹介投稿用に、AI画像生成ツールで料理画像を作り、Canvaで投稿画像にまとめていただくお仕事です。\n"
           "・1投稿：5〜7枚程度\n・週1〜2投稿程度\n・報酬：1投稿1,500〜3,000円\n・納期：5〜7日程度\n"
           "・使用ツール：AI画像生成ツール＋Canva（無料版で可）\n未経験の方も歓迎です。")
-LIFESTYLE = "\n【応募時に教えてください】\n① 現在のライフスタイル（一人暮らし・実家暮らしなど）\n② 3年後の理想の働き方"
+LIFESTYLE = ("\n【応募時に教えてください】\n① お名前：\n② ご年齢：\n③ 現在のご職業・雇用形態：\n④ 本業の週合計労働時間（目安）：\n"
+             "⑤ 現在のライフスタイル（一人暮らし・実家暮らし・同棲など）：\n⑥ 3年後に理想としている働き方・ライフスタイルを教えてください。")
 
 
 def jo(jid, title, cat, released, pay=(30000, 50000), hope=5, contracts=0):
@@ -124,9 +125,14 @@ def test_ai_bpo_rules():
     assert st == "PASS" and P.lane_guess(base, hits) == "Auto", why  # images + Canva with AI: Auto, not only text
     manual = dict(base, tiers=["B"], title="レシピ記事作成", desc="ご自身の言葉でレシピ記事を書いてください。")
     assert P.est_human_minutes(base) < P.est_human_minutes(manual) * 0.5  # review time after AI, not hand work
-    # the real 13502286 also asks for lifestyle / "ideal way to work in 3 years": the existing recruitment rule
+    # the real 13502286 asks for living situation + main-job hours + employment + "ideal way to work in 3 years":
+    # several strong recruitment signals together -> rejected (the generic combined rule, no job-specific case)
     st, why, _ = P.rule_filter(dict(base, desc=RECIPE + LIFESTYLE), PROFILE)
-    assert st == "RULE_REJECTED" and "リスク:勧誘兆候" in why, why
+    assert st == "RULE_REJECTED" and any(w.startswith("勧誘リスク（複合）") for w in why), why
+    # one personal question alone is not a reason to reject: it goes on to Claude with a flag
+    one = dict(base, desc=RECIPE + "\n【応募時に教えてください】\n① 現在のライフスタイル（一人暮らし・実家暮らしなど）：")
+    st, why, _ = P.rule_filter(one, PROFILE)
+    assert st == "PASS" and one["recruit_risk"]["decision"] == "FLAG", why
     cases = {
         "有料ツール": "Canva Proのご契約が必須です。",
         "撮影・出演": "ご自身で料理を撮影していただきます。",

@@ -78,7 +78,7 @@ for cid, name in AI_BPO_CATEGORIES.items():
     QUERIES.append((f"cat:{cid}:{name}", f"category_id={cid}", "E"))
 # tiers reached only through the search entries added on 2026-10-03 (run metrics: "new entry" share)
 NEW_ENTRY_TIERS = {"D", "E"}
-RUNS = ("morning", "evening")  # 05:00 run (data/<date>/) and 17:00 light delta run (data/<date>/evening/)
+RUNS = ("morning", "evening", "rescreen")  # 05:00 (data/<date>/), 17:00 (data/<date>/evening/), one-off rescreen
 
 
 def run_dir(date, run="morning"):
@@ -219,7 +219,6 @@ RISK_PATTERNS = {
                   r"有料(?:講座|プラン|会員|サポート|コミュニティ)|(?:スクール|講座|コンサル|サロン)(?:への)?(?:入会|受講|申し?込み?)(?:が必要|をお願い|いただ)",
     "面談必須（募集文に明記）": r"(?:面談|面接|ビデオ通話|オンライン通話)(?![^。\n]{0,8}(?:なし|不要|ありません|無し|しません))"
                           r"[^。\n]{0,15}(?:必須|必要|を実施|を行|させていただ|がございます|があります|をお願い)",
-    "勧誘兆候": r"理想の未来|今後の目標|目指したい働き方|ライフスタイル|一人暮らし|実家|月収|収入面|稼げるように|自由な働き方|場所に縛られ",
 }
 EXPERIENCE = re.compile(r"体験談|実体験|ご自身の(?:経験|体験)|あなたの(?:経験|体験)|経験談|エッセイ|思い出|感想|口コミ|レビュー|実際に(?:使|利用|行|購入)|使ってみた|本音|不満")
 
@@ -263,6 +262,92 @@ def screen(job, desc, client):
     return f
 
 
+WRITING_GROUPS = {"writing", "writing_beginner"}
+
+
+def row_from_page(jid, page, first_seen, now):
+    """A jobs.jsonl row rebuilt from the posting page alone (rescreen of jobs an old rule rejected: their search
+    listing is not at hand). Tier from the page's category: task payment A, writing groups B, data / research
+    categories D, AI-BPO E, otherwise C (keyword entries)."""
+    import application
+    src = application.parse_source(page)
+    desc, client = src["desc"], src["client"] or {}
+    if not desc:
+        return None
+    m = re.search(r'compare_market_price" data="([^"]*)"', page)
+    meta = json.loads(html.unescape(m.group(1))) if m else {}
+    cat = meta.get("categoryId")
+    grp = (re.findall(r"/public/jobs/group/([a-z_]+)\?ref=from_public_job_offer_category", page) or [""])[0]
+    h = src.get("header_reward") or {}
+    kind = h.get("type") or ""
+    if "タスク" in kind:
+        pay = {"task_payment": {"task_price": h.get("min")}}
+        tiers = ["A"]
+    else:
+        if "記事単価" in kind or h.get("type") == "契約金額（目安）" and meta.get("feeInformation", {}).get("articles_price"):
+            fi = meta.get("feeInformation") or {}
+            pay = {"fixed_price_writing_payment": {"article_price": int(fi.get("articles_price") or h.get("min") or 0),
+                                                   "min_articles_length": int((fi.get("articles_length") or {}).get("min") or 0)}}
+        elif "時間単価" in kind:
+            pay = {"hourly_payment": {"min_hourly_wage": h.get("min"), "max_hourly_wage": h.get("max")}}
+        else:
+            pay = {"fixed_price_payment": {"min_budget": h.get("min"), "max_budget": h.get("max")}}
+        head = re.sub(r"\s+", " ", text_of(page))
+        unit = re.search(r"固定報酬制 ([\d.]+) 円 契約金額", head)
+        chars = re.search(r"1記事あたりの文字数 ([\d,]+) 文字", head)
+        upto = re.search(r"契約金額（目安）: 〜 ([\d,]+) 円", head)
+        if not (h.get("min") or h.get("max")):
+            if unit and chars:  # per-character rate x characters per article (pages without a header amount)
+                n = int(chars.group(1).replace(",", ""))
+                pay = {"fixed_price_writing_payment": {"article_price": round(float(unit.group(1)) * n), "min_articles_length": n}}
+            elif upto:
+                pay = {"fixed_price_payment": {"min_budget": None, "max_budget": int(upto.group(1).replace(",", ""))}}
+        tiers = ["D"] if cat in DATA_CATEGORIES else ["E"] if cat in AI_BPO_CATEGORIES else \
+            ["B"] if grp in WRITING_GROUPS else ["C"]
+    title = (re.search(r"<title>(.*?)のお仕事", page, re.S) or re.search(r"<title>(.*?)\|", page, re.S))
+    rel = re.search(r"掲載日\s*(\d{4})年(\d{2})月(\d{2})日", text_of(page))
+    job = {"job_offer": {"id": int(jid), "title": html.unescape(title.group(1)).strip() if title else str(jid),
+                         "category_id": cat, "expired_on": src.get("deadline") or "9999-12-31",
+                         "last_released_at": f"{rel.group(1)}-{rel.group(2)}-{rel.group(3)}T00:00+09:00" if rel else None,
+                         "status": "released"},
+           "payment": pay,
+           "entry": {"project_entry": {"num_contracts": src.get("contracted"), "project_contract_hope_number": src.get("capacity"),
+                                       "num_application_conditions": src.get("applicants")}} if "タスク" not in kind else {}}
+    f = screen(job, desc, client)
+    j = job["job_offer"]
+    return {"id": j["id"], "url": f"{BASE}/{jid}", "title": j["title"], "category_id": cat, "expired_on": j["expired_on"],
+            "released_at": j["last_released_at"], "tiers": tiers, "entries": [f"rescreen:{grp or cat}"],
+            "entry": job["entry"], "client": client, "first_seen": first_seen or now, "is_new": False,
+            "listing_fp": None, "desc": desc, "same_text_count": 1, "client_open_jobs": 1, **f}
+
+
+def main_rescreen(args):
+    """--run rescreen --ids-file F: rebuild rows from the posting pages (data/cache/<id>.html or a fresh fetch)."""
+    out_dir = run_dir(args.date, "rescreen")
+    os.makedirs(out_dir, exist_ok=True)
+    ids = [x.strip() for x in open(args.ids_file, encoding="utf-8").read().split() if x.strip()]
+    seen = json.load(open(os.path.join(ROOT, "state", "seen.json")))
+    now = dt.datetime.now(JST).isoformat(timespec="minutes")
+    cache = args.cache_dir or os.path.join(ROOT, "data", "cache")
+    rows, errors = [], []
+    for jid in ids:
+        p = os.path.join(cache, f"{jid}.html")
+        page = open(p, encoding="utf-8").read() if os.path.exists(p) and os.path.getsize(p) > 5000 else curl(f"{BASE}/{jid}")
+        r = row_from_page(jid, page or "", seen.get(jid), now) if page else None
+        if r is None:
+            errors.append(f"detail fetch failed: {jid}")
+            continue
+        rows.append(r)
+    with open(os.path.join(out_dir, "jobs.jsonl"), "w", encoding="utf-8") as fo:
+        for r in rows:
+            fo.write(json.dumps(r, ensure_ascii=False) + "\n")
+    json.dump({}, open(os.path.join(out_dir, "listed.json"), "w"))
+    summ = {"date": args.date, "mode": "rescreen", "run": "rescreen", "listed": len(ids), "processed": len(rows),
+            "new": 0, "unchanged_skipped": 0, "errors": errors}
+    json.dump(summ, open(os.path.join(out_dir, "summary.json"), "w"), ensure_ascii=False, indent=1)
+    print(json.dumps(summ, ensure_ascii=False))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--date", default=dt.datetime.now(JST).strftime("%Y-%m-%d"))
@@ -271,7 +356,11 @@ def main():
                     help="delta: only new or listing-changed jobs vs scout/state/index.json")
     ap.add_argument("--run", choices=RUNS, default="morning",
                     help="evening: 17:00 light delta run (always delta; output under data/<date>/evening/)")
+    ap.add_argument("--ids-file", help="rescreen: job ids (one per line or space separated)")
+    ap.add_argument("--cache-dir", help="rescreen: directory with <id>.html pages (default data/cache)")
     args = ap.parse_args()
+    if args.run == "rescreen":
+        return main_rescreen(args)
     if args.run == "evening":
         args.mode = "delta"
     out_dir = run_dir(args.date, args.run)

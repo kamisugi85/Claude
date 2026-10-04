@@ -766,29 +766,29 @@
  },
  "13480782": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-09-27T00:54+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "3f013a5be994",
   "desc_hash": "5b5dc69dc436abafc93b73417c1a7256",
   "client_id": 5713479,
   "expired_on": "2026-10-10",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "463d7473bb18"
+  "rule_fp": "fbfd13629249"
  },
  "13373955": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-09-27T00:54+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "3028728f25e1",
   "desc_hash": "46235a21ec152d93e8b862e94016aa92",
   "client_id": 6716597,
   "expired_on": "2026-10-10",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "cafb39e667ae"
+  "rule_fp": "5b35a87ff1fa"
  },
  "13373939": {
   "first_seen": "2026-09-26T23:59+09:00",
@@ -1603,16 +1603,16 @@
  },
  "13478937": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-09-27T00:54+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "624709534a9e",
   "desc_hash": "fcb46be4caffa416a2a61146912eca4b",
   "client_id": 7098051,
   "expired_on": "2026-10-09",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "リスク:面談必須（募集文に明記）"
   ],
-  "rule_fp": "69296823c4aa"
+  "rule_fp": "6f661c6abdd3"
  },
  "13478894": {
   "first_seen": "2026-09-26T23:59+09:00",
@@ -2209,16 +2209,16 @@
  },
  "13477756": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-09-27T00:54+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "b3deced94205",
   "desc_hash": "f817ff2fc79d360dc64709ba0dba1538",
   "client_id": 6929646,
   "expired_on": "2026-10-08",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "90fa56e183d6"
+  "rule_fp": "77993febd89d"
  },
  "13477999": {
   "first_seen": "2026-09-26T23:59+09:00",
@@ -2365,29 +2365,29 @@
  },
  "13467007": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "d784881d58c2",
   "desc_hash": "5fd5773be461133ffad4e95a128fca81",
   "client_id": 2604698,
   "expired_on": "2026-10-06",
-  "status": "RULE_REJECTED",
+  "status": "CLAUDE_EVALUATED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "1c8fa7df87b4"
+  "rule_fp": "5041ca895237"
  },
  "13467005": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "d784881d58c2",
   "desc_hash": "5fd5773be461133ffad4e95a128fca81",
   "client_id": 2604698,
   "expired_on": "2026-10-06",
-  "status": "RULE_REJECTED",
+  "status": "CLAUDE_EVALUATED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "1c8fa7df87b4"
+  "rule_fp": "5041ca895237"
  },
  "13477817": {
   "first_seen": "2026-09-26T23:59+09:00",
@@ -2684,16 +2684,16 @@
  },
  "13474915": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-09-27T00:54+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "f6e9dd8d752c",
   "desc_hash": "7d8575ce172ae12d7fb1945b89e931f3",
   "client_id": 6940118,
   "expired_on": "2026-10-08",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "ded08929c5a8"
+  "rule_fp": "904e9e3729ae"
  },
  "13474901": {
   "first_seen": "2026-09-26T23:59+09:00",
@@ -3063,14 +3063,14 @@
  },
  "13471850": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-09-27T00:54+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "304e8d6f432b",
   "desc_hash": "22eb9395469263d73f17339311f0ac7e",
   "client_id": 6672200,
   "expired_on": "2026-10-07",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "低価値（推定手取/本人分が基準未満）"
   ],
   "rule_fp": "762550602809"
  },
@@ -3214,16 +3214,16 @@
  },
  "13470650": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-09-27T00:54+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "4aaeb12bf519",
   "desc_hash": "2e04cc874c3e331617ae779d211e83b7",
   "client_id": 7182435,
   "expired_on": "2026-10-06",
-  "status": "RULE_REJECTED",
+  "status": "CLAUDE_EVALUATED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "8113fc0c6d98"
+  "rule_fp": "7de8fa2d98f8"
  },
  "13470238": {
   "first_seen": "2026-09-26T23:59+09:00",
@@ -3751,16 +3751,16 @@
  },
  "13472985": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-09-27T00:54+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "92ad454a97b1",
   "desc_hash": "655ad742b421aabc076f512206a9eed1",
   "client_id": 7199895,
   "expired_on": "2026-10-08",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "63a63919b22d"
+  "rule_fp": "f6dfd938a9df"
  },
  "13472982": {
   "first_seen": "2026-09-26T23:59+09:00",
@@ -4267,16 +4267,16 @@
  },
  "13471078": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-09-27T00:54+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "c84075a2f45d",
   "desc_hash": "85034229f39ad8cd78a91b079fc5fbc3",
   "client_id": 6929646,
   "expired_on": "2026-10-07",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "1aec3a3e07b5"
+  "rule_fp": "daadd15598f6"
  },
  "13471352": {
   "first_seen": "2026-09-26T23:59+09:00",
@@ -4357,16 +4357,16 @@
  },
  "13470984": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-09-27T00:54+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "94c6a7eb8515",
   "desc_hash": "2c36b2782ce94bea485b4bbc5e074c67",
   "client_id": 7199895,
   "expired_on": "2026-10-06",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "247f2f439611"
+  "rule_fp": "0ac341c246f0"
  },
  "13470971": {
   "first_seen": "2026-09-26T23:59+09:00",
@@ -4935,16 +4935,16 @@
  },
  "13470161": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-09-27T00:54+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "efa38c9b066b",
   "desc_hash": "7c12d499714145be8de46cc980b47c34",
   "client_id": 7199895,
   "expired_on": "2026-10-06",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "d04b3689f020"
+  "rule_fp": "f1cff87c1204"
  },
  "13470158": {
   "first_seen": "2026-09-26T23:59+09:00",
@@ -5465,16 +5465,16 @@
  },
  "13468994": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-09-27T00:54+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "5ec81f60ff3a",
   "desc_hash": "2fa94729e65d821ffde02f9f3c417b20",
   "client_id": 7199895,
   "expired_on": "2026-10-05",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "4010b4ee81e2"
+  "rule_fp": "3debb9c3103e"
  },
  "13468991": {
   "first_seen": "2026-09-26T23:59+09:00",
@@ -5667,7 +5667,7 @@
  },
  "13467929": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-09-27T00:54+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "24b595d7fbf4",
   "desc_hash": "84030a0b7beb0ab38fd0f8746a65b8fc",
   "client_id": 6724067,
@@ -6122,16 +6122,16 @@
  },
  "13465872": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-09-27T00:54+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "2c5e3eb99912",
   "desc_hash": "0305e8879c0980f5d9e3794bcb83e3bb",
   "client_id": 7108338,
   "expired_on": "2026-10-04",
-  "status": "RULE_REJECTED",
+  "status": "CLAUDE_EVALUATED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "f8d3fb0c236a"
+  "rule_fp": "78b31a8dd150"
  },
  "13465861": {
   "first_seen": "2026-09-26T23:59+09:00",
@@ -8839,16 +8839,16 @@
  },
  "13480441": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-10-02T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "5d611d1f7eda",
   "desc_hash": "2bc6fb9e05fa94bb6e2f27738c52a20d",
   "client_id": 2711216,
   "expired_on": "2026-10-09",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "専門キーワードのみ一致・プロフィール接点なし"
   ],
-  "rule_fp": "b3a51485fef5"
+  "rule_fp": "67a00a68a477"
  },
  "13479257": {
   "first_seen": "2026-09-26T23:59+09:00",
@@ -8866,16 +8866,16 @@
  },
  "13479238": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-10-02T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "dace3381294b",
   "desc_hash": "68141ece1335dd01307ef2dd88a2be00",
   "client_id": 5508996,
   "expired_on": "2026-10-09",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "8545f7cf2a14"
+  "rule_fp": "2273db29f2b4"
  },
  "13479147": {
   "first_seen": "2026-09-26T23:59+09:00",
@@ -9992,12 +9992,12 @@
  },
  "12024597": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "1643f8b119a1",
   "desc_hash": "5514c95eb22fd6b583ef406cdc803558",
   "client_id": 5810115,
   "expired_on": "2026-10-05",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
@@ -13859,14 +13859,14 @@
  },
  "13261013": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-10-02T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "1e241274a130",
   "desc_hash": "7d4a6b99355c24adf56182cb670c2c14",
   "client_id": 5150031,
   "expired_on": "2026-10-06",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "電話対応・架電あり（本人拘束）"
   ],
   "rule_fp": "1106290f0f25"
  },
@@ -14986,16 +14986,16 @@
  },
  "13482139": {
   "first_seen": "2026-09-27T00:41+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "8104c833d1a0",
   "desc_hash": "05d28b85883a53c3e3d8bc48906068e0",
   "client_id": 7126127,
   "expired_on": "2026-10-11",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "82f66212dd54"
+  "rule_fp": "c4f431a36565"
  },
  "13482177": {
   "first_seen": "2026-09-27T01:39+09:00",
@@ -15013,16 +15013,16 @@
  },
  "13482152": {
   "first_seen": "2026-09-27T01:39+09:00",
-  "last_seen": "2026-09-29T05:14+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "52f929d5cdf3",
   "desc_hash": "c088eece7b7acec7663cf466a689546d",
   "client_id": 6146992,
   "expired_on": "2026-10-04",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "勧誘リスク（複合）：S1個人状況:住まい/雇用形態 S5願望ターゲティング:本業を続けながら副業に挑戦"
   ],
-  "rule_fp": "09ad0cf70f63"
+  "rule_fp": "29a42912f5b7"
  },
  "13482199": {
   "first_seen": "2026-09-27T06:14+09:00",
@@ -15415,16 +15415,16 @@
  },
  "13483419": {
   "first_seen": "2026-09-28T06:28+09:00",
-  "last_seen": "2026-09-29T05:14+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "dc106d193cb0",
   "desc_hash": "906918ced6d6dd59d9baa647f8b02d1c",
   "client_id": 7184401,
   "expired_on": "2026-10-11",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "勧誘リスク（複合）：S1個人状況:住まい/雇用形態 S2将来像:将来/目標"
   ],
-  "rule_fp": "fb9ae2696c2d"
+  "rule_fp": "ff450bb3b49f"
  },
  "13483402": {
   "first_seen": "2026-09-28T06:28+09:00",
@@ -15520,16 +15520,16 @@
  },
  "13483297": {
   "first_seen": "2026-09-28T06:28+09:00",
-  "last_seen": "2026-09-29T05:14+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "b285b36fc50f",
   "desc_hash": "956bb30ed5e3ba3e42f7f190bf51ca62",
   "client_id": 4614024,
   "expired_on": "2026-10-07",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "72e0d715da43"
+  "rule_fp": "209e8a44feba"
  },
  "13483267": {
   "first_seen": "2026-09-28T06:28+09:00",
@@ -15778,16 +15778,16 @@
  },
  "13482904": {
   "first_seen": "2026-09-28T06:28+09:00",
-  "last_seen": "2026-09-29T05:14+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "8a0c595db6b7",
   "desc_hash": "406a1285d46b4ea3d926bcad1407499a",
   "client_id": 6146992,
   "expired_on": "2026-10-11",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "勧誘リスク（複合）：S1個人状況:住まい/雇用形態 S5願望ターゲティング:本業を続けながら副業に挑戦"
   ],
-  "rule_fp": "1a8227e1c684"
+  "rule_fp": "10d05dccd700"
  },
  "13482893": {
   "first_seen": "2026-09-28T06:28+09:00",
@@ -16976,16 +16976,16 @@
  },
  "13439101": {
   "first_seen": "2026-09-29T05:09+09:00",
-  "last_seen": "2026-09-30T05:24+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "6ce6dc7765ea",
   "desc_hash": "9e49760ad97452a272a7b969c55d1901",
   "client_id": 2792405,
   "expired_on": "2026-10-12",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "低価値（推定手取/本人分が基準未満）"
   ],
-  "rule_fp": "691024be3a90"
+  "rule_fp": "e61b1e0e26a6"
  },
  "13307006": {
   "first_seen": "2026-09-29T05:09+09:00",
@@ -17002,16 +17002,16 @@
  },
  "13431245": {
   "first_seen": "2026-09-29T05:09+09:00",
-  "last_seen": "2026-09-30T05:24+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "0cb9e654184f",
   "desc_hash": "40d04ab26a7873e8fb5b6304b7e5d0f3",
   "client_id": 6923699,
   "expired_on": "2026-10-12",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "低価値（推定手取/本人分が基準未満）"
   ],
-  "rule_fp": "a913c2380764"
+  "rule_fp": "c66b4f0cc714"
  },
  "13489165": {
   "first_seen": "2026-09-29T05:09+09:00",
@@ -18365,16 +18365,16 @@
  },
  "13486096": {
   "first_seen": "2026-09-29T05:09+09:00",
-  "last_seen": "2026-09-29T05:14+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "a36023168c90",
   "desc_hash": "da299ecab301e43396cddf6342d25a42",
   "client_id": 6877954,
   "expired_on": "2026-10-12",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "FILLED_CAPACITY（契約済み人数が募集人数以上）"
   ],
-  "rule_fp": "ad4be47910cf"
+  "rule_fp": "215fd5a2bd28"
  },
  "13485887": {
   "first_seen": "2026-09-29T05:09+09:00",
@@ -21533,16 +21533,16 @@
  },
  "13482021": {
   "first_seen": "2026-09-29T05:09+09:00",
-  "last_seen": "2026-10-03T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "24f96c22bcf4",
   "desc_hash": "6e234f924e3fce3856e2c955edd02d8d",
   "client_id": 1877082,
   "expired_on": "2026-10-10",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "電話対応・架電あり（本人拘束）"
   ],
-  "rule_fp": "ce97691be846"
+  "rule_fp": "f6efa8eddd20"
  },
  "13481947": {
   "first_seen": "2026-09-29T05:09+09:00",
@@ -22071,16 +22071,16 @@
  },
  "13439296": {
   "first_seen": "2026-09-30T05:20+09:00",
-  "last_seen": "2026-10-01T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "94bfe3b6da54",
   "desc_hash": "21b3d37d1e0d47e59742630d57ff5080",
   "client_id": 4614024,
   "expired_on": "2026-10-10",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "2f1eaf31c35c"
+  "rule_fp": "874d5cef3b0b"
  },
  "13492276": {
   "first_seen": "2026-09-30T05:20+09:00",
@@ -22135,16 +22135,16 @@
  },
  "13492147": {
   "first_seen": "2026-09-30T05:20+09:00",
-  "last_seen": "2026-10-01T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "1ca8593670d8",
   "desc_hash": "e7ed18cdbf3b0006dded3fa9d64a39f7",
   "client_id": 4496824,
   "expired_on": "2026-10-06",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "勧誘リスク（複合）：S1個人状況:住まい/本業時間/雇用形態 S2将来像:3年後/今後、ライティングをどのように/理想 S5願望ターゲティング:場所や時間にとらわれず働"
   ],
-  "rule_fp": "1386e1d7bcdd"
+  "rule_fp": "02971b921570"
  },
  "13455506": {
   "first_seen": "2026-09-30T05:20+09:00",
@@ -22161,16 +22161,16 @@
  },
  "13492071": {
   "first_seen": "2026-09-30T05:20+09:00",
-  "last_seen": "2026-10-01T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "0775f78b15b5",
   "desc_hash": "39d72a90351c423bc85a7c6c8381bdd2",
   "client_id": 7148902,
   "expired_on": "2026-10-04",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "低価値（推定手取/本人分が基準未満）"
   ],
-  "rule_fp": "e718e5ad23e8"
+  "rule_fp": "ddca2c16f337"
  },
  "13492014": {
   "first_seen": "2026-09-30T05:20+09:00",
@@ -22978,16 +22978,16 @@
  },
  "13490855": {
   "first_seen": "2026-09-30T05:20+09:00",
-  "last_seen": "2026-10-01T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "d40fa4f21965",
   "desc_hash": "a196352a4c1beaad1faf0cfa25c2cb3f",
   "client_id": 7149557,
   "expired_on": "2026-10-04",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "勧誘リスク（複合）：S1個人状況:住まい/雇用形態 S2将来像:将来"
   ],
-  "rule_fp": "9568d395cfcc"
+  "rule_fp": "093d136ff637"
  },
  "7594391": {
   "first_seen": "2026-09-30T05:20+09:00",
@@ -23129,29 +23129,29 @@
  },
  "13490680": {
   "first_seen": "2026-09-30T05:20+09:00",
-  "last_seen": "2026-09-30T05:24+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "64623996dc92",
   "desc_hash": "5a460502b7421cfac7a3513c383f0591",
   "client_id": 6183459,
   "expired_on": "2026-10-04",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "9342c7814d0c"
+  "rule_fp": "d19e62e7f989"
  },
  "13490678": {
   "first_seen": "2026-09-30T05:20+09:00",
-  "last_seen": "2026-09-30T05:24+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "4a015741dd21",
   "desc_hash": "0c639a5207069ea623980b8c49457ba5",
   "client_id": 7114573,
   "expired_on": "2026-10-04",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "勧誘リスク（複合）：S1個人状況:住まい/雇用形態 S2将来像:今後、身につけ/目指してみたい働き方"
   ],
-  "rule_fp": "257460400e62"
+  "rule_fp": "b9d7194d5fa5"
  },
  "13362515": {
   "first_seen": "2026-09-30T05:20+09:00",
@@ -23751,16 +23751,16 @@
  },
  "13467922": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-09-30T05:24+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "92f8c7caa1bb",
   "desc_hash": "96982e834dfbed64ed3741dd3f9fdd29",
   "client_id": 4131486,
   "expired_on": "2026-10-06",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "低価値（推定手取/本人分が基準未満）"
   ],
-  "rule_fp": "67e698a11616"
+  "rule_fp": "578595060907"
  },
  "13489980": {
   "first_seen": "2026-09-30T05:20+09:00",
@@ -25956,16 +25956,16 @@
  },
  "13494945": {
   "first_seen": "2026-10-01T05:14+09:00",
-  "last_seen": "2026-10-02T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "8b5ea63a835b",
   "desc_hash": "25918537b17bc69b79d9094a9a50f43a",
   "client_id": 7026451,
   "expired_on": "2026-10-05",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "勧誘リスク（複合）：S1個人状況:住まい/雇用形態 S2将来像:理想"
   ],
-  "rule_fp": "f9c33cd17700"
+  "rule_fp": "d68cbd4861bc"
  },
  "13494938": {
   "first_seen": "2026-10-01T05:14+09:00",
@@ -26122,16 +26122,16 @@
  },
  "13494829": {
   "first_seen": "2026-10-01T05:14+09:00",
-  "last_seen": "2026-10-02T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "226f612221c3",
   "desc_hash": "87fd61aae4b7983a7bd9651962d24f07",
   "client_id": 6750240,
   "expired_on": "2026-10-05",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "勧誘リスク（複合）：S1個人状況:住まい/雇用形態 S2将来像:今後の目標/理想"
   ],
-  "rule_fp": "7c371af36bed"
+  "rule_fp": "7ad4a84aaa9d"
  },
  "13494816": {
   "first_seen": "2026-10-01T05:14+09:00",
@@ -26176,16 +26176,16 @@
  },
  "13494795": {
   "first_seen": "2026-10-01T05:14+09:00",
-  "last_seen": "2026-10-02T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "f389aa68b0b9",
   "desc_hash": "a7b90b4521d4fee1b23df3fce17c25c5",
   "client_id": 7148902,
   "expired_on": "2026-10-05",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "低価値（推定手取/本人分が基準未満）"
   ],
-  "rule_fp": "afa059c5c024"
+  "rule_fp": "361576cf0475"
  },
  "13494793": {
   "first_seen": "2026-10-01T05:14+09:00",
@@ -26228,16 +26228,16 @@
  },
  "13494779": {
   "first_seen": "2026-10-01T05:14+09:00",
-  "last_seen": "2026-10-02T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "8b5ea63a835b",
   "desc_hash": "25918537b17bc69b79d9094a9a50f43a",
   "client_id": 7026451,
   "expired_on": "2026-10-05",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "勧誘リスク（複合）：S1個人状況:住まい/雇用形態 S2将来像:理想"
   ],
-  "rule_fp": "f9c33cd17700"
+  "rule_fp": "d68cbd4861bc"
  },
  "13457928": {
   "first_seen": "2026-10-01T05:14+09:00",
@@ -26349,16 +26349,16 @@
  },
  "13494668": {
   "first_seen": "2026-10-01T05:14+09:00",
-  "last_seen": "2026-10-02T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "463693051756",
   "desc_hash": "a8597e07bba281f91e89076b40b4bd65",
   "client_id": 6819586,
   "expired_on": "2026-10-14",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "低価値（推定手取/本人分が基準未満）"
   ],
-  "rule_fp": "0f94438e617d"
+  "rule_fp": "ab422aa4fb84"
  },
  "13494638": {
   "first_seen": "2026-10-01T05:14+09:00",
@@ -26388,16 +26388,16 @@
  },
  "13494613": {
   "first_seen": "2026-10-01T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "cabbaf99f694",
   "desc_hash": "95e252c23773212d46a08e6b676e2e99",
   "client_id": 6708627,
   "expired_on": "2026-10-14",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "312cbee5b1fa"
+  "rule_fp": "a79e9f66bd55"
  },
  "13494595": {
   "first_seen": "2026-10-01T05:14+09:00",
@@ -26452,16 +26452,16 @@
  },
  "13494522": {
   "first_seen": "2026-10-01T05:14+09:00",
-  "last_seen": "2026-10-02T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "22e9cb86097d",
   "desc_hash": "9c9ac6516847b0f4caadb2724b2a2fa8",
   "client_id": 7233041,
   "expired_on": "2026-10-05",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "d58d7ea61310"
+  "rule_fp": "13a657adeb9e"
  },
  "13494511": {
   "first_seen": "2026-10-01T05:14+09:00",
@@ -26650,16 +26650,16 @@
  },
  "13494165": {
   "first_seen": "2026-10-01T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "bdf3452af2d9",
   "desc_hash": "fbe09fb342d193441f2b859acd2f3b26",
   "client_id": 3197521,
   "expired_on": "2026-10-14",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "28a9a28256ae"
+  "rule_fp": "8c22cfb8c4b7"
  },
  "13494123": {
   "first_seen": "2026-10-01T05:14+09:00",
@@ -27197,16 +27197,16 @@
  },
  "13490691": {
   "first_seen": "2026-10-01T05:14+09:00",
-  "last_seen": "2026-10-02T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "0df7c7aaeac8",
   "desc_hash": "52b2610e9225c88bf40a6ef2184418c1",
   "client_id": 6963324,
   "expired_on": "2026-10-14",
-  "status": "RULE_REJECTED",
+  "status": "CLAUDE_EVALUATED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "1dc26c277c29"
+  "rule_fp": "5708748a583c"
  },
  "13493006": {
   "first_seen": "2026-10-01T05:14+09:00",
@@ -27276,16 +27276,16 @@
  },
  "13492350": {
   "first_seen": "2026-10-01T05:14+09:00",
-  "last_seen": "2026-10-01T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "2338ae9ac786",
   "desc_hash": "3608d165478f1767dd543b0db0be59d5",
   "client_id": 6946069,
   "expired_on": "2026-10-04",
-  "status": "RULE_REJECTED",
+  "status": "CLAUDE_EVALUATED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "fe104f035768"
+  "rule_fp": "d32ce102ed16"
  },
  "13492323": {
   "first_seen": "2026-10-01T05:14+09:00",
@@ -28066,16 +28066,16 @@
  },
  "13492527": {
   "first_seen": "2026-10-01T05:14+09:00",
-  "last_seen": "2026-10-01T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "cf31cc9bdfae",
   "desc_hash": "d293e0f7d690d6e077e40485dda36ef0",
   "client_id": 7092102,
   "expired_on": "2026-10-05",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "勧誘リスク（複合）：S1個人状況:住まい/本業時間/雇用形態 S2将来像:今後身につけ S5願望ターゲティング:将来的にフリーランス/自分で仕事をしていく働き方"
   ],
-  "rule_fp": "b194cea09443"
+  "rule_fp": "474f06adb200"
  },
  "13492509": {
   "first_seen": "2026-10-01T05:14+09:00",
@@ -28613,29 +28613,29 @@
  },
  "13493708": {
   "first_seen": "2026-10-01T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "81cb4374ab8f",
   "desc_hash": "175c6a2f932a81e4affd392993f91e2b",
   "client_id": 77807,
   "expired_on": "2026-10-14",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "専門キーワードのみ一致・プロフィール接点なし"
   ],
-  "rule_fp": "312078210112"
+  "rule_fp": "3894a3ed3f4e"
  },
  "13493689": {
   "first_seen": "2026-10-01T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "c106ecd0c070",
   "desc_hash": "826933d7d482e586759ec58a394d0f33",
   "client_id": 77807,
   "expired_on": "2026-10-14",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "専門キーワードのみ一致・プロフィール接点なし"
   ],
-  "rule_fp": "0d7eec947a92"
+  "rule_fp": "6250a5e47f42"
  },
  "13493685": {
   "first_seen": "2026-10-01T05:14+09:00",
@@ -28759,16 +28759,16 @@
  },
  "13492759": {
   "first_seen": "2026-10-01T05:14+09:00",
-  "last_seen": "2026-10-01T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "b592340c1305",
   "desc_hash": "815644ba4e88ff55c942e11fd7591601",
   "client_id": 77807,
   "expired_on": "2026-10-14",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "専門キーワードのみ一致・プロフィール接点なし"
   ],
-  "rule_fp": "82b6ea72745f"
+  "rule_fp": "16aec961ecb8"
  },
  "13492685": {
   "first_seen": "2026-10-01T05:14+09:00",
@@ -29089,16 +29089,16 @@
  },
  "13494390": {
   "first_seen": "2026-10-01T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "99d01f0d7969",
   "desc_hash": "bcab84cb1e6423d3fab5352cbcfbcf31",
   "client_id": 7210175,
   "expired_on": "2026-10-05",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "04a6987392d2"
+  "rule_fp": "9435bf4b94df"
  },
  "13492722": {
   "first_seen": "2026-10-01T05:14+09:00",
@@ -30664,16 +30664,16 @@
  },
  "13493804": {
   "first_seen": "2026-10-01T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "5c2543d001fc",
   "desc_hash": "5c53664deb28d259efb88544e2913570",
   "client_id": 4447840,
   "expired_on": "2026-10-14",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "f93afe02330d"
+  "rule_fp": "35dc65a728ae"
  },
  "13492451": {
   "first_seen": "2026-10-01T05:14+09:00",
@@ -30690,16 +30690,16 @@
  },
  "13491028": {
   "first_seen": "2026-10-01T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "ea0cbc2ec788",
   "desc_hash": "33535c7dd6e53f1ec2c85de6271c189c",
   "client_id": 4447840,
   "expired_on": "2026-10-13",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "6113dcd933bf"
+  "rule_fp": "ba62eca1bb27"
  },
  "13494135": {
   "first_seen": "2026-10-01T05:14+09:00",
@@ -31077,16 +31077,16 @@
  },
  "13498162": {
   "first_seen": "2026-10-02T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "856410832e6e",
   "desc_hash": "df62228eba51b0a6dd96b912933b09c8",
   "client_id": 7079677,
   "expired_on": "2026-10-07",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "勧誘リスク（複合）：S1個人状況:住まい/家族/雇用形態 S2将来像:理想/目標"
   ],
-  "rule_fp": "d313ebd86579"
+  "rule_fp": "c6a224147348"
  },
  "13498161": {
   "first_seen": "2026-10-02T05:14+09:00",
@@ -31116,16 +31116,16 @@
  },
  "13498150": {
   "first_seen": "2026-10-02T05:14+09:00",
-  "last_seen": "2026-10-03T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "d422f3dd52af",
   "desc_hash": "cae482bcacdd65443c08aeb6afdf77dc",
   "client_id": 6724067,
   "expired_on": "2026-10-16",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "af7d60fa7724"
+  "rule_fp": "e6324fc16cef"
  },
  "13498145": {
   "first_seen": "2026-10-02T05:14+09:00",
@@ -31502,16 +31502,16 @@
  },
  "13497831": {
   "first_seen": "2026-10-02T05:14+09:00",
-  "last_seen": "2026-10-03T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "8f9d574a6215",
   "desc_hash": "e335a40be9339e5caa8294af0946735f",
   "client_id": 6882290,
   "expired_on": "2026-10-05",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "9f8ccbe80d91"
+  "rule_fp": "1c17815a27d3"
  },
  "13497780": {
   "first_seen": "2026-10-02T05:14+09:00",
@@ -32338,16 +32338,16 @@
  },
  "13495484": {
   "first_seen": "2026-10-02T05:14+09:00",
-  "last_seen": "2026-10-02T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "69f6e5ce66af",
   "desc_hash": "b8e265c62716a562137c60da1a7d8bfe",
   "client_id": 7193870,
   "expired_on": "2026-10-15",
-  "status": "RULE_REJECTED",
+  "status": "CLAUDE_EVALUATED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "b8a01e4c0f16"
+  "rule_fp": "b7bfeccf9d23"
  },
  "13495431": {
   "first_seen": "2026-10-02T05:14+09:00",
@@ -32876,16 +32876,16 @@
  },
  "13496314": {
   "first_seen": "2026-10-02T05:14+09:00",
-  "last_seen": "2026-10-02T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "481a94a5ff5a",
   "desc_hash": "3a24042972f19aacbe84fc5a0137f212",
   "client_id": 7069569,
   "expired_on": "2026-10-05",
-  "status": "RULE_REJECTED",
+  "status": "CLAUDE_EVALUATED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "709dce260844"
+  "rule_fp": "27e5202b9f29"
  },
  "13496081": {
   "first_seen": "2026-10-02T05:14+09:00",
@@ -33252,16 +33252,16 @@
  },
  "13495396": {
   "first_seen": "2026-10-02T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "249cfb3640d9",
   "desc_hash": "f948220250fb4d0a476b1d46a40a48d8",
   "client_id": 6721990,
   "expired_on": "2026-10-06",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "0b1b629617db"
+  "rule_fp": "a77502d0e074"
  },
  "13495372": {
   "first_seen": "2026-10-02T05:14+09:00",
@@ -33304,16 +33304,16 @@
  },
  "13495332": {
   "first_seen": "2026-10-02T05:14+09:00",
-  "last_seen": "2026-10-02T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "bef93df87b1f",
   "desc_hash": "7559386f46b2180ac6bc04e87d1e7cc1",
   "client_id": 5923617,
   "expired_on": "2026-10-06",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "2c4964137de2"
+  "rule_fp": "961e66c371be"
  },
  "13480870": {
   "first_seen": "2026-10-02T05:14+09:00",
@@ -33876,16 +33876,16 @@
  },
  "13495421": {
   "first_seen": "2026-10-02T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "8d7de7e6dd81",
   "desc_hash": "cd57efada921ca189202f209e2ccebbc",
   "client_id": 6722195,
   "expired_on": "2026-10-15",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "d20db9c5a713"
+  "rule_fp": "852704f35a29"
  },
  "13493972": {
   "first_seen": "2026-10-02T05:14+09:00",
@@ -33954,16 +33954,16 @@
  },
  "13495757": {
   "first_seen": "2026-10-02T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "1cff762c5694",
   "desc_hash": "7aa81df81b3b1216507b656548734d64",
   "client_id": 77807,
   "expired_on": "2026-10-15",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "専門キーワードのみ一致・プロフィール接点なし"
   ],
-  "rule_fp": "caa472c98d77"
+  "rule_fp": "0014d376bc56"
  },
  "13495704": {
   "first_seen": "2026-10-02T05:14+09:00",
@@ -33994,16 +33994,16 @@
  },
  "13495629": {
   "first_seen": "2026-10-02T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "7c8c7236ba10",
   "desc_hash": "60b1068b40346c96dfd8178d1cbd2031",
   "client_id": 77807,
   "expired_on": "2026-10-15",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "専門キーワードのみ一致・プロフィール接点なし"
   ],
-  "rule_fp": "3d785a405153"
+  "rule_fp": "01aede328656"
  },
  "13495573": {
   "first_seen": "2026-10-02T05:14+09:00",
@@ -34362,29 +34362,29 @@
  },
  "13313589": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "6f43012883d7",
   "desc_hash": "556d7d33f95664a709613bbc764324cc",
   "client_id": 7047635,
   "expired_on": "2026-10-15",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "857d2d108c7e"
+  "rule_fp": "67614ff8aee8"
  },
  "13317429": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "73f6c3ae9732",
   "desc_hash": "299f875e24d2f94f44f599f747e4ab7e",
   "client_id": 7047635,
   "expired_on": "2026-10-15",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "cc9836aa216e"
+  "rule_fp": "a1716bd76696"
  },
  "13495759": {
   "first_seen": "2026-10-02T05:14+09:00",
@@ -34499,16 +34499,16 @@
  },
  "13494391": {
   "first_seen": "2026-10-02T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "1b906c179826",
   "desc_hash": "bcab84cb1e6423d3fab5352cbcfbcf31",
   "client_id": 7210175,
   "expired_on": "2026-10-06",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "147c45d0008a"
+  "rule_fp": "cd8746a49079"
  },
  "13498288": {
   "first_seen": "2026-10-02T05:14+09:00",
@@ -36602,16 +36602,16 @@
  },
  "13500894": {
   "first_seen": "2026-10-03T05:15+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "4350cee0d54d",
   "desc_hash": "dce1517242969d05965ee7a07d57cc7e",
   "client_id": 6878202,
   "expired_on": "2026-10-16",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "38976771507d"
+  "rule_fp": "d6e3c52e6700"
  },
  "13482937": {
   "first_seen": "2026-10-03T05:15+09:00",
@@ -36843,16 +36843,16 @@
  },
  "13492173": {
   "first_seen": "2026-09-30T05:20+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "a2f2174040a1",
   "desc_hash": "bc3f83c9f08f8c69f3b572cfc6107080",
   "client_id": 6806641,
   "expired_on": "2026-10-05",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "20a2129900ad"
+  "rule_fp": "f6c23e57c27e"
  },
  "13500685": {
   "first_seen": "2026-10-03T05:15+09:00",
@@ -37025,29 +37025,29 @@
  },
  "13464920": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "d7cf873610e7",
   "desc_hash": "cf5cc248a90cf3a5c9c0ac0089c61a98",
   "client_id": 6762898,
   "expired_on": "2026-10-08",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "49111322e784"
+  "rule_fp": "90138b7e3e75"
  },
  "13500595": {
   "first_seen": "2026-10-03T05:15+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "360a2f1ae9ad",
   "desc_hash": "dfce296661d4b5633626d4b758403795",
   "client_id": 6809768,
   "expired_on": "2026-10-07",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "b8944a581195"
+  "rule_fp": "26470610151a"
  },
  "13500584": {
   "first_seen": "2026-10-03T05:15+09:00",
@@ -37319,16 +37319,16 @@
  },
  "13498112": {
   "first_seen": "2026-10-03T05:15+09:00",
-  "last_seen": "2026-10-03T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "5657288bc0d1",
   "desc_hash": "5b23890b464ace383801acf2dc652b4f",
   "client_id": 7233041,
   "expired_on": "2026-10-07",
-  "status": "RULE_REJECTED",
+  "status": "CLAUDE_EVALUATED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "9016452f59b0"
+  "rule_fp": "9599208709a4"
  },
  "13500433": {
   "first_seen": "2026-10-03T05:15+09:00",
@@ -37842,16 +37842,16 @@
  },
  "13499803": {
   "first_seen": "2026-10-03T05:15+09:00",
-  "last_seen": "2026-10-03T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "c8c20b335582",
   "desc_hash": "206abf5889d62d6c951a832cc178bdbc",
   "client_id": 6801688,
   "expired_on": "2026-10-05",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "勧誘リスク（複合）：S1個人状況:住まい/雇用形態 S2将来像:フリーランス/理想/目標"
   ],
-  "rule_fp": "d569d4d3b309"
+  "rule_fp": "b8b7e54ebde6"
  },
  "13499755": {
   "first_seen": "2026-10-03T05:15+09:00",
@@ -38320,29 +38320,29 @@
  },
  "13498896": {
   "first_seen": "2026-10-03T05:15+09:00",
-  "last_seen": "2026-10-03T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "2a25cedafee1",
   "desc_hash": "7cdf9f5b5eae251727483e4ab350fc77",
   "client_id": 6718639,
   "expired_on": "2026-10-07",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "勧誘リスク（複合）：S1個人状況:住まい/雇用形態 S2将来像:フリーランス/目標"
   ],
-  "rule_fp": "011a8690942d"
+  "rule_fp": "fe24e751da99"
  },
  "13498271": {
   "first_seen": "2026-10-03T05:15+09:00",
-  "last_seen": "2026-10-03T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "174885724414",
   "desc_hash": "94c79e35711d0355eb37d99a0c0f2777",
   "client_id": 6531427,
   "expired_on": "2026-10-06",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "b91b26a87ed3"
+  "rule_fp": "627253fa6fb0"
  },
  "13498853": {
   "first_seen": "2026-10-03T05:15+09:00",
@@ -38752,16 +38752,16 @@
  },
  "13497205": {
   "first_seen": "2026-10-03T05:15+09:00",
-  "last_seen": "2026-10-03T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "e15e9bc18e2a",
   "desc_hash": "cde83cf271159df52ecdcb4613733af3",
   "client_id": 6821439,
   "expired_on": "2026-10-11",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "fc9752307aa8"
+  "rule_fp": "bcea6834fc41"
  },
  "13490857": {
   "first_seen": "2026-10-03T05:15+09:00",
@@ -38886,29 +38886,29 @@
  },
  "13439265": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-10-03T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "c7d0a4ba916b",
   "desc_hash": "6d9d4ed4be8d01575afd0ac8a44e9775",
   "client_id": 6671130,
   "expired_on": "2026-10-05",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "低価値（推定手取/本人分が基準未満）"
   ],
-  "rule_fp": "f5435ca34a73"
+  "rule_fp": "20acce2f2a11"
  },
  "13498375": {
   "first_seen": "2026-10-03T05:15+09:00",
-  "last_seen": "2026-10-03T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "53cca6edc034",
   "desc_hash": "0c639a5207069ea623980b8c49457ba5",
   "client_id": 7114573,
   "expired_on": "2026-10-07",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "勧誘リスク（複合）：S1個人状況:住まい/雇用形態 S2将来像:今後、身につけ/目指してみたい働き方"
   ],
-  "rule_fp": "9d3b8b41fea4"
+  "rule_fp": "4eae8f7786a4"
  },
  "13480958": {
   "first_seen": "2026-09-26T23:59+09:00",
@@ -39176,16 +39176,16 @@
  },
  "13498016": {
   "first_seen": "2026-10-03T05:15+09:00",
-  "last_seen": "2026-10-03T05:19+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "824a1101a144",
   "desc_hash": "a5bbac814c0468010a3e7de0ddc036ff",
   "client_id": 7158839,
   "expired_on": "2026-10-15",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "06b7db166a45"
+  "rule_fp": "d2c09ba245c8"
  },
  "13497998": {
   "first_seen": "2026-10-03T05:15+09:00",
@@ -42071,16 +42071,16 @@
  },
  "13503298": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "d639b11c8472",
   "desc_hash": "78f1942a0c172af8da5f3c6e12013d34",
   "client_id": 6750240,
   "expired_on": "2026-10-09",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "勧誘リスク（複合）：S1個人状況:住まい/雇用形態 S2将来像:将来/理想/目標"
   ],
-  "rule_fp": "2f21176a198c"
+  "rule_fp": "f6b4619673a0"
  },
  "13503295": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -42235,16 +42235,16 @@
  },
  "13503193": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "de3f2007f2fb",
   "desc_hash": "96010c47af95468ca23626e456fe4559",
   "client_id": 6507189,
   "expired_on": "2026-10-07",
-  "status": "RULE_REJECTED",
+  "status": "CLAUDE_EVALUATED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "7fb678a88d95"
+  "rule_fp": "0c5693f44ef6"
  },
  "13503187": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -43015,16 +43015,16 @@
  },
  "13500333": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "746ebfa4cca4",
   "desc_hash": "94689e2d2f07cb2b2dc80ddd8a15390d",
   "client_id": 7170044,
   "expired_on": "2026-10-08",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "89f974fe3eb6"
+  "rule_fp": "6f2d18c534eb"
  },
  "13502558": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -43140,16 +43140,16 @@
  },
  "13502463": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "d8d4fef70e0e",
   "desc_hash": "488e97c6ae510f6d7b7c8e2e65301272",
   "client_id": 7120180,
   "expired_on": "2026-10-08",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "勧誘リスク（複合）：S1個人状況:住まい/本業時間/雇用形態 S2将来像:今後身につけ S5願望ターゲティング:将来的にフリーランス/自分で仕事をしていく働き方"
   ],
-  "rule_fp": "678920d71e39"
+  "rule_fp": "a522289ed7a2"
  },
  "13502462": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -43181,16 +43181,16 @@
  },
  "13502446": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "3d18f8b69f66",
   "desc_hash": "d293e0f7d690d6e077e40485dda36ef0",
   "client_id": 7092102,
   "expired_on": "2026-10-08",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "勧誘リスク（複合）：S1個人状況:住まい/本業時間/雇用形態 S2将来像:今後身につけ S5願望ターゲティング:フリーランス志向/将来的にフリーランス/自分で仕事をしていく働き方"
   ],
-  "rule_fp": "8690d16b396b"
+  "rule_fp": "9724d085aee2"
  },
  "13497498": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -43223,16 +43223,16 @@
  },
  "13502378": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "c38f251fd2a9",
   "desc_hash": "a8597e07bba281f91e89076b40b4bd65",
   "client_id": 6819586,
   "expired_on": "2026-10-17",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "901ed3bbbd5f"
+  "rule_fp": "f8978fa8d9bc"
  },
  "13502353": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -43589,16 +43589,16 @@
  },
  "13501792": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "bfc2ae2b29bc",
   "desc_hash": "d6bcdb7c01b622d99b6192f6c6c0cbfb",
   "client_id": 7092472,
   "expired_on": "2026-10-06",
-  "status": "RULE_REJECTED",
+  "status": "CLAUDE_EVALUATED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "c7097a75b817"
+  "rule_fp": "a074493c256b"
  },
  "13363220": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -43783,29 +43783,29 @@
  },
  "13426057": {
   "first_seen": "2026-09-26T23:59+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "6d48acfda36b",
   "desc_hash": "29bd855f7cf7a610e39d30ce6cca77c6",
   "client_id": 7069569,
   "expired_on": "2026-10-06",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "175b6f1909e3"
+  "rule_fp": "97f6af67d721"
  },
  "13501578": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "646c2c22d7ab",
   "desc_hash": "406a1285d46b4ea3d926bcad1407499a",
   "client_id": 6146992,
   "expired_on": "2026-10-17",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "勧誘リスク（複合）：S1個人状況:住まい/雇用形態 S5願望ターゲティング:本業を続けながら副業に挑戦"
   ],
-  "rule_fp": "42e0f1e92de7"
+  "rule_fp": "b0af36d33624"
  },
  "13501566": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -44196,16 +44196,16 @@
  },
  "13492263": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "dc2bae2fef5f",
   "desc_hash": "a333a481121b699a84e68991539bf7d5",
   "client_id": 5526662,
   "expired_on": "2026-10-14",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "e8ea5b8a3a3e"
+  "rule_fp": "81927046a391"
  },
  "13501977": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -45591,16 +45591,16 @@
  },
  "13499013": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "3f34c33e1f85",
   "desc_hash": "af1167b33800fc6e5abdf76f77ab9534",
   "client_id": 7247176,
   "expired_on": "2026-10-16",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "cdd62c4b684a"
+  "rule_fp": "f132b688fea5"
  },
  "13488070": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -45681,16 +45681,16 @@
  },
  "13498329": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "7160c42f6b07",
   "desc_hash": "e0acc55fb536fa95eb122ffd4f2cd728",
   "client_id": 6938960,
   "expired_on": "2026-10-16",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "49f4def84d11"
+  "rule_fp": "159439887ff4"
  },
  "13498149": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -45765,16 +45765,16 @@
  },
  "13497692": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "6328ced035cc",
   "desc_hash": "71c18e04e4335ed10980e9e57d96ed82",
   "client_id": 7248378,
   "expired_on": "2026-10-12",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "84e6e75230f4"
+  "rule_fp": "73c484847ab6"
  },
  "13497679": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -45828,16 +45828,16 @@
  },
  "13497356": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "d4c200d43b8b",
   "desc_hash": "dda242ad672beb26ba4e88f17ce91ed7",
   "client_id": 7060015,
   "expired_on": "2026-10-15",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "c41dd3e0bbb2"
+  "rule_fp": "2b20bf25dc6b"
  },
  "13497217": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -45951,16 +45951,16 @@
  },
  "13496087": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "1e461b3fca65",
   "desc_hash": "2dd93099949a72ebe59c44138224541f",
   "client_id": 7097676,
   "expired_on": "2026-10-15",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "a34492f101f9"
+  "rule_fp": "083352f10794"
  },
  "13495932": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -46105,14 +46105,14 @@
  },
  "13495249": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "ad3db9257139",
   "desc_hash": "8a6edaa2609cf7db04a228df962b2522",
   "client_id": 4974783,
   "expired_on": "2026-10-06",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "低価値（推定手取/本人分が基準未満）"
   ],
   "rule_fp": "2f508dc2719c"
  },
@@ -46243,16 +46243,16 @@
  },
  "13268161": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "94a3ae433d3f",
   "desc_hash": "79819f6d8066a754a7e2b1c3897925df",
   "client_id": 6847550,
   "expired_on": "2026-10-14",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "92ec32560892"
+  "rule_fp": "c3f4164a204c"
  },
  "13494405": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -46433,16 +46433,16 @@
  },
  "13493066": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "44fa3fce1917",
   "desc_hash": "3972f39aef57e65a6e2b046e6cd50cee",
   "client_id": 6193439,
   "expired_on": "2026-10-14",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "低価値（推定手取/本人分が基準未満）"
   ],
-  "rule_fp": "4552798a2dc9"
+  "rule_fp": "09ec35e0f6f8"
  },
  "13492585": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -46578,16 +46578,16 @@
  },
  "13492252": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "901a6654b185",
   "desc_hash": "21a944f85ac260ea1720d0e4c3467061",
   "client_id": 6293377,
   "expired_on": "2026-10-14",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "4686e00b5ffd"
+  "rule_fp": "54c9fbc544bc"
  },
  "13491342": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -47250,16 +47250,16 @@
  },
  "13488508": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "4bdb8ef4d044",
   "desc_hash": "74e5d9133bb8bfa4bf3dbff287b92f99",
   "client_id": 7187825,
   "expired_on": "2026-10-12",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "5e93211cea05"
+  "rule_fp": "8b5fb600b087"
  },
  "13487957": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -47331,16 +47331,16 @@
  },
  "13483631": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "e0bf1edf7616",
   "desc_hash": "9227d9b82d65df27101527e7506e09af",
   "client_id": 3936808,
   "expired_on": "2026-10-12",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "4582a13b662b"
+  "rule_fp": "7fd4f9ec867a"
  },
  "13483322": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -48035,29 +48035,29 @@
  },
  "13471902": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "eaadc0aabdb0",
   "desc_hash": "4f2cb9b4462d1aae9a300ebee50881f5",
   "client_id": 6246466,
   "expired_on": "2026-10-07",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "2f0270056064"
+  "rule_fp": "88ded683f54f"
  },
  "13471900": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "eaadc0aabdb0",
   "desc_hash": "3ab0dab136409a37145e0f2166f93072",
   "client_id": 7135031,
   "expired_on": "2026-10-07",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "f8168600d1bf"
+  "rule_fp": "e0f92e9f7519"
  },
  "13470439": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -48089,16 +48089,16 @@
  },
  "13470228": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "c88e635f7929",
   "desc_hash": "17869c430e6135cf1acab2d143bac64d",
   "client_id": 7154425,
   "expired_on": "2026-10-06",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "7090955f5ea2"
+  "rule_fp": "671e5d59afe6"
  },
  "13451849": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -48180,29 +48180,29 @@
  },
  "13466726": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "3136d72334db",
   "desc_hash": "0a4b07054300245612d0fef2be71577a",
   "client_id": 7038664,
   "expired_on": "2026-10-04",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "09715872df62"
+  "rule_fp": "3fffa0ec3e0c"
  },
  "13466645": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "b950e8086d4d",
   "desc_hash": "14f8a09fb90f7d5614decfaff3d378c6",
   "client_id": 5684268,
   "expired_on": "2026-10-04",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "4e3c1dd84d23"
+  "rule_fp": "a926a87b6d2d"
  },
  "13465940": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -48220,16 +48220,16 @@
  },
  "13499709": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "6fc2dc6eea14",
   "desc_hash": "dda242ad672beb26ba4e88f17ce91ed7",
   "client_id": 6909827,
   "expired_on": "2026-10-16",
-  "status": "RULE_REJECTED",
+  "status": "SCOUTED",
   "reasons": [
    "リスク:勧誘兆候"
   ],
-  "rule_fp": "f21b46e75fbd"
+  "rule_fp": "d5b0c1e75113"
  },
  "13499072": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -49358,16 +49358,16 @@
  },
  "13494097": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "80cd1f33291a",
   "desc_hash": "a0699ead550ac960d0d41c803c531b69",
   "client_id": 7061827,
   "expired_on": "2026-10-10",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "勧誘リスク（複合）：S1個人状況:収入 S2将来像:目標 S3外部誘導:スクールへの参加 S4金銭負担:スクールの営業代"
   ],
-  "rule_fp": "fec9f8236226"
+  "rule_fp": "92ed2e343414"
  },
  "13496056": {
   "first_seen": "2026-10-04T05:14+09:00",
@@ -50361,16 +50361,16 @@
  },
  "13502286": {
   "first_seen": "2026-10-04T05:14+09:00",
-  "last_seen": "2026-10-04T05:21+09:00",
+  "last_seen": "2026-10-04T13:39+09:00",
   "listing_fp": "a472d6277367",
   "desc_hash": "0d8bbcd35c562f724bef2ec8dee550da",
   "client_id": 4496824,
   "expired_on": "2026-10-08",
   "status": "RULE_REJECTED",
   "reasons": [
-   "リスク:勧誘兆候"
+   "勧誘リスク（複合）：S1個人状況:住まい/本業時間/雇用形態 S2将来像:3年後/今後、デザインをどのように/理想 S5願望ターゲティング:場所や時間にとらわれず働"
   ],
-  "rule_fp": "3294bef46095"
+  "rule_fp": "1b83cfaa42cd"
  },
  "13502261": {
   "first_seen": "2026-10-04T05:14+09:00",
