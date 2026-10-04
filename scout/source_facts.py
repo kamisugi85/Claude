@@ -23,8 +23,9 @@ SECTION_RE = re.compile(r"^\s*(?:【|■|◆|◎|▼|〈|<|［|\[|ー{3,}|－{3,
 LIST_RE = re.compile(r"^\s*(?:[・\-‐－*●○]|[①-⑳]|\(?\d{1,2}[).．、]|[０-９]{1,2}[.．、])")
 END_MARKERS = ("この仕事の特徴", "クライアント情報")
 # a line that actually asks something of the applicant (vs. a heading or a context line inside the block)
-ASK_RE = re.compile(r"[?？]|ください|下さい|教えて|お知らせ|ご記入|ご記載|添え|ご提示|ご回答|[:：]\s*$|(?:の)?か\s*$")
-NOT_ASK_RE = re.compile(r"(?:以下|下記)(?:の(?:項目|内容))?を|ご不明|ご質問|お問い?合わせ|お気軽|お待ちして")
+ASK_RE = re.compile(r"[?？]|ください|ようお願い|下さい|教えて|お知らせ|ご記入|ご記載|添え|ご提示|ご回答|[:：]\s*$|(?:の)?か\s*$")
+PROCESS_RE = re.compile(r"(?:実施|選考|審査|ご相談|ご連絡|お渡し|進み|お送りし)(?:します|いたします|ます)?[\s✨！!。]*$")
+NOT_ASK_RE = re.compile(r"(?:以下|下記|こちら|次)(?:の(?:項目|内容))?を|ご不明|ご質問|お問い?合わせ|お気軽|お待ちして")
 
 
 def question_items(lines):
@@ -34,7 +35,9 @@ def question_items(lines):
     for l in lines:
         if SECTION_RE.match(l) and len(l) <= 30 and not re.search(r"[:：]\s*$", l):
             continue  # 【応募方法】 / ■応募に際して
-        if LIST_RE.match(l) or (ASK_RE.search(l) and not NOT_ASK_RE.search(l)):
+        if ASK_RE.search(l) and not NOT_ASK_RE.search(l):
+            out.append(l)
+        elif LIST_RE.match(l) and not PROCESS_RE.search(l):  # "③ テストライティングを実施" is the client's step
             out.append(l)
     return out
 

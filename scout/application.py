@@ -277,7 +277,8 @@ def question_check(job, d):
     """Draft questions vs. the posting, both ways: asks of the posting the draft leaves out, and draft
     questions that are not in the posting (Claude must not invent questions)."""
     q = (job.get("reward_check") or {}).get("questions") or {}
-    items = q.get("items") if q.get("items") is not None else q.get("lines", [])
+    import source_facts as SF
+    items = q.get("items") if q.get("items") is not None else SF.question_items(q.get("lines", []))
     dq = [_qkey(x) for x in d.get("application_questions") or [] if x]
     covered = lambda it: any(_qkey(it)[:12] in x or x[:12] in _qkey(it) for x in dq)
     missing = [it for it in items if not covered(it)]
