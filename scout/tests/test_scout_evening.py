@@ -1,5 +1,5 @@
-"""AI-BPO search entry and the 17:00 light delta run (temporary copy of scout/; the real Vault, state and
-CrowdWorks are never touched - the search and detail pages are served by a stub).
+"""AI-BPO search entry and the 17:00 light delta run (sandbox: code only and a fresh test Vault; the real
+Vault, state/runs.jsonl and CrowdWorks are never touched - the search and detail pages are served by a stub).
 1. the AI-BPO categories are search entries, and a 13502286-like posting (category 371, AI images + Canva)
    enters the search population through them only
 2. AI-assisted production is Auto (not only text); paid tools / appearance / AI bans are excluded
@@ -7,7 +7,7 @@ CrowdWorks are never touched - the search and detail pages are served by a stub)
    changes since 05:00, keeps to its own Claude limit, hands what it leaves back to 05:00, and the Astra Queue
    has no duplicates and tells the 17:00 additions apart
 
-Run: SCOUT_VAULT_KEY=... python3 scout/tests/test_scout_evening.py
+Run: python3 scout/tests/test_scout_evening.py
 """
 import csv
 import html
@@ -16,10 +16,11 @@ import os
 import shutil
 import subprocess
 import sys
-import tempfile
 
 SRC = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, SRC)
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import sandbox  # noqa: E402
 import collect  # noqa: E402
 import pipeline as P  # noqa: E402
 
@@ -230,8 +231,11 @@ def test_runs(tmp):
     assert by["99800001"]["scout_run"] == f"{d} morning_full" and by["99800001"]["condition_change"]
     assert by[str(top)]["scout_run"] == f"{d} evening_delta" and by["99800003"]["scout_run"] == f"{d} evening_delta"
     assert by[str(top)]["released_at"].startswith(d)
+    # today's runs picked by run_type / run_at, whatever else (rescreen, manual runs) is in runs.jsonl
     runs = [json.loads(l) for l in open(os.path.join(tmp, "state", "runs.jsonl"), encoding="utf-8")]
-    assert [r["run_type"] for r in runs[-2:]] == ["morning_full", "evening_delta"]
+    day = {r.get("run_type"): r for r in sorted((r for r in runs if r.get("date") == d), key=lambda r: r.get("run_at") or "")}
+    assert day["morning_full"]["run_at"] <= day["evening_delta"]["run_at"], day.keys()  # same minute in a fast test
+    assert day["evening_delta"]["est_ai_usage"]["eval_jobs"] == 15
     print("17:00: 05:00-handled jobs skipped, new + important changes picked up, cap 15 / 20,000 chars kept, "
           "Queue rows unique with scout_run morning / evening")
 
@@ -246,7 +250,13 @@ def test_runs(tmp):
     assert "報酬変更" in pend.get(99800001, []), "the change 17:00 noted is re-evaluated at 05:00 as before"
     print("next 05:00: what 17:00 left is evaluated as new; nothing evaluated at 17:00 is sent again")
 
+    # a rescreen run between 05:00 and 17:00 (as on 2026-10-04) and a run after 17:00 change nothing here
+    rp = os.path.join(tmp, "state", "runs.jsonl")
+    with open(rp, "a", encoding="utf-8") as fo:
+        fo.write(json.dumps({"date": d, "run_type": "rescreen", "run_at": f"{d}T13:39+09:00",
+                             "est_ai_usage": {"eval_jobs": 11, "eval_input_chars": 18940}}) + "\n")
     dm = last_json(py(tmp, "daily-metrics", "--date", d))
+    assert "rescreen" in dm["runs"] and dm["claude_usage"]["other_runs"]["rescreen"]["jobs"] == 11
     assert dm["evening_only_added"] == 2 and dm["claude_usage"]["evening_extra"]["jobs"] == 15
     assert dm["queue_delay_h_if_0500_only"]["n"] == dm["queue_delay_h_actual"]["n"] >= 3
     assert dm["queue_delay_h_if_0500_only"]["mean"] > dm["queue_delay_h_actual"]["mean"]
@@ -255,8 +265,8 @@ def test_runs(tmp):
 
 
 def main():
-    tmp = tempfile.mkdtemp()
-    shutil.copytree(SRC, tmp, dirs_exist_ok=True, ignore=shutil.ignore_patterns("tests", "data", "out"))
+    # code only: no live Vault / runs.jsonl / index (fresh test Vault); "Excel" in the titles is a profile hit
+    tmp = sandbox.make(dict(PROFILE, keywords_title_only=["Excel"]))
     try:
         test_ai_bpo_rules()
         test_ai_bpo_search(tmp)

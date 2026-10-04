@@ -72,7 +72,9 @@ def main():
     assert size < 0.6 * os.path.getsize(tmp_full), (size, os.path.getsize(tmp_full))
     print(f"Drive Job Master {size} bytes vs {os.path.getsize(tmp_full)} bytes with all columns")
 
-    # 10. size monitoring: delta from the previous export, near / over budget flags
+    # 10. size monitoring: delta from the previous export (exported again here: a fresh clone has no out/),
+    # near / over budget flags
+    run(tmp, "export")
     st = json.loads(run(tmp, "drive-status", ok=False).stdout)
     assert "job_master" in st["delta_bytes"] and "near_budget" in st and "over_budget" in st
     r = subprocess.run([sys.executable, "-c", "import pipeline as P; P.DRIVE_BUDGET = 1000; "

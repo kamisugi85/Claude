@@ -1,7 +1,8 @@
 """05:00 flow: application drafts are made for every Astra Queue job *before* Astra's QA
-(temporary copy of scout/; the real Vault is never modified). No Astra verdict is read or needed.
+(sandbox: code only, a fresh test Vault with a synthetic profile; the live Vault / state / data / out are
+never read, so the result does not depend on how far today's runs have got). No Astra verdict is read or needed.
 
-Run: SCOUT_VAULT_KEY=... python3 scout/tests/test_predraft.py
+Run: python3 scout/tests/test_predraft.py
 """
 import csv
 import json
@@ -9,9 +10,10 @@ import os
 import shutil
 import subprocess
 import sys
-import tempfile
 
-SRC = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import sandbox  # noqa: E402
+
 CID_NEW, CID_APPLIED, CID_DELIVERED = "99000031", "99000032", "99000033"  # clients made up for the test
 DESC = ("記事作成のお仕事です。\n【報酬】1記事あたり2,000円（税抜）\n【応募時の質問】\n"
         "・NISAの利用経験はありますか\n・好きな旅行先を教えてください\n・お名前を教えてください\n")
@@ -85,8 +87,7 @@ def merge(tmp, drafts, ok=True):
 
 
 def main():
-    tmp = tempfile.mkdtemp()
-    shutil.copytree(SRC, tmp, dirs_exist_ok=True, ignore=shutil.ignore_patterns("tests"))
+    tmp = sandbox.make()
     py(tmp, "DESC=%r\nCID_NEW=%r\nCID_APPLIED=%r\nCID_DELIVERED=%r\n" % (DESC, CID_NEW, CID_APPLIED, CID_DELIVERED) + SETUP)
 
     # the 06:30 / 12:30 Astra-verdict import is retired: the guard stops before touching anything

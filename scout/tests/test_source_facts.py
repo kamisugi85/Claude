@@ -16,6 +16,8 @@ import sys
 import tempfile
 
 SRC = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import sandbox  # noqa: E402
 sys.path.insert(0, SRC)
 import source_facts as SF  # noqa: E402
 
@@ -108,8 +110,36 @@ def main():
     assert r["reward_status"] == "AMBIGUOUS" and r["applicable_reward"] is None and r["ongoing_reward"] == 1000, r
     print("source facts: questions VERIFIED / NONE_VERIFIED / SOURCE_INCOMPLETE / FETCH_FAILED; trial 500 vs regular 3,000")
 
-    tmp = tempfile.mkdtemp()
-    shutil.copytree(SRC, tmp, dirs_exist_ok=True, ignore=shutil.ignore_patterns("tests"))
+    # 2026-10-04 17:00 NO_DRAFT: a budget-bracket header (固定報酬制 10,000〜30,000円) is not this application's
+    # reward; the body's 15,000円（税込） is, and a header lower bound below it is no reward decrease
+    import application as A
+    PDF = "PDF社内マニュアルをWordへ転記していただきます。\n【報酬】\n15,000円（税込）\n【納期】\n10日程度\n"
+    job = {"gross": 15000, "eval": {"ai_condition": "A"}, "ai_policy_rule": "A"}
+    rc = {"header_reward": {"type": "固定報酬制", "min": 10000, "max": 30000}, "deadline": "2099-12-31",
+          "ai_policy": "A", "desc_hash": "x", "key_lines": []}
+    ch, notes = A.classify_changes({}, rc, job, PDF)
+    assert ch == [] and any("本文の今回報酬15000円" in n and "減額ではない" in n for n in notes), (ch, notes)
+    # the body's reward really below what was evaluated is still a material change
+    ch, _ = A.classify_changes({}, rc, {**job, "gross": 20000}, PDF)
+    assert any("下回る" in c and "原文の今回報酬15000円" in c for c in ch), ch
+    # no body amount: a header bracket that contains the evaluated amount is a note; a single header amount
+    # below it is still a change
+    ch, notes = A.classify_changes({}, rc, job, "PDFをWordへ転記していただきます。")
+    assert ch == [] and any("レンジ" in n for n in notes), (ch, notes)
+    ch, _ = A.classify_changes({}, {**rc, "header_reward": {"type": "契約金額（目安）", "min": 10000, "max": None}}, job,
+                               "PDFをWordへ転記していただきます。")
+    assert any("下回る" in c for c in ch), ch
+    # "1件1円で見積もりをお願いします": a unit rate to quote with, not a confirmed reward of 1円
+    r = SF.rewards("企業名・電話番号をリストに転記していただきます（数千件〜）。\n【報酬】\n1件1円で見積もりをお願いします。\n")
+    assert r["reward_status"] == "QUOTE_REQUIRED" and r["applicable_reward"] is None and "1円/件" in r["reward_basis"], r
+    job = {"status": "ASTRA_QA_PENDING", "application": {"user_confirmation_required": "no"},
+           "reward_check": {"reward_struct": r, "questions": {"status": "NONE_VERIFIED", "lines": []}}}
+    fl = A._qa_flags(job, {"application_questions": [], "application_answers": []})
+    assert any("原文の単価で見積" in f for f in fl) and not any(A.USER_ONLY_RE.search(f) for f in fl), fl
+    print("reward re-check: header bracket vs source-backed 15,000円 -> note; quote unit rate 1円/件 -> QUOTE_REQUIRED, "
+          "quoted at the posting's rate (Astra decides, the user is not asked)")
+
+    tmp = sandbox.make()  # code only, fresh test Vault: the Queue below holds this test's rows only
     py(tmp, "DESC=%r\n" % TRIAL + SETUP)
 
     # 1. questions in the posting: a draft without them is not stored
@@ -149,7 +179,8 @@ def main():
     # Drive budget: low-priority text is dropped as whole columns (named in `truncated`); critical columns stay
     out = py(tmp, "import pipeline as P, csv, json; v=P.vault_load(); m=v['master']; P._CLIENT_CTX.update("
                   "clients=__import__('client_master').refresh(v), master=m); q=[x for x in m.values() "
-                  "if x.get('status')=='ASTRA_QA_PENDING']; d=P.write_astra_queue('small.csv', q, budget=30000); "
+                  "if x.get('status')=='ASTRA_QA_PENDING']; d=P.write_astra_queue('small.csv', q, budget=7000, "
+                  "slot_start='2000-01-01T00:00+09:00'); "
                   "print(json.dumps([d, m['99700001']['provenance']['drive']]))")
     dropped, drive = json.loads(out)
     assert dropped and drive["critical_intact"] is True, (dropped, drive)
@@ -160,6 +191,21 @@ def main():
               "ongoing_reward", "reward_status", "unverified_facts", "application_draft"):
         assert s1[c] == r1[c], c
     print(f"Drive budget: dropped {dropped} as whole columns (truncated=true); questions / reward / unverified kept")
+
+    # over budget with rows from an earlier QA slot: those rows leave the Drive copy first (oldest first, kept in
+    # the Vault), and no column is blanked while that is enough
+    out = py(tmp, "import pipeline as P, json, copy; v=P.vault_load(); m=v['master']; "
+                  "q=[x for x in m.values() if x.get('status')=='ASTRA_QA_PENDING']; "
+                  "old=[]\nfor i in range(40):\n x=copy.deepcopy(q[0]); x['job_id']=99790000+i; x.pop('application', None); "
+                  "x['queued_run']='2000-01-01 morning_full'; x['queued_at']='2000-01-01T05:%02d+09:00' % i; x['change_log']=[]; old.append(x)\n"
+                  "big=P.write_astra_queue('big.csv', old + q, slot_start='2000-01-02T06:00+09:00'); "
+                  "print(json.dumps([big, sum(1 for x in old if (x.get('provenance') or {}).get('drive', {}).get('excluded'))]))")
+    cols_dropped, n_out = json.loads(out)
+    big = {x["job_id"]: x for x in csv.DictReader(open(os.path.join(tmp, "big.csv"), encoding="utf-8"))}
+    assert cols_dropped == [] and n_out > 0 and os.path.getsize(os.path.join(tmp, "big.csv")) <= 80000, (cols_dropped, n_out)
+    assert "99700001" in big and big["99700001"]["source_questions"] == r1["source_questions"] and big["99700001"]["truncated"] == ""
+    assert "99790000" not in big and "99790039" in big, "oldest rows leave first"
+    print(f"Drive budget: {n_out} rows from an earlier QA slot left the Drive copy (Vault keeps them); no column blanked")
 
     shutil.rmtree(tmp)
     print("OK")

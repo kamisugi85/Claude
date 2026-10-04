@@ -123,7 +123,7 @@ def rewards(desc, complete=True, fetched=True):
         return {"reward_status": "FETCH_FAILED", "initial_reward": None, "ongoing_reward": None,
                 "applicable_reward": None, "reward_basis": "募集原文を取得できなかった", "reward_source_excerpt": ""}
     init, ongo, base, lines, trial_no_amount = [], [], [], [], False
-    hourly, entry, taxes = [], [], set()
+    hourly, entry, unit_quote, taxes = [], [], [], set()
     ctx, tax_ctx, lead, prev_line = None, False, None, ""  # cue / 税抜 of the heading; cue of the line before
     for raw in _lines_of(desc).split("\n"):
         l = raw.strip()
@@ -150,6 +150,10 @@ def rewards(desc, complete=True, fetched=True):
             if INITIAL_RE.search(l) and re.search(r"報酬あり|有償|報酬が発生", l):
                 trial_no_amount = True
                 lines.append(l)
+            continue
+        if QUOTE_RE.search(l):  # "1件1円で見積もりをお願いします": a unit rate to quote with, not this job's reward
+            unit_quote.append(amts[0])
+            lines.append(l)
             continue
         if HOURLY_RE.search(l):  # an hourly rate is not the amount of this job
             hourly.append(amts[0])
@@ -188,6 +192,7 @@ def rewards(desc, complete=True, fetched=True):
         res.update(reward_status="QUOTE_REQUIRED", applicable_reward=None,
                    reward_basis="見積依頼（今回報酬は応募者の見積額で決まる）"
                                 + (f"。原文の目安：時給{hourly[0]:,}円" if hourly else "")
+                                + (f"。原文の見積単価：{unit_quote[0]:,}円/件（総額は件数で決まる）" if unit_quote else "")
                                 + "。目安額を固定報酬として扱わない")
         return res
     if hourly and not init and not ongo and not base:

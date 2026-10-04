@@ -933,7 +933,9 @@ def cmd_merge(a):
     save_json(run_path, run)
     runs_path = os.path.join(STATE, "runs.jsonl")
     runs = [json.loads(l) for l in open(runs_path, encoding="utf-8")] if os.path.exists(runs_path) else []
-    runs = [x for x in runs if x.get("run_at") != run.get("run_at")] + [run]
+    # one record per run (a re-merge replaces its own record); two runs within one minute are both kept
+    key = lambda x: (x.get("run_at"), x.get("run_type", "morning_full"))
+    runs = [x for x in runs if key(x) != key(run)] + [run]
     with open(runs_path, "w", encoding="utf-8") as fo:
         fo.writelines(json.dumps(x, ensure_ascii=False) + "\n" for x in runs)
     print(json.dumps(run, ensure_ascii=False))
@@ -1327,9 +1329,8 @@ def _condition_change(j):
 # questions, this application's reward and unverified facts are never among them.
 QUEUE_LOW_PRIORITY = ["ai_steps", "human_steps", "hourly_est", "repeatability", "source_check", "pay_detail",
                       "user_questions", "profile_link", "key_excerpt", "claude_reason", "requirements", "provenance",
-                      "human_minutes_basis", "work_conditions", "hold_astra_decides",
-                      "hold_ai_resolvable", "facts_used", "client_risk", "draft_next_action", "client_history",
-                      "client_facts"]
+                      "human_minutes_basis", "work_conditions", "facts_used", "client_risk", "draft_next_action",
+                      "client_history", "client_facts"]
 
 
 def _qa_result(j):
@@ -1377,27 +1378,72 @@ QUEUE_CRITICAL = ["application_questions", "application_answers", "application_q
                   "applicable_reward", "initial_reward", "ongoing_reward", "reward_status", "reward_basis",
                   "reward_source_excerpt", "reward_tax", "unverified_facts", "user_confirmation_required", "claude_qa_result",
                   "application_draft", "client_id", "ai_condition_source", "requirements_source", "entry_counts",
-                  "source_completeness", "question_check", "hold_user_only", "human_minutes_total",
-                  "search_tier", "source_entrypoint", "scout_run"]
+                  "source_completeness", "question_check", "hold_user_only", "hold_ai_resolvable",
+                  "hold_astra_decides", "human_minutes_total", "ai_condition", "search_tier", "source_entrypoint",
+                  "scout_run", "queued_at", "recruit_risk", "condition_change"]
 
 
-def write_astra_queue(path, queue, budget=None):
-    """Astra Queue CSV within its Drive budget. When too large, whole low-priority columns are blanked (never
-    cut mid-text) and named in `truncated`; the critical columns are checked to be complete afterwards."""
+def _touched(j):
+    """Latest time the row changed for Astra (queued, drafted, repaired, condition change)."""
+    app = j.get("application") or {}
+    ts = [_queued(j)[1], app.get("repaired_at") or "", app.get("generated_at") or "",
+          *[c.get("at", "") for c in j.get("change_log", [])]]
+    return max((str(t) for t in ts if t), default="")
+
+
+def qa_slot_start(now=None):
+    """Start of the Astra QA slot the current export feeds: after 17:00 the 18:00 QA (rows touched since the
+    06:00 QA); before that the 06:00 QA (rows touched since yesterday's 17:00 run)."""
+    n = dt.datetime.fromisoformat(now or now_iso())
+    if n.hour >= 17:
+        return n.strftime("%Y-%m-%dT06:00+09:00")
+    return (n - dt.timedelta(days=1)).strftime("%Y-%m-%dT17:00+09:00")
+
+
+def write_astra_queue(path, queue, budget=None, slot_start=None):
+    """Astra Queue CSV within its Drive budget. When too large, rows outside the current QA slot (touched
+    before it, oldest first) leave the Drive copy first: they stay in the Vault, astra_queue_full.csv and the Job
+    Master. Only if that is not enough are whole low-priority columns blanked (never cut mid-text, never a
+    critical column) and named in `truncated`; the critical columns are checked to be complete afterwards."""
     budget = budget or DRIVE_BUDGET_BY_FILE.get("astra_queue", DRIVE_BUDGET)
     cols = [c for c, _ in QUEUE_COLS]
-    rows = [{c: ("" if (v := fn(j)) is None else v) for c, fn in QUEUE_COLS} for j in queue]
-    full = [dict(r) for r in rows]
-    dropped = []
+    slot = slot_start or qa_slot_start()
+    queue = list(queue)
+    excluded = []
 
-    def dump():
+    def dump(rows):
         buf = io.StringIO()
         w = csv.writer(buf)
         w.writerow(cols)
         for r in rows:
             w.writerow([r[c] for c in cols])
         return buf.getvalue()
-    text = dump()
+    rows = [{c: ("" if (v := fn(j)) is None else v) for c, fn in QUEUE_COLS} for j in queue]
+    text = dump(rows)
+    # rows new to this QA slot (queued, or a condition change, since its start) are never left out; rows from
+    # an earlier slot go first (oldest first), then earlier rows whose draft was only redone / repaired since
+    def new_in_slot(j):
+        return _queued(j)[1] >= slot or any(c.get("at", "") >= slot for c in j.get("change_log", []))
+    older = sorted((i for i, j in enumerate(queue) if not new_in_slot(j)),
+                   key=lambda i: (_touched(queue[i]) >= slot, _touched(queue[i])))
+    drop_rows = set()
+    for i in older:
+        if len(text.encode("utf-8")) <= budget:
+            break
+        drop_rows.add(i)
+        text = dump([r for k, r in enumerate(rows) if k not in drop_rows])
+    excluded = [queue[i] for i in sorted(drop_rows)]
+    queue = [j for k, j in enumerate(queue) if k not in drop_rows]
+    rows = [r for k, r in enumerate(rows) if k not in drop_rows]
+    full = [dict(r) for r in rows]
+    dropped = []
+    for j in excluded:
+        j.setdefault("provenance", {})["drive"] = {"at": now_iso(), "excluded": True, "slot_start": slot,
+                                                   "reason": "Drive容量：今回QA枠より前の行（Vault / astra_queue_full.csvに保持）"}
+    if excluded:
+        print(f"NOTICE: astra_queue.csv: {len(excluded)} rows touched before this QA slot ({slot}) kept out of the "
+              f"Drive copy for its budget (Vault / astra_queue_full.csv / Job Master keep them): "
+              + ",".join(str(j["job_id"]) for j in excluded), file=sys.stderr)
     for c in QUEUE_LOW_PRIORITY:
         if len(text.encode("utf-8")) <= budget:
             break
@@ -1405,11 +1451,12 @@ def write_astra_queue(path, queue, budget=None):
         for r in rows:
             r[c] = ""
             r["truncated"] = "truncated=true：Drive容量のため省略した列＝" + ",".join(dropped) + "（全文はVault / job-detail）"
-        text = dump()
+        text = dump(rows)
     lost = sorted({c for r, f in zip(rows, full) for c in QUEUE_CRITICAL if str(r[c]) != str(f[c])})
     for j in queue:
         j.setdefault("provenance", {})["drive"] = {"at": now_iso(), "dropped_columns": dropped,
-                                                   "critical_intact": not lost, "bytes": len(text.encode("utf-8"))}
+                                                   "critical_intact": not lost, "bytes": len(text.encode("utf-8")),
+                                                   "rows_excluded": len(excluded)}
     if lost:
         print(f"WARNING: astra_queue.csv lost critical columns {lost}", file=sys.stderr)
     open(path, "w", encoding="utf-8", newline="").write(text)
@@ -1912,9 +1959,11 @@ def cmd_metrics(a):
 
 def daily_metrics(date, runs, master):
     """One day of the 05:00 + 17:00 schedule vs the 05:00-only schedule (no personal data)."""
-    day = [r for r in runs if r.get("date") == date]
-    morning = next((r for r in day if r.get("run_type", "morning_full") == "morning_full"), {})
-    evening = next((r for r in day if r.get("run_type") == "evening_delta"), {})
+    # the day's runs are picked by date and run_type (never by position: rescreen / manual runs come in between)
+    day = sorted((r for r in runs if r.get("date") == date), key=lambda r: r.get("run_at") or "")
+    mornings = [r for r in day if r.get("run_type", "morning_full") == "morning_full"]
+    evenings = [r for r in day if r.get("run_type") == "evening_delta"]
+    morning = mornings[0] if mornings else {}
     # 05:00-only: a job queued at 17:00 would have entered the Queue with the next morning's run, at the same
     # time of day as today's (estimate; it assumes that run would have had room for it)
     m_at = morning.get("run_at") or f"{date}T05:15+09:00"
@@ -1931,14 +1980,16 @@ def daily_metrics(date, runs, master):
             ev_only[job_tier(j).split("（")[0]] += 1
         else:
             only05.append(h)
-    use = lambda r: (r.get("est_ai_usage") or {})
+    use = lambda rs, k: sum((r.get("est_ai_usage") or {}).get(k, 0) for r in rs)
     return {"date": date, "runs": [r.get("run_type", "morning_full") for r in day],
             "queue_delay_h_actual": delay_stats(actual),
             "queue_delay_h_if_0500_only": delay_stats(only05),
             "evening_only_added": sum(ev_only.values()),
             "evening_only_high_value": {"主力": ev_only.get("主力", 0), "マイクロ": ev_only.get("マイクロ", 0)},
-            "claude_usage": {"morning": {"jobs": use(morning).get("eval_jobs", 0), "chars": use(morning).get("eval_input_chars", 0)},
-                             "evening_extra": {"jobs": use(evening).get("eval_jobs", 0), "chars": use(evening).get("eval_input_chars", 0)}}}
+            "claude_usage": {"morning": {"jobs": use(mornings, "eval_jobs"), "chars": use(mornings, "eval_input_chars")},
+                             "evening_extra": {"jobs": use(evenings, "eval_jobs"), "chars": use(evenings, "eval_input_chars")},
+                             "other_runs": {r.get("run_type"): {"jobs": use([r], "eval_jobs"), "chars": use([r], "eval_input_chars")}
+                                            for r in day if r not in mornings and r not in evenings}}}
 
 
 def cmd_daily_metrics(a):

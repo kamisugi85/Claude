@@ -163,7 +163,8 @@ python3 scout/pipeline.py merge --evals scout/data/<date>/evals.json
      - `human_minutes_total` / `human_minutes_basis`：期待本人総時間（ENP÷Human Minutesの分母）＝応募3分＋本人入力・判断5分×件数＋契約手続2分＋成果物確認（一次評価のhuman_minutesの中央値・今回契約1単位分）＋修正対応期待値（確認の30%・最低2分）＋納品操作3分。AI処理時間は含めない。タスク形式は応募1分＋確認＋提出1分。一次評価に数値がなければUNKNOWN（作業量を推測しない）。`tier`・`applicable_net_per_human_min`・`app_priority`、Claude前の順位（固定分10分、タスク2分を加算）もこの総時間で計算する。
      - `hold_user_only`（本人にしか答えられない事実・経験・稼働の約束・見積額などの判断）／`hold_ai_resolvable`（Claudeが原文・記録で解消すべきもの。残っていれば05:00の不備）／`hold_astra_decides`（REJECT候補・原文変化など、Astraの判断事項）。AstraのHOLDは原則 `hold_user_only` に限る。
      - `search_tier`・`source_entrypoint`（その案件を見つけた検索入口。「新入口のみ」付きはデータ・調査系／AI-BPOだけで見つかった案件）・`scout_run`。
-   - Drive版で80KBを超えるときに空にする列は低重要度の順（ai_steps … provenance、human_minutes_basis、work_conditions、hold_astra_decides、hold_ai_resolvable、facts_used、client_risk、draft_next_action、client_history、client_facts）。今回報酬・応募設問・必須条件・AI条件・発注者ID・募集/契約人数・source状態・応募文・回答・本人確認項目・総Human Minutes・検索入口は削らない（exportが確認し、削れたらWARNING）。
+   - Drive版が80KBを超えるときは、まず今回のQA枠（17:00以降の書き出し＝当日06:00以降、それ以外＝前日17:00以降）より前の行をDrive版から外す（古い順。次に、前の枠の行でdraftの作り直し・repairだけが枠内のもの）。外した行はVault・`astra_queue_full.csv`・Job Masterに残り、`provenance.drive.excluded` とexportのNOTICEに出る。今回の枠で新たに入った行・条件変更のあった行は外さない。それでも超える場合だけ、低重要度の列を空にする（ai_steps … provenance、human_minutes_basis、work_conditions、facts_used、client_risk、draft_next_action、client_history、client_facts の順）。今回報酬・応募設問・回答・必須条件・AI条件・発注者ID・募集/契約人数・source状態・応募文・本人確認項目・総Human Minutes・hold split（user/ai/astra）・検索入口・scout_run・queued_at・recruit_risk・condition_change は削らない（exportが確認し、削れたらWARNING）。2026-10-04 17:00は、窓内22行（全列153KB）を列削除で77KBにしていて、hold_ai_resolvable／hold_astra_decides／facts_used などが空になっていた。
+   - 原文の再確認（app-check）：本文に今回報酬（CONFIRMED）があれば、評価額はその額とだけ比べる。見出しの報酬（固定報酬制 10,000〜30,000円 などの予算レンジ）の下限が評価額より低いことは減額ではなく記録（notes）のみ。本文に金額がなく、見出しがレンジで評価額がその中なら記録のみ。見出しの単一額（契約金額（目安））が評価額より低いときは従来どおり「→ 再QA」。「1件1円で見積もりをお願いします」のような見積単価は今回報酬ではなく `QUOTE_REQUIRED`（原文の見積単価を basis に記録）。原文に見積単価があればその単価で見積り、件数・採算はAstra判断（本人HOLDにしない）。2026-10-04 17:00のNO_DRAFT 4件は、見出しレンジの下限を評価額と比べて「再QA」にしていたのが原因。
    - 既にAstra Queueにある案件のdraftの修正（Astra判定前のみ）：`python3 scout/pipeline.py app-merge --replace --drafts <file>`。検証は通常のapp-mergeと同じ。前のdraftは `application.history` に残り、`replace_reason` を記録する。
    - `tier`：主力＝手取り見込み1,000円以上／マイクロ＝1,000円未満でも、AI完結率80%以上かつ手取り÷本人作業分が30円/分以上／基準外＝それ以外／UNKNOWN＝報酬不明（本文に単価なし）。報酬は応募文作成時の本文の実額、なければ評価時の見込み。
 6. Application Queue・READY通知（ready-notice）にはPre-Astraのdraftは出ない（READY_TO_APPLY以降だけ）。応募文の修正・本人への最終通知はAstra側が行う。
@@ -367,7 +368,9 @@ ACCEPTED → 仮払い確認 → クライアント最新指示確認 → Claude
 
 ## 6. 保存
 ```bash
-python3 scout/tests/test_application.py   # 応募準備の検証（本物のVaultは変更しない）
+# どのテストも本番のVault・state（runs.jsonl・index）・data・outを読まない（tests/sandbox.py：コードだけの
+# 一時コピー＋テスト専用キーの新しいVault・合成プロフィール）。新しいclone・rescreen等の追加run後・時刻に関係なく同じ結果になる。
+python3 scout/tests/test_application.py   # 応募準備の検証（合成job・合成Status Updates）
 python3 scout/tests/test_recheck.py
 python3 scout/tests/test_worker.py
 python3 scout/tests/test_manual.py

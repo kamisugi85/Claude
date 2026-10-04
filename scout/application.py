@@ -313,7 +313,10 @@ def _qa_flags(job, d):
         flags.append("応募設問：原文の確認記録なし（app-check未実行）")
     rs = rc.get("reward_struct") or {}
     if rs.get("reward_status") == "QUOTE_REQUIRED":
-        flags.append(f"今回報酬：見積依頼（{rs.get('reward_basis')}）→ 見積額は本人判断")
+        if "原文の見積単価" in str(rs.get("reward_basis")):  # the posting names the unit rate: quote at it
+            flags.append(f"今回報酬：見積依頼（{rs.get('reward_basis')}）→ 原文の単価で見積。件数・採算はAstra判断")
+        else:
+            flags.append(f"今回報酬：見積依頼（{rs.get('reward_basis')}）→ 見積額は本人判断")
     elif rs.get("reward_status") and rs["reward_status"] != "CONFIRMED":
         flags.append(f"今回適用報酬：不明（{rs['reward_status']}：{rs.get('reward_basis')}）")
     elif rs.get("initial_reward") is not None and rs.get("ongoing_reward"):
@@ -336,7 +339,7 @@ def _qa_flags(job, d):
 # What only the user can answer (facts / experience / availability / opinions / money decisions) vs. what Claude
 # could have resolved from the posting and the records. Astra's HOLD should be the first kind only.
 USER_ONLY_RE = re.compile(r"本人確認が必要|応募文・回答が未完成|見積額は本人判断|利益相反|実績の表現")
-ASTRA_DECIDES_RE = re.compile(r"REJECT候補|原文の変化|募集終了|冒頭|はじめまして|関係")
+ASTRA_DECIDES_RE = re.compile(r"REJECT候補|原文の変化|募集終了|冒頭|はじめまして|関係|Astra判断")
 
 
 def hold_split(job):
@@ -397,13 +400,27 @@ def classify_changes(prev, rc, job, desc):
     than evaluated, reward evidence gone from the body, new condition lines (contact/eligibility/AI/
     deadline/reward wording) in the body.  A field that was missing before and now matches what is
     already known (e.g. header "契約金額（目安）440円" for a 400円+tax job) is only a note."""
+    import source_facts as SF
     changes, notes = [], []
     known = _known_reward(job)
-    new_h, old_h = (rc.get("header_reward") or {}).get("min"), (prev.get("header_reward") or {}).get("min")
+    hdr = rc.get("header_reward") or {}
+    new_h, old_h = hdr.get("min"), (prev.get("header_reward") or {}).get("min")
+    # this application's reward as the body states it (source-backed, tax-included): when the body states it,
+    # the listing header (often a budget bracket such as 10,000〜30,000円) is never the reward to compare with
+    rs = SF.rewards(desc)
+    src_amt = rs.get("applicable_reward") if rs.get("reward_status") == "CONFIRMED" else None
+    label = "応募文の実報酬" if job.get("application") else "評価時の想定報酬（Astra QA時の前提）"
+    below = lambda x: known and x < known and round(x * 1.1) < known  # tax-included vs pre-tax tolerated
+    if src_amt is not None and below(src_amt):  # checked every time, not only once
+        changes.append(f"実報酬が{label}{known:g}円を下回る（原文の今回報酬{src_amt}円：{rs.get('reward_basis')}）→ 再QA")
     if new_h is not None:
-        if known and new_h < known and round(new_h * 1.1) < known:  # checked every time, not only once
-            src_label = "応募文の実報酬" if job.get("application") else "評価時の想定報酬（Astra QA時の前提）"
-            changes.append(f"実報酬が{src_label}{known:g}円を下回る（原文{new_h}円）→ 再QA")
+        if src_amt is not None and below(new_h):
+            notes.append(f"見出し{hdr.get('type') or ''}{new_h}円" + (f"〜{hdr['max']}円" if hdr.get("max") else "")
+                         + f"は本文の今回報酬{src_amt}円（{rs.get('reward_tax') or '税区分不明'}）と別：本文を採用、減額ではない")
+        elif src_amt is None and hdr.get("max") is not None and below(new_h) and known <= round(hdr["max"] * 1.1):
+            notes.append(f"見出しはレンジ{new_h}〜{hdr['max']}円（下限は今回報酬ではない。評価額{known:g}円はレンジ内）")
+        elif src_amt is None and below(new_h):
+            changes.append(f"実報酬が{label}{known:g}円を下回る（原文{new_h}円）→ 再QA")
         elif old_h is not None and new_h < old_h:
             changes.append(f"報酬減額（見出し）{old_h}円 → {new_h}円")
         elif old_h is None and known and new_h > round(known * 1.1) + 1:
