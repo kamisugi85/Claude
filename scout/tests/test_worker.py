@@ -3,7 +3,7 @@
 accepted -> escrow -> worker-save (READY_FOR_QA / ASTRA_QA_PENDING) -> Astra QA (FIX / HOLD / PASS)
 -> client deliverable verified -> READY_TO_DELIVER + direct-link notice. Nothing is sent anywhere.
 
-Run: SCOUT_VAULT_KEY=... python3 scout/tests/test_worker.py
+Run: python3 scout/tests/test_worker.py
 """
 import csv
 import json
@@ -14,7 +14,9 @@ import sys
 import tempfile
 
 SRC = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-JID = "13481662"  # an applied job in the real data; the test turns it into an accepted one
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import sandbox  # noqa: E402
+JID = "99480010"  # a made-up applied job (seeded below); the test turns it into an accepted one
 FILE_ID = "1AbCdEfGhIjKlMnOpQrStUvWxYz0123456789abcd"
 URL = f"https://docs.google.com/document/d/{FILE_ID}/edit"
 TITLE = "不動産投資は怖い"
@@ -39,8 +41,23 @@ def job(tmp):
 
 
 def main():
-    tmp = tempfile.mkdtemp()
-    shutil.copytree(SRC, tmp, dirs_exist_ok=True, ignore=shutil.ignore_patterns("tests"))
+    tmp = sandbox.make()
+    seed = ("import pipeline as P; v=P.vault_load(); v['master'][%r]={'job_id': %s, 'url': "
+            "'https://crowdworks.jp/public/jobs/%s', 'title': '「不動産投資は怖い」をテーマにした記事作成', "
+            "'client': {'userId': 3, 'userDisplayName': 'c3'}, 'first_seen': '2026-09-27T05:00+09:00', "
+            "'expired_on': '2099-12-31', 'gross': 440, 'net_est': 352, 'risk_rule': [], 'actual': {}, "
+            "'eval': {'verdict': '候補', 'reason': 't', 'classification': 'B', 'human_minutes': '5分'}, "
+            "'astra': {'astra_verdict': 'PASS', 'astra_reason': 't', 'updated_by': 'Astra'}, "
+            "'application': {'actual_reward': 440, 'actual_net': 352, 'reward_evidence': '1記事400円（税抜）', "
+            "'application_draft': 'はじめまして。記事作成に応募いたします。', 'application_questions': [], "
+            "'application_answers': [], 'facts_used': [], 'unverified_facts': [], 'conflict_risk': '低', "
+            "'user_confirmation_required': 'no', 'claim_flags': [], 'final_qa_status': 'CLAUDE_CHECKED', "
+            "'app_priority': 35.2, 'review_minutes_est': 2, 'next_action': '本人が応募 → Astraへ報告', "
+            "'generated_at': '2026-09-27T06:40+09:00', 'application_preparation_ai_time': None, 'app_note': ''}, "
+            "'status': 'APPLIED', 'status_history': [{'status': s, 'at': '2026-09-27T05:1%%d+09:00' %% i, 'by': 'test', "
+            "'note': ''} for i, s in enumerate(['CLAUDE_CANDIDATE', 'ASTRA_QA_PENDING', 'ASTRA_PASS', "
+            "'READY_TO_APPLY', 'APPLIED'])]}; P.vault_save(v)" % (JID, JID, JID))
+    subprocess.run([sys.executable, "-c", seed], cwd=tmp, check=True)
     n = [0]
 
     def upd(**row):
@@ -118,7 +135,7 @@ def main():
 
     # client file checks
     bad = {
-        "internal file name": deliver(title="CW Worker 13481662｜不動産投資は怖い｜ASTRA_QA_PENDING"),
+        "internal file name": deliver(title="CW Worker " + JID + "｜不動産投資は怖い｜ASTRA_QA_PENDING"),
         "internal info in file": deliver(content=f"{TITLE}\n\n{FINAL}\n\nAstra QA：PASS"),
         "body differs from PASS": deliver(content=f"{TITLE}\n\n{FINAL}追記"),
         "folder url": deliver(url="https://drive.google.com/drive/folders/1SPikc8hyKldOq_IZmj3_x48mSR7wxa4e"),

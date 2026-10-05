@@ -1,7 +1,8 @@
 """Astra Queue at 05:00: tier (主力 / マイクロ) and the one-cell Claude QA result next to the pre-Astra draft
-(temporary copy of scout/; the real Vault is never modified).
+(sandbox: code only and a fresh test Vault; the live Vault / state / data / out are never read, so the
+result does not depend on the size of the live Astra Queue or the time of day).
 
-Run: SCOUT_VAULT_KEY=... python3 scout/tests/test_queue_tier.py
+Run: python3 scout/tests/test_queue_tier.py
 """
 import csv
 import json
@@ -9,9 +10,10 @@ import os
 import shutil
 import subprocess
 import sys
-import tempfile
 
-SRC = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import sandbox  # noqa: E402
+
 DESC = "記事作成のお仕事です。\n【報酬】1記事あたり2,000円（税抜）\n・NISAの利用経験はありますか\n"
 SETUP = r"""
 import os, pipeline as P
@@ -38,13 +40,12 @@ P.vault_save(v)
 
 
 def main():
-    tmp = tempfile.mkdtemp()
-    shutil.copytree(SRC, tmp, dirs_exist_ok=True, ignore=shutil.ignore_patterns("tests"))
+    tmp = sandbox.make()
     subprocess.run([sys.executable, "-c", "DESC=%r\n" % DESC + SETUP], cwd=tmp, check=True)
     base = {"actual_reward": 2200, "reward_evidence": "1記事あたり2,000円（税抜）",
             "application_draft": "はじめまして。記事作成のご募集を拝見し、応募いたします。どうぞよろしくお願いいたします。",
             "application_questions": ["・NISAの利用経験はありますか"], "application_answers": ["はい、利用しています。"],
-            "facts_used": [{"fact": "NISAの利用経験", "profile_ref": "confirmed_facts[1].fact"}],
+            "facts_used": [{"fact": "NISAの利用経験", "profile_ref": "confirmed_facts[0].fact"}],
             "unverified_facts": [], "conflict_risk": "低：該当なし", "user_confirmation_required": "no",
             "review_minutes_est": 2}
     drafts = [{**base, "job_id": "99600001"},

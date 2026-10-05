@@ -13,6 +13,8 @@ import sys
 import tempfile
 
 SRC = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import sandbox  # noqa: E402
 CID_NEW, CID_PAST = "99000011", "99000012"  # clients made up for the test
 DESC = ("記事作成のお仕事です。\n【報酬】1記事あたり2,000円（税抜）\n【応募時の質問】\n"
         "・NISAの利用経験はありますか\n・好きな旅行先を教えてください\n・納期の目安を教えてください\n")
@@ -94,8 +96,7 @@ def merge(tmp, drafts, ok=True):
 
 
 def main():
-    tmp = tempfile.mkdtemp()
-    shutil.copytree(SRC, tmp, dirs_exist_ok=True, ignore=shutil.ignore_patterns("tests"))
+    tmp = sandbox.make()
     os.remove(os.path.join(tmp, "routine.json"))  # this test covers the legacy 06:30 / 12:30 import path itself
     py(tmp, "DESC=%r\nTRANSCRIBE=%r\nCID_NEW=%r\nCID_PAST=%r\n" % (DESC, TRANSCRIBE, CID_NEW, CID_PAST) + SETUP)
     date = json.loads(py(tmp, "import pipeline as P, json; print(json.dumps(P.today()))"))
@@ -169,7 +170,7 @@ def main():
     assert any("本人確認済み" in e for e in js(r)["failed"]["99200007"]), r.stdout
     ok = draft("99200008", "はじめまして。", questions=["・納期の目安を教えてください"],
                answers=["1ファイル3日程度で納品いたします。"], reward=5000, ev="1ファイル5,000円",
-               facts=[{"fact": "納期3日", "profile_ref": "confirmed_facts[8].fact"}])
+               facts=[{"fact": "納期3日", "profile_ref": "confirmed_facts[1].fact"}])
     merge(tmp, [ok])
     assert status(tmp, "99200008") == "READY_TO_APPLY"
     print("confirmed facts: re-asking NISA experience -> FAIL; transcription deadline answered from the standard answer")

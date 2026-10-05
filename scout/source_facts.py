@@ -98,6 +98,7 @@ def questions(desc, complete=True, fetched=True):
 INITIAL_RE = re.compile(r"テスト|トライアル|初回|お試し|試用|応募時は|最初の|最初は|1本目|１本目|研修")
 ONGOING_RE = re.compile(r"本契約|本採用|本番|継続|2回目以降|２回目以降|2本目以降|以降|通常|レギュラー|採用後")
 PERIODIC_RE = re.compile(r"/月|／月|月額|月\s*\d|毎月|週\s*\d")
+MONTHLY_FEE_RE = re.compile(r"^[・\s]*(?:報酬[：:\s]*)?月額(?:報酬|固定)?[\s:：]*[\d,０-９，]+\s*円|月額固定")
 UNIT_RATE_RE = re.compile(r"文字単価|1文字|１文字|字単価")
 # a sub-heading inside a section ("① 初回（テスト）", "《 条件 》", "(2) 継続の場合"): its cue holds for the lines under it
 SUBHEAD_RE = re.compile(r"^\s*(?:[①-⑳]|[（(]\d{1,2}[)）]|《|〈|<|\d{1,2}[.．)]\s)")
@@ -123,7 +124,7 @@ def rewards(desc, complete=True, fetched=True):
         return {"reward_status": "FETCH_FAILED", "initial_reward": None, "ongoing_reward": None,
                 "applicable_reward": None, "reward_basis": "募集原文を取得できなかった", "reward_source_excerpt": ""}
     init, ongo, base, lines, trial_no_amount = [], [], [], [], False
-    hourly, entry, unit_quote, taxes = [], [], [], set()
+    hourly, entry, unit_quote, monthly, taxes = [], [], [], [], set()
     ctx, tax_ctx, lead, prev_line = None, False, None, ""  # cue / 税抜 of the heading; cue of the line before
     for raw in _lines_of(desc).split("\n"):
         l = raw.strip()
@@ -144,19 +145,23 @@ def rewards(desc, complete=True, fetched=True):
         if not AMOUNT_CUE.search(l) and not INITIAL_RE.search(l):
             continue
         amts = [_yen(x) for x in YEN_RE.findall(re.sub(r"文字単価[\s:：]*[\d.,０-９]+\s*円[～〜~]?", "", l)) if _yen(x) > 0]
+        if amts and MONTHLY_FEE_RE.search(l):  # "・月額：10,000円～": the fee of a monthly contract (one month = this job)
+            monthly.append(amts[0])
+            lines.append(l)
+            continue
         if PERIODIC_RE.search(l):
-            amts = []  # monthly / weekly totals are not the amount of one job
+            amts = []  # monthly / weekly totals (月収・月○万円) are not the amount of one job
         if not amts:
             if INITIAL_RE.search(l) and re.search(r"報酬あり|有償|報酬が発生", l):
                 trial_no_amount = True
                 lines.append(l)
             continue
-        if QUOTE_RE.search(l):  # "1件1円で見積もりをお願いします": a unit rate to quote with, not this job's reward
-            unit_quote.append(amts[0])
+        if HOURLY_RE.search(l):  # an hourly rate is not the amount of this job (also "時給…で見積もり")
+            hourly.append(amts[0])
             lines.append(l)
             continue
-        if HOURLY_RE.search(l):  # an hourly rate is not the amount of this job
-            hourly.append(amts[0])
+        if QUOTE_RE.search(l):  # "1件1円で見積もりをお願いします": a unit rate to quote with, not this job's reward
+            unit_quote.append(amts[0])
             lines.append(l)
             continue
         if ENTRY_LINE_RE.search(l) and not re.search(r"報酬|謝礼", l) and not INITIAL_RE.search(l) \
@@ -194,6 +199,16 @@ def rewards(desc, complete=True, fetched=True):
                                 + (f"。原文の目安：時給{hourly[0]:,}円" if hourly else "")
                                 + (f"。原文の見積単価：{unit_quote[0]:,}円/件（総額は件数で決まる）" if unit_quote else "")
                                 + "。目安額を固定報酬として扱わない")
+        return res
+    if monthly and not init and not ongo and not base:
+        success = "成果報酬" in _lines_of(desc)
+        tax = "税込" if re.search(r"税込", res["reward_source_excerpt"]) else (
+            "税抜→税込換算" if re.search(r"税抜|税別", res["reward_source_excerpt"]) else "税区分の記載なし（記載額のまま）")
+        amount = round(monthly[0] * 1.1) if tax == "税抜→税込換算" else monthly[0]
+        res.update(reward_status="CONFIRMED", applicable_reward=amount, ongoing_reward=amount, reward_tax=tax,
+                   monthly_reward=amount,
+                   reward_basis="月額固定（今回契約の1か月分。「〜」は最低額）"
+                                + ("。成果報酬は成約時のみ・変動のため今回報酬に含めない" if success else ""))
         return res
     if hourly and not init and not ongo and not base:
         res.update(reward_status="AMBIGUOUS", applicable_reward=None,

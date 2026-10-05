@@ -20,6 +20,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sandbox  # noqa: E402
 sys.path.insert(0, SRC)
 import source_facts as SF  # noqa: E402
+P_UPLOAD_TARGET = 40000  # pipeline.QUEUE_UPLOAD_TARGET
 
 TRIAL = ("暮らしの工夫の記事を書いていただきます。\n【報酬】\n・本契約：1記事3,000円（税込）\n"
          "・テストライティング：初回は500円（税込）になるよう入力してください\n"
@@ -136,6 +137,13 @@ def main():
            "reward_check": {"reward_struct": r, "questions": {"status": "NONE_VERIFIED", "lines": []}}}
     fl = A._qa_flags(job, {"application_questions": [], "application_answers": []})
     assert any("原文の単価で見積" in f for f in fl) and not any(A.USER_ONLY_RE.search(f) for f in fl), fl
+    # "時給1500円くらい…見積もりをお願いします": the hourly guide stays the hourly rate (QUOTE_REQUIRED all the same)
+    r = SF.rewards("【 契約金額(税抜) 】\n時給1500円くらい（CW手数料控除後）見積もりをお願いします。\n")
+    assert r["reward_status"] == "QUOTE_REQUIRED" and r["hourly_rate"] == 1500, r
+    # a monthly contract ("・月額：10,000円～" paid as a fixed fee): one month is this contract's reward (13499958)
+    r = SF.rewards("▼報酬\n・月額：10,000円～\n・成果報酬：成約すればお支払い（利益額の30％以上も可能）\n※月額報酬については、固定でお支払いします。\n")
+    assert r["reward_status"] == "CONFIRMED" and r["applicable_reward"] == 10000 and "成果報酬" in r["reward_basis"], r
+    assert SF.rewards("月140時間稼働の場合、月収30万円前後も可能です。")["applicable_reward"] is None
     print("reward re-check: header bracket vs source-backed 15,000円 -> note; quote unit rate 1円/件 -> QUOTE_REQUIRED, "
           "quoted at the posting's rate (Astra decides, the user is not asked)")
 
@@ -202,7 +210,9 @@ def main():
                   "print(json.dumps([big, sum(1 for x in old if (x.get('provenance') or {}).get('drive', {}).get('excluded'))]))")
     cols_dropped, n_out = json.loads(out)
     big = {x["job_id"]: x for x in csv.DictReader(open(os.path.join(tmp, "big.csv"), encoding="utf-8"))}
-    assert cols_dropped == [] and n_out > 0 and os.path.getsize(os.path.join(tmp, "big.csv")) <= 80000, (cols_dropped, n_out)
+    # upload target (40KB), not the 80KB Drive budget: a 79KB copy was never uploaded on 2026-10-05
+    assert cols_dropped == [] and n_out > 0 and os.path.getsize(os.path.join(tmp, "big.csv")) <= P_UPLOAD_TARGET, \
+        (cols_dropped, n_out, os.path.getsize(os.path.join(tmp, "big.csv")))
     assert "99700001" in big and big["99700001"]["source_questions"] == r1["source_questions"] and big["99700001"]["truncated"] == ""
     assert "99790000" not in big and "99790039" in big, "oldest rows leave first"
     print(f"Drive budget: {n_out} rows from an earlier QA slot left the Drive copy (Vault keeps them); no column blanked")

@@ -1013,7 +1013,8 @@ def _lane(j):
 # estimate), expected revision handling, delivery. Assumed per-step minutes (RUNBOOK 4.7, EVAL_GUIDE):
 HM_STEPS = {"apply": 3, "user_input": 5, "contract": 2, "delivery": 3, "revision_rate": 0.3, "revision_min": 2}
 HM_TASK = {"apply": 1, "delivery": 1}  # task-type work: no application message, no contract / delivery step
-UNIT_RE = re.compile(r"/\s*(ファイル|件|本|記事|月|枚|回)")
+UNIT_RE = re.compile(r"[/／]\s*(ファイル|件|本|記事|月|枚|回|週)")
+WEEKS_PER_MONTH = 52 / 12
 
 
 def human_minutes_total(j):
@@ -1027,6 +1028,10 @@ def human_minutes_total(j):
         return {"total": None, "status": "UNKNOWN", "basis": "成果物確認時間の見積なし（一次評価に数値なし。作業量は推測しない）"}
     review = sum(nums[:2]) / len(nums[:2])  # "8-12分" -> 10
     unit = UNIT_RE.search(hm)
+    monthly = ((j.get("reward_check") or {}).get("reward_struct") or {}).get("monthly_reward")
+    per_week_of_month = bool(unit and unit.group(1) == "週" and monthly)
+    if per_week_of_month:  # a monthly contract checked weekly: one month of checks is this contract's unit
+        review = round(review * WEEKS_PER_MONTH, 1)
     if (j.get("pay") or {}).get("type") == "task":
         comp = {"応募・開始": HM_TASK["apply"], "成果物確認": review, "提出": HM_TASK["delivery"]}
     else:
@@ -1038,7 +1043,10 @@ def human_minutes_total(j):
                 "納品操作": HM_STEPS["delivery"]}
     total = round(sum(comp.values()))
     basis = "＋".join(f"{k}{v:g}" for k, v in comp.items() if v) + f"＝{total}分（AI処理時間は含めない。成果物確認は一次評価「{hm}」"
-    basis += f"の中央値・今回契約1{unit.group(1)}分）" if unit else "の中央値）"
+    if per_week_of_month:
+        basis += f"の中央値×{WEEKS_PER_MONTH:.2f}週＝月額契約の1か月分）"
+    else:
+        basis += f"の中央値・今回契約1{unit.group(1)}分）" if unit else "の中央値）"
     return {"total": total, "status": "ESTIMATED", "components": comp, "basis": basis}
 
 
@@ -1400,7 +1408,10 @@ def qa_slot_start(now=None):
     return (n - dt.timedelta(days=1)).strftime("%Y-%m-%dT17:00+09:00")
 
 
-def write_astra_queue(path, queue, budget=None, slot_start=None):
+QUEUE_UPLOAD_TARGET = 40000  # bytes: rows from earlier QA slots leave the Drive copy above this size
+
+
+def write_astra_queue(path, queue, budget=None, slot_start=None, row_target=None):
     """Astra Queue CSV within its Drive budget. When too large, rows outside the current QA slot (touched
     before it, oldest first) leave the Drive copy first: they stay in the Vault, astra_queue_full.csv and the Job
     Master. Only if that is not enough are whole low-priority columns blanked (never cut mid-text, never a
@@ -1427,8 +1438,11 @@ def write_astra_queue(path, queue, budget=None, slot_start=None):
     older = sorted((i for i, j in enumerate(queue) if not new_in_slot(j)),
                    key=lambda i: (_touched(queue[i]) >= slot, _touched(queue[i])))
     drop_rows = set()
+    # the upload passes the whole CSV in one call: earlier-slot rows leave at the upload target, well before
+    # the Drive budget (2026-10-05 17:00: 79KB fitted the budget but was never uploaded)
+    target = min(budget, row_target or QUEUE_UPLOAD_TARGET)
     for i in older:
-        if len(text.encode("utf-8")) <= budget:
+        if len(text.encode("utf-8")) <= target:
             break
         drop_rows.add(i)
         text = dump([r for k, r in enumerate(rows) if k not in drop_rows])
@@ -1442,7 +1456,7 @@ def write_astra_queue(path, queue, budget=None, slot_start=None):
                                                    "reason": "Drive容量：今回QA枠より前の行（Vault / astra_queue_full.csvに保持）"}
     if excluded:
         print(f"NOTICE: astra_queue.csv: {len(excluded)} rows touched before this QA slot ({slot}) kept out of the "
-              f"Drive copy for its budget (Vault / astra_queue_full.csv / Job Master keep them): "
+              f"Drive copy for its upload size (Vault / astra_queue_full.csv / Job Master keep them): "
               + ",".join(str(j["job_id"]) for j in excluded), file=sys.stderr)
     for c in QUEUE_LOW_PRIORITY:
         if len(text.encode("utf-8")) <= budget:
@@ -2145,6 +2159,9 @@ def main():
     p.add_argument("--keys", default="", help="comma list, e.g. job_master,application_queue")
     p.set_defaults(fn=cmd_drive_status)
     import application
+    p = sub.add_parser("app-reject-candidate", help="Claude QA: mark a pre-Astra draft as an Astra REJECT candidate")
+    p.add_argument("--id", required=True); p.add_argument("--reason", required=True)
+    p.set_defaults(fn=lambda a: __import__("application").cmd_app_reject_candidate(a))
     p = sub.add_parser("app-check", help="re-read reward/deadline/slots from the posting (ASTRA_PASS only)")
     p.add_argument("--ids", default=""); p.add_argument("--date", default=today())
     p.set_defaults(fn=application.cmd_app_check)

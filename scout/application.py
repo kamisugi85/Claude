@@ -346,13 +346,36 @@ def hold_split(job):
     """(user_only, ai_resolvable, astra) parts of the reasons a pre-Astra draft is not clean."""
     app = job.get("application") or {}
     reasons = _hold_reasons(job, str((job.get("reward_check") or {}).get("checked_at", ""))[:10] or P.today())
-    user = [r for r in reasons if USER_ONLY_RE.search(r)]
+    user = [r for r in reasons if USER_ONLY_RE.search(r) and not r.startswith("Astra REJECT候補")]
     astra = [r for r in reasons if r not in user and ASTRA_DECIDES_RE.search(r)]
     data = [r for r in reasons if r not in user and r not in astra and not r.startswith("報酬：今回（初回）")]
     if app.get("user_confirmation_required") == "yes":
         user = [r for r in user if r != "本人確認が必要な項目あり"] + \
             ["本人のみ回答可：" + " / ".join(app.get("unverified_facts") or ["【本人記入】の回答"])]
+    if app.get("reject_candidate"):  # Astra decides first; the user is asked only if Astra keeps the job
+        astra += ["本人確認はAstraが続行と判断した場合のみ：" + " / ".join(app.get("unverified_facts") or ["なし"])]
+        user = []
     return user, data, astra
+
+
+def cmd_app_reject_candidate(a):
+    """Record Claude's QA finding that a drafted job should be rejected (legal / conflict / economics) for Astra.
+    Not an Astra verdict: the status stays ASTRA_QA_PENDING and Astra decides."""
+    v = P.vault_load()
+    _use_clients(v)
+    job = v["master"][a.id]
+    app = job.get("application")
+    if not app or job.get("status") != PRE_STAGE:
+        raise SystemExit(f"{a.id}: Astra QA前のdraftがない（status={job.get('status')}）")
+    app["reject_candidate"] = {"reason": a.reason, "at": P.now_iso(), "by": "claude"}
+    # the flags are re-derived from today's source facts (an earlier UNKNOWN may be resolved by now)
+    app["qa_flags"] = _qa_flags(job, {k: app.get(k) for k in ("application_questions", "application_answers",
+                                                              "actual_reward", "reward_evidence")})
+    _apply_readiness(job, P.today())
+    P.vault_save(v)
+    P.export(v["master"], v.get("meta", {}))
+    print(json.dumps({"job_id": a.id, "final_qa_status": app["final_qa_status"], "hold_split": hold_split(job)},
+                     ensure_ascii=False))
 
 
 def _record_draft(job, d):
@@ -604,6 +627,8 @@ def _hold_reasons(job, date):
         why.append("応募文・回答が未完成")
     if app["user_confirmation_required"] == "yes":
         why.append("本人確認が必要な項目あり")
+    if app.get("reject_candidate"):  # Claude's QA: a reason to reject that no answer from the user can lift
+        why.append("Astra REJECT候補：" + app["reject_candidate"]["reason"])
     if app.get("confirm_cost") == "REJECT_CANDIDATE":
         why.append("Astra REJECT候補：確認コストが報酬に見合わない（私的・嗜好の確認のみ。本人確認は求めない）")
     if app["claim_flags"]:

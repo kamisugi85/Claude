@@ -1,6 +1,7 @@
-"""Astra Manual Review Queue on a temporary copy of scout/ (no network; the real Vault is never modified).
+"""Astra Manual Review Queue on a temporary copy of scout/ (sandbox: code only, a fresh test Vault with one
+made-up applied job; no network, the live Vault / state / data are never read).
 
-Run: SCOUT_VAULT_KEY=... python3 scout/tests/test_manual_review.py
+Run: python3 scout/tests/test_manual_review.py
 """
 import csv
 import json
@@ -11,7 +12,9 @@ import sys
 import tempfile
 
 SRC = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-NEW, OLD = "19990001", "13481662"  # a job unknown to the master, and an applied one
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import sandbox  # noqa: E402
+NEW, OLD = "19990001", "99480001"  # a job unknown to the master, and an applied one (made up, seeded below)
 DATE = "2026-10-01"
 
 
@@ -50,8 +53,19 @@ def ev(jid, **over):
 
 
 def main():
-    tmp = tempfile.mkdtemp()
-    shutil.copytree(SRC, tmp, dirs_exist_ok=True, ignore=shutil.ignore_patterns("tests"))
+    tmp = sandbox.make()
+    subprocess.run([sys.executable, "-c", "import pipeline as P; v=P.vault_load(); d=P.today(); v['master'][%r]={"
+                    "'job_id': %s, 'url': 'https://crowdworks.jp/public/jobs/%s', 'title': '応募済みの動画編集', "
+                    "'client': {'userId': 2, 'userDisplayName': 'c2'}, 'first_seen': '2026-09-27T05:00+09:00', "
+                    "'expired_on': '2099-12-31', 'gross': 3000, 'net_est': 2400, 'risk_rule': [], 'actual': {}, "
+                    "'eval': {'verdict': '候補', 'reason': 't', 'classification': 'B'}, 'status': 'APPLIED', "
+                    "'status_history': [{'status': s, 'at': '2026-09-27T05:1%%d+09:00' %% i, 'by': 'test', 'note': ''} "
+                    "for i, s in enumerate(['CLAUDE_CANDIDATE', 'ASTRA_QA_PENDING', 'ASTRA_PASS', 'APPLIED'])]}; "
+                    "j=dict(v['master'][%r]); j.update(job_id=99480002, url='https://crowdworks.jp/public/jobs/99480002', "
+                    "title='Astra見送りの記事', status='ASTRA_REJECT', astra={'astra_verdict': 'REJECT', 'astra_reason': 't', "
+                    "'updated_by': 'Astra'}, status_history=[{'status': s, 'at': d + 'T05:1%%d+09:00' %% i, 'by': 'test', "
+                    "'note': ''} for i, s in enumerate(['CLAUDE_CANDIDATE', 'ASTRA_QA_PENDING', 'ASTRA_REJECT'])]); "
+                    "v['master']['99480002']=j; P.vault_save(v)" % (OLD, OLD, OLD, OLD)], cwd=tmp, check=True)
     # intake 1: Claude receives the URL (requested_by Astra); duplicates and non-job URLs are refused
     r = last_json(run(tmp, "manual-request", f"https://crowdworks.jp/public/jobs/{NEW}?ref=apiv1",
                       "https://example.com/x").stdout)

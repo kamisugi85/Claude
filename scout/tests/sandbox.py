@@ -23,7 +23,9 @@ PROFILE = {
     "keywords_strong": ["NISA", "iDeCo", "簿記", "FP", "財務", "市場調査"],
     "keywords_title_only": ["副業", "投資", "お金"],
     "confirmed_facts": [{"fact": "NISAの利用経験がある", "source": "テスト用", "scope": "全案件で再利用",
-                         "reuse": True, "question_re": NISA_RE, "profile_ref": "personal_experience[0]"}],
+                         "reuse": True, "question_re": NISA_RE, "profile_ref": "personal_experience[0]"},
+                        {"fact": "文字起こし（1ファイル3,000字程度）の納期は1ファイル3日程度で提示できる", "source": "テスト用",
+                         "scope": "全案件で再利用", "reuse": True, "question_re": "納期"}],
 }
 
 
@@ -38,4 +40,6 @@ def make(profile=None):
     json.dump(PROFILE if profile is None else profile, open(p, "w", encoding="utf-8"), ensure_ascii=False)
     subprocess.run([sys.executable, "pipeline.py", "init-vault", "--profile", p], cwd=tmp, check=True,
                    capture_output=True)
+    subprocess.run([sys.executable, "pipeline.py", "set-drive", "folder", "sandbox-drive-folder"], cwd=tmp, check=True,
+                   capture_output=True)  # a made-up Drive folder id (no Drive call is ever made from a test)
     return tmp

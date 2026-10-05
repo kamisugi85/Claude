@@ -11,8 +11,35 @@ import sys
 import tempfile
 
 SRC = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import sandbox  # noqa: E402
 LONG = ("claude_reason", "astra_reason", "hourly_est", "repeatability", "client_risk", "client",
         "actual_human_minutes", "app_prep_ai_time")
+
+
+# made-up jobs over the statuses the Drive view filters on, with the long texts that stay vault-only
+SEED = r"""
+import pipeline as P
+v = P.vault_load(); m = v["master"]; d = P.today()
+STATUSES = ["ASTRA_QA_PENDING", "ASTRA_PASS", "READY_TO_APPLY", "APPLIED", "IN_PROGRESS", "READY_TO_DELIVER",
+            "CLAUDE_REJECTED", "RULE_REJECTED", "CLOSED", "SKIPPED"]
+long = "長い理由の文章です。" * 30
+for i in range(40):
+    jid = str(99800100 + i); st = STATUSES[i % len(STATUSES)]
+    j = {"job_id": int(jid), "url": "https://crowdworks.jp/public/jobs/" + jid, "title": "テスト案件" + jid,
+         "client": {"userId": 99000500 + i % 7, "userDisplayName": "c%d" % (i % 7)}, "first_seen": d + "T05:00+09:00",
+         "expired_on": "2099-12-31", "gross": 2200 + 100 * i, "net_est": round((2200 + 100 * i) * 0.8), "risk_rule": [],
+         "eval": {"verdict": "候補", "reason": long, "classification": "B", "human_minutes": "10分", "ai_completion": "90%",
+                  "est_hourly": "約3,000円（推定）", "repeatability": "高", "client_risk": long},
+         "astra": {"astra_verdict": "PASS", "astra_reason": long, "updated_by": "Astra"},
+         "actual": {"actual_human_minutes": None}, "status": st,
+         "status_history": [{"status": st, "at": d + "T05:10+09:00", "by": "test", "note": ""}]}
+    if st == "READY_TO_DELIVER":
+        j["worker"] = {"status": "READY_TO_DELIVER",
+                       "delivery": {"url": "https://docs.google.com/document/d/x%d/edit" % i, "type": "gdoc"}}
+    m[jid] = j
+P.vault_save(v)
+"""
 
 
 def run(tmp, *args, ok=True):
@@ -27,8 +54,8 @@ def rows(tmp, name):
 
 
 def main():
-    tmp = tempfile.mkdtemp()
-    shutil.copytree(SRC, tmp, dirs_exist_ok=True, ignore=shutil.ignore_patterns("tests"))
+    tmp = sandbox.make()
+    subprocess.run([sys.executable, "-c", SEED], cwd=tmp, check=True)  # synthetic jobs (no live Vault)
     vault = json.loads(subprocess.run([sys.executable, "-c", "import pipeline as P,json; "
                                        "print(json.dumps(P.vault_load()['master'], ensure_ascii=False))"],
                                       cwd=tmp, capture_output=True, text=True, check=True).stdout)

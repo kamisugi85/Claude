@@ -11,6 +11,8 @@ import sys
 import tempfile
 
 SRC = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import sandbox  # noqa: E402
 CID = "99000001"  # a client made up for the test
 
 SETUP = r"""
@@ -41,8 +43,7 @@ def py(tmp, code):
 
 
 def main():
-    tmp = tempfile.mkdtemp()
-    shutil.copytree(SRC, tmp, dirs_exist_ok=True, ignore=shutil.ignore_patterns("tests"))
+    tmp = sandbox.make()
     py(tmp, SETUP.replace("__CID__", CID))
     lvl = lambda jid: json.loads(py(tmp, "import pipeline as P, client_master as C, json; v = P.vault_load(); "
                                          "c = C.refresh(v); print(json.dumps(C.level(c, v['master'], v['master'][%r])))"
