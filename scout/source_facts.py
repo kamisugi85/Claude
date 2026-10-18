@@ -144,6 +144,8 @@ def rewards(desc, complete=True, fetched=True):
                 lead = cue  # e.g. "最初は500文字程度のテストをお願いします。" -> the next amount is the trial's
         if not AMOUNT_CUE.search(l) and not INITIAL_RE.search(l):
             continue
+        if re.match(r"[※*＊]?\s*1件(?:あたり|当たり)の?目安", l):  # per-unit reference of a fixed total, not this job's reward
+            continue
         amts = [_yen(x) for x in YEN_RE.findall(re.sub(r"文字単価[\s:：]*[\d.,０-９]+\s*円[～〜~]?", "", l)) if _yen(x) > 0]
         if amts and MONTHLY_FEE_RE.search(l):  # "・月額：10,000円～": the fee of a monthly contract (one month = this job)
             monthly.append(amts[0])
