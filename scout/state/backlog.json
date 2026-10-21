@@ -1,2569 +1,4 @@
 {
- "13510808": {
-  "id": 13510808,
-  "url": "https://crowdworks.jp/public/jobs/13510808",
-  "title": "【初心者歓迎】【記事作成】「副業について思うこと」",
-  "tiers": [
-   "B"
-  ],
-  "entries": [
-   "writing_all"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T01:15:21+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 2,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 31
-   }
-  },
-  "client": {
-   "userId": 7241387,
-   "userDisplayName": "anshindna",
-   "isIdentityVerified": false,
-   "averageScore": 4.80644,
-   "jobOfferAchievementCount": 132,
-   "projectFinishedRate": 97,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 200.0,
-   "chars": 400.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "Webライター経験"
-  ],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 54,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T05:14+09:00",
-  "listing_fp": "d4a86ceaab37",
-  "desc_hash": "a0a339fb126c16f7d7e818f127e193f4",
-  "price_mentions": [
-   200,
-   220
-  ],
-  "prescore": 2.444,
-  "fit_n": 1,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": false
- },
- "13510807": {
-  "id": 13510807,
-  "url": "https://crowdworks.jp/public/jobs/13510807",
-  "title": "【初心者歓迎】【記事作成】「はじめての投資」",
-  "tiers": [
-   "B"
-  ],
-  "entries": [
-   "writing_all"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T01:14:52+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 7
-   }
-  },
-  "client": {
-   "userId": 7241387,
-   "userDisplayName": "anshindna",
-   "isIdentityVerified": false,
-   "averageScore": 4.72167,
-   "jobOfferAchievementCount": 58,
-   "projectFinishedRate": 97,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 200.0,
-   "chars": 400.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "Webライター経験"
-  ],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 4,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T05:14+09:00",
-  "listing_fp": "992d7d0f97b5",
-  "desc_hash": "6062dff06d7ef3c8fc3115b0c45ee7ab",
-  "price_mentions": [
-   200,
-   220
-  ],
-  "prescore": 7.82,
-  "fit_n": 1,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": false
- },
- "13510805": {
-  "id": 13510805,
-  "url": "https://crowdworks.jp/public/jobs/13510805",
-  "title": "【記事作成】【簡単作業】「好きなハイブランド」の記事を作成してください。",
-  "tiers": [
-   "B"
-  ],
-  "entries": [
-   "writing_all"
-  ],
-  "category_id": 101,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T01:11:55+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 13
-   }
-  },
-  "client": {
-   "userId": 7241381,
-   "userDisplayName": "faithmax",
-   "isIdentityVerified": false,
-   "averageScore": 4.92692,
-   "jobOfferAchievementCount": 56,
-   "projectFinishedRate": 97,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 200.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 40,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T05:14+09:00",
-  "listing_fp": "57208393f067",
-  "desc_hash": "bb00da51aede3ffbd79b2fed6d5392a6",
-  "price_mentions": [
-   20,
-   200
-  ],
-  "prescore": 16.573,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13510803": {
-  "id": 13510803,
-  "url": "https://crowdworks.jp/public/jobs/13510803",
-  "title": "【記事作成】【簡単作業】「愛用しているガジェット」の記事を作成してください。",
-  "tiers": [
-   "B"
-  ],
-  "entries": [
-   "writing_all"
-  ],
-  "category_id": 101,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T01:11:24+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 6
-   }
-  },
-  "client": {
-   "userId": 7241381,
-   "userDisplayName": "faithmax",
-   "isIdentityVerified": false,
-   "averageScore": 5.0,
-   "jobOfferAchievementCount": 17,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 200.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 4,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T05:14+09:00",
-  "listing_fp": "fd7b86937470",
-  "desc_hash": "5d0a05a79c5d3cd5162b8f0dcab70c60",
-  "price_mentions": [
-   20,
-   200
-  ],
-  "prescore": 26.517,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13510801": {
-  "id": 13510801,
-  "url": "https://crowdworks.jp/public/jobs/13510801",
-  "title": "【記事作成】【簡単作業】「好きなB級グルメ」の記事を作成してください。",
-  "tiers": [
-   "B"
-  ],
-  "entries": [
-   "writing_all"
-  ],
-  "category_id": 101,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T01:10:53+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 18
-   }
-  },
-  "client": {
-   "userId": 7241381,
-   "userDisplayName": "faithmax",
-   "isIdentityVerified": false,
-   "averageScore": 4.92692,
-   "jobOfferAchievementCount": 56,
-   "projectFinishedRate": 97,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 200.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 40,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T05:14+09:00",
-  "listing_fp": "af6ef074c854",
-  "desc_hash": "46d30bdbce1e6bfe692df8deb59802d1",
-  "price_mentions": [
-   20,
-   200
-  ],
-  "prescore": 12.212,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13513189": {
-  "id": 13513189,
-  "url": "https://crowdworks.jp/public/jobs/13513189",
-  "title": "【簡単5分550円】個別指導塾トライプラスの口コミ募集・通塾歴のある方限定",
-  "tiers": [
-   "A",
-   "B"
-  ],
-  "entries": [
-   "task_all",
-   "writing_all"
-  ],
-  "category_id": 56,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T19:49:32+09:00",
-  "entry": {
-   "task_entry": {
-    "num_completed_tasks": 2,
-    "num_tasks": 3
-   }
-  },
-  "client": {
-   "userId": 3996802,
-   "userDisplayName": "media_cw2020",
-   "isIdentityVerified": false,
-   "averageScore": 5.0,
-   "jobOfferAchievementCount": 1551,
-   "projectFinishedRate": 96,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "task",
-   "price": 550.0,
-   "minutes": 18
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": true,
-  "client_open_jobs": 3,
-  "same_text_count": 1,
-  "first_seen": "2026-10-08T05:15+09:00",
-  "listing_fp": "e1a1a45eab70",
-  "desc_hash": "f547590f9122e6cce409afb519f97d58",
-  "price_mentions": [
-   550
-  ],
-  "prescore": 48.09,
-  "fit_n": 1,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": false
- },
- "13513185": {
-  "id": 13513185,
-  "url": "https://crowdworks.jp/public/jobs/13513185",
-  "title": "【簡単5分550円】関西個別指導学院の口コミ募集・通塾歴のある方限定",
-  "tiers": [
-   "A",
-   "B"
-  ],
-  "entries": [
-   "task_all",
-   "writing_all"
-  ],
-  "category_id": 56,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T19:49:19+09:00",
-  "entry": {
-   "task_entry": {
-    "num_completed_tasks": 0,
-    "num_tasks": 3
-   }
-  },
-  "client": {
-   "userId": 3996802,
-   "userDisplayName": "media_cw2020",
-   "isIdentityVerified": false,
-   "averageScore": 5.0,
-   "jobOfferAchievementCount": 1542,
-   "projectFinishedRate": 96,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "task",
-   "price": 550.0,
-   "minutes": 18
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": true,
-  "client_open_jobs": 3,
-  "same_text_count": 1,
-  "first_seen": "2026-10-08T05:15+09:00",
-  "listing_fp": "b7fb82b0c096",
-  "desc_hash": "e6b4460dec6b3dbab6929d84e19440c8",
-  "price_mentions": [
-   550
-  ],
-  "prescore": 48.09,
-  "fit_n": 1,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": false
- },
- "13513182": {
-  "id": 13513182,
-  "url": "https://crowdworks.jp/public/jobs/13513182",
-  "title": "【簡単5分550円】東京個別指導学院の口コミ募集・通塾歴のある方限定",
-  "tiers": [
-   "A",
-   "B"
-  ],
-  "entries": [
-   "task_all",
-   "writing_all"
-  ],
-  "category_id": 56,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T19:44:39+09:00",
-  "entry": {
-   "task_entry": {
-    "num_completed_tasks": 2,
-    "num_tasks": 3
-   }
-  },
-  "client": {
-   "userId": 3996802,
-   "userDisplayName": "media_cw2020",
-   "isIdentityVerified": false,
-   "averageScore": 5.0,
-   "jobOfferAchievementCount": 1542,
-   "projectFinishedRate": 96,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "task",
-   "price": 550.0,
-   "minutes": 18
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": true,
-  "client_open_jobs": 3,
-  "same_text_count": 2,
-  "first_seen": "2026-10-08T05:15+09:00",
-  "listing_fp": "adca80e74606",
-  "desc_hash": "35e21150b1f298aca56425f0bec173b7",
-  "price_mentions": [
-   550
-  ],
-  "prescore": 48.09,
-  "fit_n": 1,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": false
- },
- "13512650": {
-  "id": 13512650,
-  "url": "https://crowdworks.jp/public/jobs/13512650",
-  "title": "【投資経験者限定】金融・投資領域のリサーチ／質問設計ができる方募集",
-  "tiers": [
-   "B",
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ",
-   "kw:決算",
-   "kw:要約",
-   "kw:金融",
-   "writing_all"
-  ],
-  "category_id": 288,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T16:31:10+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 16
-   }
-  },
-  "client": {
-   "userId": 4263192,
-   "userDisplayName": "佐々木諒11",
-   "isIdentityVerified": false,
-   "averageScore": 5.0,
-   "jobOfferAchievementCount": 44,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "94248030248a",
-  "desc_hash": "0204c6e4a140e11eb118c03b80c7f0d7",
-  "price_mentions": [],
-  "prescore": 0.0,
-  "fit_n": 3,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13511992": {
-  "id": 13511992,
-  "url": "https://crowdworks.jp/public/jobs/13511992",
-  "title": "【記事作成】【簡単作業】「いま、一番やりたいこと」の記事を作成してください。",
-  "tiers": [
-   "B"
-  ],
-  "entries": [
-   "writing_all"
-  ],
-  "category_id": 101,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T13:35:02+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 1,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 23
-   }
-  },
-  "client": {
-   "userId": 7241381,
-   "userDisplayName": "faithmax",
-   "isIdentityVerified": false,
-   "averageScore": 4.76667,
-   "jobOfferAchievementCount": 19,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 200.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 6,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "472a7e2d4961",
-  "desc_hash": "189599f3c903a52d2af403020aa47a2d",
-  "price_mentions": [
-   20,
-   200
-  ],
-  "prescore": 8.379,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13511991": {
-  "id": 13511991,
-  "url": "https://crowdworks.jp/public/jobs/13511991",
-  "title": "【記事作成】【簡単作業】「人生で一番反省していること」の記事を作成してください。",
-  "tiers": [
-   "B"
-  ],
-  "entries": [
-   "writing_all"
-  ],
-  "category_id": 101,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T13:34:34+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 20
-   }
-  },
-  "client": {
-   "userId": 7241381,
-   "userDisplayName": "faithmax",
-   "isIdentityVerified": false,
-   "averageScore": 4.76667,
-   "jobOfferAchievementCount": 19,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 200.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 6,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "f92b8db44eff",
-  "desc_hash": "6a6707b641fed2fe0b104b84935394ba",
-  "price_mentions": [
-   20,
-   200
-  ],
-  "prescore": 9.576,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13511715": {
-  "id": 13511715,
-  "url": "https://crowdworks.jp/public/jobs/13511715",
-  "title": "初心者歓迎◎「やっててよかった」と思うことについて書くライター募集｜20代向けメディア｜継続あり",
-  "tiers": [
-   "B"
-  ],
-  "entries": [
-   "writing_all"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T11:48:15+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 3,
-    "project_contract_hope_number": 5,
-    "num_application_conditions": 30
-   }
-  },
-  "client": {
-   "userId": 3591221,
-   "userDisplayName": "ゆうき28",
-   "isIdentityVerified": true,
-   "averageScore": 4.9959,
-   "jobOfferAchievementCount": 33,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 2100.0,
-   "chars": 1500.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 10,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "4a27261c90f7",
-  "desc_hash": "c8e253767eacb49495ee5537c407b250",
-  "price_mentions": [
-   50,
-   2100
-  ],
-  "prescore": 31.884,
-  "fit_n": 0,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": false
- },
- "13512363": {
-  "id": 13512363,
-  "url": "https://crowdworks.jp/public/jobs/13512363",
-  "title": "【スマホ撮影OK ※横画面撮影のみ】全国の「神社」参拝・景観動画を募集！1本〜大量応募まで大歓迎！",
-  "tiers": [
-   "A",
-   "D"
-  ],
-  "entries": [
-   "cat:54:データ検索・データ収集",
-   "task_all"
-  ],
-  "category_id": 54,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T15:37:56+09:00",
-  "entry": {
-   "task_entry": {
-    "num_completed_tasks": 19,
-    "num_tasks": 20
-   }
-  },
-  "client": {
-   "userId": 3980117,
-   "userDisplayName": "お悩み解決マン",
-   "isIdentityVerified": false,
-   "averageScore": 5.0,
-   "jobOfferAchievementCount": 24,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "task",
-   "price": 55.0,
-   "minutes": 2
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "本人確認未",
-   "報酬表示と本文が不一致の可能性"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "4e81a631c2ec",
-  "desc_hash": "05a0e2c15ef332fd956916714a881fe9",
-  "price_mentions": [
-   50
-  ],
-  "prescore": 11.827,
-  "fit_n": 0,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": false
- },
- "13511933": {
-  "id": 13511933,
-  "url": "https://crowdworks.jp/public/jobs/13511933",
-  "title": "【スマホでのお仕事限定】30秒簡単作業！コピペするだけ",
-  "tiers": [
-   "A",
-   "C"
-  ],
-  "entries": [
-   "kw:市場調査",
-   "task_all"
-  ],
-  "category_id": 58,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T13:13:24+09:00",
-  "entry": {
-   "task_entry": {
-    "num_completed_tasks": 32,
-    "num_tasks": 38
-   }
-  },
-  "client": {
-   "userId": 10624,
-   "userDisplayName": "見積もり",
-   "isIdentityVerified": true,
-   "averageScore": 4.97669,
-   "jobOfferAchievementCount": 10688,
-   "projectFinishedRate": 98,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "task",
-   "price": 8.0,
-   "minutes": 18
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 12,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "eb32a8a65791",
-  "desc_hash": "3be34ba2e4ffdb2519e695b0d1ba2d2f",
-  "price_mentions": [],
-  "prescore": 0.907,
-  "fit_n": 1,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13511902": {
-  "id": 13511902,
-  "url": "https://crowdworks.jp/public/jobs/13511902",
-  "title": "【30分 / 2,200円】カードローン利用経験に関するインタビューの募集（30歳以降に利用経験のある方）",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:金融"
-  ],
-  "category_id": 108,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T12:55:39+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 1,
-    "project_contract_hope_number": 5,
-    "num_application_conditions": 14
-   }
-  },
-  "client": {
-   "userId": 4900476,
-   "userDisplayName": "hugrumatax",
-   "isIdentityVerified": true,
-   "averageScore": 4.67549,
-   "jobOfferAchievementCount": 314,
-   "projectFinishedRate": 95,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": 1650.0
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 7,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "2054eea4d364",
-  "desc_hash": "77e7f39f5e64335c013fb932c90ff454",
-  "price_mentions": [
-   2200
-  ],
-  "prescore": 18.91,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13511817": {
-  "id": 13511817,
-  "url": "https://crowdworks.jp/public/jobs/13511817",
-  "title": "【30分 / 2,200円】1年以内に未経験からタクシー運転手への転職経験のある方にインタビューの募集",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:金融"
-  ],
-  "category_id": 108,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T12:14:36+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 5,
-    "num_application_conditions": 1
-   }
-  },
-  "client": {
-   "userId": 4900476,
-   "userDisplayName": "hugrumatax",
-   "isIdentityVerified": true,
-   "averageScore": 4.68774,
-   "jobOfferAchievementCount": 316,
-   "projectFinishedRate": 95,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": 1650.0
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 5,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "02c635a492e9",
-  "desc_hash": "3a46d5fca75b9efe13a916c623ef293d",
-  "price_mentions": [
-   2200
-  ],
-  "prescore": 26.263,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "12982336": {
-  "id": 12982336,
-  "url": "https://crowdworks.jp/public/jobs/12982336",
-  "title": "食・スイーツ系の商品選定ができる方募集｜バイヤー・目利き経験者歓迎",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:スタートアップ",
-   "kw:リサーチ",
-   "kw:市場調査"
-  ],
-  "category_id": 151,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T18:31:39+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 10
-   }
-  },
-  "client": {
-   "userId": 5948340,
-   "userDisplayName": "motobu1212",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 61,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 12,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "c79b2c0b7f45",
-  "desc_hash": "930e6aef41efed60aa8755949595ac81",
-  "price_mentions": [
-   110
-  ],
-  "prescore": 0.0,
-  "fit_n": 1,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13511539": {
-  "id": 13511539,
-  "url": "https://crowdworks.jp/public/jobs/13511539",
-  "title": "【商品企画・マーケ経験者募集】化粧品・サプリ・インナー商品の市場調査～商品企画を一緒にできる方",
-  "tiers": [
-   "C",
-   "D"
-  ],
-  "entries": [
-   "kw:市場調査",
-   "kw:競合分析"
-  ],
-  "category_id": 169,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T14:38:17+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 2,
-    "num_application_conditions": 17
-   }
-  },
-  "client": {
-   "userId": 648132,
-   "userDisplayName": "srabbit",
-   "isIdentityVerified": true,
-   "averageScore": 4.86667,
-   "jobOfferAchievementCount": 46,
-   "projectFinishedRate": 71,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "ポートフォリオ/実績提出",
-   "稼働時間"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "f5c0ed95b0d2",
-  "desc_hash": "7ace050884a945685273616022399d4e",
-  "price_mentions": [],
-  "prescore": 0.0,
-  "fit_n": 1,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13512208": {
-  "id": 13512208,
-  "url": "https://crowdworks.jp/public/jobs/13512208",
-  "title": "簡単データ収集のお仕事",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:市場調査"
-  ],
-  "category_id": 54,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T15:07:02+09:00",
-  "entry": {
-   "task_entry": {
-    "num_completed_tasks": 27,
-    "num_tasks": 60
-   }
-  },
-  "client": {
-   "userId": 83290,
-   "userDisplayName": "ユースケ＠",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 61,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "task",
-   "price": 5.0,
-   "minutes": 11
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 6,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "df7e95147b24",
-  "desc_hash": "cf3cfbccd556fbe968f63975369d0183",
-  "price_mentions": [],
-  "prescore": 0.611,
-  "fit_n": 1,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13511805": {
-  "id": 13511805,
-  "url": "https://crowdworks.jp/public/jobs/13511805",
-  "title": "コピペで簡単PC作業のお仕事",
-  "tiers": [
-   "A",
-   "C",
-   "D"
-  ],
-  "entries": [
-   "cat:54:データ検索・データ収集",
-   "kw:市場調査",
-   "task_all"
-  ],
-  "category_id": 54,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T12:14:09+09:00",
-  "entry": {
-   "task_entry": {
-    "num_completed_tasks": 114,
-    "num_tasks": 150
-   }
-  },
-  "client": {
-   "userId": 5686424,
-   "userDisplayName": "柴犬のしばこ",
-   "isIdentityVerified": true,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 433,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "task",
-   "price": 5.0,
-   "minutes": 20
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "評価0"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 6,
-  "same_text_count": 6,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "345366c85f24",
-  "desc_hash": "57673d6632cd4b4557eec900f20be321",
-  "price_mentions": [],
-  "prescore": 0.447,
-  "fit_n": 1,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13512212": {
-  "id": 13512212,
-  "url": "https://crowdworks.jp/public/jobs/13512212",
-  "title": "【副業OK・月3時間〜】ChatGPT／Claudeを実務で活用しているマーケター募集｜社内コンサル・講師｜時給3,000円〜",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:競合調査"
-  ],
-  "category_id": 364,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T15:45:43+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 12
-   }
-  },
-  "client": {
-   "userId": 1144972,
-   "userDisplayName": "alh_good_day",
-   "isIdentityVerified": true,
-   "averageScore": 4.97462,
-   "jobOfferAchievementCount": 1043,
-   "projectFinishedRate": 93,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "ポートフォリオ/実績提出",
-   "稼働時間",
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 4,
-  "same_text_count": 2,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "b86df4663aa2",
-  "desc_hash": "ddbad87aaf6ddc83c4b74f16837871b5",
-  "price_mentions": [
-   3000
-  ],
-  "prescore": 0.0,
-  "fit_n": 1,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13512211": {
-  "id": 13512211,
-  "url": "https://crowdworks.jp/public/jobs/13512211",
-  "title": "【AI×Webマーケの専門家急募】生成AIで成果を出したマーケターを社内コンサルとして募集｜時給3,000円〜・フルリモート",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:競合調査"
-  ],
-  "category_id": 364,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T15:45:43+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 11
-   }
-  },
-  "client": {
-   "userId": 1144972,
-   "userDisplayName": "alh_good_day",
-   "isIdentityVerified": true,
-   "averageScore": 4.97462,
-   "jobOfferAchievementCount": 1043,
-   "projectFinishedRate": 93,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "ポートフォリオ/実績提出",
-   "稼働時間",
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 4,
-  "same_text_count": 2,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "c6bf4ddac183",
-  "desc_hash": "ddbad87aaf6ddc83c4b74f16837871b5",
-  "price_mentions": [
-   3000
-  ],
-  "prescore": 0.0,
-  "fit_n": 1,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13512882": {
-  "id": 13512882,
-  "url": "https://crowdworks.jp/public/jobs/13512882",
-  "title": "機械・装置設計スタートアップの秘書業務（経費管理、SaaSの登録、スケジュール管理、出張関係のブッキングなど）",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:スタートアップ",
-   "kw:リサーチ",
-   "kw:英語"
-  ],
-  "category_id": 150,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T17:44:15+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 22
-   }
-  },
-  "client": {
-   "userId": 7191709,
-   "userDisplayName": "takikawa.to",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 8,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "hourly",
-   "min_hourly_wage": 1500,
-   "max_hourly_wage": 2000
-  },
-  "ai_policy": "B",
-  "requirements": [
-   "稼働時間",
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-08T05:15+09:00",
-  "listing_fp": "1c8a927965a4",
-  "desc_hash": "a64b3bb0267335a7f49f9648eb4668d6",
-  "price_mentions": [],
-  "prescore": 0.0,
-  "fit_n": 1,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13512813": {
-  "id": 13512813,
-  "url": "https://crowdworks.jp/public/jobs/13512813",
-  "title": "【長期・週3本】AI×副業YouTube動画の企画・台本ライター募集｜文字単価1円＋インセンティブ制度あり",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 358,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T17:24:13+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 14
-   }
-  },
-  "client": {
-   "userId": 3595048,
-   "userDisplayName": "株式会社トータルリンクス",
-   "isIdentityVerified": true,
-   "averageScore": 4.90491,
-   "jobOfferAchievementCount": 1025,
-   "projectFinishedRate": 95,
-   "isCertifiedEmployer": true,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "稼働時間"
-  ],
-  "risk": [
-   "外部誘導"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 1,
-  "first_seen": "2026-10-08T05:15+09:00",
-  "listing_fp": "dfb47488b0fe",
-  "desc_hash": "cdd9014fb445ecfad7621ce9b6a42d58",
-  "price_mentions": [],
-  "prescore": 0.0,
-  "fit_n": 1,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13512743": {
-  "id": 13512743,
-  "url": "https://crowdworks.jp/public/jobs/13512743",
-  "title": "【コンペ】AI×副業YouTube動画の企画・タイトル・台本募集｜採用者は長期契約・文字単価1円｜インセンティブ制度あり",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 168,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T16:58:39+09:00",
-  "entry": {
-   "competition_entry": {
-    "num_proposal_products": 14
-   }
-  },
-  "client": {
-   "userId": 3595048,
-   "userDisplayName": "株式会社トータルリンクス",
-   "isIdentityVerified": true,
-   "averageScore": 4.90491,
-   "jobOfferAchievementCount": 1025,
-   "projectFinishedRate": 95,
-   "isCertifiedEmployer": true,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "other",
-   "raw": {
-    "competition_payment": {
-     "competition_price": 33000
-    }
-   }
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "稼働時間",
-   "必須"
-  ],
-  "risk": [
-   "外部誘導"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "9e97bbff3ed3",
-  "desc_hash": "c8f24a6b7bfb7646d87ac7017e8caf61",
-  "price_mentions": [
-   30000
-  ],
-  "prescore": 0.0,
-  "fit_n": 1,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13512218": {
-  "id": 13512218,
-  "url": "https://crowdworks.jp/public/jobs/13512218",
-  "title": "デザイン好きをSNSのお仕事に🎨｜経験浅めOK！投稿づくり・運用メンバー募集",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 18,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T15:12:52+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 10,
-    "num_application_conditions": 33
-   }
-  },
-  "client": {
-   "userId": 7258972,
-   "userDisplayName": "pink.b",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 2,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 30000.0,
-   "max": 50000.0
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [
-   "評価0",
-   "発注実績<=2",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "e540ce9182c3",
-  "desc_hash": "5ba03038ec4a6c9dd6ed27e6b6b0e4a9",
-  "price_mentions": [],
-  "prescore": 26.966,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13510892": {
-  "id": 13510892,
-  "url": "https://crowdworks.jp/public/jobs/13510892",
-  "title": "【簡単1分アンケート＆後日インタビュー】収入やお金についての満足度調査［追加謝礼あり］",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 107,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T06:59:54+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 3,
-    "project_contract_hope_number": 10,
-    "num_application_conditions": 7
-   }
-  },
-  "client": {
-   "userId": 7172115,
-   "userDisplayName": "ヤードリサーチ",
-   "isIdentityVerified": false,
-   "averageScore": 4.83333,
-   "jobOfferAchievementCount": 4,
-   "projectFinishedRate": 85,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": 11.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "年齢条件"
-  ],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "04adcfadd1af",
-  "desc_hash": "6d9c7a9fb254c7f3f89fb9819917983b",
-  "price_mentions": [
-   10,
-   300
-  ],
-  "prescore": 0.248,
-  "fit_n": 1,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": false
- },
- "13510872": {
-  "id": 13510872,
-  "url": "https://crowdworks.jp/public/jobs/13510872",
-  "title": "【初心者・主婦歓迎】Xの運用作業（リプ周り/リプ返信）できる方を募集します！【在宅・コツコツ作業OK】",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 303,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T06:00:29+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 5
-   }
-  },
-  "client": {
-   "userId": 1867177,
-   "userDisplayName": "SNS運用：このみ",
-   "isIdentityVerified": true,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 1,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 10000.0,
-   "max": 30000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "年齢条件",
-   "性別条件",
-   "稼働時間",
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "発注実績<=2"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "d31b19ace585",
-  "desc_hash": "057e03017907d89fff57b82ac94086c0",
-  "price_mentions": [
-   15000
-  ],
-  "prescore": 4.342,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13512977": {
-  "id": 13512977,
-  "url": "https://crowdworks.jp/public/jobs/13512977",
-  "title": "【AI開発】サ高住施設ご利用者の安否確認業務を自動化",
-  "tiers": [
-   "C",
-   "E"
-  ],
-  "entries": [
-   "cat:370:AIシステム開発・導入・自動化支援",
-   "kw:Excel"
-  ],
-  "category_id": 370,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T18:18:50+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 109
-   }
-  },
-  "client": {
-   "userId": 1023855,
-   "userDisplayName": "bihonest",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 19,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 150000.0,
-   "max": 200000.0
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 11,
-  "same_text_count": 1,
-  "first_seen": "2026-10-08T05:15+09:00",
-  "listing_fp": "8b939f643bd0",
-  "desc_hash": "f649dcfba5a0e814891b51a631ef8b3c",
-  "price_mentions": [],
-  "prescore": 24.236,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13512028": {
-  "id": 13512028,
-  "url": "https://crowdworks.jp/public/jobs/13512028",
-  "title": "【AI開発】サービス提供記録・実績・請求データ一元管理＆加算判定AIエージェント",
-  "tiers": [
-   "C",
-   "E"
-  ],
-  "entries": [
-   "cat:370:AIシステム開発・導入・自動化支援",
-   "kw:Excel"
-  ],
-  "category_id": 370,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T13:51:23+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 68
-   }
-  },
-  "client": {
-   "userId": 1023855,
-   "userDisplayName": "bihonest",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 19,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 400000.0,
-   "max": 500000.0
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 11,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "81834225eea6",
-  "desc_hash": "ecc8eb2f67bb236c3cbbab7d597ca7f1",
-  "price_mentions": [],
-  "prescore": 24.477,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13512210": {
-  "id": 13512210,
-  "url": "https://crowdworks.jp/public/jobs/13512210",
-  "title": "【デザイン済】PowerPoint資料を活用した、説明動画のアニメーション制作・動画化ができる方を募集します",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:PowerPoint",
-   "kw:パワーポイント"
-  ],
-  "category_id": 80,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T15:07:40+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 25
-   }
-  },
-  "client": {
-   "userId": 6564151,
-   "userDisplayName": "ムスベル",
-   "isIdentityVerified": false,
-   "averageScore": 4.99,
-   "jobOfferAchievementCount": 21,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "ポートフォリオ/実績提出"
-  ],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "2322616839fe",
-  "desc_hash": "b2dea246d16177238d57c46e816e00a6",
-  "price_mentions": [],
-  "prescore": 0.0,
-  "fit_n": 1,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13511627": {
-  "id": 13511627,
-  "url": "https://crowdworks.jp/public/jobs/13511627",
-  "title": "【高単価・フルリモート】オンライン英語コーチ募集！【経験者歓迎】【副業/掛け持ちOK】",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:英語"
-  ],
-  "category_id": 327,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T14:38:18+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 12,
-    "num_application_conditions": 3
-   }
-  },
-  "client": {
-   "userId": 3460428,
-   "userDisplayName": "tom082",
-   "isIdentityVerified": true,
-   "averageScore": 4.95579,
-   "jobOfferAchievementCount": 267,
-   "projectFinishedRate": 98,
-   "isCertifiedEmployer": true,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "hourly",
-   "min_hourly_wage": 2000,
-   "max_hourly_wage": 3000
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [
-   "外部誘導"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 4,
-  "same_text_count": 2,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "a3608338ee75",
-  "desc_hash": "937a17212964c1f3a0be692afdb86007",
-  "price_mentions": [
-   1700,
-   4000
-  ],
-  "prescore": 0.0,
-  "fit_n": 2,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": true
- },
- "13511631": {
-  "id": 13511631,
-  "url": "https://crowdworks.jp/public/jobs/13511631",
-  "title": "【フルリモート・高待遇】オンライン英語講師を大募集【経験者限定】【掛け持ちOK】",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:英語"
-  ],
-  "category_id": 327,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T14:38:18+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 8,
-    "num_application_conditions": 4
-   }
-  },
-  "client": {
-   "userId": 3460428,
-   "userDisplayName": "tom082",
-   "isIdentityVerified": true,
-   "averageScore": 4.95579,
-   "jobOfferAchievementCount": 267,
-   "projectFinishedRate": 98,
-   "isCertifiedEmployer": true,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "hourly",
-   "min_hourly_wage": 2000,
-   "max_hourly_wage": 3000
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [
-   "外部誘導"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 4,
-  "same_text_count": 2,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "3481bf121002",
-  "desc_hash": "937a17212964c1f3a0be692afdb86007",
-  "price_mentions": [
-   1700,
-   4000
-  ],
-  "prescore": 0.0,
-  "fit_n": 1,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": true
- },
- "13511612": {
-  "id": 13511612,
-  "url": "https://crowdworks.jp/public/jobs/13511612",
-  "title": "【フルリモート／継続あり】業務委託｜英語コーチングサービスの英語講師大募集",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:英語"
-  ],
-  "category_id": 327,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T14:38:18+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 10,
-    "num_application_conditions": 7
-   }
-  },
-  "client": {
-   "userId": 3460428,
-   "userDisplayName": "tom082",
-   "isIdentityVerified": true,
-   "averageScore": 4.95579,
-   "jobOfferAchievementCount": 267,
-   "projectFinishedRate": 98,
-   "isCertifiedEmployer": true,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "hourly",
-   "min_hourly_wage": 3000,
-   "max_hourly_wage": 4000
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間",
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 4,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "4473a2ed056a",
-  "desc_hash": "41856baca7c84b2cb638d178aefc3b3e",
-  "price_mentions": [
-   3000,
-   5000
-  ],
-  "prescore": 0.0,
-  "fit_n": 1,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": false
- },
- "13511606": {
-  "id": 13511606,
-  "url": "https://crowdworks.jp/public/jobs/13511606",
-  "title": "【フルリモート／継続あり】英語を教えた経験のある方必見！今話題のオンライン英語コーチングサービスの英語講師募集",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:英語"
-  ],
-  "category_id": 336,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T14:38:17+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 10,
-    "num_application_conditions": 6
-   }
-  },
-  "client": {
-   "userId": 3460428,
-   "userDisplayName": "tom082",
-   "isIdentityVerified": true,
-   "averageScore": 4.95579,
-   "jobOfferAchievementCount": 267,
-   "projectFinishedRate": 98,
-   "isCertifiedEmployer": true,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "hourly",
-   "min_hourly_wage": 2000,
-   "max_hourly_wage": 3000
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間",
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [
-   "外部誘導"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 4,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "9744e8102437",
-  "desc_hash": "887eb4be871d0425567e0616e4797ca1",
-  "price_mentions": [
-   1700,
-   4000
-  ],
-  "prescore": 0.0,
-  "fit_n": 1,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": false
- },
- "13511374": {
-  "id": 13511374,
-  "url": "https://crowdworks.jp/public/jobs/13511374",
-  "title": "【月4本/継続あり】バイクカスタムショップYouTube動画の英語字幕作成・追加（翻訳）",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:英語"
-  ],
-  "category_id": 293,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T10:14:45+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 35
-   }
-  },
-  "client": {
-   "userId": 5323247,
-   "userDisplayName": "ショルダーシャック　青木",
-   "isIdentityVerified": false,
-   "averageScore": 4.92143,
-   "jobOfferAchievementCount": 9,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "ポートフォリオ/実績提出",
-   "稼働時間",
-   "必須"
-  ],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "e138594c1cef",
-  "desc_hash": "7c9eff34f90952c4a9f70917f817facb",
-  "price_mentions": [
-   7000,
-   12000
-  ],
-  "prescore": 0.0,
-  "fit_n": 2,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": false
- },
- "13345440": {
-  "id": 13345440,
-  "url": "https://crowdworks.jp/public/jobs/13345440",
-  "title": "英語圏向けSNS運用の企業担当者さんを募集します。",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:英語"
-  ],
-  "category_id": 39,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T09:52:04+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 41
-   }
-  },
-  "client": {
-   "userId": 1156743,
-   "userDisplayName": "CPT",
-   "isIdentityVerified": true,
-   "averageScore": 4.9042,
-   "jobOfferAchievementCount": 1589,
-   "projectFinishedRate": 92,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "hourly",
-   "min_hourly_wage": 1500,
-   "max_hourly_wage": 2000
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 7,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "13983acea091",
-  "desc_hash": "ad7a80d075a1a8688cceea89a0d75990",
-  "price_mentions": [
-   2000
-  ],
-  "prescore": 0.0,
-  "fit_n": 1,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": false
- },
- "12499589": {
-  "id": 12499589,
-  "url": "https://crowdworks.jp/public/jobs/12499589",
-  "title": "【英語必須！】インバウンド向けにビジネス支援のプロ募集",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:英語"
-  ],
-  "category_id": 145,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T08:34:31+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 9
-   }
-  },
-  "client": {
-   "userId": 1810658,
-   "userDisplayName": "HiroakiOtake",
-   "isIdentityVerified": true,
-   "averageScore": 5.0,
-   "jobOfferAchievementCount": 77,
-   "projectFinishedRate": 92,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 0.0,
-   "max": 5000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "外部誘導"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "92b047b95358",
-  "desc_hash": "68c06d087e5e63ab6a60c322354a3956",
-  "price_mentions": [
-   2000
-  ],
-  "prescore": 12.005,
-  "fit_n": 1,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": false
- },
- "13511868": {
-  "id": 13511868,
-  "url": "https://crowdworks.jp/public/jobs/13511868",
-  "title": "【1日1～2時間程度の作業！】生活のスキマ時間でスタートできる！｜営業事務スタッフ",
-  "tiers": [
-   "D"
-  ],
-  "entries": [
-   "cat:52:データ入力"
-  ],
-  "category_id": 52,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T14:38:20+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 28
-   }
-  },
-  "client": {
-   "userId": 6814053,
-   "userDisplayName": "アシスト -ast-",
-   "isIdentityVerified": true,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 13,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 5000.0,
-   "max": 10000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間",
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "外部誘導"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "521f75d9fec9",
-  "desc_hash": "4c6591bd1c578ed650402176bf95f1f4",
-  "price_mentions": [],
-  "prescore": 11.895,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13510860": {
-  "id": 13510860,
-  "url": "https://crowdworks.jp/public/jobs/13510860",
-  "title": "【在宅/リモート可】アパレル事務スタッフ募集｜未経験歓迎",
-  "tiers": [
-   "D"
-  ],
-  "entries": [
-   "cat:52:データ入力",
-   "kw:データ整理"
-  ],
-  "category_id": 52,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T08:53:41+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 6,
-    "num_application_conditions": 4
-   }
-  },
-  "client": {
-   "userId": 7247176,
-   "userDisplayName": "りさおお",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 4,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 100000.0,
-   "max": 150000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間",
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 2,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "d70c40bfef0d",
-  "desc_hash": "0946e7e343ef392833692716620311f2",
-  "price_mentions": [],
-  "prescore": 19.058,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13510861": {
-  "id": 13510861,
-  "url": "https://crowdworks.jp/public/jobs/13510861",
-  "title": "【在宅/リモート可】アパレル事務スタッフ募集｜未経験歓迎",
-  "tiers": [
-   "D"
-  ],
-  "entries": [
-   "cat:52:データ入力",
-   "kw:データ整理"
-  ],
-  "category_id": 52,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T08:53:41+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 6,
-    "num_application_conditions": 23
-   }
-  },
-  "client": {
-   "userId": 7247176,
-   "userDisplayName": "りさおお",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 4,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 100000.0,
-   "max": 150000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間",
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 2,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "d70c40bfef0d",
-  "desc_hash": "0946e7e343ef392833692716620311f2",
-  "price_mentions": [],
-  "prescore": 9.529,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13512986": {
-  "id": 13512986,
-  "url": "https://crowdworks.jp/public/jobs/13512986",
-  "title": "【AI】通所・訪問介護の契約書の進捗報告を自動化",
-  "tiers": [
-   "D",
-   "E"
-  ],
-  "entries": [
-   "cat:370:AIシステム開発・導入・自動化支援",
-   "kw:転記"
-  ],
-  "category_id": 370,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T18:21:17+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 146
-   }
-  },
-  "client": {
-   "userId": 1023855,
-   "userDisplayName": "bihonest",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 19,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 150000.0,
-   "max": 200000.0
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 11,
-  "same_text_count": 1,
-  "first_seen": "2026-10-08T05:15+09:00",
-  "listing_fp": "1820ab29d6a8",
-  "desc_hash": "ea3265ec400327a7e45a1b2385131e61",
-  "price_mentions": [],
-  "prescore": 7.271,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13512955": {
-  "id": 13512955,
-  "url": "https://crowdworks.jp/public/jobs/13512955",
-  "title": "【AI開発】ご利用者アンケート業務を自動化・効率化するAIエージェント",
-  "tiers": [
-   "D",
-   "E"
-  ],
-  "entries": [
-   "cat:370:AIシステム開発・導入・自動化支援",
-   "kw:転記"
-  ],
-  "category_id": 370,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T18:13:26+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 94
-   }
-  },
-  "client": {
-   "userId": 1023855,
-   "userDisplayName": "bihonest",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 19,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 150000.0,
-   "max": 200000.0
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 11,
-  "same_text_count": 1,
-  "first_seen": "2026-10-08T05:15+09:00",
-  "listing_fp": "bfa66f2913dc",
-  "desc_hash": "40aa45e074000dde765bbb064a3e9e19",
-  "price_mentions": [],
-  "prescore": 24.236,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13512033": {
-  "id": 13512033,
-  "url": "https://crowdworks.jp/public/jobs/13512033",
-  "title": "【AI開発】雇用契約の更新対象者抽出・確認・進捗管理を自動化するAIエージェントの開発",
-  "tiers": [
-   "D",
-   "E"
-  ],
-  "entries": [
-   "cat:370:AIシステム開発・導入・自動化支援",
-   "kw:転記"
-  ],
-  "category_id": 370,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T13:54:59+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 133
-   }
-  },
-  "client": {
-   "userId": 1023855,
-   "userDisplayName": "bihonest",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 19,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 150000.0,
-   "max": 200000.0
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 11,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "cea1559e368e",
-  "desc_hash": "e3dc18cfd6e44c061eb9d1ddfa685df7",
-  "price_mentions": [],
-  "prescore": 24.236,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13512896": {
-  "id": 13512896,
-  "url": "https://crowdworks.jp/public/jobs/13512896",
-  "title": "【AI開発】退職予定者の情報収集・手続き判定・進捗管理を自動化するAIエージェントの開発",
-  "tiers": [
-   "D",
-   "E"
-  ],
-  "entries": [
-   "cat:370:AIシステム開発・導入・自動化支援",
-   "kw:転記"
-  ],
-  "category_id": 370,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T17:51:20+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 74
-   }
-  },
-  "client": {
-   "userId": 1023855,
-   "userDisplayName": "bihonest",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 19,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 150000.0,
-   "max": 200000.0
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 11,
-  "same_text_count": 1,
-  "first_seen": "2026-10-08T05:15+09:00",
-  "listing_fp": "cc95afdaaf7c",
-  "desc_hash": "c52092268b5ae283a50e36f2253a3e8a",
-  "price_mentions": [],
-  "prescore": 24.236,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
  "13516278": {
   "id": 13516278,
   "url": "https://crowdworks.jp/public/jobs/13516278",
@@ -2727,64 +162,6 @@
    550
   ],
   "prescore": 48.09,
-  "fit_n": 1,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": false
- },
- "13513597": {
-  "id": 13513597,
-  "url": "https://crowdworks.jp/public/jobs/13513597",
-  "title": "副業に関する意識調査・課題についてのアンケート",
-  "tiers": [
-   "B"
-  ],
-  "entries": [
-   "writing_all"
-  ],
-  "category_id": 41,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-08T08:40:48+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 10,
-    "num_application_conditions": 15
-   }
-  },
-  "client": {
-   "userId": 7257509,
-   "userDisplayName": "lsongben559",
-   "isIdentityVerified": true,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 1,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 200.0,
-   "chars": 100.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "発注実績<=2"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-08T17:02+09:00",
-  "listing_fp": "235be3b91bc0",
-  "desc_hash": "91ed84f66f3b044d12dc92482ce9db26",
-  "price_mentions": [
-   1500
-  ],
-  "prescore": 8.129,
   "fit_n": 1,
   "auto_able": false,
   "tied_down": false,
@@ -3810,120 +1187,6 @@
   "tied_down": false,
   "role_like": false
  },
- "13347022": {
-  "id": 13347022,
-  "url": "https://crowdworks.jp/public/jobs/13347022",
-  "title": "経済界の重鎮と言われる怪物と化物から「 ぶったまげるサービス」と言わしめたスタートアップ企業で前向きなCFO候補を募集します！",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:スタートアップ",
-   "kw:資金調達"
-  ],
-  "category_id": 190,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-08T08:32:16+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 2
-   }
-  },
-  "client": {
-   "userId": 5948340,
-   "userDisplayName": "motobu1212",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 61,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 12,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "db7bea7d2146",
-  "desc_hash": "6a914e0d325b0df4514fce04ec67fb8b",
-  "price_mentions": [],
-  "prescore": 0.0,
-  "fit_n": 2,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": false
- },
- "12169571": {
-  "id": 12169571,
-  "url": "https://crowdworks.jp/public/jobs/12169571",
-  "title": "ITスタートアップで事業成長に向けた営業をお願いできる方を募集！",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:スタートアップ",
-   "kw:法人営業"
-  ],
-  "category_id": 172,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-08T08:32:16+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 4
-   }
-  },
-  "client": {
-   "userId": 5948340,
-   "userDisplayName": "motobu1212",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 61,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 12,
-  "same_text_count": 1,
-  "first_seen": "2026-09-26T23:59+09:00",
-  "listing_fp": "0dd9a47f7ade",
-  "desc_hash": "1d346a26dbab66d9dc3c6e5bdfcae0e5",
-  "price_mentions": [
-   110
-  ],
-  "prescore": 0.0,
-  "fit_n": 2,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": false
- },
  "13516309": {
   "id": 13516309,
   "url": "https://crowdworks.jp/public/jobs/13516309",
@@ -4039,122 +1302,6 @@
   "tied_down": false,
   "role_like": true
  },
- "13512801": {
-  "id": 13512801,
-  "url": "https://crowdworks.jp/public/jobs/13512801",
-  "title": "【在宅/リモート可】アパレル事務スタッフ募集｜未経験OK",
-  "tiers": [
-   "D"
-  ],
-  "entries": [
-   "cat:52:データ入力",
-   "kw:データ整理"
-  ],
-  "category_id": 52,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-08T08:32:20+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 6,
-    "num_application_conditions": 6
-   }
-  },
-  "client": {
-   "userId": 6938960,
-   "userDisplayName": "環那",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 4,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 100000.0,
-   "max": 150000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間",
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 1,
-  "first_seen": "2026-10-08T17:02+09:00",
-  "listing_fp": "e98d5e075983",
-  "desc_hash": "d9cfd1fe2d71be29819d62bd7a9de89b",
-  "price_mentions": [],
-  "prescore": 19.058,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13512595": {
-  "id": 13512595,
-  "url": "https://crowdworks.jp/public/jobs/13512595",
-  "title": "【在宅/リモート可】ファッション事務サポート募集｜未経験歓迎",
-  "tiers": [
-   "D"
-  ],
-  "entries": [
-   "cat:52:データ入力",
-   "kw:データ整理"
-  ],
-  "category_id": 52,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-08T08:32:16+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 6,
-    "num_application_conditions": 26
-   }
-  },
-  "client": {
-   "userId": 7227897,
-   "userDisplayName": "NANKOKU24",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 6,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 100000.0,
-   "max": 150000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間",
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 5,
-  "same_text_count": 1,
-  "first_seen": "2026-10-08T17:02+09:00",
-  "listing_fp": "656e3ff0c958",
-  "desc_hash": "9d0b9c1f1b9c75d4f406670164850820",
-  "price_mentions": [],
-  "prescore": 9.625,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
  "13515262": {
   "id": 13515262,
   "url": "https://crowdworks.jp/public/jobs/13515262",
@@ -4207,60 +1354,6 @@
   "auto_able": true,
   "tied_down": false,
   "role_like": true
- },
- "13512966": {
-  "id": 13512966,
-  "url": "https://crowdworks.jp/public/jobs/13512966",
-  "title": "【AI開発】研修受講報告書提出確認業務を自動化・効率化するAIエージェント",
-  "tiers": [
-   "E"
-  ],
-  "entries": [
-   "cat:370:AIシステム開発・導入・自動化支援"
-  ],
-  "category_id": 370,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-08T08:32:23+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 196
-   }
-  },
-  "client": {
-   "userId": 1023855,
-   "userDisplayName": "bihonest",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 19,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 150000.0,
-   "max": 200000.0
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 11,
-  "same_text_count": 1,
-  "first_seen": "2026-10-08T17:02+09:00",
-  "listing_fp": "8f1e46b6f90d",
-  "desc_hash": "827b8d27cf9f8143b3b051d737fd38e5",
-  "price_mentions": [],
-  "prescore": 24.236,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
  },
  "13515274": {
   "id": 13515274,
@@ -6191,60 +3284,6 @@
   "tied_down": false,
   "role_like": true
  },
- "13513412": {
-  "id": 13513412,
-  "url": "https://crowdworks.jp/public/jobs/13513412",
-  "title": "秋から冬まで使える！大人の着回しコーデ3選",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 80,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-09T09:14:39+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 1,
-    "project_contract_hope_number": 10,
-    "num_application_conditions": 35
-   }
-  },
-  "client": {
-   "userId": 6851963,
-   "userDisplayName": "ぴかそ38",
-   "isIdentityVerified": true,
-   "averageScore": 4.99687,
-   "jobOfferAchievementCount": 16,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": 5500.0
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 3,
-  "same_text_count": 1,
-  "first_seen": "2026-10-09T17:02+09:00",
-  "listing_fp": "8e6577828c66",
-  "desc_hash": "ec81d3810a5f96cf143e07bd6f74cbeb",
-  "price_mentions": [
-   455,
-   500
-  ],
-  "prescore": 20.859,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
  "13518459": {
   "id": 13518459,
   "url": "https://crowdworks.jp/public/jobs/13518459",
@@ -7272,7 +4311,7 @@
    455,
    500
   ],
-  "prescore": 16.875,
+  "prescore": 21.6,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -7331,7 +4370,7 @@
    2000,
    3000
   ],
-  "prescore": 36.036,
+  "prescore": 46.126,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -7394,7 +4433,7 @@
    100,
    3000
   ],
-  "prescore": 0.379,
+  "prescore": 0.486,
   "fit_n": 1,
   "auto_able": true,
   "tied_down": false,
@@ -7509,7 +4548,7 @@
    20,
    200
   ],
-  "prescore": 7.251,
+  "prescore": 9.281,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -7565,7 +4604,7 @@
    20,
    200
   ],
-  "prescore": 4.899,
+  "prescore": 6.271,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -7739,62 +4778,6 @@
   "tied_down": false,
   "role_like": false
  },
- "13510798": {
-  "id": 13510798,
-  "url": "https://crowdworks.jp/public/jobs/13510798",
-  "title": "【記事作成】【簡単作業】「日本三大夜景」の記事を作成してください。",
-  "tiers": [
-   "B"
-  ],
-  "entries": [
-   "writing_all"
-  ],
-  "category_id": 101,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T01:10:18+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 2,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 47
-   }
-  },
-  "client": {
-   "userId": 7241381,
-   "userDisplayName": "faithmax",
-   "isIdentityVerified": false,
-   "averageScore": 4.92692,
-   "jobOfferAchievementCount": 56,
-   "projectFinishedRate": 97,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "article",
-   "price": 200.0,
-   "chars": 400.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 40,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T05:14+09:00",
-  "listing_fp": "f91026fc4d13",
-  "desc_hash": "86c0bd38973ec1d505c8d312b992d975",
-  "price_mentions": [
-   20,
-   200
-  ],
-  "prescore": 4.834,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
  "13522565": {
   "id": 13522565,
   "url": "https://crowdworks.jp/public/jobs/13522565",
@@ -7952,7 +4935,7 @@
   "listing_fp": "bcf2bf54eaf2",
   "desc_hash": "524a534dd9f720c98daadcff086562ab",
   "price_mentions": [],
-  "prescore": 0.747,
+  "prescore": 0.956,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -8060,67 +5043,9 @@
   "listing_fp": "20e743aaba88",
   "desc_hash": "2ff130e5e05df4eae33dc90b18357f1e",
   "price_mentions": [],
-  "prescore": 0.747,
+  "prescore": 0.956,
   "fit_n": 0,
   "auto_able": false,
-  "tied_down": false,
-  "role_like": false
- },
- "13512945": {
-  "id": 13512945,
-  "url": "https://crowdworks.jp/public/jobs/13512945",
-  "title": "【サクッと80円】Web制作会社の情報収集・紹介文の作成をお願いします！（複数納品可能！）",
-  "tiers": [
-   "A",
-   "D"
-  ],
-  "entries": [
-   "cat:54:データ検索・データ収集",
-   "task_all"
-  ],
-  "category_id": 54,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T18:11:20+09:00",
-  "entry": {
-   "task_entry": {
-    "num_completed_tasks": 65,
-    "num_tasks": 69
-   }
-  },
-  "client": {
-   "userId": 2214703,
-   "userDisplayName": "wwork",
-   "isIdentityVerified": true,
-   "averageScore": 4.87554,
-   "jobOfferAchievementCount": 1059,
-   "projectFinishedRate": 84,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "task",
-   "price": 88.0,
-   "minutes": 2
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "報酬表示と本文が不一致の可能性"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 3,
-  "same_text_count": 1,
-  "first_seen": "2026-10-11T05:46+09:00",
-  "listing_fp": "7efa69ce9313",
-  "desc_hash": "e9e99244fd49e8aa3a0fd6421b9afc7e",
-  "price_mentions": [
-   80
-  ],
-  "prescore": 46.309,
-  "fit_n": 0,
-  "auto_able": true,
   "tied_down": false,
   "role_like": false
  },
@@ -8344,7 +5269,7 @@
   "price_mentions": [
    500
   ],
-  "prescore": 4.158,
+  "prescore": 5.322,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -8403,7 +5328,7 @@
    2000,
    3000
   ],
-  "prescore": 22.615,
+  "prescore": 28.948,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -8459,7 +5384,7 @@
   "listing_fp": "143db3fbe1b6",
   "desc_hash": "a92757c388d9a5e0f0ce5246f4262fe3",
   "price_mentions": [],
-  "prescore": 35.814,
+  "prescore": 45.842,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -8517,7 +5442,7 @@
    500,
    1500
   ],
-  "prescore": 10.154,
+  "prescore": 12.997,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -8571,7 +5496,7 @@
   "listing_fp": "59a41a8dd8e1",
   "desc_hash": "3a510cadc19760c35b561162ca51cd84",
   "price_mentions": [],
-  "prescore": 40.698,
+  "prescore": 52.093,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -8689,123 +5614,6 @@
   "desc_hash": "a289fa21ba5ce015993011357e1fb0c3",
   "price_mentions": [],
   "prescore": 0.0,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13511339": {
-  "id": 13511339,
-  "url": "https://crowdworks.jp/public/jobs/13511339",
-  "title": "【外出が困難な方！関西圏にお住まいの方対象！】",
-  "tiers": [
-   "C",
-   "D"
-  ],
-  "entries": [
-   "cat:52:データ入力",
-   "kw:Excel",
-   "kw:リサーチ"
-  ],
-  "category_id": 52,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T14:38:14+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 2
-   }
-  },
-  "client": {
-   "userId": 6138704,
-   "userDisplayName": "kank_yf",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 22,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 7,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "7ad9d6c2393c",
-  "desc_hash": "669eb8880b3ae571ec7a801e64a309f3",
-  "price_mentions": [],
-  "prescore": 0.0,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13511172": {
-  "id": 13511172,
-  "url": "https://crowdworks.jp/public/jobs/13511172",
-  "title": "【美容】オンライン事務・運営サポート｜継続前提",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:Excel",
-   "kw:リサーチ"
-  ],
-  "category_id": 150,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-07T08:53:44+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 26
-   }
-  },
-  "client": {
-   "userId": 6972356,
-   "userDisplayName": "miku44",
-   "isIdentityVerified": false,
-   "averageScore": 4.37857,
-   "jobOfferAchievementCount": 54,
-   "projectFinishedRate": 95,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 30000.0,
-   "max": 50000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "本人確認未",
-   "外部誘導"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 6,
-  "same_text_count": 1,
-  "first_seen": "2026-10-07T17:02+09:00",
-  "listing_fp": "2f0bc9c9992e",
-  "desc_hash": "f931277ea846a34a5c041b26daff5867",
-  "price_mentions": [
-   30000,
-   50000
-  ],
-  "prescore": 5.733,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -9702,7 +6510,7 @@
   "listing_fp": "bdd0e20700f9",
   "desc_hash": "d9640b03833217d4e33e49b3749a569e",
   "price_mentions": [],
-  "prescore": 19.097,
+  "prescore": 24.444,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -9757,7 +6565,7 @@
   "price_mentions": [
    400
   ],
-  "prescore": 13.183,
+  "prescore": 16.479,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -9812,7 +6620,7 @@
   "price_mentions": [
    400
   ],
-  "prescore": 20.716,
+  "prescore": 25.895,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -9867,7 +6675,7 @@
   "price_mentions": [
    400
   ],
-  "prescore": 14.501,
+  "prescore": 18.127,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -9922,7 +6730,7 @@
   "price_mentions": [
    400
   ],
-  "prescore": 13.183,
+  "prescore": 16.479,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -9978,7 +6786,7 @@
    20,
    200
   ],
-  "prescore": 6.905,
+  "prescore": 8.632,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -10038,7 +6846,7 @@
    100,
    2000
   ],
-  "prescore": 15.444,
+  "prescore": 19.305,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -10093,7 +6901,7 @@
   "price_mentions": [
    500
   ],
-  "prescore": 24.024,
+  "prescore": 30.03,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -10149,7 +6957,7 @@
    20,
    200
   ],
-  "prescore": 6.905,
+  "prescore": 8.632,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -10205,7 +7013,7 @@
    20,
    200
   ],
-  "prescore": 7.632,
+  "prescore": 9.54,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -10261,7 +7069,7 @@
    20,
    200
   ],
-  "prescore": 9.063,
+  "prescore": 11.329,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -10317,7 +7125,7 @@
    20,
    200
   ],
-  "prescore": 12.085,
+  "prescore": 15.106,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -10377,7 +7185,7 @@
   "price_mentions": [
    600
   ],
-  "prescore": 19.444,
+  "prescore": 24.888,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -10438,7 +7246,7 @@
    3500,
    7000
   ],
-  "prescore": 9.917,
+  "prescore": 12.693,
   "fit_n": 2,
   "auto_able": true,
   "tied_down": false,
@@ -10493,7 +7301,7 @@
   "price_mentions": [
    50
   ],
-  "prescore": 1.1,
+  "prescore": 1.375,
   "fit_n": 1,
   "auto_able": true,
   "tied_down": false,
@@ -10668,7 +7476,7 @@
   "price_mentions": [
    11
   ],
-  "prescore": 2.634,
+  "prescore": 3.292,
   "fit_n": 2,
   "auto_able": true,
   "tied_down": false,
@@ -10724,7 +7532,7 @@
    11,
    100
   ],
-  "prescore": 1.685,
+  "prescore": 2.106,
   "fit_n": 1,
   "auto_able": true,
   "tied_down": false,
@@ -10776,7 +7584,7 @@
   "listing_fp": "957ed9911d18",
   "desc_hash": "3be34ba2e4ffdb2519e695b0d1ba2d2f",
   "price_mentions": [],
-  "prescore": 0.709,
+  "prescore": 0.886,
   "fit_n": 1,
   "auto_able": true,
   "tied_down": false,
@@ -10831,7 +7639,7 @@
    50,
    500
   ],
-  "prescore": 7.392,
+  "prescore": 9.24,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -10941,7 +7749,7 @@
    500,
    2000
   ],
-  "prescore": 14.821,
+  "prescore": 18.526,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -11189,7 +7997,7 @@
    500,
    1000
   ],
-  "prescore": 14.969,
+  "prescore": 18.711,
   "fit_n": 1,
   "auto_able": true,
   "tied_down": false,
@@ -11245,7 +8053,7 @@
   "price_mentions": [
    15
   ],
-  "prescore": 0.197,
+  "prescore": 0.247,
   "fit_n": 1,
   "auto_able": true,
   "tied_down": false,
@@ -11307,7 +8115,7 @@
   "price_mentions": [
    500
   ],
-  "prescore": 35.721,
+  "prescore": 44.651,
   "fit_n": 1,
   "auto_able": true,
   "tied_down": false,
@@ -11488,7 +8296,7 @@
   "price_mentions": [
    500
   ],
-  "prescore": 13.115,
+  "prescore": 16.788,
   "fit_n": 1,
   "auto_able": true,
   "tied_down": false,
@@ -11606,7 +8414,7 @@
   "listing_fp": "e4ae288623ef",
   "desc_hash": "cf3cfbccd556fbe968f63975369d0183",
   "price_mentions": [],
-  "prescore": 0.354,
+  "prescore": 0.443,
   "fit_n": 1,
   "auto_able": true,
   "tied_down": false,
@@ -11719,7 +8527,7 @@
    455,
    500
   ],
-  "prescore": 11.733,
+  "prescore": 14.667,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -11773,7 +8581,7 @@
    455,
    500
   ],
-  "prescore": 10.915,
+  "prescore": 13.643,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -11827,7 +8635,7 @@
   "listing_fp": "ae8d550da44b",
   "desc_hash": "a6011a800109120cd10dbbb155d16ef8",
   "price_mentions": [],
-  "prescore": 33.86,
+  "prescore": 42.326,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -11881,7 +8689,7 @@
   "listing_fp": "1eb310e90cbe",
   "desc_hash": "aa29383bf76ded0359798d448cde8927",
   "price_mentions": [],
-  "prescore": 29.953,
+  "prescore": 37.442,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -11938,7 +8746,7 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 10.32,
+  "prescore": 12.9,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": true,
@@ -12064,7 +8872,7 @@
    30000,
    50000
   ],
-  "prescore": 8.214,
+  "prescore": 10.268,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -12120,7 +8928,7 @@
   "price_mentions": [
    30000
   ],
-  "prescore": 27.138,
+  "prescore": 33.923,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -12239,7 +9047,7 @@
    5000,
    15000
   ],
-  "prescore": 3.034,
+  "prescore": 3.793,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -12294,7 +9102,7 @@
   "price_mentions": [
    30000
   ],
-  "prescore": 44.308,
+  "prescore": 55.385,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -12351,7 +9159,7 @@
   "listing_fp": "3f7b17aefb97",
   "desc_hash": "1da6ae8ecea8f37b40bda7555d9db762",
   "price_mentions": [],
-  "prescore": 24.016,
+  "prescore": 30.019,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -12409,7 +9217,7 @@
   "price_mentions": [
    30000
   ],
-  "prescore": 40.869,
+  "prescore": 51.087,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -12472,7 +9280,7 @@
    60,
    7200
   ],
-  "prescore": 9.131,
+  "prescore": 11.414,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -12531,7 +9339,7 @@
    10000,
    30000
   ],
-  "prescore": 29.723,
+  "prescore": 37.154,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -13005,7 +9813,7 @@
   "price_mentions": [
    30000
   ],
-  "prescore": 40.385,
+  "prescore": 51.692,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -13066,7 +9874,7 @@
    100,
    20000
   ],
-  "prescore": 22.615,
+  "prescore": 28.948,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -13123,7 +9931,7 @@
   "listing_fp": "c004b28f4ac0",
   "desc_hash": "b0a25e2bd15ade1af9fbe9ef35e7cc00",
   "price_mentions": [],
-  "prescore": 28.651,
+  "prescore": 35.814,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -13294,7 +10102,7 @@
   "listing_fp": "22c76b928efe",
   "desc_hash": "69ab0960d9ca5eae8b0acbd50191dfbe",
   "price_mentions": [],
-  "prescore": 9.928,
+  "prescore": 12.41,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -13348,7 +10156,7 @@
   "listing_fp": "ab9d675a6f0e",
   "desc_hash": "8bc2351de7968fdad50e6e9c7f354570",
   "price_mentions": [],
-  "prescore": 28.651,
+  "prescore": 35.814,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -13410,7 +10218,7 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 35.777,
+  "prescore": 44.722,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -13649,7 +10457,7 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 44.722,
+  "prescore": 57.244,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -14490,7 +11298,7 @@
   "listing_fp": "ef190ce79fc9",
   "desc_hash": "7e7123801b1727d592c4c5c4d62aa17a",
   "price_mentions": [],
-  "prescore": 3.629,
+  "prescore": 4.537,
   "fit_n": 2,
   "auto_able": false,
   "tied_down": false,
@@ -14549,7 +11357,7 @@
   "price_mentions": [
    15
   ],
-  "prescore": 4.026,
+  "prescore": 5.033,
   "fit_n": 2,
   "auto_able": true,
   "tied_down": false,
@@ -14607,7 +11415,7 @@
   "price_mentions": [
    30000
   ],
-  "prescore": 4.798,
+  "prescore": 5.997,
   "fit_n": 1,
   "auto_able": false,
   "tied_down": false,
@@ -15122,7 +11930,7 @@
   "listing_fp": "b8e45aa6f921",
   "desc_hash": "a89d84209c036bb07ae968f17ebdefe3",
   "price_mentions": [],
-  "prescore": 38.115,
+  "prescore": 47.644,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -15178,7 +11986,7 @@
   "listing_fp": "a679a47c9a74",
   "desc_hash": "7d9576bea21a99115526ee3bd1a33778",
   "price_mentions": [],
-  "prescore": 15.349,
+  "prescore": 19.186,
   "fit_n": 1,
   "auto_able": true,
   "tied_down": false,
@@ -15241,7 +12049,7 @@
    10000,
    20000
   ],
-  "prescore": 29.568,
+  "prescore": 36.96,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -15301,7 +12109,7 @@
    5000,
    10000
   ],
-  "prescore": 9.448,
+  "prescore": 11.81,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -15361,7 +12169,7 @@
    25,
    10000
   ],
-  "prescore": 10.08,
+  "prescore": 12.6,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -15419,7 +12227,7 @@
   "price_mentions": [
    200000
   ],
-  "prescore": 6.507,
+  "prescore": 8.134,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -15477,7 +12285,7 @@
    50,
    5000
   ],
-  "prescore": 4.435,
+  "prescore": 5.544,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -15705,7 +12513,7 @@
    40,
    10000
   ],
-  "prescore": 7.056,
+  "prescore": 8.82,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -15876,7 +12684,7 @@
   "price_mentions": [
    100
   ],
-  "prescore": 1.3,
+  "prescore": 1.664,
   "fit_n": 1,
   "auto_able": false,
   "tied_down": false,
@@ -15934,7 +12742,7 @@
   "listing_fp": "adfeefadf9e3",
   "desc_hash": "fb292bf101d2a1e154d8e9d428702aea",
   "price_mentions": [],
-  "prescore": 16.919,
+  "prescore": 21.656,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -15991,7 +12799,7 @@
   "listing_fp": "58365cd0353a",
   "desc_hash": "0de290a27aaae1dd98552e2542c908f0",
   "price_mentions": [],
-  "prescore": 11.167,
+  "prescore": 14.293,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -16217,126 +13025,6 @@
   "prescore": 2.037,
   "fit_n": 1,
   "auto_able": false,
-  "tied_down": false,
-  "role_like": false
- },
- "13532587": {
-  "id": 13532587,
-  "url": "https://crowdworks.jp/public/jobs/13532587",
-  "title": "【急募】海外教育をテーマとした記事作成ライター募集",
-  "tiers": [
-   "B",
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ",
-   "writing_all"
-  ],
-  "category_id": 36,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-14T13:47:51+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 13
-   }
-  },
-  "client": {
-   "userId": 4780783,
-   "userDisplayName": "calstate",
-   "isIdentityVerified": true,
-   "averageScore": 4.9436,
-   "jobOfferAchievementCount": 182,
-   "projectFinishedRate": 98,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "hourly",
-   "min_hourly_wage": 1500,
-   "max_hourly_wage": 2000
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "ポートフォリオ/実績提出",
-   "必須"
-  ],
-  "risk": [
-   "外部誘導"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-14T17:03+09:00",
-  "listing_fp": "d9a72019358a",
-  "desc_hash": "3f2a0f058c6bca16ab77cc236a89ad4e",
-  "price_mentions": [
-   1500,
-   4500
-  ],
-  "prescore": 0.0,
-  "fit_n": 1,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13533049": {
-  "id": 13533049,
-  "url": "https://crowdworks.jp/public/jobs/13533049",
-  "title": "【1本1,000円／海外市場調査】海外の文化に関するリサーチ・記事作成",
-  "tiers": [
-   "B",
-   "C"
-  ],
-  "entries": [
-   "kw:PowerPoint",
-   "kw:リサーチ",
-   "kw:市場調査",
-   "writing_all"
-  ],
-  "category_id": 41,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-14T13:41:35+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 63
-   }
-  },
-  "client": {
-   "userId": 5519753,
-   "userDisplayName": "りんだんち",
-   "isIdentityVerified": true,
-   "averageScore": 5.0,
-   "jobOfferAchievementCount": 10,
-   "projectFinishedRate": 88,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 0.0,
-   "max": 5000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "Webライター経験"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-14T17:03+09:00",
-  "listing_fp": "f740f91a40ce",
-  "desc_hash": "8974028b78cce57d2fe22422b1623be4",
-  "price_mentions": [
-   1000
-  ],
-  "prescore": 13.608,
-  "fit_n": 1,
-  "auto_able": true,
   "tied_down": false,
   "role_like": false
  },
@@ -17017,63 +13705,6 @@
   "tied_down": false,
   "role_like": true
  },
- "13532414": {
-  "id": 13532414,
-  "url": "https://crowdworks.jp/public/jobs/13532414",
-  "title": "【自宅で簡単モニター依頼！】サービス利用時のユーザー体験収集！実績作り・初心者歓迎！",
-  "tiers": [
-   "C",
-   "D"
-  ],
-  "entries": [
-   "cat:86:調査・リサーチ",
-   "kw:市場調査"
-  ],
-  "category_id": 86,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-14T10:26:58+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 30,
-    "num_application_conditions": 0
-   }
-  },
-  "client": {
-   "userId": 7116171,
-   "userDisplayName": "ゆな＠在宅ワーカー",
-   "isIdentityVerified": false,
-   "averageScore": 4.93833,
-   "jobOfferAchievementCount": 20,
-   "projectFinishedRate": 90,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": 385.0
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 4,
-  "first_seen": "2026-10-14T17:03+09:00",
-  "listing_fp": "091f3c2bcff2",
-  "desc_hash": "249563a5b44e24a4272dd6ad3ce2ebfa",
-  "price_mentions": [
-   350
-  ],
-  "prescore": 21.954,
-  "fit_n": 1,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
  "13532651": {
   "id": 13532651,
   "url": "https://crowdworks.jp/public/jobs/13532651",
@@ -17248,65 +13879,6 @@
   "auto_able": true,
   "tied_down": false,
   "role_like": false
- },
- "13534078": {
-  "id": 13534078,
-  "url": "https://crowdworks.jp/public/jobs/13534078",
-  "title": "【旅行・観光が好きな方歓迎♪】オンライン秘書・事務サポートスタッフ募集",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ",
-   "kw:資料作成"
-  ],
-  "category_id": 150,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-14T20:01:19+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 27
-   }
-  },
-  "client": {
-   "userId": 7254168,
-   "userDisplayName": "small spring",
-   "isIdentityVerified": false,
-   "averageScore": 5.0,
-   "jobOfferAchievementCount": 9,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 10000.0,
-   "max": 30000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "年齢条件"
-  ],
-  "risk": [
-   "本人確認未",
-   "外部誘導"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 6,
-  "same_text_count": 1,
-  "first_seen": "2026-10-15T05:15+09:00",
-  "listing_fp": "b193bb7007eb",
-  "desc_hash": "c3bcb8c72c40e8837e001348d9e4301b",
-  "price_mentions": [
-   10000
-  ],
-  "prescore": 16.457,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
  },
  "13533492": {
   "id": 13533492,
@@ -17650,123 +14222,7 @@
   "price_mentions": [
    15000
   ],
-  "prescore": 13.846,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13511165": {
-  "id": 13511165,
-  "url": "https://crowdworks.jp/public/jobs/13511165",
-  "title": "【フリーな生活への一歩に✨】スキンケア商品紹介バナー作成のお仕事です🌷",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 18,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-14T08:52:53+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 2,
-    "num_application_conditions": 7
-   }
-  },
-  "client": {
-   "userId": 6950038,
-   "userDisplayName": "さくら｜フリーランス",
-   "isIdentityVerified": false,
-   "averageScore": 4.95167,
-   "jobOfferAchievementCount": 53,
-   "projectFinishedRate": 97,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 0.0,
-   "max": 5000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "年齢条件",
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 4,
-  "same_text_count": 1,
-  "first_seen": "2026-10-14T17:03+09:00",
-  "listing_fp": "01d5e12dcfcf",
-  "desc_hash": "f2147516d7989f41bc2cfea3f4e36f57",
-  "price_mentions": [
-   2000
-  ],
-  "prescore": 19.402,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13532091": {
-  "id": 13532091,
-  "url": "https://crowdworks.jp/public/jobs/13532091",
-  "title": "【在宅ワーク・月3万〜】SNSマーケティングの進行管理・運営サポート！",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 150,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-14T07:35:25+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 2,
-    "num_application_conditions": 15
-   }
-  },
-  "client": {
-   "userId": 6715828,
-   "userDisplayName": "kono96",
-   "isIdentityVerified": false,
-   "averageScore": 4.90625,
-   "jobOfferAchievementCount": 87,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 10000.0,
-   "max": 30000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間"
-  ],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-14T17:03+09:00",
-  "listing_fp": "c8cfff6aeace",
-  "desc_hash": "c61831cf6612965ee453d4dd134ff9c1",
-  "price_mentions": [
-   30000
-  ],
-  "prescore": 15.508,
+  "prescore": 17.723,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -17819,124 +14275,11 @@
   "listing_fp": "520399a06225",
   "desc_hash": "6fb7adbbf4eb6dae916ef28b10d5cfaa",
   "price_mentions": [],
-  "prescore": 24.253,
+  "prescore": 30.316,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
   "role_like": false
- },
- "13532704": {
-  "id": 13532704,
-  "url": "https://crowdworks.jp/public/jobs/13532704",
-  "title": "【6か月分無料】赤ら顔・酒さにお悩みの方へ｜イソトレチノイン治療モニター募集",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:資料作成"
-  ],
-  "category_id": 58,
-  "expired_on": "2026-10-28",
-  "released_at": "2026-10-14T12:56:28+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 10,
-    "num_application_conditions": 1
-   }
-  },
-  "client": {
-   "userId": 107829,
-   "userDisplayName": "渋谷_カメラちゃん",
-   "isIdentityVerified": false,
-   "averageScore": 4.97315,
-   "jobOfferAchievementCount": 66,
-   "projectFinishedRate": 97,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 0.0,
-   "max": 5000.0
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 4,
-  "same_text_count": 1,
-  "first_seen": "2026-10-14T17:03+09:00",
-  "listing_fp": "38a591a3b6cc",
-  "desc_hash": "32109e247a2897e0edcd1a6f3706c303",
-  "price_mentions": [],
-  "prescore": 24.253,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13532281": {
-  "id": 13532281,
-  "url": "https://crowdworks.jp/public/jobs/13532281",
-  "title": "資料作成や事務補助の在宅オンライン秘書募集（週5〜15時間稼働）",
-  "tiers": [
-   "C",
-   "E"
-  ],
-  "entries": [
-   "cat:369:AIバックオフィス支援",
-   "kw:資料作成"
-  ],
-  "category_id": 369,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-14T10:26:57+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 5,
-    "num_application_conditions": 21
-   }
-  },
-  "client": {
-   "userId": 7200022,
-   "userDisplayName": "Natutelework",
-   "isIdentityVerified": true,
-   "averageScore": 5.0,
-   "jobOfferAchievementCount": 13,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 0.0,
-   "max": 5000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間",
-   "面談/通話"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-14T17:03+09:00",
-  "listing_fp": "5f76107b8388",
-  "desc_hash": "1c6129f29c5edb16f442ad6c95803719",
-  "price_mentions": [
-   300,
-   400,
-   1200
-  ],
-  "prescore": 21.221,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
  },
  "13532654": {
   "id": 13532654,
@@ -18154,7 +14497,7 @@
   "price_mentions": [
    5000
   ],
-  "prescore": 14.284,
+  "prescore": 17.855,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -18386,7 +14729,7 @@
   "price_mentions": [
    10
   ],
-  "prescore": 3.931,
+  "prescore": 4.913,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -18448,65 +14791,6 @@
   "tied_down": false,
   "role_like": false
  },
- "13532509": {
-  "id": 13532509,
-  "url": "https://crowdworks.jp/public/jobs/13532509",
-  "title": "PDFの文字転記などの在宅データ入力スタッフ募集／1件100〜200円",
-  "tiers": [
-   "D"
-  ],
-  "entries": [
-   "cat:52:データ入力",
-   "kw:転記"
-  ],
-  "category_id": 52,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-14T10:27:01+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 5,
-    "num_application_conditions": 47
-   }
-  },
-  "client": {
-   "userId": 7161771,
-   "userDisplayName": "みのり作業室",
-   "isIdentityVerified": false,
-   "averageScore": 5.0,
-   "jobOfferAchievementCount": 8,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 50000.0,
-   "max": 100000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-14T17:03+09:00",
-  "listing_fp": "20ee2c7ed26a",
-  "desc_hash": "4f8436a9ccebab8d44710add96920ba3",
-  "price_mentions": [
-   200
-  ],
-  "prescore": 18.012,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
  "13531037": {
   "id": 13531037,
   "url": "https://crowdworks.jp/public/jobs/13531037",
@@ -18559,7 +14843,7 @@
   "listing_fp": "4c65e73b27fb",
   "desc_hash": "de1879dc6eed8cbd8f2704fbaf71a35a",
   "price_mentions": [],
-  "prescore": 11.37,
+  "prescore": 14.212,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -18617,65 +14901,7 @@
   "listing_fp": "367cdb3b7eb8",
   "desc_hash": "e8a14c2187b19d0689229de829177d99",
   "price_mentions": [],
-  "prescore": 11.37,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13533211": {
-  "id": 13533211,
-  "url": "https://crowdworks.jp/public/jobs/13533211",
-  "title": "書類作成・受付管理・事務補助スタッフ募集｜／在宅・継続依頼",
-  "tiers": [
-   "D",
-   "E"
-  ],
-  "entries": [
-   "cat:369:AIバックオフィス支援",
-   "kw:転記"
-  ],
-  "category_id": 369,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-14T14:47:43+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 5,
-    "num_application_conditions": 51
-   }
-  },
-  "client": {
-   "userId": 7143543,
-   "userDisplayName": "am_works36",
-   "isIdentityVerified": true,
-   "averageScore": 5.0,
-   "jobOfferAchievementCount": 24,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 100000.0,
-   "max": 150000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間",
-   "面談/通話"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-14T17:03+09:00",
-  "listing_fp": "6f4f104098e4",
-  "desc_hash": "8302a9e6ce2bc99a6cfd6f087f7adf0e",
-  "price_mentions": [
-   180000
-  ],
-  "prescore": 16.659,
+  "prescore": 14.212,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -19437,68 +15663,6 @@
   "tied_down": false,
   "role_like": false
  },
- "13535749": {
-  "id": 13535749,
-  "url": "https://crowdworks.jp/public/jobs/13535749",
-  "title": "【在宅・平日】経理・総務管理スタッフ募集（週3~5勤務・月8~15時間程度）",
-  "tiers": [
-   "C",
-   "D"
-  ],
-  "entries": [
-   "kw:データ整理",
-   "kw:簿記",
-   "kw:銀行"
-  ],
-  "category_id": 149,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-15T14:13:10+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 5
-   }
-  },
-  "client": {
-   "userId": 158632,
-   "userDisplayName": "yamashita24",
-   "isIdentityVerified": false,
-   "averageScore": 4.975,
-   "jobOfferAchievementCount": 59,
-   "projectFinishedRate": 97,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 10000.0,
-   "max": 30000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間",
-   "面談/通話"
-  ],
-  "risk": [
-   "本人確認未",
-   "外部誘導"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-15T17:02+09:00",
-  "listing_fp": "1494777192cc",
-  "desc_hash": "d05bc8fda40fb6060a5982a9a7da3d43",
-  "price_mentions": [
-   1000
-  ],
-  "prescore": 21.969,
-  "fit_n": 2,
-  "auto_able": true,
-  "tied_down": true,
-  "role_like": true
- },
  "13534490": {
   "id": 13534490,
   "url": "https://crowdworks.jp/public/jobs/13534490",
@@ -19723,61 +15887,6 @@
   "tied_down": false,
   "role_like": false
  },
- "13535127": {
-  "id": 13535127,
-  "url": "https://crowdworks.jp/public/jobs/13535127",
-  "title": "【※未経験大歓迎！初心者大歓迎】日常生活でご利用されるサービスのオンラインインタビュー&自宅で簡単モニター",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:市場調査"
-  ],
-  "category_id": 107,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-15T11:41:29+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 1,
-    "project_contract_hope_number": 30,
-    "num_application_conditions": 8
-   }
-  },
-  "client": {
-   "userId": 7243038,
-   "userDisplayName": "riki11",
-   "isIdentityVerified": false,
-   "averageScore": 4.99408,
-   "jobOfferAchievementCount": 5,
-   "projectFinishedRate": 95,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": 385.0
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-15T17:02+09:00",
-  "listing_fp": "ab9c7f1eb4b8",
-  "desc_hash": "8b7fb138c6370b4ac4b9d966141ff1a5",
-  "price_mentions": [
-   350
-  ],
-  "prescore": 10.858,
-  "fit_n": 1,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
  "13533846": {
   "id": 13533846,
   "url": "https://crowdworks.jp/public/jobs/13533846",
@@ -19945,59 +16054,6 @@
   "desc_hash": "35bf4e6e3162d3f76c0c73f4b7d06cd7",
   "price_mentions": [],
   "prescore": 12.994,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13536289": {
-  "id": 13536289,
-  "url": "https://crowdworks.jp/public/jobs/13536289",
-  "title": "【SNSを見るのが好きな方へ📱】20代から始めるInstagram運用のお仕事！",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 89,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-15T16:46:05+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 5,
-    "num_application_conditions": 15
-   }
-  },
-  "client": {
-   "userId": 4496824,
-   "userDisplayName": "高松ユキ",
-   "isIdentityVerified": true,
-   "averageScore": 4.98131,
-   "jobOfferAchievementCount": 208,
-   "projectFinishedRate": 98,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 30000.0,
-   "max": 50000.0
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 10,
-  "same_text_count": 1,
-  "first_seen": "2026-10-15T17:02+09:00",
-  "listing_fp": "4a3194a19dd3",
-  "desc_hash": "4dc8609b5a6bd7f7d860b9b217a8ab6d",
-  "price_mentions": [
-   15000
-  ],
-  "prescore": 16.744,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -20653,67 +16709,6 @@
   "tied_down": false,
   "role_like": false
  },
- "13533660": {
-  "id": 13533660,
-  "url": "https://crowdworks.jp/public/jobs/13533660",
-  "title": "【1講座20,000円】英語講座のカリキュラム作成者募集(AI活用可/設計未経験OK)",
-  "tiers": [
-   "C",
-   "D"
-  ],
-  "entries": [
-   "cat:146:資料作成・マニュアル作成",
-   "kw:英語"
-  ],
-  "category_id": 146,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-15T11:14:38+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 6
-   }
-  },
-  "client": {
-   "userId": 7089416,
-   "userDisplayName": "江成（採用担当）",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 21,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 6,
-  "same_text_count": 1,
-  "first_seen": "2026-10-15T17:02+09:00",
-  "listing_fp": "2d4ee4a014c6",
-  "desc_hash": "21e353bfe278789e95cf815dc0a6b189",
-  "price_mentions": [
-   20000
-  ],
-  "prescore": 0.0,
-  "fit_n": 2,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
  "13537251": {
   "id": 13537251,
   "url": "https://crowdworks.jp/public/jobs/13537251",
@@ -20996,486 +16991,6 @@
   "auto_able": true,
   "tied_down": false,
   "role_like": true
- },
- "13533665": {
-  "id": 13533665,
-  "url": "https://crowdworks.jp/public/jobs/13533665",
-  "title": "【1講座20,000円】恋愛講座のカリキュラム作成者募集(AI活用可/設計未経験OK)",
-  "tiers": [
-   "D"
-  ],
-  "entries": [
-   "cat:146:資料作成・マニュアル作成"
-  ],
-  "category_id": 146,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-15T11:14:39+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 2
-   }
-  },
-  "client": {
-   "userId": 6716597,
-   "userDisplayName": "美樹（採用担当）",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 16,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "資格",
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 6,
-  "same_text_count": 1,
-  "first_seen": "2026-10-15T17:02+09:00",
-  "listing_fp": "5f8a16211df1",
-  "desc_hash": "085ee966485ef5059a32b43672011158",
-  "price_mentions": [
-   20000
-  ],
-  "prescore": 0.0,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13533698": {
-  "id": 13533698,
-  "url": "https://crowdworks.jp/public/jobs/13533698",
-  "title": "【1講座20,000円】モンテッソーリ講座のカリキュラム作成者募集(AI活用可/設計未経験OK)",
-  "tiers": [
-   "D"
-  ],
-  "entries": [
-   "cat:146:資料作成・マニュアル作成"
-  ],
-  "category_id": 146,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-15T11:14:39+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 2
-   }
-  },
-  "client": {
-   "userId": 6716597,
-   "userDisplayName": "美樹（採用担当）",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 16,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "資格",
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 6,
-  "same_text_count": 1,
-  "first_seen": "2026-10-15T17:02+09:00",
-  "listing_fp": "b359e3051fa5",
-  "desc_hash": "4108b81e57c6e8061e1979753486686d",
-  "price_mentions": [
-   20000
-  ],
-  "prescore": 0.0,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13533694": {
-  "id": 13533694,
-  "url": "https://crowdworks.jp/public/jobs/13533694",
-  "title": "【1講座20,000円】婚活講座のカリキュラム作成者募集(AI活用可/設計未経験OK)",
-  "tiers": [
-   "D"
-  ],
-  "entries": [
-   "cat:146:資料作成・マニュアル作成"
-  ],
-  "category_id": 146,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-15T11:14:39+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 4
-   }
-  },
-  "client": {
-   "userId": 6716597,
-   "userDisplayName": "美樹（採用担当）",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 16,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "資格",
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 6,
-  "same_text_count": 1,
-  "first_seen": "2026-10-15T17:02+09:00",
-  "listing_fp": "05ff99722741",
-  "desc_hash": "c23e3b7dd729fe213ad4e2fc96f09b40",
-  "price_mentions": [
-   20000
-  ],
-  "prescore": 0.0,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13533657": {
-  "id": 13533657,
-  "url": "https://crowdworks.jp/public/jobs/13533657",
-  "title": "【1講座20,000円】自己理解講座のカリキュラム作成者募集(AI活用可/設計未経験OK)",
-  "tiers": [
-   "D"
-  ],
-  "entries": [
-   "cat:146:資料作成・マニュアル作成"
-  ],
-  "category_id": 146,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-15T11:14:38+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 3
-   }
-  },
-  "client": {
-   "userId": 7089416,
-   "userDisplayName": "江成（採用担当）",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 21,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "資格",
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 6,
-  "same_text_count": 1,
-  "first_seen": "2026-10-15T17:02+09:00",
-  "listing_fp": "c2d116737910",
-  "desc_hash": "e0677d66d1463d021d292fdaf1a5b803",
-  "price_mentions": [
-   20000
-  ],
-  "prescore": 0.0,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13533654": {
-  "id": 13533654,
-  "url": "https://crowdworks.jp/public/jobs/13533654",
-  "title": "【1講座20,000円】転職支援講座のカリキュラム作成者募集(AI活用可/設計未経験OK)",
-  "tiers": [
-   "D"
-  ],
-  "entries": [
-   "cat:146:資料作成・マニュアル作成"
-  ],
-  "category_id": 146,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-15T11:14:38+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 6
-   }
-  },
-  "client": {
-   "userId": 7089416,
-   "userDisplayName": "江成（採用担当）",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 21,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "資格",
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 6,
-  "same_text_count": 1,
-  "first_seen": "2026-10-15T17:02+09:00",
-  "listing_fp": "e5a43e083b3d",
-  "desc_hash": "78ca5094f2d4f419bd03ea7c4b50789c",
-  "price_mentions": [
-   20000
-  ],
-  "prescore": 0.0,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13533637": {
-  "id": 13533637,
-  "url": "https://crowdworks.jp/public/jobs/13533637",
-  "title": "【1講座20,000円】美容講座のカリキュラム作成者募集(AI活用可/設計未経験OK)",
-  "tiers": [
-   "D"
-  ],
-  "entries": [
-   "cat:146:資料作成・マニュアル作成"
-  ],
-  "category_id": 146,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-15T11:14:38+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 4
-   }
-  },
-  "client": {
-   "userId": 7089416,
-   "userDisplayName": "江成（採用担当）",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 21,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "資格",
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 6,
-  "same_text_count": 1,
-  "first_seen": "2026-10-15T17:02+09:00",
-  "listing_fp": "c2ee0aad425b",
-  "desc_hash": "be01ba25ce86abcb49dc63313b26545e",
-  "price_mentions": [
-   20000
-  ],
-  "prescore": 0.0,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13533648": {
-  "id": 13533648,
-  "url": "https://crowdworks.jp/public/jobs/13533648",
-  "title": "【1講座20,000円】体質改善講座のカリキュラム作成者募集(AI活用可/設計未経験OK)",
-  "tiers": [
-   "D"
-  ],
-  "entries": [
-   "cat:146:資料作成・マニュアル作成"
-  ],
-  "category_id": 146,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-15T11:14:38+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 4
-   }
-  },
-  "client": {
-   "userId": 7089416,
-   "userDisplayName": "江成（採用担当）",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 21,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "資格",
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 6,
-  "same_text_count": 1,
-  "first_seen": "2026-10-15T17:02+09:00",
-  "listing_fp": "9a38945b4892",
-  "desc_hash": "43ec05978a7d44f73991f87ce44010f5",
-  "price_mentions": [
-   20000
-  ],
-  "prescore": 0.0,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13533632": {
-  "id": 13533632,
-  "url": "https://crowdworks.jp/public/jobs/13533632",
-  "title": "【1講座20,000円】ダイエット講座のカリキュラム作成者募集(AI活用可/設計未経験OK)",
-  "tiers": [
-   "D"
-  ],
-  "entries": [
-   "cat:146:資料作成・マニュアル作成"
-  ],
-  "category_id": 146,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-15T11:14:37+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 7
-   }
-  },
-  "client": {
-   "userId": 7089416,
-   "userDisplayName": "江成（採用担当）",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 21,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "資格",
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 6,
-  "same_text_count": 1,
-  "first_seen": "2026-10-15T17:02+09:00",
-  "listing_fp": "05880753b4ca",
-  "desc_hash": "50fe1a84adc40dff13b495b6b00ca799",
-  "price_mentions": [
-   20000
-  ],
-  "prescore": 0.0,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
  },
  "13535274": {
   "id": 13535274,
@@ -22905,60 +18420,6 @@
    300
   ],
   "prescore": 20.54,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13538070": {
-  "id": 13538070,
-  "url": "https://crowdworks.jp/public/jobs/13538070",
-  "title": "【在宅|未経験歓迎!】動画編集などのSNS運用をしていただける方を探しています。",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 80,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-16T12:00:28+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 10
-   }
-  },
-  "client": {
-   "userId": 7241776,
-   "userDisplayName": "シャリーー",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 9,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 30000.0,
-   "max": 50000.0
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 2,
-  "first_seen": "2026-10-16T17:03+09:00",
-  "listing_fp": "a2fe3615c229",
-  "desc_hash": "1a1a0df27188c9bdcd3e2fe0cf420e82",
-  "price_mentions": [],
-  "prescore": 25.005,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -24957,61 +20418,6 @@
   "tied_down": false,
   "role_like": false
  },
- "13540219": {
-  "id": 13540219,
-  "url": "https://crowdworks.jp/public/jobs/13540219",
-  "title": "【ライター募集・学歴・スキル不問】学生時代と社会人になってからで考え方が変わったことについてのコラム執筆依頼",
-  "tiers": [
-   "B"
-  ],
-  "entries": [
-   "writing_all"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-17T23:12:41+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 4
-   }
-  },
-  "client": {
-   "userId": 7021578,
-   "userDisplayName": "かん｜スキルアップ支援",
-   "isIdentityVerified": false,
-   "averageScore": 4.9375,
-   "jobOfferAchievementCount": 98,
-   "projectFinishedRate": 89,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "article",
-   "price": 1000.0,
-   "chars": 800.0
-  },
-  "ai_policy": "A",
-  "requirements": [],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 1,
-  "first_seen": "2026-10-18T05:14+09:00",
-  "listing_fp": "d9e3d01c3e89",
-  "desc_hash": "2676d6623ee55f1c8847bdf4b8b5b53f",
-  "price_mentions": [
-   1000
-  ],
-  "prescore": 15.689,
-  "fit_n": 0,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": false
- },
  "13540528": {
   "id": 13540528,
   "url": "https://crowdworks.jp/public/jobs/13540528",
@@ -26499,7 +21905,7 @@
   "price_mentions": [
    15000
   ],
-  "prescore": 16.047,
+  "prescore": 20.54,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -27223,7 +22629,7 @@
   "price_mentions": [
    30000
   ],
-  "prescore": 21.176,
+  "prescore": 27.106,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -29010,7 +24416,7 @@
    500,
    2000
   ],
-  "prescore": 34.364,
+  "prescore": 43.985,
   "fit_n": 1,
   "auto_able": true,
   "tied_down": false,
@@ -30866,122 +26272,6 @@
   "tied_down": true,
   "role_like": true
  },
- "13410089": {
-  "id": 13410089,
-  "url": "https://crowdworks.jp/public/jobs/13410089",
-  "title": "【主婦さん大歓迎】インスタグラムの運用代行をしてくださる方を募集します。【長期依頼・在宅可】",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 303,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-19T12:50:26+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 2,
-    "num_application_conditions": 4
-   }
-  },
-  "client": {
-   "userId": 2275292,
-   "userDisplayName": "Sasaki .Ltd",
-   "isIdentityVerified": true,
-   "averageScore": 4.929,
-   "jobOfferAchievementCount": 196,
-   "projectFinishedRate": 78,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 10000.0,
-   "max": 30000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "ポートフォリオ/実績提出",
-   "年齢条件",
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 1,
-  "first_seen": "2026-10-19T17:02+09:00",
-  "listing_fp": "25818369b8cc",
-  "desc_hash": "9ec4795f050978edf125862bc6288d03",
-  "price_mentions": [
-   15000
-  ],
-  "prescore": 15.596,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13442560": {
-  "id": 13442560,
-  "url": "https://crowdworks.jp/public/jobs/13442560",
-  "title": "【主婦さん大歓迎】InstagramもしくはTikTokの運用代行をしてくださる方を募集します。【長期依頼・在宅可】",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 303,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-19T12:50:26+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 2,
-    "num_application_conditions": 8
-   }
-  },
-  "client": {
-   "userId": 2275292,
-   "userDisplayName": "Sasaki .Ltd",
-   "isIdentityVerified": true,
-   "averageScore": 4.929,
-   "jobOfferAchievementCount": 196,
-   "projectFinishedRate": 78,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 10000.0,
-   "max": 30000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "ポートフォリオ/実績提出",
-   "年齢条件",
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 1,
-  "first_seen": "2026-10-19T17:02+09:00",
-  "listing_fp": "74e854d3371f",
-  "desc_hash": "9a8c8e74e1232828141b6749a9b9bee7",
-  "price_mentions": [
-   15000
-  ],
-  "prescore": 8.665,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
  "13541769": {
   "id": 13541769,
   "url": "https://crowdworks.jp/public/jobs/13541769",
@@ -31327,7 +26617,7 @@
   "price_mentions": [
    5000
   ],
-  "prescore": 33.159,
+  "prescore": 42.444,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -31555,63 +26845,7 @@
    300,
    4000
   ],
-  "prescore": 14.651,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13542137": {
-  "id": 13542137,
-  "url": "https://crowdworks.jp/public/jobs/13542137",
-  "title": "【未経験OK！】AIを使ったInstagram運用をお手伝いしてくれる方募集！",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 80,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-19T09:09:40+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 11
-   }
-  },
-  "client": {
-   "userId": 7121806,
-   "userDisplayName": "works1113",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 38,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 50000.0,
-   "max": 100000.0
-  },
-  "ai_policy": "B",
-  "requirements": [
-   "稼働時間"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 2,
-  "first_seen": "2026-10-19T17:02+09:00",
-  "listing_fp": "bd3704f5a5bf",
-  "desc_hash": "0942369256e88657451e1512e97b0506",
-  "price_mentions": [],
-  "prescore": 26.689,
+  "prescore": 18.753,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -31838,126 +27072,6 @@
   "auto_able": true,
   "tied_down": false,
   "role_like": true
- },
- "13544327": {
-  "id": 13544327,
-  "url": "https://crowdworks.jp/public/jobs/13544327",
-  "title": "【初心者歓迎・スマホ不可／PC作業】YouTubeチャンネルの基本データ収集",
-  "tiers": [
-   "C",
-   "D"
-  ],
-  "entries": [
-   "cat:54:データ検索・データ収集",
-   "kw:Excel",
-   "kw:転記"
-  ],
-  "category_id": 54,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-19T22:07:46+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 10,
-    "num_application_conditions": 14
-   }
-  },
-  "client": {
-   "userId": 7282970,
-   "userDisplayName": "thainacat",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 2,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": 1100.0
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [
-   "評価0",
-   "発注実績<=2",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 1,
-  "first_seen": "2026-10-20T05:03+09:00",
-  "listing_fp": "ed6d3025adeb",
-  "desc_hash": "f1e0125fa39b0db747f2d09afb647a74",
-  "price_mentions": [
-   50
-  ],
-  "prescore": 28.622,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13544369": {
-  "id": 13544369,
-  "url": "https://crowdworks.jp/public/jobs/13544369",
-  "title": "【初心者歓迎・在宅OK】ポッドキャスト番組の基本データ収集",
-  "tiers": [
-   "C",
-   "D"
-  ],
-  "entries": [
-   "cat:54:データ検索・データ収集",
-   "kw:Excel",
-   "kw:転記"
-  ],
-  "category_id": 54,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-19T22:07:32+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 6,
-    "num_application_conditions": 8
-   }
-  },
-  "client": {
-   "userId": 7282970,
-   "userDisplayName": "thainacat",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 2,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": 1100.0
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [
-   "評価0",
-   "発注実績<=2",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 1,
-  "first_seen": "2026-10-20T05:03+09:00",
-  "listing_fp": "833886d47569",
-  "desc_hash": "091cbb667d01312597bf281143c5bc84",
-  "price_mentions": [
-   50
-  ],
-  "prescore": 28.622,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
  },
  "13542071": {
   "id": 13542071,
@@ -33569,7 +28683,7 @@
   "price_mentions": [
    10000
   ],
-  "prescore": 38.769,
+  "prescore": 49.625,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -33627,7 +28741,7 @@
    3000,
    6000
   ],
-  "prescore": 21.221,
+  "prescore": 27.163,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -33685,67 +28799,6 @@
    1200
   ],
   "prescore": 26.526,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13542040": {
-  "id": 13542040,
-  "url": "https://crowdworks.jp/public/jobs/13542040",
-  "title": "【追加募集】PDFの議事録をスプレッドシートへ転記するお仕事｜在宅・継続案件",
-  "tiers": [
-   "C",
-   "D"
-  ],
-  "entries": [
-   "kw:要約",
-   "kw:転記"
-  ],
-  "category_id": 55,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-19T08:00:01+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 76
-   }
-  },
-  "client": {
-   "userId": 7282043,
-   "userDisplayName": "Karin 623",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 1,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 10000.0,
-   "max": 30000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "発注実績<=2",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-19T17:02+09:00",
-  "listing_fp": "f643f2770ca8",
-  "desc_hash": "dbf15e1e5555ec86015a752e5d5ba537",
-  "price_mentions": [
-   3000
-  ],
-  "prescore": 24.192,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -34034,61 +29087,6 @@
   "tied_down": false,
   "role_like": true
  },
- "13541065": {
-  "id": 13541065,
-  "url": "https://crowdworks.jp/public/jobs/13541065",
-  "title": "主婦さん、ママさん在宅ワーク お小遣い稼ぎのかんたん業務",
-  "tiers": [
-   "D"
-  ],
-  "entries": [
-   "cat:52:データ入力"
-  ],
-  "category_id": 52,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-19T12:33:39+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 13
-   }
-  },
-  "client": {
-   "userId": 7109563,
-   "userDisplayName": "物販ワークス",
-   "isIdentityVerified": true,
-   "averageScore": 5.0,
-   "jobOfferAchievementCount": 4,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 0.0,
-   "max": 5000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-19T17:02+09:00",
-  "listing_fp": "b9403b8482cf",
-  "desc_hash": "5d4b120b61c25c449212fe4159f9210f",
-  "price_mentions": [
-   100
-  ],
-  "prescore": 22.81,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
  "13540804": {
   "id": 13540804,
   "url": "https://crowdworks.jp/public/jobs/13540804",
@@ -34248,61 +29246,6 @@
   "auto_able": true,
   "tied_down": false,
   "role_like": true
- },
- "13479370": {
-  "id": 13479370,
-  "url": "https://crowdworks.jp/public/jobs/13479370",
-  "title": "【完全在宅・すき間時間OK】専用ツールへの簡単なデータ入力｜継続・大量案件あり",
-  "tiers": [
-   "D"
-  ],
-  "entries": [
-   "cat:52:データ入力"
-  ],
-  "category_id": 52,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-19T11:42:38+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 5,
-    "num_application_conditions": 31
-   }
-  },
-  "client": {
-   "userId": 6668976,
-   "userDisplayName": "改テック",
-   "isIdentityVerified": true,
-   "averageScore": 4.5,
-   "jobOfferAchievementCount": 32,
-   "projectFinishedRate": 28,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 30000.0,
-   "max": 50000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-19T17:02+09:00",
-  "listing_fp": "4a1cca346a35",
-  "desc_hash": "471e73e58afe9bed360c3bc12f11c0df",
-  "price_mentions": [
-   500
-  ],
-  "prescore": 43.312,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
  },
  "13547625": {
   "id": 13547625,
@@ -35457,7 +30400,7 @@
   "price_mentions": [
    15
   ],
-  "prescore": 20.603,
+  "prescore": 25.754,
   "fit_n": 1,
   "auto_able": true,
   "tied_down": false,
@@ -35795,7 +30738,7 @@
    455,
    500
   ],
-  "prescore": 8.064,
+  "prescore": 10.08,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -35848,7 +30791,7 @@
   "price_mentions": [
    2000
   ],
-  "prescore": 8.842,
+  "prescore": 11.053,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -36705,7 +31648,7 @@
   "price_mentions": [
    100
   ],
-  "prescore": 18.047,
+  "prescore": 23.1,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -36877,7 +31820,7 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 27.443,
+  "prescore": 35.127,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -36993,7 +31936,7 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 25.863,
+  "prescore": 33.105,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -37053,7 +31996,7 @@
    30000,
    50000
   ],
-  "prescore": 12.757,
+  "prescore": 15.947,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -37292,65 +32235,6 @@
   "auto_able": true,
   "tied_down": false,
   "role_like": true
- },
- "13545738": {
-  "id": 13545738,
-  "url": "https://crowdworks.jp/public/jobs/13545738",
-  "title": "60分程度のインタビュー動画の文字起こし｜1本8,000円",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:Excel"
-  ],
-  "category_id": 55,
-  "expired_on": "2026-10-21",
-  "released_at": "2026-10-20T19:02:47+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 23
-   }
-  },
-  "client": {
-   "userId": 7284404,
-   "userDisplayName": "Femi73",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 1,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 10000.0,
-   "max": 30000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "発注実績<=2",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 2,
-  "first_seen": "2026-10-21T05:04+09:00",
-  "listing_fp": "52a7296da9d8",
-  "desc_hash": "37433fc05f263f74ce802bd2006cc1bc",
-  "price_mentions": [
-   8000
-  ],
-  "prescore": 10.855,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
  },
  "13546595": {
   "id": 13546595,
@@ -38975,5 +33859,2419 @@
   "auto_able": true,
   "tied_down": false,
   "role_like": true
+ },
+ "13551175": {
+  "id": 13551175,
+  "url": "https://crowdworks.jp/public/jobs/13551175",
+  "title": "【Canva使用】学習漫画100ページのセリフ校正・修正｜20ページのテストあり",
+  "tiers": [
+   "B"
+  ],
+  "entries": [
+   "writing_all"
+  ],
+  "category_id": 40,
+  "expired_on": "2026-10-31",
+  "released_at": "2026-10-21T20:11:05+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 2,
+    "num_application_conditions": 14
+   }
+  },
+  "client": {
+   "userId": 24948,
+   "userDisplayName": "daidaidai",
+   "isIdentityVerified": false,
+   "averageScore": 5.0,
+   "jobOfferAchievementCount": 34,
+   "projectFinishedRate": 92,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "article",
+   "price": 5000.0,
+   "chars": 5000.0
+  },
+  "ai_policy": "B",
+  "requirements": [
+   "必須"
+  ],
+  "risk": [
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 1,
+  "same_text_count": 1,
+  "first_seen": "2026-10-22T05:03+09:00",
+  "listing_fp": "e074f8a45e73",
+  "desc_hash": "f200d05c646be03af5fab0b9087c7497",
+  "price_mentions": [
+   1000,
+   4000,
+   5000
+  ],
+  "prescore": 10.267,
+  "fit_n": 0,
+  "auto_able": false,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13551118": {
+  "id": 13551118,
+  "url": "https://crowdworks.jp/public/jobs/13551118",
+  "title": "【記事作成】【簡単】「私なりのAIの使い方」をテーマに記事を作成してください！",
+  "tiers": [
+   "B"
+  ],
+  "entries": [
+   "writing_all"
+  ],
+  "category_id": 41,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T19:43:06+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 3,
+    "num_application_conditions": 10
+   }
+  },
+  "client": {
+   "userId": 7082929,
+   "userDisplayName": "start_onetwo",
+   "isIdentityVerified": false,
+   "averageScore": 4.92683,
+   "jobOfferAchievementCount": 144,
+   "projectFinishedRate": 97,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "article",
+   "price": 200.0,
+   "chars": 400.0
+  },
+  "ai_policy": "A",
+  "requirements": [],
+  "risk": [
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 16,
+  "same_text_count": 1,
+  "first_seen": "2026-10-22T05:03+09:00",
+  "listing_fp": "14fb4f3c6363",
+  "desc_hash": "03b792cc786d85711895bdb726518e23",
+  "price_mentions": [
+   20,
+   200
+  ],
+  "prescore": 13.183,
+  "fit_n": 0,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13551101": {
+  "id": 13551101,
+  "url": "https://crowdworks.jp/public/jobs/13551101",
+  "title": "【記事執筆】【簡単です！】テーマ「不動産投資について調べてみた！」",
+  "tiers": [
+   "B",
+   "C"
+  ],
+  "entries": [
+   "kw:不動産投資",
+   "writing_all"
+  ],
+  "category_id": 41,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T19:33:05+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 3,
+    "num_application_conditions": 8
+   }
+  },
+  "client": {
+   "userId": 7078261,
+   "userDisplayName": "hyhi_park34",
+   "isIdentityVerified": false,
+   "averageScore": 4.94554,
+   "jobOfferAchievementCount": 54,
+   "projectFinishedRate": 95,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "article",
+   "price": 400.0,
+   "chars": 400.0
+  },
+  "ai_policy": "C",
+  "requirements": [],
+  "risk": [
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 5,
+  "same_text_count": 1,
+  "first_seen": "2026-10-22T05:03+09:00",
+  "listing_fp": "a1055b2ebd4c",
+  "desc_hash": "7a6581ca5ca7a355914d5fe09b4a1d3c",
+  "price_mentions": [
+   400
+  ],
+  "prescore": 12.952,
+  "fit_n": 2,
+  "auto_able": false,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13551100": {
+  "id": 13551100,
+  "url": "https://crowdworks.jp/public/jobs/13551100",
+  "title": "【記事執筆】【簡単です！】テーマ「NISAについて調べてみた！」",
+  "tiers": [
+   "B",
+   "C"
+  ],
+  "entries": [
+   "kw:NISA",
+   "writing_all"
+  ],
+  "category_id": 41,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T19:32:41+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 3,
+    "num_application_conditions": 10
+   }
+  },
+  "client": {
+   "userId": 7078261,
+   "userDisplayName": "hyhi_park34",
+   "isIdentityVerified": false,
+   "averageScore": 4.94554,
+   "jobOfferAchievementCount": 54,
+   "projectFinishedRate": 95,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "article",
+   "price": 400.0,
+   "chars": 400.0
+  },
+  "ai_policy": "C",
+  "requirements": [],
+  "risk": [
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 5,
+  "same_text_count": 1,
+  "first_seen": "2026-10-22T05:03+09:00",
+  "listing_fp": "331d6ebd8a52",
+  "desc_hash": "e4a6b6987ce47dea293fa038baf2512f",
+  "price_mentions": [
+   400
+  ],
+  "prescore": 8.416,
+  "fit_n": 1,
+  "auto_able": false,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13550936": {
+  "id": 13550936,
+  "url": "https://crowdworks.jp/public/jobs/13550936",
+  "title": "テーマ「怖いから投資はしない」",
+  "tiers": [
+   "B"
+  ],
+  "entries": [
+   "writing_all"
+  ],
+  "category_id": 41,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T19:31:53+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 3,
+    "num_application_conditions": 10
+   }
+  },
+  "client": {
+   "userId": 7078261,
+   "userDisplayName": "hyhi_park34",
+   "isIdentityVerified": false,
+   "averageScore": 4.94554,
+   "jobOfferAchievementCount": 54,
+   "projectFinishedRate": 95,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "article",
+   "price": 400.0,
+   "chars": 400.0
+  },
+  "ai_policy": "C",
+  "requirements": [],
+  "risk": [
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 5,
+  "same_text_count": 1,
+  "first_seen": "2026-10-22T05:03+09:00",
+  "listing_fp": "8d3817597ef2",
+  "desc_hash": "989a6b92a87dc9b973975c0688ef8788",
+  "price_mentions": [
+   400
+  ],
+  "prescore": 7.406,
+  "fit_n": 1,
+  "auto_able": false,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13550192": {
+  "id": 13550192,
+  "url": "https://crowdworks.jp/public/jobs/13550192",
+  "title": "【記事作成】【カンタン！】　テーマ「私のAIの使い方」",
+  "tiers": [
+   "B"
+  ],
+  "entries": [
+   "writing_all"
+  ],
+  "category_id": 37,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T13:11:32+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 3,
+    "num_application_conditions": 22
+   }
+  },
+  "client": {
+   "userId": 7181080,
+   "userDisplayName": "thisisawork",
+   "isIdentityVerified": false,
+   "averageScore": 4.99219,
+   "jobOfferAchievementCount": 163,
+   "projectFinishedRate": 97,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "article",
+   "price": 400.0,
+   "chars": 400.0
+  },
+  "ai_policy": "A",
+  "requirements": [],
+  "risk": [
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 14,
+  "same_text_count": 2,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "5bf00cd45c40",
+  "desc_hash": "18e71b137b32d867d4389e958fc878ec",
+  "price_mentions": [
+   400
+  ],
+  "prescore": 12.61,
+  "fit_n": 0,
+  "auto_able": false,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13444774": {
+  "id": 13444774,
+  "url": "https://crowdworks.jp/public/jobs/13444774",
+  "title": "【所要時間5〜10分 / 100円:大学生・大学院生対象】修士論文に必要なアンケートデータの募集",
+  "tiers": [
+   "A"
+  ],
+  "entries": [
+   "task_all"
+  ],
+  "category_id": 108,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T14:31:49+09:00",
+  "entry": {
+   "task_entry": {
+    "num_completed_tasks": 122,
+    "num_tasks": 300
+   }
+  },
+  "client": {
+   "userId": 7206812,
+   "userDisplayName": "山下　将平",
+   "isIdentityVerified": true,
+   "averageScore": 0.0,
+   "jobOfferAchievementCount": 1,
+   "projectFinishedRate": 0,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "task",
+   "price": 110.0,
+   "minutes": 2
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "年齢条件",
+   "必須"
+  ],
+  "risk": [
+   "評価0",
+   "発注実績<=2",
+   "報酬表示と本文が不一致の可能性"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 1,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "04445039d262",
+  "desc_hash": "0a37e30d6a49ede10f474a4b029e8af5",
+  "price_mentions": [
+   100
+  ],
+  "prescore": 3.105,
+  "fit_n": 0,
+  "auto_able": false,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13550342": {
+  "id": 13550342,
+  "url": "https://crowdworks.jp/public/jobs/13550342",
+  "title": "【スマホでのお仕事限定】30秒簡単作業！コピペするだけ",
+  "tiers": [
+   "A",
+   "C"
+  ],
+  "entries": [
+   "kw:市場調査",
+   "task_all"
+  ],
+  "category_id": 58,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T14:12:18+09:00",
+  "entry": {
+   "task_entry": {
+    "num_completed_tasks": 26,
+    "num_tasks": 38
+   }
+  },
+  "client": {
+   "userId": 10624,
+   "userDisplayName": "見積もり",
+   "isIdentityVerified": true,
+   "averageScore": 4.97669,
+   "jobOfferAchievementCount": 10702,
+   "projectFinishedRate": 98,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "task",
+   "price": 8.0,
+   "minutes": 18
+  },
+  "ai_policy": "C",
+  "requirements": [],
+  "risk": [],
+  "needs_experience": false,
+  "client_open_jobs": 1,
+  "same_text_count": 15,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "01585e76573c",
+  "desc_hash": "3be34ba2e4ffdb2519e695b0d1ba2d2f",
+  "price_mentions": [],
+  "prescore": 0.567,
+  "fit_n": 1,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13550785": {
+  "id": 13550785,
+  "url": "https://crowdworks.jp/public/jobs/13550785",
+  "title": "【5分～10分】カードローン・消費者金融を利用したことがある方へ！利用体験に関するアンケート",
+  "tiers": [
+   "C"
+  ],
+  "entries": [
+   "kw:金融"
+  ],
+  "category_id": 108,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T17:14:31+09:00",
+  "entry": {
+   "task_entry": {
+    "num_completed_tasks": 55,
+    "num_tasks": 500
+   }
+  },
+  "client": {
+   "userId": 4428900,
+   "userDisplayName": "media_0012",
+   "isIdentityVerified": false,
+   "averageScore": 4.70256,
+   "jobOfferAchievementCount": 29,
+   "projectFinishedRate": 90,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": true
+  },
+  "pay": {
+   "type": "task",
+   "price": 11.0,
+   "minutes": 28
+  },
+  "ai_policy": "A",
+  "requirements": [
+   "年齢条件",
+   "必須"
+  ],
+  "risk": [
+   "本人確認未",
+   "報酬表示と本文が不一致の可能性"
+  ],
+  "needs_experience": true,
+  "client_open_jobs": 1,
+  "same_text_count": 1,
+  "first_seen": "2026-10-22T05:03+09:00",
+  "listing_fp": "069361df59e0",
+  "desc_hash": "f1d0276102d770004192c0a731017c62",
+  "price_mentions": [
+   10
+  ],
+  "prescore": 1.026,
+  "fit_n": 3,
+  "auto_able": false,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13550061": {
+  "id": 13550061,
+  "url": "https://crowdworks.jp/public/jobs/13550061",
+  "title": "耳に残る！企業動画向けサウンドロゴ制作者募集｜短尺ジングル制作／2種・歌あり｜大学受験向け個別指導「マナビライト」",
+  "tiers": [
+   "C"
+  ],
+  "entries": [
+   "kw:銀行"
+  ],
+  "category_id": 266,
+  "expired_on": "2026-10-26",
+  "released_at": "2026-10-21T15:03:29+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 1,
+    "num_application_conditions": 6
+   }
+  },
+  "client": {
+   "userId": 7222522,
+   "userDisplayName": "Alikano_Inc",
+   "isIdentityVerified": false,
+   "averageScore": 0.0,
+   "jobOfferAchievementCount": 1,
+   "projectFinishedRate": 0,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "fixed",
+   "min": null,
+   "max": null
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "稼働時間",
+   "面談/通話",
+   "必須"
+  ],
+  "risk": [
+   "評価0",
+   "発注実績<=2",
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 1,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "698235419dc6",
+  "desc_hash": "fb869deb5e26e86587711decfbe4ce51",
+  "price_mentions": [],
+  "prescore": 0.0,
+  "fit_n": 3,
+  "auto_able": false,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13547596": {
+  "id": 13547596,
+  "url": "https://crowdworks.jp/public/jobs/13547596",
+  "title": "【GAS開発】Googleフォーム×スプレッドシートによる勤怠管理・給与自動計算・給与明細発行システムの構築",
+  "tiers": [
+   "C",
+   "D"
+  ],
+  "entries": [
+   "cat:54:データ検索・データ収集",
+   "kw:銀行"
+  ],
+  "category_id": 54,
+  "expired_on": "2026-11-03",
+  "released_at": "2026-10-21T09:54:47+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 1,
+    "num_application_conditions": 72
+   }
+  },
+  "client": {
+   "userId": 2535628,
+   "userDisplayName": "ワンプラスワス株式会社",
+   "isIdentityVerified": true,
+   "averageScore": 4.63696,
+   "jobOfferAchievementCount": 63,
+   "projectFinishedRate": 79,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "fixed",
+   "min": null,
+   "max": 16500.0
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "稼働時間"
+  ],
+  "risk": [
+   "外部誘導"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 1,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "64e7eefa06af",
+  "desc_hash": "98fd4cda2054a25c43b19dbfba65d00a",
+  "price_mentions": [
+   1300,
+   1400
+  ],
+  "prescore": 11.793,
+  "fit_n": 1,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13547705": {
+  "id": 13547705,
+  "url": "https://crowdworks.jp/public/jobs/13547705",
+  "title": "【日本にお住まいの方へ】ローソンの使い方とおすすめの商品に関するアンケートです！（ほぼ選ぶだけ）",
+  "tiers": [
+   "C"
+  ],
+  "entries": [
+   "kw:銀行"
+  ],
+  "category_id": 108,
+  "expired_on": "2026-11-03",
+  "released_at": "2026-10-21T06:49:39+09:00",
+  "entry": {
+   "task_entry": {
+    "num_completed_tasks": 61,
+    "num_tasks": 100
+   }
+  },
+  "client": {
+   "userId": 3440110,
+   "userDisplayName": "shun2020",
+   "isIdentityVerified": true,
+   "averageScore": 4.75248,
+   "jobOfferAchievementCount": 550,
+   "projectFinishedRate": 77,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "task",
+   "price": 5.0,
+   "minutes": 103
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "必須"
+  ],
+  "risk": [],
+  "needs_experience": false,
+  "client_open_jobs": 1,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "67fcdfd48f61",
+  "desc_hash": "1cb9326cb0675edeaf9edac151001665",
+  "price_mentions": [
+   10,
+   11,
+   100,
+   160,
+   171,
+   214,
+   230,
+   260,
+   288,
+   297,
+   300,
+   360
+  ],
+  "prescore": 0.054,
+  "fit_n": 1,
+  "auto_able": false,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13550688": {
+  "id": 13550688,
+  "url": "https://crowdworks.jp/public/jobs/13550688",
+  "title": "■【実務経験者募集】補助金申請サポート｜歯科医院案件・継続依頼あり",
+  "tiers": [
+   "C"
+  ],
+  "entries": [
+   "kw:事業計画"
+  ],
+  "category_id": 58,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T16:34:28+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 2,
+    "num_application_conditions": 1
+   }
+  },
+  "client": {
+   "userId": 253234,
+   "userDisplayName": "kapibiz",
+   "isIdentityVerified": false,
+   "averageScore": 4.71635,
+   "jobOfferAchievementCount": 483,
+   "projectFinishedRate": 85,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": true
+  },
+  "pay": {
+   "type": "fixed",
+   "min": null,
+   "max": null
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "資格"
+  ],
+  "risk": [
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 13,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "6fc3e3f937b1",
+  "desc_hash": "cf85ae14afe76cb9de5edc781b0fedcb",
+  "price_mentions": [],
+  "prescore": 0.0,
+  "fit_n": 1,
+  "auto_able": false,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13549642": {
+  "id": 13549642,
+  "url": "https://crowdworks.jp/public/jobs/13549642",
+  "title": "【事業開発責任者募集】既存の経営資源を活用し、売上2倍・3倍・5倍を実現できる方｜経営幹部クラス歓迎",
+  "tiers": [
+   "C"
+  ],
+  "entries": [
+   "kw:事業計画",
+   "kw:英語"
+  ],
+  "category_id": 145,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T09:58:41+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 3,
+    "num_application_conditions": 3
+   }
+  },
+  "client": {
+   "userId": 7098006,
+   "userDisplayName": "ahddiuvi",
+   "isIdentityVerified": false,
+   "averageScore": 0.0,
+   "jobOfferAchievementCount": 2,
+   "projectFinishedRate": 0,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": true
+  },
+  "pay": {
+   "type": "hourly",
+   "min_hourly_wage": 5000,
+   "max_hourly_wage": 0
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "稼働時間",
+   "必須"
+  ],
+  "risk": [
+   "評価0",
+   "発注実績<=2",
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 1,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "225d88094ec6",
+  "desc_hash": "d187187e42a8344ee13682b5e13dab59",
+  "price_mentions": [],
+  "prescore": 0.0,
+  "fit_n": 1,
+  "auto_able": false,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13549874": {
+  "id": 13549874,
+  "url": "https://crowdworks.jp/public/jobs/13549874",
+  "title": "【約10分500円の高単価】配信って何？興味ある方インタビュー",
+  "tiers": [
+   "C"
+  ],
+  "entries": [
+   "kw:リサーチ",
+   "kw:市場調査"
+  ],
+  "category_id": 108,
+  "expired_on": "2026-10-28",
+  "released_at": "2026-10-21T11:19:45+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 15,
+    "num_application_conditions": 3
+   }
+  },
+  "client": {
+   "userId": 5268467,
+   "userDisplayName": "Ururi",
+   "isIdentityVerified": false,
+   "averageScore": 4.93986,
+   "jobOfferAchievementCount": 33,
+   "projectFinishedRate": 84,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "fixed",
+   "min": null,
+   "max": 500.0
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "必須"
+  ],
+  "risk": [
+   "本人確認未",
+   "外部誘導"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 5,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "e7466183da0b",
+  "desc_hash": "599dfc1b102d5be8e2b93b9f63562eda",
+  "price_mentions": [
+   500
+  ],
+  "prescore": 10.492,
+  "fit_n": 1,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13055546": {
+  "id": 13055546,
+  "url": "https://crowdworks.jp/public/jobs/13055546",
+  "title": "【ゲーム好き歓迎】ゲーム系チャンネルのアシスタントディレクター募集！【長期希望】",
+  "tiers": [
+   "C"
+  ],
+  "entries": [
+   "kw:リサーチ",
+   "kw:市場調査"
+  ],
+  "category_id": 293,
+  "expired_on": "2026-11-01",
+  "released_at": "2026-10-21T09:54:42+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 2,
+    "num_application_conditions": 20
+   }
+  },
+  "client": {
+   "userId": 2672531,
+   "userDisplayName": "AKI ZUKI",
+   "isIdentityVerified": true,
+   "averageScore": 4.9657,
+   "jobOfferAchievementCount": 311,
+   "projectFinishedRate": 88,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": true
+  },
+  "pay": {
+   "type": "fixed",
+   "min": null,
+   "max": null
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "稼働時間",
+   "面談/通話"
+  ],
+  "risk": [],
+  "needs_experience": false,
+  "client_open_jobs": 3,
+  "same_text_count": 1,
+  "first_seen": "2026-09-26T23:59+09:00",
+  "listing_fp": "63043bb64526",
+  "desc_hash": "690400a8c1c22bf0731751df66a22fbb",
+  "price_mentions": [
+   6000
+  ],
+  "prescore": 0.0,
+  "fit_n": 1,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": true
+ },
+ "13549676": {
+  "id": 13549676,
+  "url": "https://crowdworks.jp/public/jobs/13549676",
+  "title": "コピペで簡単PC作業のお仕事",
+  "tiers": [
+   "C",
+   "D"
+  ],
+  "entries": [
+   "cat:54:データ検索・データ収集",
+   "kw:市場調査"
+  ],
+  "category_id": 54,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T11:07:34+09:00",
+  "entry": {
+   "task_entry": {
+    "num_completed_tasks": 59,
+    "num_tasks": 150
+   }
+  },
+  "client": {
+   "userId": 5686424,
+   "userDisplayName": "柴犬のしばこ",
+   "isIdentityVerified": true,
+   "averageScore": 0.0,
+   "jobOfferAchievementCount": 435,
+   "projectFinishedRate": 0,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "task",
+   "price": 5.0,
+   "minutes": 20
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "必須"
+  ],
+  "risk": [
+   "評価0"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 6,
+  "same_text_count": 7,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "d9953dd9d529",
+  "desc_hash": "57673d6632cd4b4557eec900f20be321",
+  "price_mentions": [],
+  "prescore": 0.279,
+  "fit_n": 1,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13550031": {
+  "id": 13550031,
+  "url": "https://crowdworks.jp/public/jobs/13550031",
+  "title": "簡単データ収集のお仕事-①",
+  "tiers": [
+   "C",
+   "D"
+  ],
+  "entries": [
+   "cat:54:データ検索・データ収集",
+   "kw:市場調査"
+  ],
+  "category_id": 54,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T12:08:41+09:00",
+  "entry": {
+   "task_entry": {
+    "num_completed_tasks": 47,
+    "num_tasks": 60
+   }
+  },
+  "client": {
+   "userId": 83290,
+   "userDisplayName": "ユースケ＠",
+   "isIdentityVerified": false,
+   "averageScore": 0.0,
+   "jobOfferAchievementCount": 73,
+   "projectFinishedRate": 0,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "task",
+   "price": 5.0,
+   "minutes": 13
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "必須"
+  ],
+  "risk": [
+   "評価0",
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 1,
+  "same_text_count": 12,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "4b3109ee5910",
+  "desc_hash": "cf3cfbccd556fbe968f63975369d0183",
+  "price_mentions": [],
+  "prescore": 0.331,
+  "fit_n": 1,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13551471": {
+  "id": 13551471,
+  "url": "https://crowdworks.jp/public/jobs/13551471",
+  "title": "【月5万円・継続🌙】静かな夜Vlog・ナイトルーティン動画の編集＆投稿アシスタント募集！｜月8本・素材支給・手順書完備",
+  "tiers": [
+   "C"
+  ],
+  "entries": [
+   "kw:リサーチ"
+  ],
+  "category_id": 150,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T23:20:05+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 2,
+    "num_application_conditions": 9
+   }
+  },
+  "client": {
+   "userId": 6727016,
+   "userDisplayName": "渡邉｜SNSマーケター",
+   "isIdentityVerified": false,
+   "averageScore": 5.0,
+   "jobOfferAchievementCount": 61,
+   "projectFinishedRate": 96,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": true
+  },
+  "pay": {
+   "type": "fixed",
+   "min": null,
+   "max": 55000.0
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "ポートフォリオ/実績提出",
+   "稼働時間"
+  ],
+  "risk": [
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 3,
+  "same_text_count": 1,
+  "first_seen": "2026-10-22T05:03+09:00",
+  "listing_fp": "b4c188a8f6dd",
+  "desc_hash": "8afd3dcb77467f3a8c219e0c7afe534c",
+  "price_mentions": [
+   50000
+  ],
+  "prescore": 10.281,
+  "fit_n": 0,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": true
+ },
+ "13551226": {
+  "id": 13551226,
+  "url": "https://crowdworks.jp/public/jobs/13551226",
+  "title": "【継続案件】美容系ショート動画編集者募集｜広告動画に挑戦したい方歓迎",
+  "tiers": [
+   "C"
+  ],
+  "entries": [
+   "kw:リサーチ"
+  ],
+  "category_id": 308,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T20:48:35+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 2,
+    "num_application_conditions": 8
+   }
+  },
+  "client": {
+   "userId": 6999791,
+   "userDisplayName": "essence_inc",
+   "isIdentityVerified": false,
+   "averageScore": 4.99318,
+   "jobOfferAchievementCount": 71,
+   "projectFinishedRate": 92,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "fixed",
+   "min": 0.0,
+   "max": 5000.0
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "ポートフォリオ/実績提出",
+   "稼働時間"
+  ],
+  "risk": [
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 1,
+  "same_text_count": 1,
+  "first_seen": "2026-10-22T05:03+09:00",
+  "listing_fp": "b081c2629f44",
+  "desc_hash": "46d06ba098f5a01aa9ac727c80ce942d",
+  "price_mentions": [
+   1000
+  ],
+  "prescore": 9.432,
+  "fit_n": 0,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13547704": {
+  "id": 13547704,
+  "url": "https://crowdworks.jp/public/jobs/13547704",
+  "title": "【継続依頼・初心者歓迎】Xのリプライ文案作成・交流候補リサーチ",
+  "tiers": [
+   "C"
+  ],
+  "entries": [
+   "kw:リサーチ"
+  ],
+  "category_id": 303,
+  "expired_on": "2026-10-27",
+  "released_at": "2026-10-21T09:54:50+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 2,
+    "num_application_conditions": 10
+   }
+  },
+  "client": {
+   "userId": 1778327,
+   "userDisplayName": "リバーアドバンス",
+   "isIdentityVerified": true,
+   "averageScore": 0.0,
+   "jobOfferAchievementCount": 1,
+   "projectFinishedRate": 0,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "fixed",
+   "min": null,
+   "max": 2310.0
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "必須"
+  ],
+  "risk": [
+   "評価0",
+   "発注実績<=2"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 1,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "80b681815d5a",
+  "desc_hash": "714d2928457e5a4190026855f174becc",
+  "price_mentions": [
+   2310
+  ],
+  "prescore": 11.854,
+  "fit_n": 0,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13547317": {
+  "id": 13547317,
+  "url": "https://crowdworks.jp/public/jobs/13547317",
+  "title": "【20代優遇】オンラインリサーチスタッフ（副業OK・未経験OK）",
+  "tiers": [
+   "C",
+   "D"
+  ],
+  "entries": [
+   "cat:54:データ検索・データ収集",
+   "kw:リサーチ"
+  ],
+  "category_id": 54,
+  "expired_on": "2026-11-03",
+  "released_at": "2026-10-21T09:54:44+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 5,
+    "num_application_conditions": 4
+   }
+  },
+  "client": {
+   "userId": 7121678,
+   "userDisplayName": "リモートオフィス",
+   "isIdentityVerified": false,
+   "averageScore": 0.0,
+   "jobOfferAchievementCount": 3,
+   "projectFinishedRate": 0,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": true
+  },
+  "pay": {
+   "type": "fixed",
+   "min": 50000.0,
+   "max": 100000.0
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "年齢条件",
+   "稼働時間",
+   "必須"
+  ],
+  "risk": [
+   "評価0",
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 1,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "3b13e15480d9",
+  "desc_hash": "fc44dd7813275cfb81578fae0b35bbaa",
+  "price_mentions": [],
+  "prescore": 3.404,
+  "fit_n": 0,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": true
+ },
+ "13546990": {
+  "id": 13546990,
+  "url": "https://crowdworks.jp/public/jobs/13546990",
+  "title": "【完全在宅】未経験OK｜データ入力・商品リサーチのお仕事",
+  "tiers": [
+   "C",
+   "D"
+  ],
+  "entries": [
+   "cat:52:データ入力",
+   "kw:リサーチ"
+  ],
+  "category_id": 52,
+  "expired_on": "2026-10-27",
+  "released_at": "2026-10-21T09:40:14+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 3,
+    "num_application_conditions": 14
+   }
+  },
+  "client": {
+   "userId": 7262994,
+   "userDisplayName": "リモートワーク情報管理",
+   "isIdentityVerified": true,
+   "averageScore": 0.0,
+   "jobOfferAchievementCount": 4,
+   "projectFinishedRate": 0,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "fixed",
+   "min": 50000.0,
+   "max": 100000.0
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "稼働時間",
+   "必須"
+  ],
+  "risk": [
+   "評価0"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 3,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "e6b2ba9710ae",
+  "desc_hash": "a351d73650cb00f871127fb39cb83f19",
+  "price_mentions": [
+   50000,
+   150000
+  ],
+  "prescore": 6.214,
+  "fit_n": 0,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": true
+ },
+ "13546929": {
+  "id": 13546929,
+  "url": "https://crowdworks.jp/public/jobs/13546929",
+  "title": "【完全在宅×海外営業】英語力を活かせる実務案件｜フルリモート｜シフト提出不要◎海外在住の方も歓迎！",
+  "tiers": [
+   "C"
+  ],
+  "entries": [
+   "kw:Excel",
+   "kw:PowerPoint",
+   "kw:リサーチ",
+   "kw:英語",
+   "kw:資料作成"
+  ],
+  "category_id": 172,
+  "expired_on": "2026-11-03",
+  "released_at": "2026-10-21T09:40:13+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 2,
+    "num_application_conditions": 1
+   }
+  },
+  "client": {
+   "userId": 4124431,
+   "userDisplayName": "LeaguE Inc.",
+   "isIdentityVerified": false,
+   "averageScore": 4.82054,
+   "jobOfferAchievementCount": 573,
+   "projectFinishedRate": 90,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": true
+  },
+  "pay": {
+   "type": "hourly",
+   "min_hourly_wage": 1000,
+   "max_hourly_wage": 1500
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "稼働時間",
+   "面談/通話"
+  ],
+  "risk": [
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 4,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "5cccef33847f",
+  "desc_hash": "e5dc8046ee792319c27c346343619a7f",
+  "price_mentions": [],
+  "prescore": 0.0,
+  "fit_n": 1,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": true
+ },
+ "13547534": {
+  "id": 13547534,
+  "url": "https://crowdworks.jp/public/jobs/13547534",
+  "title": "【日帰り旅・お出かけ好きな方歓迎🚃】テンプレートで簡単！近場で楽しめるスポット紹介Instagramのオンライン秘書✨",
+  "tiers": [
+   "C"
+  ],
+  "entries": [
+   "kw:資料作成"
+  ],
+  "category_id": 150,
+  "expired_on": "2026-10-24",
+  "released_at": "2026-10-21T16:50:38+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 1,
+    "num_application_conditions": 10
+   }
+  },
+  "client": {
+   "userId": 7118230,
+   "userDisplayName": "ななみ｜SNSマーケター",
+   "isIdentityVerified": false,
+   "averageScore": 5.0,
+   "jobOfferAchievementCount": 26,
+   "projectFinishedRate": 100,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "fixed",
+   "min": 10000.0,
+   "max": 30000.0
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "稼働時間"
+  ],
+  "risk": [
+   "本人確認未",
+   "外部誘導"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 1,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "7ec9741a84cf",
+  "desc_hash": "355674051fe8f064d7253be4996b39e2",
+  "price_mentions": [
+   10000
+  ],
+  "prescore": 11.278,
+  "fit_n": 0,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": true
+ },
+ "13549430": {
+  "id": 13549430,
+  "url": "https://crowdworks.jp/public/jobs/13549430",
+  "title": "ライバー事務所　マネージャー部 営業事務募集",
+  "tiers": [
+   "C",
+   "D"
+  ],
+  "entries": [
+   "cat:54:データ検索・データ収集",
+   "kw:Excel",
+   "kw:資料作成"
+  ],
+  "category_id": 54,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T09:09:44+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 2,
+    "num_application_conditions": 0
+   }
+  },
+  "client": {
+   "userId": 6996751,
+   "userDisplayName": "livefactory1",
+   "isIdentityVerified": false,
+   "averageScore": 0.0,
+   "jobOfferAchievementCount": 17,
+   "projectFinishedRate": 0,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "fixed",
+   "min": null,
+   "max": null
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "必須"
+  ],
+  "risk": [
+   "評価0",
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 1,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "b15c1cd7d1d5",
+  "desc_hash": "1a5cd5f66a4998b2a1c4316ef2c8f654",
+  "price_mentions": [],
+  "prescore": 0.0,
+  "fit_n": 1,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13550481": {
+  "id": 13550481,
+  "url": "https://crowdworks.jp/public/jobs/13550481",
+  "title": "【AI開発】全社利用料 口座振替金額設定・領収書自動発行AIエージェント",
+  "tiers": [
+   "C",
+   "E"
+  ],
+  "entries": [
+   "cat:370:AIシステム開発・導入・自動化支援",
+   "kw:Excel"
+  ],
+  "category_id": 370,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T15:06:26+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 1,
+    "num_application_conditions": 33
+   }
+  },
+  "client": {
+   "userId": 1023855,
+   "userDisplayName": "bihonest",
+   "isIdentityVerified": false,
+   "averageScore": 0.0,
+   "jobOfferAchievementCount": 20,
+   "projectFinishedRate": 0,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "fixed",
+   "min": 400000.0,
+   "max": 500000.0
+  },
+  "ai_policy": "C",
+  "requirements": [],
+  "risk": [
+   "評価0",
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 1,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "a58407ed46fd",
+  "desc_hash": "d9e358c37a3e6986aaf3c1f65fb0c968",
+  "price_mentions": [],
+  "prescore": 12.598,
+  "fit_n": 0,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13392352": {
+  "id": 13392352,
+  "url": "https://crowdworks.jp/public/jobs/13392352",
+  "title": "◎【継続依頼あり】PowerPoint資料の内容チェック＆改善提案できる方募集！",
+  "tiers": [
+   "C"
+  ],
+  "entries": [
+   "kw:PowerPoint"
+  ],
+  "category_id": 58,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T21:38:10+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 2,
+    "num_application_conditions": 135
+   }
+  },
+  "client": {
+   "userId": 253234,
+   "userDisplayName": "kapibiz",
+   "isIdentityVerified": false,
+   "averageScore": 4.71635,
+   "jobOfferAchievementCount": 483,
+   "projectFinishedRate": 85,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": true
+  },
+  "pay": {
+   "type": "fixed",
+   "min": null,
+   "max": null
+  },
+  "ai_policy": "C",
+  "requirements": [],
+  "risk": [
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 13,
+  "same_text_count": 1,
+  "first_seen": "2026-09-26T23:59+09:00",
+  "listing_fp": "c723e2b8acca",
+  "desc_hash": "385140390f2ae58124001f79d5d638b4",
+  "price_mentions": [
+   300
+  ],
+  "prescore": 0.0,
+  "fit_n": 1,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13550499": {
+  "id": 13550499,
+  "url": "https://crowdworks.jp/public/jobs/13550499",
+  "title": "【フルリモート】企業向けSNS支援サービスの新規商談獲得｜営業経験者歓迎",
+  "tiers": [
+   "C",
+   "D"
+  ],
+  "entries": [
+   "kw:営業リスト",
+   "kw:法人営業"
+  ],
+  "category_id": 172,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T15:56:35+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 1,
+    "num_application_conditions": 0
+   }
+  },
+  "client": {
+   "userId": 6904303,
+   "userDisplayName": "MMrecruit",
+   "isIdentityVerified": false,
+   "averageScore": 3.2,
+   "jobOfferAchievementCount": 25,
+   "projectFinishedRate": 100,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "fixed",
+   "min": null,
+   "max": null
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "稼働時間",
+   "必須"
+  ],
+  "risk": [
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 1,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "4dc41d924e56",
+  "desc_hash": "df6a5e9ee2b949b14441b84723147214",
+  "price_mentions": [
+   50000
+  ],
+  "prescore": 0.0,
+  "fit_n": 1,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13550536": {
+  "id": 13550536,
+  "url": "https://crowdworks.jp/public/jobs/13550536",
+  "title": "【経験者優遇】SNSパートナー募集",
+  "tiers": [
+   "C"
+  ],
+  "entries": [
+   "kw:FP"
+  ],
+  "category_id": 172,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T15:56:36+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 1,
+    "num_application_conditions": 0
+   }
+  },
+  "client": {
+   "userId": 7256606,
+   "userDisplayName": "ステップ9",
+   "isIdentityVerified": false,
+   "averageScore": 0.0,
+   "jobOfferAchievementCount": 8,
+   "projectFinishedRate": 0,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "fixed",
+   "min": null,
+   "max": null
+  },
+  "ai_policy": "C",
+  "requirements": [],
+  "risk": [
+   "評価0",
+   "本人確認未",
+   "外部誘導"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 2,
+  "same_text_count": 2,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "f4c2a2513992",
+  "desc_hash": "33535c7dd6e53f1ec2c85de6271c189c",
+  "price_mentions": [],
+  "prescore": 0.0,
+  "fit_n": 1,
+  "auto_able": false,
+  "tied_down": false,
+  "role_like": true
+ },
+ "13550533": {
+  "id": 13550533,
+  "url": "https://crowdworks.jp/public/jobs/13550533",
+  "title": "【創業パートナー募集】",
+  "tiers": [
+   "C"
+  ],
+  "entries": [
+   "kw:FP"
+  ],
+  "category_id": 172,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T15:56:36+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 1,
+    "num_application_conditions": 0
+   }
+  },
+  "client": {
+   "userId": 7256606,
+   "userDisplayName": "ステップ9",
+   "isIdentityVerified": false,
+   "averageScore": 0.0,
+   "jobOfferAchievementCount": 8,
+   "projectFinishedRate": 0,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "fixed",
+   "min": null,
+   "max": null
+  },
+  "ai_policy": "C",
+  "requirements": [],
+  "risk": [
+   "評価0",
+   "本人確認未",
+   "外部誘導"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 2,
+  "same_text_count": 2,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "d49ace8bf509",
+  "desc_hash": "5c53664deb28d259efb88544e2913570",
+  "price_mentions": [],
+  "prescore": 0.0,
+  "fit_n": 1,
+  "auto_able": false,
+  "tied_down": false,
+  "role_like": true
+ },
+ "13546884": {
+  "id": 13546884,
+  "url": "https://crowdworks.jp/public/jobs/13546884",
+  "title": "【完全在宅、オンライン】通訳さんを募集します（韓国語、中国語、英語）",
+  "tiers": [
+   "C"
+  ],
+  "entries": [
+   "kw:英語"
+  ],
+  "category_id": 39,
+  "expired_on": "2026-10-27",
+  "released_at": "2026-10-21T09:40:11+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 3,
+    "num_application_conditions": 4
+   }
+  },
+  "client": {
+   "userId": 5321937,
+   "userDisplayName": "SSORA",
+   "isIdentityVerified": false,
+   "averageScore": 4.7875,
+   "jobOfferAchievementCount": 16,
+   "projectFinishedRate": 83,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "hourly",
+   "min_hourly_wage": 1500,
+   "max_hourly_wage": 2000
+  },
+  "ai_policy": "C",
+  "requirements": [],
+  "risk": [
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 1,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "9498bd706593",
+  "desc_hash": "97d1c24eba0e9553a4f716c3860ce7e7",
+  "price_mentions": [
+   2000,
+   20000
+  ],
+  "prescore": 0.0,
+  "fit_n": 1,
+  "auto_able": false,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13547898": {
+  "id": 13547898,
+  "url": "https://crowdworks.jp/public/jobs/13547898",
+  "title": "【継続あり！初心者歓迎！】ウェビナー動画の文字起こしをお願いします",
+  "tiers": [
+   "C"
+  ],
+  "entries": [
+   "kw:要約"
+  ],
+  "category_id": 55,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T08:18:32+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 3,
+    "num_application_conditions": 32
+   }
+  },
+  "client": {
+   "userId": 7286455,
+   "userDisplayName": "Marinn16",
+   "isIdentityVerified": false,
+   "averageScore": 0.0,
+   "jobOfferAchievementCount": 1,
+   "projectFinishedRate": 0,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "fixed",
+   "min": 10000.0,
+   "max": 30000.0
+  },
+  "ai_policy": "C",
+  "requirements": [],
+  "risk": [
+   "評価0",
+   "発注実績<=2",
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 1,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "d48bbfb66d3f",
+  "desc_hash": "052836712e24c9e972865394ad4359d0",
+  "price_mentions": [
+   25000
+  ],
+  "prescore": 4.934,
+  "fit_n": 0,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13392342": {
+  "id": 13392342,
+  "url": "https://crowdworks.jp/public/jobs/13392342",
+  "title": "◎音声データの「文字起こし」および「要約」作成パートナー募集（継続依頼あり）",
+  "tiers": [
+   "C"
+  ],
+  "entries": [
+   "kw:要約"
+  ],
+  "category_id": 55,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T21:37:43+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 2,
+    "num_application_conditions": 116
+   }
+  },
+  "client": {
+   "userId": 253234,
+   "userDisplayName": "kapibiz",
+   "isIdentityVerified": false,
+   "averageScore": 4.71635,
+   "jobOfferAchievementCount": 483,
+   "projectFinishedRate": 85,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": true
+  },
+  "pay": {
+   "type": "fixed",
+   "min": null,
+   "max": null
+  },
+  "ai_policy": "C",
+  "requirements": [],
+  "risk": [
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 13,
+  "same_text_count": 1,
+  "first_seen": "2026-09-26T23:59+09:00",
+  "listing_fp": "d73633756437",
+  "desc_hash": "a04a044f078acb272c31c9c593b61a29",
+  "price_mentions": [
+   20,
+   50
+  ],
+  "prescore": 0.0,
+  "fit_n": 0,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": true
+ },
+ "13550542": {
+  "id": 13550542,
+  "url": "https://crowdworks.jp/public/jobs/13550542",
+  "title": "【在宅/リモート可】ファッション関連のデータ入力スタッフ募集｜未経験歓迎",
+  "tiers": [
+   "D"
+  ],
+  "entries": [
+   "cat:52:データ入力"
+  ],
+  "category_id": 52,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T15:56:37+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 6,
+    "num_application_conditions": 9
+   }
+  },
+  "client": {
+   "userId": 6938960,
+   "userDisplayName": "環那",
+   "isIdentityVerified": false,
+   "averageScore": 0.0,
+   "jobOfferAchievementCount": 5,
+   "projectFinishedRate": 0,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": true
+  },
+  "pay": {
+   "type": "fixed",
+   "min": 100000.0,
+   "max": 150000.0
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "稼働時間",
+   "必須"
+  ],
+  "risk": [
+   "評価0",
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 1,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "edbbb231c272",
+  "desc_hash": "b931db4502cc52280ffaf0537ba87bc1",
+  "price_mentions": [],
+  "prescore": 11.37,
+  "fit_n": 0,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": true
+ },
+ "13550378": {
+  "id": 13550378,
+  "url": "https://crowdworks.jp/public/jobs/13550378",
+  "title": "【完全在宅】オンライン情報入力・チェック作業（未経験OK）",
+  "tiers": [
+   "D"
+  ],
+  "entries": [
+   "cat:52:データ入力"
+  ],
+  "category_id": 52,
+  "expired_on": "2026-10-26",
+  "released_at": "2026-10-21T14:34:29+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 5,
+    "num_application_conditions": 40
+   }
+  },
+  "client": {
+   "userId": 7248221,
+   "userDisplayName": "huihua888",
+   "isIdentityVerified": true,
+   "averageScore": 0.0,
+   "jobOfferAchievementCount": 3,
+   "projectFinishedRate": 0,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "fixed",
+   "min": 100000.0,
+   "max": 150000.0
+  },
+  "ai_policy": "C",
+  "requirements": [],
+  "risk": [
+   "評価0"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 1,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "91b34596412a",
+  "desc_hash": "c28a1a0d3756c4747e54bf4f1e2cfa44",
+  "price_mentions": [
+   100
+  ],
+  "prescore": 3.466,
+  "fit_n": 0,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": true
+ },
+ "13547911": {
+  "id": 13547911,
+  "url": "https://crowdworks.jp/public/jobs/13547911",
+  "title": "子育て中ママ・副業初心者さんも活躍中♪スマホ1台&スキマ時間で簡単ワーク・ファッション関連パートナー募集",
+  "tiers": [
+   "D"
+  ],
+  "entries": [
+   "cat:52:データ入力"
+  ],
+  "category_id": 52,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T09:58:39+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 3,
+    "num_application_conditions": 7
+   }
+  },
+  "client": {
+   "userId": 7062537,
+   "userDisplayName": "aya.cw44365",
+   "isIdentityVerified": false,
+   "averageScore": 0.0,
+   "jobOfferAchievementCount": 7,
+   "projectFinishedRate": 0,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "fixed",
+   "min": 200000.0,
+   "max": 250000.0
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "年齢条件",
+   "性別条件",
+   "必須"
+  ],
+  "risk": [
+   "評価0",
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 1,
+  "same_text_count": 2,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "ad25a1f1b773",
+  "desc_hash": "1ba18010badb6deecce67832e1a09b1c",
+  "price_mentions": [],
+  "prescore": 11.53,
+  "fit_n": 1,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": true
+ },
+ "13547860": {
+  "id": 13547860,
+  "url": "https://crowdworks.jp/public/jobs/13547860",
+  "title": "【在宅/リモート可】ファッションWebサポートスタッフ募集｜未経験OK",
+  "tiers": [
+   "D"
+  ],
+  "entries": [
+   "cat:52:データ入力",
+   "kw:データ整理"
+  ],
+  "category_id": 52,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T09:58:37+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 6,
+    "num_application_conditions": 5
+   }
+  },
+  "client": {
+   "userId": 7227897,
+   "userDisplayName": "NANKOKU24",
+   "isIdentityVerified": false,
+   "averageScore": 0.0,
+   "jobOfferAchievementCount": 8,
+   "projectFinishedRate": 0,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": true
+  },
+  "pay": {
+   "type": "fixed",
+   "min": 100000.0,
+   "max": 150000.0
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "稼働時間",
+   "必須"
+  ],
+  "risk": [
+   "評価0",
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 5,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "54d8b1d3e17c",
+  "desc_hash": "07ec4a2a089d0b77c3b2992b9542eeb3",
+  "price_mentions": [],
+  "prescore": 13.535,
+  "fit_n": 0,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": true
+ },
+ "13547855": {
+  "id": 13547855,
+  "url": "https://crowdworks.jp/public/jobs/13547855",
+  "title": "💡急募💡【在宅OK】かんたんデータ入力｜主婦・ママさん限定◎スキマ時間で収入UP♡",
+  "tiers": [
+   "D"
+  ],
+  "entries": [
+   "cat:52:データ入力"
+  ],
+  "category_id": 52,
+  "expired_on": "2026-10-26",
+  "released_at": "2026-10-21T09:58:37+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 2,
+    "num_application_conditions": 19
+   }
+  },
+  "client": {
+   "userId": 2393607,
+   "userDisplayName": "hamunida",
+   "isIdentityVerified": true,
+   "averageScore": 4.9871,
+   "jobOfferAchievementCount": 32,
+   "projectFinishedRate": 76,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": true
+  },
+  "pay": {
+   "type": "fixed",
+   "min": 0.0,
+   "max": 5000.0
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "性別条件",
+   "稼働時間",
+   "必須"
+  ],
+  "risk": [
+   "外部誘導"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 1,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "4bf0841ecd17",
+  "desc_hash": "501a76edda0ecdcb61981ebb109fe141",
+  "price_mentions": [
+   50,
+   100
+  ],
+  "prescore": 8.316,
+  "fit_n": 0,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13547301": {
+  "id": 13547301,
+  "url": "https://crowdworks.jp/public/jobs/13547301",
+  "title": "【未経験歓迎】PR業務を支援するカンタンな事務作業♪（フルリモート・副業OK）",
+  "tiers": [
+   "D"
+  ],
+  "entries": [
+   "cat:52:データ入力"
+  ],
+  "category_id": 52,
+  "expired_on": "2026-11-03",
+  "released_at": "2026-10-21T09:40:21+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 9,
+    "num_application_conditions": 2
+   }
+  },
+  "client": {
+   "userId": 7038664,
+   "userDisplayName": "プロモーション支援部",
+   "isIdentityVerified": true,
+   "averageScore": 0.0,
+   "jobOfferAchievementCount": 12,
+   "projectFinishedRate": 0,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": true
+  },
+  "pay": {
+   "type": "fixed",
+   "min": 250000.0,
+   "max": 300000.0
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "稼働時間"
+  ],
+  "risk": [
+   "評価0"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 1,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "05ebe241af5c",
+  "desc_hash": "0a4b07054300245612d0fef2be71577a",
+  "price_mentions": [],
+  "prescore": 11.392,
+  "fit_n": 0,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": true
+ },
+ "13550389": {
+  "id": 13550389,
+  "url": "https://crowdworks.jp/public/jobs/13550389",
+  "title": "既存の企業リストに従業員数追加のみ・AI使用OK",
+  "tiers": [
+   "D"
+  ],
+  "entries": [
+   "cat:282:スクレイピング・データ収集",
+   "kw:企業リスト"
+  ],
+  "category_id": 282,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T14:32:37+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 1,
+    "num_application_conditions": 23
+   }
+  },
+  "client": {
+   "userId": 273336,
+   "userDisplayName": "アドクリエイション土日休",
+   "isIdentityVerified": false,
+   "averageScore": 4.74978,
+   "jobOfferAchievementCount": 1432,
+   "projectFinishedRate": 88,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": false
+  },
+  "pay": {
+   "type": "fixed",
+   "min": 0.0,
+   "max": 5000.0
+  },
+  "ai_policy": "C",
+  "requirements": [],
+  "risk": [
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 3,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "ef4b66291f1b",
+  "desc_hash": "0805c5b18c3293655e19bf335348b995",
+  "price_mentions": [
+   1000
+  ],
+  "prescore": 10.12,
+  "fit_n": 0,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": false
+ },
+ "13549933": {
+  "id": 13549933,
+  "url": "https://crowdworks.jp/public/jobs/13549933",
+  "title": "【AI活用・業務効率化】士業事務所等での改善実績がある方募集（ClaudeCode・Codex等）",
+  "tiers": [
+   "E"
+  ],
+  "entries": [
+   "cat:370:AIシステム開発・導入・自動化支援"
+  ],
+  "category_id": 370,
+  "expired_on": "2026-11-04",
+  "released_at": "2026-10-21T12:02:16+09:00",
+  "entry": {
+   "project_entry": {
+    "num_contracts": 0,
+    "project_contract_hope_number": 2,
+    "num_application_conditions": 39
+   }
+  },
+  "client": {
+   "userId": 253234,
+   "userDisplayName": "kapibiz",
+   "isIdentityVerified": false,
+   "averageScore": 4.71635,
+   "jobOfferAchievementCount": 483,
+   "projectFinishedRate": 85,
+   "isCertifiedEmployer": false,
+   "isEmployerRuleCheckSucceeded": true
+  },
+  "pay": {
+   "type": "fixed",
+   "min": null,
+   "max": null
+  },
+  "ai_policy": "C",
+  "requirements": [
+   "稼働時間",
+   "必須"
+  ],
+  "risk": [
+   "本人確認未"
+  ],
+  "needs_experience": false,
+  "client_open_jobs": 13,
+  "same_text_count": 1,
+  "first_seen": "2026-10-21T17:02+09:00",
+  "listing_fp": "efc1366bc540",
+  "desc_hash": "9dde5e59c398788e2ee9825c9f230494",
+  "price_mentions": [
+   3000
+  ],
+  "prescore": 0.0,
+  "fit_n": 0,
+  "auto_able": true,
+  "tied_down": false,
+  "role_like": false
  }
 }
