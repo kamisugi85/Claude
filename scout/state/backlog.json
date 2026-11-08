@@ -1,61 +1,4 @@
 {
- "13557672": {
-  "id": 13557672,
-  "url": "https://crowdworks.jp/public/jobs/13557672",
-  "title": "【大学の卒業研究】企業の健康施策・福利厚生に関するアンケート｜人事・総務担当者向け",
-  "tiers": [
-   "A"
-  ],
-  "entries": [
-   "task_all"
-  ],
-  "category_id": 108,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-10-25T01:22:45+09:00",
-  "entry": {
-   "task_entry": {
-    "num_completed_tasks": 7,
-    "num_tasks": 10
-   }
-  },
-  "client": {
-   "userId": 6455096,
-   "userDisplayName": "はるたる",
-   "isIdentityVerified": false,
-   "averageScore": 4.62358,
-   "jobOfferAchievementCount": 6,
-   "projectFinishedRate": 89,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "task",
-   "price": 55.0,
-   "minutes": 2
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "本人確認未",
-   "報酬表示と本文が不一致の可能性"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-25T05:02+09:00",
-  "listing_fp": "5fe758cec975",
-  "desc_hash": "c2781dc4613ca044ed6945958377f37b",
-  "price_mentions": [
-   50
-  ],
-  "prescore": 11.827,
-  "fit_n": 0,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": false
- },
  "13561154": {
   "id": 13561154,
   "url": "https://crowdworks.jp/public/jobs/13561154",
@@ -403,64 +346,6 @@
   "tied_down": false,
   "role_like": false
  },
- "13557742": {
-  "id": 13557742,
-  "url": "https://crowdworks.jp/public/jobs/13557742",
-  "title": "高専受験（推薦入試・面接・過去問）に関するアンケート",
-  "tiers": [
-   "A"
-  ],
-  "entries": [
-   "task_all"
-  ],
-  "category_id": 108,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-10-26T14:20:16+09:00",
-  "entry": {
-   "task_entry": {
-    "num_completed_tasks": 39,
-    "num_tasks": 100
-   }
-  },
-  "client": {
-   "userId": 6740982,
-   "userDisplayName": "うらうらうら",
-   "isIdentityVerified": true,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 2,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "task",
-   "price": 66.0,
-   "minutes": 18
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "発注実績<=2",
-   "報酬表示と本文が不一致の可能性"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-26T17:02+09:00",
-  "listing_fp": "d8fc2233d140",
-  "desc_hash": "8f928b69086bf3e92f75400a8eaeff99",
-  "price_mentions": [
-   60
-  ],
-  "prescore": 3.353,
-  "fit_n": 1,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
  "13559829": {
   "id": 13559829,
   "url": "https://crowdworks.jp/public/jobs/13559829",
@@ -512,67 +397,6 @@
   "auto_able": true,
   "tied_down": false,
   "role_like": false
- },
- "13557607": {
-  "id": 13557607,
-  "url": "https://crowdworks.jp/public/jobs/13557607",
-  "title": "【経験者歓迎】立ち上げメンバー募集！フルリモートのお仕事",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:FP",
-   "kw:金融"
-  ],
-  "category_id": 148,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-10-26T16:41:38+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 0
-   }
-  },
-  "client": {
-   "userId": 4873633,
-   "userDisplayName": "Advisor_Kazu",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 3,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "hourly",
-   "min_hourly_wage": 5000,
-   "max_hourly_wage": 0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "性別条件"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未",
-   "外部誘導"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-26T17:02+09:00",
-  "listing_fp": "84944a50af3d",
-  "desc_hash": "6559c04db358f79021d1cc43fb3b8263",
-  "price_mentions": [
-   1000,
-   5000
-  ],
-  "prescore": 0.0,
-  "fit_n": 1,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": true
  },
  "13559629": {
   "id": 13559629,
@@ -1128,180 +952,6 @@
   "desc_hash": "9cc182805558dc3f4935c25e0b32c4e8",
   "price_mentions": [],
   "prescore": 45.842,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13558581": {
-  "id": 13558581,
-  "url": "https://crowdworks.jp/public/jobs/13558581",
-  "title": "【完全在宅・副業可】Webマーケティングメンバー募集",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 292,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-10-26T17:04:38+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 10,
-    "num_application_conditions": 6
-   }
-  },
-  "client": {
-   "userId": 5876931,
-   "userDisplayName": "amindsrj",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 14,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 10000.0,
-   "max": 30000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間",
-   "面談/通話"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未",
-   "外部誘導"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 2,
-  "first_seen": "2026-10-27T05:04+09:00",
-  "listing_fp": "dff0c6ace368",
-  "desc_hash": "2c064bcdb690dd97f6327bc93808dff9",
-  "price_mentions": [
-   3000
-  ],
-  "prescore": 45.489,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13558211": {
-  "id": 13558211,
-  "url": "https://crowdworks.jp/public/jobs/13558211",
-  "title": "【在宅】初心者、主婦さん大歓迎！簡単作業で隙間時間を有効活用！！画像編集と短い文章作成。",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 84,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-10-26T17:04:34+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 4,
-    "num_application_conditions": 6
-   }
-  },
-  "client": {
-   "userId": 6456998,
-   "userDisplayName": "りなともこ",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 3,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 5000.0,
-   "max": 10000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-27T05:04+09:00",
-  "listing_fp": "6f1ec3ec5410",
-  "desc_hash": "70f92b81c2fa86f5549b18ca0f38fe6c",
-  "price_mentions": [
-   40
-  ],
-  "prescore": 12.544,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13557795": {
-  "id": 13557795,
-  "url": "https://crowdworks.jp/public/jobs/13557795",
-  "title": "【在宅ワーク】𝕏が好きな方募集｜業務としての経験不問｜トライアル後継続をお願いする予定｜もちろん経験者も歓迎です！",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 303,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-10-26T16:41:39+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 5
-   }
-  },
-  "client": {
-   "userId": 6490384,
-   "userDisplayName": "D2Cろく",
-   "isIdentityVerified": true,
-   "averageScore": 5.0,
-   "jobOfferAchievementCount": 4,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 0.0,
-   "max": 5000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-26T17:02+09:00",
-  "listing_fp": "dbe987205eda",
-  "desc_hash": "4c9d273be6824a2aef42524fb5242694",
-  "price_mentions": [
-   500,
-   4000
-  ],
-  "prescore": 11.318,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -1873,65 +1523,6 @@
   "tied_down": false,
   "role_like": false
  },
- "13558487": {
-  "id": 13558487,
-  "url": "https://crowdworks.jp/public/jobs/13558487",
-  "title": "【京都・大阪／未経験OK】病院などのSNS・現場ディレクター募集｜営業経験が活きる撮影のお仕事・交通費全額支給",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:法人営業"
-  ],
-  "category_id": 121,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-10-26T17:04:37+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 0
-   }
-  },
-  "client": {
-   "userId": 4111085,
-   "userDisplayName": "t_crowdworks",
-   "isIdentityVerified": false,
-   "averageScore": 5.0,
-   "jobOfferAchievementCount": 32,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "hourly",
-   "min_hourly_wage": 1000,
-   "max_hourly_wage": 1500
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-27T05:04+09:00",
-  "listing_fp": "e66e73d4a5d0",
-  "desc_hash": "a8be5f2f89c589c6638ef5915cb050ed",
-  "price_mentions": [
-   1200,
-   6000
-  ],
-  "prescore": 0.0,
-  "fit_n": 1,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": false
- },
  "13560332": {
   "id": 13560332,
   "url": "https://crowdworks.jp/public/jobs/13560332",
@@ -2105,122 +1696,6 @@
   "tied_down": false,
   "role_like": false
  },
- "13558428": {
-  "id": 13558428,
-  "url": "https://crowdworks.jp/public/jobs/13558428",
-  "title": "[急募!!先着順] 英語を扱うショート動画の編集!!",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:英語"
-  ],
-  "category_id": 293,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-10-26T17:04:37+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 2,
-    "num_application_conditions": 5
-   }
-  },
-  "client": {
-   "userId": 5941403,
-   "userDisplayName": "movie20240619",
-   "isIdentityVerified": false,
-   "averageScore": 4.83667,
-   "jobOfferAchievementCount": 70,
-   "projectFinishedRate": 87,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": 3000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間"
-  ],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-27T05:04+09:00",
-  "listing_fp": "a0916178686f",
-  "desc_hash": "cfd8a3d2cfb31a9dd33cbe9a00e211fe",
-  "price_mentions": [
-   2000
-  ],
-  "prescore": 35.693,
-  "fit_n": 1,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": false
- },
- "13522021": {
-  "id": 13522021,
-  "url": "https://crowdworks.jp/public/jobs/13522021",
-  "title": "英語を活かす海外SNS運用スタッフ募集！",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:英語"
-  ],
-  "category_id": 154,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-10-26T14:40:28+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 12
-   }
-  },
-  "client": {
-   "userId": 7266737,
-   "userDisplayName": "NS採用チーム",
-   "isIdentityVerified": false,
-   "averageScore": 5.0,
-   "jobOfferAchievementCount": 14,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間",
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-13T17:02+09:00",
-  "listing_fp": "b751172acea0",
-  "desc_hash": "93f7221974c0b1b6f791f82d8db3b9a2",
-  "price_mentions": [
-   1200
-  ],
-  "prescore": 0.0,
-  "fit_n": 2,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
  "13345440": {
   "id": 13345440,
   "url": "https://crowdworks.jp/public/jobs/13345440",
@@ -2275,170 +1750,6 @@
   "auto_able": false,
   "tied_down": false,
   "role_like": false
- },
- "13558648": {
-  "id": 13558648,
-  "url": "https://crowdworks.jp/public/jobs/13558648",
-  "title": "【未経験OK】PR業務のカンタンな事務サポート｜丁寧な対応ができる方歓迎！在宅・副業OK",
-  "tiers": [
-   "D"
-  ],
-  "entries": [
-   "cat:52:データ入力"
-  ],
-  "category_id": 52,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-10-26T17:04:38+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 9,
-    "num_application_conditions": 2
-   }
-  },
-  "client": {
-   "userId": 7260312,
-   "userDisplayName": "リモート支援室",
-   "isIdentityVerified": true,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 2,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 200000.0,
-   "max": 250000.0
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [
-   "評価0",
-   "発注実績<=2"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-27T05:04+09:00",
-  "listing_fp": "a0fcb3611ebe",
-  "desc_hash": "e6530f42d57e47a24cc1cb073bc84c38",
-  "price_mentions": [],
-  "prescore": 18.22,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13556946": {
-  "id": 13556946,
-  "url": "https://crowdworks.jp/public/jobs/13556946",
-  "title": "【スマホ・PC在宅OK】未経験から始めるPR事務サポート！マニュアル＆台本完備で安心！人柄重視のチャット対応・データ入力のお仕事",
-  "tiers": [
-   "D"
-  ],
-  "entries": [
-   "cat:52:データ入力"
-  ],
-  "category_id": 52,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-10-26T17:04:31+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 2,
-    "num_application_conditions": 5
-   }
-  },
-  "client": {
-   "userId": 7221555,
-   "userDisplayName": "PR在宅ワークサポート",
-   "isIdentityVerified": true,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 2,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 200000.0,
-   "max": 250000.0
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [
-   "評価0",
-   "発注実績<=2"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 2,
-  "first_seen": "2026-10-27T05:04+09:00",
-  "listing_fp": "2b52838cdbd7",
-  "desc_hash": "a3ca10c4961d040cb1672f5e2c8d4e36",
-  "price_mentions": [],
-  "prescore": 12.725,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13557865": {
-  "id": 13557865,
-  "url": "https://crowdworks.jp/public/jobs/13557865",
-  "title": "【未経験・副業OK】PRの事務サポート｜営業感覚も身につく在宅業務",
-  "tiers": [
-   "D"
-  ],
-  "entries": [
-   "cat:52:データ入力"
-  ],
-  "category_id": 52,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-10-26T16:41:41+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 7,
-    "num_application_conditions": 1
-   }
-  },
-  "client": {
-   "userId": 7254556,
-   "userDisplayName": "採用支援ホーム",
-   "isIdentityVerified": true,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 2,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 200000.0,
-   "max": 250000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間"
-  ],
-  "risk": [
-   "評価0",
-   "発注実績<=2"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-26T17:02+09:00",
-  "listing_fp": "9867090a729e",
-  "desc_hash": "05fe5dfec6950cf73a5160362bf3538b",
-  "price_mentions": [],
-  "prescore": 18.22,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
  },
  "13560412": {
   "id": 13560412,
@@ -2887,7 +2198,7 @@
   "listing_fp": "a0586d3d7d4f",
   "desc_hash": "05bf60859b7e7a5aa21099c06239c5ab",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -2939,7 +2250,7 @@
   "listing_fp": "ce96cd77f08b",
   "desc_hash": "4ce97bfbb1e9b5bde402d1e4522fc56f",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -2991,7 +2302,7 @@
   "listing_fp": "a0f6b291b8b3",
   "desc_hash": "d19dca46493b917557f8868438c94f18",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -3043,7 +2354,7 @@
   "listing_fp": "b1dcef52a837",
   "desc_hash": "f8f3ff966caa63f4a9664849b90bd6f9",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -3095,7 +2406,7 @@
   "listing_fp": "f1054b100006",
   "desc_hash": "06f5baa26bc75b3fc9bb90662dd7f3fc",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -3147,7 +2458,7 @@
   "listing_fp": "6213f8dbb24c",
   "desc_hash": "dc97d159357faaccf0798a0ed154e59f",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -3199,7 +2510,7 @@
   "listing_fp": "3b5c1f3bc65b",
   "desc_hash": "2c04cd812ed7f400a4b499b3d22de017",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -3251,7 +2562,7 @@
   "listing_fp": "f74e5d5b7cba",
   "desc_hash": "b4bac4a6ee62a34c94f680ff7f4fe61f",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -3303,7 +2614,7 @@
   "listing_fp": "22647c2e3b96",
   "desc_hash": "1ddbe1e5db3848565ebca0cf1eb3307a",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -3355,7 +2666,7 @@
   "listing_fp": "a682f2e4e53d",
   "desc_hash": "44a42224e3fb0e03b0bc6bb433bc6f49",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -3407,7 +2718,7 @@
   "listing_fp": "760ae00cc9a3",
   "desc_hash": "f03bc6c2eeb34f7666d7a1fd771d29ad",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -3459,7 +2770,7 @@
   "listing_fp": "49478f8136c5",
   "desc_hash": "2769266ab031172b426a85b20335983a",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -3511,7 +2822,7 @@
   "listing_fp": "26abb48a58ed",
   "desc_hash": "791710bd61027220bc4122f36a4cb6f7",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -3563,7 +2874,7 @@
   "listing_fp": "ed9edb8e288d",
   "desc_hash": "2746e9cd8620cda4af4f535bf7bac431",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -3615,7 +2926,7 @@
   "listing_fp": "4422d60e92c8",
   "desc_hash": "8e15f51e1412eb3e6f0001ff308f10ec",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -3667,7 +2978,7 @@
   "listing_fp": "202ac8d9c0d6",
   "desc_hash": "b3712e1b9681b54eaf6a344bccf9ed58",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -3719,7 +3030,7 @@
   "listing_fp": "c70d6926f660",
   "desc_hash": "660aa3c99bfb0946de96efb1bfb7a6bf",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -3771,7 +3082,7 @@
   "listing_fp": "8d2c5ee0c2fa",
   "desc_hash": "b153f1b973a7f0f3a8bd875306e69a54",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -3823,7 +3134,7 @@
   "listing_fp": "18e3075102fc",
   "desc_hash": "b3947535c07b1e51b474aa8f06c6f333",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -3875,7 +3186,7 @@
   "listing_fp": "c580b1f18e7f",
   "desc_hash": "e84e5bd4f005f637c4e6f61f79676c6d",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -3927,7 +3238,7 @@
   "listing_fp": "1cf7de90e747",
   "desc_hash": "aaa16de11e00a5caae38782d92eec0cb",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -3979,7 +3290,7 @@
   "listing_fp": "1dfce5997a44",
   "desc_hash": "5e0eb305246b3aa86cc088114a6962d2",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -4031,7 +3342,7 @@
   "listing_fp": "8fb583b32660",
   "desc_hash": "7352dc86bea3e2e7a9fe5d01d0db1549",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -4083,7 +3394,7 @@
   "listing_fp": "8028bb26fc75",
   "desc_hash": "08aa0ca1d59c70a652be38a93b3944b5",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -4135,7 +3446,7 @@
   "listing_fp": "d8f2c31323c5",
   "desc_hash": "98e715f48db0bad84ba465444d1f353f",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -4187,7 +3498,7 @@
   "listing_fp": "dca2080a4c75",
   "desc_hash": "943253f2072042c9d0e8494cc94a76d3",
   "price_mentions": [],
-  "prescore": 0.8,
+  "prescore": 1.024,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -4239,7 +3550,7 @@
   "listing_fp": "98167cbbc2f6",
   "desc_hash": "13aace3befd9f4be56db519ec156697d",
   "price_mentions": [],
-  "prescore": 1.08,
+  "prescore": 1.382,
   "fit_n": 1,
   "auto_able": false,
   "tied_down": false,
@@ -4565,7 +3876,7 @@
   "listing_fp": "8b7aa5a9959c",
   "desc_hash": "f35776004b49a47b6f6a0d52edfd6558",
   "price_mentions": [],
-  "prescore": 10.889,
+  "prescore": 13.938,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -4909,7 +4220,7 @@
    2100,
    2800
   ],
-  "prescore": 22.226,
+  "prescore": 28.45,
   "fit_n": 1,
   "auto_able": false,
   "tied_down": false,
@@ -4967,7 +4278,7 @@
   "price_mentions": [
    550
   ],
-  "prescore": 34.304,
+  "prescore": 43.908,
   "fit_n": 1,
   "auto_able": false,
   "tied_down": false,
@@ -5023,7 +4334,7 @@
    200,
    220
   ],
-  "prescore": 4.7,
+  "prescore": 6.016,
   "fit_n": 1,
   "auto_able": false,
   "tied_down": false,
@@ -5085,7 +4396,7 @@
    500,
    2500
   ],
-  "prescore": 36.652,
+  "prescore": 46.915,
   "fit_n": 2,
   "auto_able": false,
   "tied_down": false,
@@ -5256,7 +4567,7 @@
   "listing_fp": "59a8e72d2a6a",
   "desc_hash": "3be34ba2e4ffdb2519e695b0d1ba2d2f",
   "price_mentions": [],
-  "prescore": 0.886,
+  "prescore": 1.134,
   "fit_n": 1,
   "auto_able": true,
   "tied_down": false,
@@ -5314,7 +4625,7 @@
   "listing_fp": "d08b64863574",
   "desc_hash": "57673d6632cd4b4557eec900f20be321",
   "price_mentions": [],
-  "prescore": 0.349,
+  "prescore": 0.447,
   "fit_n": 1,
   "auto_able": true,
   "tied_down": false,
@@ -5367,7 +4678,7 @@
   "price_mentions": [
    2200
   ],
-  "prescore": 15.101,
+  "prescore": 19.33,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -5420,7 +4731,7 @@
   "listing_fp": "bc7bfc3ad8de",
   "desc_hash": "7cfa2e7a7989d52f49534dd394496e05",
   "price_mentions": [],
-  "prescore": 11.773,
+  "prescore": 15.07,
   "fit_n": 1,
   "auto_able": false,
   "tied_down": false,
@@ -5603,7 +4914,7 @@
    455,
    500
   ],
-  "prescore": 11.541,
+  "prescore": 14.773,
   "fit_n": 1,
   "auto_able": true,
   "tied_down": false,
@@ -5660,7 +4971,7 @@
   "listing_fp": "1f0738aa5d14",
   "desc_hash": "cf3cfbccd556fbe968f63975369d0183",
   "price_mentions": [],
-  "prescore": 0.388,
+  "prescore": 0.496,
   "fit_n": 1,
   "auto_able": true,
   "tied_down": false,
@@ -5714,7 +5025,7 @@
   "listing_fp": "fe95f6c6c622",
   "desc_hash": "c5627221a85111a4fc9a95b2bb320475",
   "price_mentions": [],
-  "prescore": 34.186,
+  "prescore": 43.758,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -5772,7 +5083,7 @@
    2000,
    10000
   ],
-  "prescore": 14.737,
+  "prescore": 18.863,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -5833,7 +5144,7 @@
    3500,
    5000
   ],
-  "prescore": 16.042,
+  "prescore": 20.533,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -5892,7 +5203,7 @@
   "price_mentions": [
    1200
   ],
-  "prescore": 19.718,
+  "prescore": 25.239,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -5946,7 +5257,7 @@
   "listing_fp": "dae09ce2add2",
   "desc_hash": "4b0c0828109a0a4203ca1228f3d7c3e7",
   "price_mentions": [],
-  "prescore": 34.186,
+  "prescore": 43.758,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -6000,7 +5311,7 @@
   "listing_fp": "60b9f2170723",
   "desc_hash": "40d69b54d231d85f51d85784d0cc8c63",
   "price_mentions": [],
-  "prescore": 35.814,
+  "prescore": 45.842,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -6055,7 +5366,7 @@
   "listing_fp": "799712d7b2d5",
   "desc_hash": "50eb4c65d71d9ee3dac9a190cdc7f09a",
   "price_mentions": [],
-  "prescore": 34.186,
+  "prescore": 43.758,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -6109,7 +5420,7 @@
   "listing_fp": "c4d88aef9465",
   "desc_hash": "6fd022f57e68bbcf277b5cfe03d8c1b4",
   "price_mentions": [],
-  "prescore": 34.186,
+  "prescore": 43.758,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -6167,7 +5478,7 @@
   "listing_fp": "99ccf84d227e",
   "desc_hash": "9094ddad9bbfa7f2dd10819325efc7b4",
   "price_mentions": [],
-  "prescore": 17.21,
+  "prescore": 22.029,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -6225,7 +5536,7 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 34.747,
+  "prescore": 44.477,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -6283,7 +5594,7 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 10.424,
+  "prescore": 13.343,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -6341,7 +5652,7 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 34.747,
+  "prescore": 44.477,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -6399,7 +5710,7 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 34.747,
+  "prescore": 44.477,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -6457,7 +5768,7 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 34.747,
+  "prescore": 44.477,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -6515,7 +5826,7 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 34.747,
+  "prescore": 44.477,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -6691,7 +6002,7 @@
   "price_mentions": [
    10
   ],
-  "prescore": 15.144,
+  "prescore": 19.385,
   "fit_n": 1,
   "auto_able": true,
   "tied_down": false,
@@ -6746,7 +6057,7 @@
   "listing_fp": "b944514c849c",
   "desc_hash": "7e7123801b1727d592c4c5c4d62aa17a",
   "price_mentions": [],
-  "prescore": 4.295,
+  "prescore": 5.497,
   "fit_n": 2,
   "auto_able": false,
   "tied_down": false,
@@ -6803,7 +6114,7 @@
   "price_mentions": [
    15
   ],
-  "prescore": 5.033,
+  "prescore": 6.442,
   "fit_n": 2,
   "auto_able": true,
   "tied_down": false,
@@ -6859,7 +6170,7 @@
    2000,
    60000
   ],
-  "prescore": 12.895,
+  "prescore": 16.505,
   "fit_n": 1,
   "auto_able": false,
   "tied_down": false,
@@ -6917,7 +6228,7 @@
    2000,
    60000
   ],
-  "prescore": 7.898,
+  "prescore": 10.109,
   "fit_n": 1,
   "auto_able": false,
   "tied_down": false,
@@ -7261,7 +6572,7 @@
   "price_mentions": [
    5000
   ],
-  "prescore": 32.454,
+  "prescore": 41.541,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -7318,7 +6629,7 @@
   "price_mentions": [
    50
   ],
-  "prescore": 31.297,
+  "prescore": 40.06,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -7376,7 +6687,7 @@
   "listing_fp": "062e6df2273c",
   "desc_hash": "5fb838c0d4dee8ebcdb7fa8200e5daf9",
   "price_mentions": [],
-  "prescore": 17.596,
+  "prescore": 22.522,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -7429,7 +6740,7 @@
   "listing_fp": "c478d2bc94c4",
   "desc_hash": "3ab0dab136409a37145e0f2166f93072",
   "price_mentions": [],
-  "prescore": 14.234,
+  "prescore": 18.22,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -7483,7 +6794,7 @@
   "listing_fp": "4c8aa2770c40",
   "desc_hash": "1d2709c78009d84538f80a77f479e772",
   "price_mentions": [],
-  "prescore": 16.766,
+  "prescore": 21.461,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -7538,7 +6849,7 @@
   "listing_fp": "fda56ba29f15",
   "desc_hash": "3841e96b11f27039b4986c7e27f61423",
   "price_mentions": [],
-  "prescore": 18.912,
+  "prescore": 24.208,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -8631,65 +7942,6 @@
   "tied_down": false,
   "role_like": true
  },
- "13569560": {
-  "id": 13569560,
-  "url": "https://crowdworks.jp/public/jobs/13569560",
-  "title": "【グルメジャンルなど！】Instagram投稿作成など｜学習コミュニティのSNS運用をお任せ",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 279,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-10-29T21:34:51+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 5,
-    "num_application_conditions": 8
-   }
-  },
-  "client": {
-   "userId": 7012790,
-   "userDisplayName": "marke.take01",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 51,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 50000.0,
-   "max": 100000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "ポートフォリオ/実績提出",
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 13,
-  "first_seen": "2026-10-30T05:05+09:00",
-  "listing_fp": "49a24cf2f2ed",
-  "desc_hash": "42b39ee398500ca0ba2d9d5ea902018d",
-  "price_mentions": [
-   100
-  ],
-  "prescore": 46.11,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
  "13569475": {
   "id": 13569475,
   "url": "https://crowdworks.jp/public/jobs/13569475",
@@ -8979,65 +8231,7 @@
   "price_mentions": [
    3500
   ],
-  "prescore": 35.814,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13568308": {
-  "id": 13568308,
-  "url": "https://crowdworks.jp/public/jobs/13568308",
-  "title": "【投稿するだけじゃ、もったいない！📣】Instagramアカウント運用に挑戦したい方募集！",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 303,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-10-29T12:47:33+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 10,
-    "num_application_conditions": 3
-   }
-  },
-  "client": {
-   "userId": 7291235,
-   "userDisplayName": "yudetamagooo",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 2,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 30000.0,
-   "max": 50000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間",
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "発注実績<=2",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-29T17:01+09:00",
-  "listing_fp": "df9e590f5f45",
-  "desc_hash": "7cf812933b0aadc3ed5c17f5c4b02ff6",
-  "price_mentions": [],
-  "prescore": 43.758,
+  "prescore": 45.842,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -9097,63 +8291,6 @@
   "tied_down": false,
   "role_like": true
  },
- "13568280": {
-  "id": 13568280,
-  "url": "https://crowdworks.jp/public/jobs/13568280",
-  "title": "【🫧 おしゃれなリールをつくるお仕事】Instagramショート動画編集メンバー募集 ！",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 80,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-10-29T12:38:16+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 10,
-    "num_application_conditions": 19
-   }
-  },
-  "client": {
-   "userId": 7296844,
-   "userDisplayName": "kamo.29",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 2,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 30000.0,
-   "max": 50000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "発注実績<=2",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-29T17:01+09:00",
-  "listing_fp": "6bee8302c6b6",
-  "desc_hash": "cf00ffefceb7550216061e5efbb766a3",
-  "price_mentions": [],
-  "prescore": 43.758,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
  "13568211": {
   "id": 13568211,
   "url": "https://crowdworks.jp/public/jobs/13568211",
@@ -9203,64 +8340,6 @@
   "desc_hash": "ea553f0d47c9c5796631da43d8997213",
   "price_mentions": [],
   "prescore": 35.106,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13568087": {
-  "id": 13568087,
-  "url": "https://crowdworks.jp/public/jobs/13568087",
-  "title": "【🪞 センスを活かして、SNSをお仕事に。】Instagramアカウント運用メンバー募集 🫧",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 303,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-10-29T11:24:43+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 10,
-    "num_application_conditions": 6
-   }
-  },
-  "client": {
-   "userId": 7291349,
-   "userDisplayName": "nekoko83",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 2,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 30000.0,
-   "max": 50000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間",
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "発注実績<=2",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-29T17:01+09:00",
-  "listing_fp": "672567908a70",
-  "desc_hash": "bb831e3770c95cf6567f623257fb5b36",
-  "price_mentions": [],
-  "prescore": 43.758,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -9375,7 +8454,7 @@
    500,
    1000
   ],
-  "prescore": 17.472,
+  "prescore": 22.364,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": true,
@@ -9431,7 +8510,7 @@
   "listing_fp": "b1d617d22129",
   "desc_hash": "a750f0fc8974b8603046285bee2a1634",
   "price_mentions": [],
-  "prescore": 38.695,
+  "prescore": 49.53,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -9493,7 +8572,7 @@
    1500,
    3000
   ],
-  "prescore": 18.949,
+  "prescore": 24.255,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": true,
@@ -9831,7 +8910,7 @@
   "price_mentions": [
    50000
   ],
-  "prescore": 34.65,
+  "prescore": 44.352,
   "fit_n": 1,
   "auto_able": false,
   "tied_down": false,
@@ -10004,7 +9083,7 @@
    50000,
    200000
   ],
-  "prescore": 11.18,
+  "prescore": 14.311,
   "fit_n": 1,
   "auto_able": false,
   "tied_down": false,
@@ -10235,7 +9314,7 @@
   "price_mentions": [
    300
   ],
-  "prescore": 18.548,
+  "prescore": 23.185,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -10460,65 +9539,9 @@
   "listing_fp": "d028ee7083d0",
   "desc_hash": "3be34ba2e4ffdb2519e695b0d1ba2d2f",
   "price_mentions": [],
-  "prescore": 0.709,
+  "prescore": 0.886,
   "fit_n": 1,
   "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13569385": {
-  "id": 13569385,
-  "url": "https://crowdworks.jp/public/jobs/13569385",
-  "title": "【18歳以上】大学生活と人間関係についての心理学調査",
-  "tiers": [
-   "A"
-  ],
-  "entries": [
-   "task_all"
-  ],
-  "category_id": 108,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-10-30T17:27:06+09:00",
-  "entry": {
-   "task_entry": {
-    "num_completed_tasks": 134,
-    "num_tasks": 400
-   }
-  },
-  "client": {
-   "userId": 4044248,
-   "userDisplayName": "発達・教育心理学研究室",
-   "isIdentityVerified": true,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 5,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "task",
-   "price": 50.0,
-   "minutes": 2
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "年齢条件"
-  ],
-  "risk": [
-   "評価0"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-10-31T17:02+09:00",
-  "listing_fp": "9dd792f45a2e",
-  "desc_hash": "a1df97451bad38a3f175f6094f16f98d",
-  "price_mentions": [
-   50
-  ],
-  "prescore": 2.258,
-  "fit_n": 0,
-  "auto_able": false,
   "tied_down": false,
   "role_like": false
  },
@@ -11096,7 +10119,7 @@
   "listing_fp": "1b6ecf6d1561",
   "desc_hash": "ebd5d2c9c7c2b45518f6538abc9d283e",
   "price_mentions": [],
-  "prescore": 27.349,
+  "prescore": 34.186,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -11154,7 +10177,7 @@
   "listing_fp": "b6afae39f589",
   "desc_hash": "bd8a2897df8462261d5071655b8860c4",
   "price_mentions": [],
-  "prescore": 9.248,
+  "prescore": 11.56,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -12422,7 +11445,7 @@
    50000,
    300000
   ],
-  "prescore": 17.968,
+  "prescore": 22.999,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -12601,65 +11624,6 @@
   "tied_down": false,
   "role_like": false
  },
- "13572317": {
-  "id": 13572317,
-  "url": "https://crowdworks.jp/public/jobs/13572317",
-  "title": "キャリアや働き方についての文字起こし",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:英語",
-   "kw:要約"
-  ],
-  "category_id": 55,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-10-30T21:04:00+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 15,
-    "num_application_conditions": 34
-   }
-  },
-  "client": {
-   "userId": 7304607,
-   "userDisplayName": "chiyoko.T",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 4,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 10000.0,
-   "max": 30000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 4,
-  "same_text_count": 1,
-  "first_seen": "2026-10-31T17:02+09:00",
-  "listing_fp": "5af50706e112",
-  "desc_hash": "b4847e300b118668327b0f4c52730c1c",
-  "price_mentions": [
-   800
-  ],
-  "prescore": 42.535,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
  "13571836": {
   "id": 13571836,
   "url": "https://crowdworks.jp/public/jobs/13571836",
@@ -12769,7 +11733,7 @@
    16000,
    18000
   ],
-  "prescore": 3.812,
+  "prescore": 4.765,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": true,
@@ -14722,7 +13686,7 @@
   "listing_fp": "34ac91093874",
   "desc_hash": "500dddc2540067ed38e00dac4ada66b2",
   "price_mentions": [],
-  "prescore": 4.915,
+  "prescore": 6.144,
   "fit_n": 1,
   "auto_able": false,
   "tied_down": false,
@@ -15531,7 +14495,7 @@
    3000,
    5000
   ],
-  "prescore": 4.456,
+  "prescore": 5.571,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -16158,7 +15122,7 @@
    30,
    300
   ],
-  "prescore": 34.848,
+  "prescore": 43.56,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -16221,7 +15185,7 @@
    2000,
    76000
   ],
-  "prescore": 28.76,
+  "prescore": 35.951,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": true,
@@ -16281,126 +15245,6 @@
   "desc_hash": "652360ce7b8976e4d6e9bd0baab219ec",
   "price_mentions": [
    2000
-  ],
-  "prescore": 0.0,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13575405": {
-  "id": 13575405,
-  "url": "https://crowdworks.jp/public/jobs/13575405",
-  "title": "◆【未経験歓迎×完全在宅】カスタマーサポート＋データ入力業務｜得意な数字管理を活かせる！週10h程度で安定して長く働ける環境",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:Excel"
-  ],
-  "category_id": 148,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-11-02T18:43:45+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 5,
-    "num_application_conditions": 3
-   }
-  },
-  "client": {
-   "userId": 4385965,
-   "userDisplayName": "nextup.saiyo",
-   "isIdentityVerified": true,
-   "averageScore": 4.78714,
-   "jobOfferAchievementCount": 1745,
-   "projectFinishedRate": 87,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "hourly",
-   "min_hourly_wage": 1000,
-   "max_hourly_wage": 2000
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間",
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 11,
-  "same_text_count": 2,
-  "first_seen": "2026-11-03T05:03+09:00",
-  "listing_fp": "90a5352712e8",
-  "desc_hash": "69003af16cfb04ae2693d02700c7307a",
-  "price_mentions": [
-   12,
-   1177,
-   23000,
-   47000
-  ],
-  "prescore": 0.0,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13575407": {
-  "id": 13575407,
-  "url": "https://crowdworks.jp/public/jobs/13575407",
-  "title": "◆コツコツ作業・数字管理が得意な方歓迎！【完全在宅×長期継続】カスタマーサポート＋データ集計・入力業務｜未経験スタッフ活躍中！",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:Excel"
-  ],
-  "category_id": 49,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-11-02T18:43:45+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 5,
-    "num_application_conditions": 0
-   }
-  },
-  "client": {
-   "userId": 4385965,
-   "userDisplayName": "nextup.saiyo",
-   "isIdentityVerified": true,
-   "averageScore": 4.78714,
-   "jobOfferAchievementCount": 1745,
-   "projectFinishedRate": 87,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "hourly",
-   "min_hourly_wage": 1000,
-   "max_hourly_wage": 2000
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間",
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 11,
-  "same_text_count": 2,
-  "first_seen": "2026-11-03T05:03+09:00",
-  "listing_fp": "d61abbac470a",
-  "desc_hash": "62b74b794e2388d42fffa8f663c06522",
-  "price_mentions": [
-   12,
-   1177,
-   23000,
-   47000
   ],
   "prescore": 0.0,
   "fit_n": 0,
@@ -16693,67 +15537,6 @@
   "tied_down": false,
   "role_like": false
  },
- "13574361": {
-  "id": 13574361,
-  "url": "https://crowdworks.jp/public/jobs/13574361",
-  "title": "【主婦・初心者歓迎】エンタメ系YouTubeショートの動画編集（YMM4）をするお仕事！【1本2000円】",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:要約"
-  ],
-  "category_id": 300,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-11-02T14:50:12+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 0
-   }
-  },
-  "client": {
-   "userId": 7269182,
-   "userDisplayName": "Patch works",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 2,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 10000.0,
-   "max": 30000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "発注実績<=2",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 2,
-  "first_seen": "2026-11-02T17:06+09:00",
-  "listing_fp": "f300f4667367",
-  "desc_hash": "dd963d0ce0c404ff2084bae37db623e4",
-  "price_mentions": [
-   750,
-   1500,
-   2000
-  ],
-  "prescore": 13.026,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
  "13562655": {
   "id": 13562655,
   "url": "https://crowdworks.jp/public/jobs/13562655",
@@ -16862,7 +15645,7 @@
   "listing_fp": "3b07539f39e9",
   "desc_hash": "61c338c9f32499bba4033c66c2112b8d",
   "price_mentions": [],
-  "prescore": 11.281,
+  "prescore": 14.102,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -17149,65 +15932,6 @@
   "tied_down": false,
   "role_like": true
  },
- "13574959": {
-  "id": 13574959,
-  "url": "https://crowdworks.jp/public/jobs/13574959",
-  "title": "回答データの転記・情報収集スタッフ📋️募集完全在宅OK！",
-  "tiers": [
-   "D"
-  ],
-  "entries": [
-   "cat:52:データ入力",
-   "kw:転記"
-  ],
-  "category_id": 52,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-11-02T17:51:51+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 5,
-    "num_application_conditions": 3
-   }
-  },
-  "client": {
-   "userId": 5944102,
-   "userDisplayName": "てのひら在宅室",
-   "isIdentityVerified": true,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 6,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 50000.0,
-   "max": 100000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間",
-   "面談/通話"
-  ],
-  "risk": [
-   "評価0"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-11-03T05:03+09:00",
-  "listing_fp": "7e22c04044c6",
-  "desc_hash": "9e6e117712e1c54ecf47222b30b30618",
-  "price_mentions": [
-   100000
-  ],
-  "prescore": 60.519,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
  "13574622": {
   "id": 13574622,
   "url": "https://crowdworks.jp/public/jobs/13574622",
@@ -17257,7 +15981,7 @@
   "listing_fp": "1289cd3e824d",
   "desc_hash": "8d256147485c36a35f41de2c18b49a6d",
   "price_mentions": [],
-  "prescore": 19.216,
+  "prescore": 24.597,
   "fit_n": 1,
   "auto_able": true,
   "tied_down": false,
@@ -17372,7 +16096,7 @@
   "listing_fp": "2c4078e74755",
   "desc_hash": "4c6591bd1c578ed650402176bf95f1f4",
   "price_mentions": [],
-  "prescore": 35.933,
+  "prescore": 44.917,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -17432,7 +16156,7 @@
   "price_mentions": [
    30000
   ],
-  "prescore": 11.819,
+  "prescore": 14.773,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -17493,68 +16217,6 @@
    5000
   ],
   "prescore": 59.705,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13575095": {
-  "id": 13575095,
-  "url": "https://crowdworks.jp/public/jobs/13575095",
-  "title": "《在宅オンライン秘書募集｜データ整理・予定確認・事務補助》",
-  "tiers": [
-   "D",
-   "E"
-  ],
-  "entries": [
-   "cat:369:AIバックオフィス支援",
-   "kw:データ整理"
-  ],
-  "category_id": 369,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-11-02T17:51:53+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 5,
-    "num_application_conditions": 9
-   }
-  },
-  "client": {
-   "userId": 7300002,
-   "userDisplayName": "harutaskroom",
-   "isIdentityVerified": true,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 3,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 100000.0,
-   "max": 150000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間",
-   "面談/通話"
-  ],
-  "risk": [
-   "評価0",
-   "外部誘導"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 3,
-  "first_seen": "2026-11-03T05:03+09:00",
-  "listing_fp": "6166d230d6a2",
-  "desc_hash": "0269c0373eb5722c2e27248a468d0921",
-  "price_mentions": [
-   1800,
-   50000
-  ],
-  "prescore": 60.637,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -17726,7 +16388,7 @@
   "price_mentions": [
    3000
   ],
-  "prescore": 40.642,
+  "prescore": 52.022,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -17792,73 +16454,6 @@
   "auto_able": false,
   "tied_down": false,
   "role_like": false
- },
- "13570672": {
-  "id": 13570672,
-  "url": "https://crowdworks.jp/public/jobs/13570672",
-  "title": "AIOディレクター(SEO対策のAI版)募集中！｜未経験からでも安心のマニュアルあり｜SEOライティング経験のある方歓迎！",
-  "tiers": [
-   "B",
-   "D"
-  ],
-  "entries": [
-   "kw:転記",
-   "writing_all"
-  ],
-  "category_id": 318,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-11-04T17:00:06+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 17
-   }
-  },
-  "client": {
-   "userId": 6306105,
-   "userDisplayName": "株式会社アカシア",
-   "isIdentityVerified": false,
-   "averageScore": 4.8764,
-   "jobOfferAchievementCount": 93,
-   "projectFinishedRate": 85,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 50000.0,
-   "max": 100000.0
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "Webライター経験",
-   "SEO経験",
-   "WordPress",
-   "稼働時間",
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 3,
-  "same_text_count": 2,
-  "first_seen": "2026-10-30T17:01+09:00",
-  "listing_fp": "16218f7f879b",
-  "desc_hash": "376749f12257c924418f0828effb61d2",
-  "price_mentions": [
-   20000,
-   30000,
-   90000,
-   150000
-  ],
-  "prescore": 8.662,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
  },
  "13572737": {
   "id": 13572737,
@@ -17971,69 +16566,6 @@
   "auto_able": false,
   "tied_down": false,
   "role_like": false
- },
- "13580347": {
-  "id": 13580347,
-  "url": "https://crowdworks.jp/public/jobs/13580347",
-  "title": "【株・クラウドファンディング系】AI執筆ライター＆事務作業者大募集",
-  "tiers": [
-   "B",
-   "C",
-   "D"
-  ],
-  "entries": [
-   "kw:リサーチ",
-   "kw:競合分析",
-   "writing_all"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-11-04T11:33:55+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 2,
-    "num_application_conditions": 4
-   }
-  },
-  "client": {
-   "userId": 5233454,
-   "userDisplayName": "松井 彩乃",
-   "isIdentityVerified": true,
-   "averageScore": 4.97244,
-   "jobOfferAchievementCount": 552,
-   "projectFinishedRate": 90,
-   "isCertifiedEmployer": true,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "article",
-   "price": 500.0,
-   "chars": 3000.0
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "ポートフォリオ/実績提出",
-   "稼働時間",
-   "面談/通話",
-   "必須"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 1,
-  "first_seen": "2026-11-04T17:03+09:00",
-  "listing_fp": "5151da6de855",
-  "desc_hash": "f7c2dd5d7fcf62803e06a9b77e1eb89f",
-  "price_mentions": [
-   455,
-   500
-  ],
-  "prescore": 14.643,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": true,
-  "role_like": true
  },
  "13580223": {
   "id": 13580223,
@@ -19155,7 +17687,7 @@
   "listing_fp": "f87a9a71e678",
   "desc_hash": "e36ad26446982e4f34a2455d93ca8b09",
   "price_mentions": [],
-  "prescore": 18.779,
+  "prescore": 23.474,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -19327,7 +17859,7 @@
   "price_mentions": [
    10000
   ],
-  "prescore": 24.725,
+  "prescore": 31.648,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -20751,65 +19283,6 @@
   "tied_down": false,
   "role_like": false
  },
- "13580822": {
-  "id": 13580822,
-  "url": "https://crowdworks.jp/public/jobs/13580822",
-  "title": "【1件8,000円】PDF資料をExcelにまとめるお仕事｜継続依頼あり",
-  "tiers": [
-   "C",
-   "D"
-  ],
-  "entries": [
-   "cat:52:データ入力",
-   "kw:Excel"
-  ],
-  "category_id": 52,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-11-04T14:51:04+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 2,
-    "num_application_conditions": 47
-   }
-  },
-  "client": {
-   "userId": 7312078,
-   "userDisplayName": "kanof79192",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 1,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": 8800.0
-  },
-  "ai_policy": "C",
-  "requirements": [],
-  "risk": [
-   "評価0",
-   "発注実績<=2",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-11-04T17:03+09:00",
-  "listing_fp": "b3e05ab6f233",
-  "desc_hash": "b1e5fe8abc25de2be89a626bcb5836c5",
-  "price_mentions": [
-   8000
-  ],
-  "prescore": 19.191,
-  "fit_n": 1,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
  "13505832": {
   "id": 13505832,
   "url": "https://crowdworks.jp/public/jobs/13505832",
@@ -21099,7 +19572,7 @@
   "price_mentions": [
    1000
   ],
-  "prescore": 10.39,
+  "prescore": 13.299,
   "fit_n": 2,
   "auto_able": false,
   "tied_down": false,
@@ -21162,59 +19635,6 @@
   "auto_able": true,
   "tied_down": false,
   "role_like": true
- },
- "13579942": {
-  "id": 13579942,
-  "url": "https://crowdworks.jp/public/jobs/13579942",
-  "title": "オンラインミーティングでの日本語⇔英語の通訳さん募集",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:英語"
-  ],
-  "category_id": 154,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-11-04T17:00:13+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 1,
-    "num_application_conditions": 1
-   }
-  },
-  "client": {
-   "userId": 6672342,
-   "userDisplayName": "SH.JP",
-   "isIdentityVerified": true,
-   "averageScore": 5.0,
-   "jobOfferAchievementCount": 4,
-   "projectFinishedRate": 100,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": null
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "面談/通話"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-11-04T17:03+09:00",
-  "listing_fp": "aad5c01a1f2b",
-  "desc_hash": "e6f805dcd1bcae8b5df16699220cb629",
-  "price_mentions": [],
-  "prescore": 0.0,
-  "fit_n": 1,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": false
  },
  "13057043": {
   "id": 13057043,
@@ -21775,7 +20195,7 @@
   "price_mentions": [
    100000
   ],
-  "prescore": 31.52,
+  "prescore": 40.346,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -22013,61 +20433,6 @@
   "auto_able": true,
   "tied_down": false,
   "role_like": true
- },
- "13584243": {
-  "id": 13584243,
-  "url": "https://crowdworks.jp/public/jobs/13584243",
-  "title": "【1記事3,000円】国内旅行・観光スポット・ホテルを紹介するnoteライティング！「AI使用OK」",
-  "tiers": [
-   "B"
-  ],
-  "entries": [
-   "writing_all"
-  ],
-  "category_id": 37,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-11-05T16:12:13+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 4,
-    "num_application_conditions": 67
-   }
-  },
-  "client": {
-   "userId": 6868001,
-   "userDisplayName": "あまね　旅行SNS運用",
-   "isIdentityVerified": true,
-   "averageScore": 4.90967,
-   "jobOfferAchievementCount": 115,
-   "projectFinishedRate": 99,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "article",
-   "price": 3000.0,
-   "chars": 1500.0
-  },
-  "ai_policy": "A",
-  "requirements": [
-   "稼働時間"
-  ],
-  "risk": [],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-11-05T17:02+09:00",
-  "listing_fp": "4494b88cfd4d",
-  "desc_hash": "99637d4cfa726c98bc0d213964138e95",
-  "price_mentions": [
-   3000
-  ],
-  "prescore": 38.761,
-  "fit_n": 0,
-  "auto_able": false,
-  "tied_down": false,
-  "role_like": false
  },
  "13582336": {
   "id": 13582336,
@@ -23489,179 +21854,6 @@
   "tied_down": false,
   "role_like": true
  },
- "13585306": {
-  "id": 13585306,
-  "url": "https://crowdworks.jp/public/jobs/13585306",
-  "title": "【冬のイルミネーションスポット紹介🎄インスタ運用】季節を彩るスポット紹介のバナー作成です✨",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 18,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-11-05T22:44:48+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 10,
-    "num_application_conditions": 1
-   }
-  },
-  "client": {
-   "userId": 6950038,
-   "userDisplayName": "さくら｜フリーランス",
-   "isIdentityVerified": false,
-   "averageScore": 4.95323,
-   "jobOfferAchievementCount": 57,
-   "projectFinishedRate": 97,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 0.0,
-   "max": 5000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "年齢条件",
-   "必須"
-  ],
-  "risk": [
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 1,
-  "first_seen": "2026-11-06T05:03+09:00",
-  "listing_fp": "5eae07d402e7",
-  "desc_hash": "5b35b549e9ae68d2ac8a509d6c5e8632",
-  "price_mentions": [
-   200,
-   2000
-  ],
-  "prescore": 35.571,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13585261": {
-  "id": 13585261,
-  "url": "https://crowdworks.jp/public/jobs/13585261",
-  "title": "【在宅・未経験歓迎】Instagram運用を継続サポートいただける方募集",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 303,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-11-05T22:26:33+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 2,
-    "num_application_conditions": 5
-   }
-  },
-  "client": {
-   "userId": 7315577,
-   "userDisplayName": "rasu_SNS",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 1,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 50000.0,
-   "max": 100000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間"
-  ],
-  "risk": [
-   "評価0",
-   "発注実績<=2",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 2,
-  "first_seen": "2026-11-06T05:03+09:00",
-  "listing_fp": "bd5adeccc41a",
-  "desc_hash": "62d43f4b4880c2e9e56c42caee4e161e",
-  "price_mentions": [],
-  "prescore": 29.343,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13585244": {
-  "id": 13585244,
-  "url": "https://crowdworks.jp/public/jobs/13585244",
-  "title": "【在宅｜未経験歓迎】SNS運用・投稿制作を継続サポートいただける方募集",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 303,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-11-05T22:14:38+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 2,
-    "num_application_conditions": 4
-   }
-  },
-  "client": {
-   "userId": 7315554,
-   "userDisplayName": "takasu_SNS",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 1,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 50000.0,
-   "max": 100000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間"
-  ],
-  "risk": [
-   "評価0",
-   "発注実績<=2",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 2,
-  "first_seen": "2026-11-06T05:03+09:00",
-  "listing_fp": "6bc2546bb530",
-  "desc_hash": "62d43f4b4880c2e9e56c42caee4e161e",
-  "price_mentions": [],
-  "prescore": 35.211,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
  "13585146": {
   "id": 13585146,
   "url": "https://crowdworks.jp/public/jobs/13585146",
@@ -24115,7 +22307,7 @@
   "price_mentions": [
    8000
   ],
-  "prescore": 14.538,
+  "prescore": 18.609,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -24228,7 +22420,7 @@
   "price_mentions": [
    15000
   ],
-  "prescore": 32.308,
+  "prescore": 41.354,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -24519,62 +22711,6 @@
   "desc_hash": "5b1e9daac17ee43b28864ac8406218b7",
   "price_mentions": [],
   "prescore": 28.651,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13582859": {
-  "id": 13582859,
-  "url": "https://crowdworks.jp/public/jobs/13582859",
-  "title": "【在宅案件】Instagram運用サポートおよび動画編集業務｜ 未経験可",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:リサーチ"
-  ],
-  "category_id": 133,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-11-05T12:34:12+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 3,
-    "num_application_conditions": 11
-   }
-  },
-  "client": {
-   "userId": 7189648,
-   "userDisplayName": "maruno_sns",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 26,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": 50000.0,
-   "max": 100000.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "稼働時間"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 1,
-  "same_text_count": 3,
-  "first_seen": "2026-11-05T17:02+09:00",
-  "listing_fp": "605e3574494e",
-  "desc_hash": "d8293f9e520a288bbf69054fbece851c",
-  "price_mentions": [],
-  "prescore": 22.007,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -25390,65 +23526,6 @@
    300
   ],
   "prescore": 0.0,
-  "fit_n": 1,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": false
- },
- "13581577": {
-  "id": 13581577,
-  "url": "https://crowdworks.jp/public/jobs/13581577",
-  "title": "注文住宅を建てた方へ：家づくりの費用と時期のアンケート（書類の添付あり・準備 約 35 分＋入力 約 41〜53 分）",
-  "tiers": [
-   "C"
-  ],
-  "entries": [
-   "kw:融資",
-   "kw:要約"
-  ],
-  "category_id": 108,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-11-05T13:39:31+09:00",
-  "entry": {
-   "task_entry": {
-    "num_completed_tasks": 2,
-    "num_tasks": 10
-   }
-  },
-  "client": {
-   "userId": 4660872,
-   "userDisplayName": "家づくり体験取引所",
-   "isIdentityVerified": true,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 2,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": true
-  },
-  "pay": {
-   "type": "task",
-   "price": 550.0,
-   "minutes": 79
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "発注実績<=2"
-  ],
-  "needs_experience": true,
-  "client_open_jobs": 1,
-  "same_text_count": 1,
-  "first_seen": "2026-11-05T17:02+09:00",
-  "listing_fp": "56dc758a1c4a",
-  "desc_hash": "0c135f6714aa66cbdff62115fff576f4",
-  "price_mentions": [
-   500,
-   550
-  ],
-  "prescore": 10.78,
   "fit_n": 1,
   "auto_able": true,
   "tied_down": false,
@@ -26981,7 +25058,7 @@
    1500,
    4500
   ],
-  "prescore": 42.23,
+  "prescore": 54.054,
   "fit_n": 0,
   "auto_able": false,
   "tied_down": false,
@@ -27101,7 +25178,7 @@
    2273,
    2500
   ],
-  "prescore": 31.185,
+  "prescore": 39.917,
   "fit_n": 1,
   "auto_able": false,
   "tied_down": false,
@@ -27794,7 +25871,7 @@
   "listing_fp": "fb1cc6f77874",
   "desc_hash": "4e8fa12b0dd966adcc79964b511a01c3",
   "price_mentions": [],
-  "prescore": 12.1,
+  "prescore": 15.488,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -27848,7 +25925,7 @@
   "listing_fp": "6d0158329159",
   "desc_hash": "2171c9f0181bea3965933daba67f2cdb",
   "price_mentions": [],
-  "prescore": 12.1,
+  "prescore": 15.488,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -28783,7 +26860,7 @@
    300,
    1500
   ],
-  "prescore": 14.0,
+  "prescore": 17.92,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -29350,7 +27427,7 @@
    500,
    1000
   ],
-  "prescore": 12.222,
+  "prescore": 15.644,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -29745,7 +27822,7 @@
   "listing_fp": "1e8aa518d3f1",
   "desc_hash": "ac7f833f7980ee0dabf82e9f3f508f01",
   "price_mentions": [],
-  "prescore": 12.558,
+  "prescore": 16.074,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
@@ -29809,132 +27886,6 @@
   "auto_able": true,
   "tied_down": false,
   "role_like": false
- },
- "13587707": {
-  "id": 13587707,
-  "url": "https://crowdworks.jp/public/jobs/13587707",
-  "title": "【初心者歓迎・在宅可能！】領収書や請求書を見ながら入力するデータ整理",
-  "tiers": [
-   "C",
-   "D"
-  ],
-  "entries": [
-   "cat:52:データ入力",
-   "kw:Excel",
-   "kw:データ整理",
-   "kw:転記"
-  ],
-  "category_id": 52,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-11-06T22:47:25+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 15,
-    "num_application_conditions": 16
-   }
-  },
-  "client": {
-   "userId": 7316878,
-   "userDisplayName": "WasaWork",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 3,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": 5500.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "年齢条件",
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 2,
-  "first_seen": "2026-11-07T05:03+09:00",
-  "listing_fp": "9bf4f0f6a150",
-  "desc_hash": "b9c4ef512104f08867a49a2d0e91ff0c",
-  "price_mentions": [
-   500
-  ],
-  "prescore": 34.567,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
- },
- "13587338": {
-  "id": 13587338,
-  "url": "https://crowdworks.jp/public/jobs/13587338",
-  "title": "【未経験歓迎・在宅OK】領収書や請求書を見ながら入力するデータ整理スタッフ募集",
-  "tiers": [
-   "C",
-   "D"
-  ],
-  "entries": [
-   "cat:52:データ入力",
-   "kw:Excel",
-   "kw:データ整理",
-   "kw:転記"
-  ],
-  "category_id": 52,
-  "expired_on": "2026-11-08",
-  "released_at": "2026-11-06T18:42:59+09:00",
-  "entry": {
-   "project_entry": {
-    "num_contracts": 0,
-    "project_contract_hope_number": 10,
-    "num_application_conditions": 30
-   }
-  },
-  "client": {
-   "userId": 7316878,
-   "userDisplayName": "WasaWork",
-   "isIdentityVerified": false,
-   "averageScore": 0.0,
-   "jobOfferAchievementCount": 3,
-   "projectFinishedRate": 0,
-   "isCertifiedEmployer": false,
-   "isEmployerRuleCheckSucceeded": false
-  },
-  "pay": {
-   "type": "fixed",
-   "min": null,
-   "max": 5500.0
-  },
-  "ai_policy": "C",
-  "requirements": [
-   "年齢条件",
-   "必須"
-  ],
-  "risk": [
-   "評価0",
-   "本人確認未"
-  ],
-  "needs_experience": false,
-  "client_open_jobs": 2,
-  "same_text_count": 2,
-  "first_seen": "2026-11-07T05:03+09:00",
-  "listing_fp": "14766b228696",
-  "desc_hash": "b9c4ef512104f08867a49a2d0e91ff0c",
-  "price_mentions": [
-   500
-  ],
-  "prescore": 22.302,
-  "fit_n": 0,
-  "auto_able": true,
-  "tied_down": false,
-  "role_like": true
  },
  "13585514": {
   "id": 13585514,
@@ -32583,7 +30534,7 @@
   "price_mentions": [
    200
   ],
-  "prescore": 2.973,
+  "prescore": 3.716,
   "fit_n": 1,
   "auto_able": true,
   "tied_down": false,
@@ -32802,7 +30753,7 @@
   "price_mentions": [
    10000
   ],
-  "prescore": 2.867,
+  "prescore": 3.584,
   "fit_n": 0,
   "auto_able": true,
   "tied_down": false,
